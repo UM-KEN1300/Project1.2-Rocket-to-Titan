@@ -160,4 +160,13 @@ public class PlanetObject {
             position[i] += velocity[i] * step;
         }
     }
+    public double [] semiImplicitEulerSolver(double [] x, double [] v, double [] a, double h){
+        double [] newV = new double[3];
+        double [] newX = new double[3];
+        for(int i = 0; i<3; i++){
+            newV[i] = v[i] + (a[i] * h);
+            newX[i] = x[i] + (newV[i] * h);
+        }
+        return newX;
+    }
 }
