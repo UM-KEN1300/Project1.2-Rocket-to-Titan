@@ -10,7 +10,8 @@ public class PlanetObject {
     private double y;        // y coordinate in km
     private double z;        // z coordinate in km
 
-    private double[] positionalVector=new double[3];
+    private double[] positionalVector = new double[3];
+    private double[] velocityVector = new double[3];
     HelperFunctions helperFunctions=new HelperFunctions();
     private double vx = 0;       // velocity in x direction in km per second
     private double vy = 0;       // velocity in y direction in km per second
@@ -41,6 +42,9 @@ public class PlanetObject {
         this.vx = vx;
         this.vy = vy;
         this.vz = vz;
+        velocityVector[0] = vx;
+        velocityVector[1] = vy;
+        velocityVector[2] = vz;
         this.mass = mass;
     }
 
@@ -151,5 +155,10 @@ public class PlanetObject {
         return acc;
 
     }
-
+    public static void updatePositionVelocity(double[] position, double[] velocity, double[] acceleration ,double step){
+        for(int i = 0; i < 3; i++){
+            velocity[i] += acceleration[i] * step;
+            position[i] += velocity[i] * step;
+        }
+    }
 }
