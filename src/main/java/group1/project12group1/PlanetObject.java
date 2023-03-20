@@ -154,19 +154,20 @@ public class PlanetObject {
         return acc;
 
     }
-    public static void updatePositionVelocity(double[] position, double[] velocity, double[] acceleration ,double step){
+    public void updatePositionVelocity( double[] acc,double step){
         for(int i = 0; i < 3; i++){
-            velocity[i] += acceleration[i] * step;
-            position[i] += velocity[i] * step;
+
+            velocityVector[i] += acc[i] * step;
+            positionalVector[i] += velocityVector[i] * step;
+
         }
     }
-    public double [] semiImplicitEulerSolver(double [] x, double [] v, double [] a, double h){
-        double [] newV = new double[3];
-        double [] newX = new double[3];
-        for(int i = 0; i<3; i++){
-            newV[i] = v[i] + (a[i] * h);
-            newX[i] = x[i] + (newV[i] * h);
+    public void semiImplicitEulerSolver( double [] a, double h){
+
+        for(int i = 0; i<3; i++)
+        {
+            velocityVector[i] = velocityVector[i] + (a[i] * h);
+            positionalVector[i] = positionalVector[i] + (velocityVector[i] * h);
         }
-        return newX;
     }
 }

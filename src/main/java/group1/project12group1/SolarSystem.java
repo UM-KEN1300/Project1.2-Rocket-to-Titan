@@ -2,6 +2,7 @@ package group1.project12group1;
 
 
 import java.util.ArrayList;
+import helperFunction.HelperFunctions;
 
 public class SolarSystem{
 
@@ -21,9 +22,59 @@ public class SolarSystem{
         PlanetObject Neptune = new PlanetObject(4.45e9, -3.98e8, -9.45e7, 4.48e-1,5.45e0, -1.23e1, 1.02e26);
         PlanetObject Uranus = new PlanetObject(1.96e9, 2.19e9, -1.72e7, -5.13e0, 4.22e0, 8.21e-2, 8.68e25);
 
+        double[] earthStart ={-1.48e8, -2.78e7, 3.37e4};
 
 
+        ArrayList<PlanetObject> listOfPlanets=new ArrayList<>();
+        listOfPlanets.add(Sun);
+        listOfPlanets.add(Mercury);
+        listOfPlanets.add(Venus);
+        listOfPlanets.add(Earth);
+        listOfPlanets.add(Moon);
+        listOfPlanets.add(Mars);
+        listOfPlanets.add(Jupiter);
+        listOfPlanets.add(Saturn);
+        listOfPlanets.add(Neptune);
+        listOfPlanets.add(Uranus);
+        HelperFunctions helperFunctions=new HelperFunctions();
+        double step=0.1;
+        for (int i = 0; i < step*10*3600*24*365; i++)
+        {
+                    if(i%10000==0)
+                    {
+                        System.out.println(i);
+                    }
+            for (int j = 1; j <listOfPlanets.size() ; j++)
+            {
 
+                double[] acc=new double[3];
+                for (int k = 0; k <listOfPlanets.size() ; k++)
+                {
+                    if(k!=j)
+                    {
+                        acc=helperFunctions.addition(acc,listOfPlanets.get(j).getAcceleration(listOfPlanets.get(k)));
+                    }
+
+                }
+                listOfPlanets.get(j).updatePositionVelocity(acc,step);
+            }
+        }
+        System.out.println("Original: ");
+        for (int i = 0; i <3 ; i++)
+        {
+            System.out.println(earthStart[i]);
+        }
+
+        System.out.println("Second: ");
+        for (int i = 0; i <3 ; i++)
+        {
+            System.out.println(Earth.getPositionalVector()[i]);
+        }
+
+
+        
+        
+        
         PlanetObject testEarth=new PlanetObject(0,0,0,5.97e24);
         PlanetObject testPerson= new PlanetObject(6371,0,0,70);
         System.out.println(testEarth.getForce(testPerson)[0]);

@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="13cb742e-4cc8-4686-864c-bc5cb4fb0b5a" name="Changes" comment="">
+    <list default="true" id="13cb742e-4cc8-4686-864c-bc5cb4fb0b5a" name="Changes" comment="WORKING HOW THIS SHIT WORKS">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/group1/project12group1/PlanetObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/group1/project12group1/PlanetObject.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/group1/project12group1/SolarSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/group1/project12group1/SolarSystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/helperFunction/HelperFunctions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/helperFunction/HelperFunctions.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,14 +24,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration default="true" type="JetRunConfigurationType">
       <module name="Project1.2 Group 1" />
@@ -55,6 +58,14 @@
       <updated>1679312618137</updated>
       <workItem from="1679312619245" duration="1000" />
     </task>
+    <task id="LOCAL-00001" summary="WORKING HOW THIS SHIT WORKS">
+      <created>1679319564168</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1679319564168</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -70,6 +81,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="added getAcceleration" />
-    <option name="LAST_COMMIT_MESSAGE" value="added getAcceleration" />
+    <MESSAGE value="WORKING HOW THIS SHIT WORKS" />
+    <option name="LAST_COMMIT_MESSAGE" value="WORKING HOW THIS SHIT WORKS" />
   </component>
 </project>
