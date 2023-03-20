@@ -2,10 +2,13 @@ package group1.project12group1;
 
 import helperFunction.HelperFunctions;
 
+
+
 public class PlanetObject {
     final static double G = 6.6742e-20;
     //alternative g
     final  double Gs = 6.6742e-11;
+
     private double x;        // x coordinate in km
     private double y;        // y coordinate in km
     private double z;        // z coordinate in km
@@ -20,7 +23,8 @@ public class PlanetObject {
     private double radius = 0;   // radius in km
 
     // Constructor for creating PlanetObject with specified properties
-    public PlanetObject (double x, double y, double z, double mass) {
+    public PlanetObject (double x, double y, double z, double mass)
+    {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -112,11 +116,6 @@ public class PlanetObject {
 
     public void setPositionalVector(double[] positionalVector) {this.positionalVector = positionalVector;}
     
-    public double gravitationalForce(double distanceKm, double objMass){       // method that calculates in Newtons the force with which 
-        double distanceM = distanceKm * 1000;                                   // from the center of the planet to the center of the object.
-        double gravForce = G * this.mass * objMass / Math.pow(distanceM, 2); // I can addapt it to use the distance from the planet's surface if 
-        return gravForce;                                                       // it is more useful.
-    }
 
     //todo fix units and make tests to see if it always works
     public double[] getForce(PlanetObject other)
@@ -125,7 +124,7 @@ public class PlanetObject {
         double[] force=new double[3];
 
         double[] threeDimensionalDistnace=helperFunctions.getDistanceBetweenPositionVectors(this.positionalVector,other.getPositionalVector());
-        double forceStrenght=Gs*this.mass*other.getMass()/Math.pow(helperFunctions.getVectorMagnitude(threeDimensionalDistnace),3);
+        double forceStrenght=-1000*G*this.mass*other.getMass()/Math.pow(helperFunctions.getVectorMagnitude(threeDimensionalDistnace),3);
 
         force[0]=threeDimensionalDistnace[0]*forceStrenght;
         force[1]=threeDimensionalDistnace[1]*forceStrenght;
@@ -142,7 +141,7 @@ public class PlanetObject {
 
         double[] force=new double[3];
         double[] threeDimensionalDistnace=helperFunctions.getDistanceBetweenPositionVectors(this.positionalVector,other.getPositionalVector());
-        double forceStrenght=Gs*this.mass*other.getMass()/Math.pow(helperFunctions.getVectorMagnitude(threeDimensionalDistnace),3);
+        double forceStrenght=-1000*G*this.mass*other.getMass()/Math.pow(helperFunctions.getVectorMagnitude(threeDimensionalDistnace),3);
 
         force[0]=threeDimensionalDistnace[0]*forceStrenght;
         force[1]=threeDimensionalDistnace[1]*forceStrenght;
