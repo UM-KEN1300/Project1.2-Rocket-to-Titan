@@ -4,6 +4,8 @@ import helperFunction.HelperFunctions;
 
 public class PlanetObject {
     final static double G = 6.6742e-20;
+    //alternative g
+    final  double Gs = 6.6742e-11;
     private double x;        // x coordinate in km
     private double y;        // y coordinate in km
     private double z;        // z coordinate in km
@@ -115,7 +117,7 @@ public class PlanetObject {
     //todo fix units and make tests to see if it always works
     public double[] getForce(PlanetObject other)
     {
-        final  double Gs = 6.6742e-11;
+
         double[] force=new double[3];
 
         double[] threeDimensionalDistnace=helperFunctions.getDistanceBetweenPositionVectors(this.positionalVector,other.getPositionalVector());
@@ -129,4 +131,25 @@ public class PlanetObject {
 
         return force;
     }
+
+
+    public double[] getAcceleration(PlanetObject other)
+    {
+
+        double[] force=new double[3];
+        double[] threeDimensionalDistnace=helperFunctions.getDistanceBetweenPositionVectors(this.positionalVector,other.getPositionalVector());
+        double forceStrenght=Gs*this.mass*other.getMass()/Math.pow(helperFunctions.getVectorMagnitude(threeDimensionalDistnace),3);
+
+        force[0]=threeDimensionalDistnace[0]*forceStrenght;
+        force[1]=threeDimensionalDistnace[1]*forceStrenght;
+        force[2]=threeDimensionalDistnace[2]*forceStrenght;
+        double[] acc=new double[3];
+
+        acc[0]=force[0]/this.mass;
+        acc[1]=force[0]/this.mass;
+        acc[2]=force[0]/this.mass;
+        return acc;
+
+    }
+
 }
