@@ -68,4 +68,8 @@
       </map>
     </option>
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="added getAcceleration" />
+    <option name="LAST_COMMIT_MESSAGE" value="added getAcceleration" />
+  </component>
 </project>
