@@ -22,7 +22,7 @@ public class SolarSystem{
         PlanetObject Neptune = new PlanetObject(4.45e9, -3.98e8, -9.45e7, 4.48e-1,5.45e0, -1.23e1, 1.02e26);
         PlanetObject Uranus = new PlanetObject(1.96e9, 2.19e9, -1.72e7, -5.13e0, 4.22e0, 8.21e-2, 8.68e25);
 
-        double[] earthStart ={-1.48e8, -2.78e7, 3.37e4};
+        double[] mercStart ={7.83e6, 4.49e7, 2.87e6};
 
 
         ArrayList<PlanetObject> listOfPlanets=new ArrayList<>();
@@ -37,13 +37,10 @@ public class SolarSystem{
         listOfPlanets.add(Neptune);
         listOfPlanets.add(Uranus);
         HelperFunctions helperFunctions=new HelperFunctions();
-        double step=0.1;
-        for (int i = 0; i < step*10*3600*24*365; i++)
+        double step=0.01;
+        for (int i = 0; i < step*100*3600*24*87; i++)
         {
-                    if(i%10000==0)
-                    {
-                        System.out.println(i);
-                    }
+
             for (int j = 1; j <listOfPlanets.size() ; j++)
             {
 
@@ -62,15 +59,15 @@ public class SolarSystem{
         System.out.println("Original: ");
         for (int i = 0; i <3 ; i++)
         {
-            System.out.println(earthStart[i]);
+            System.out.println(mercStart[i]);
         }
+
 
         System.out.println("Second: ");
         for (int i = 0; i <3 ; i++)
         {
-            System.out.println(Earth.getPositionalVector()[i]);
+            System.out.println(Mercury.getPositionalVector()[i]);
         }
-
 
         
         

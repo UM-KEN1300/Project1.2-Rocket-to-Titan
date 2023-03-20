@@ -149,8 +149,8 @@ public class PlanetObject {
         double[] acc=new double[3];
 
         acc[0]=force[0]/this.mass;
-        acc[1]=force[0]/this.mass;
-        acc[2]=force[0]/this.mass;
+        acc[1]=force[1]/this.mass;
+        acc[2]=force[2]/this.mass;
         return acc;
 
     }

@@ -4,11 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="13cb742e-4cc8-4686-864c-bc5cb4fb0b5a" name="Changes" comment="WORKING HOW THIS SHIT WORKS">
+    <list default="true" id="13cb742e-4cc8-4686-864c-bc5cb4fb0b5a" name="Changes" comment="Added some verson of working code">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/group1/project12group1/PlanetObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/group1/project12group1/PlanetObject.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/group1/project12group1/SolarSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/group1/project12group1/SolarSystem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/helperFunction/HelperFunctions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/helperFunction/HelperFunctions.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,7 +64,14 @@
       <option name="project" value="LOCAL" />
       <updated>1679319564168</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Added some verson of working code">
+      <created>1679322553538</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1679322553538</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -82,6 +88,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="added getAcceleration" />
     <MESSAGE value="WORKING HOW THIS SHIT WORKS" />
-    <option name="LAST_COMMIT_MESSAGE" value="WORKING HOW THIS SHIT WORKS" />
+    <MESSAGE value="Added some verson of working code" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added some verson of working code" />
   </component>
 </project>
