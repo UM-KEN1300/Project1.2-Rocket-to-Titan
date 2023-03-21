@@ -2,14 +2,20 @@ package group1.project12group1;
 
 import helperFunction.HelperFunctions;
 
+
+
 public class PlanetObject {
+    private int planetCode;
     final static double G = 6.6742e-20;
+    //alternative g
+    private double[] targetPosition;
     private double x;        // x coordinate in km
     private double y;        // y coordinate in km
     private double z;        // z coordinate in km
 
-    private double[] positionalVector=new double[3];
-    HelperFunctions helperFunctions=new HelperFunctions();
+    private double[] positionalVector = new double[3];
+    private double[] velocityVector = new double[3];
+    final static HelperFunctions helperFunctions=new HelperFunctions();
     private double vx = 0;       // velocity in x direction in km per second
     private double vy = 0;       // velocity in y direction in km per second
     private double vz = 0;       // velocity in z direction in km per second
@@ -17,7 +23,8 @@ public class PlanetObject {
     private double radius = 0;   // radius in km
 
     // Constructor for creating PlanetObject with specified properties
-    public PlanetObject (double x, double y, double z, double mass) {
+    public PlanetObject (double x, double y, double z, double mass)
+    {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -39,7 +46,17 @@ public class PlanetObject {
         this.vx = vx;
         this.vy = vy;
         this.vz = vz;
+        velocityVector[0] = vx;
+        velocityVector[1] = vy;
+        velocityVector[2] = vz;
         this.mass = mass;
+    }
+
+    //planetCode only constructor
+    public PlanetObject(int planetCode, double mass)
+    {
+        this.planetCode = planetCode;
+        this.mass=mass;
     }
 
     // Getters and setters for the properties
@@ -87,12 +104,41 @@ public class PlanetObject {
         return vz;
     }
 
+    public double[] getTargetPosition()
+    {
+        return targetPosition;
+    }
+
+    public void setTargetPosition(double[] targetPosition)
+    {
+        this.targetPosition = targetPosition;
+    }
+
     public void setVz(double vz) {
         this.vz = vz;
     }
 
     public double getRadius(){
         return radius;
+    }
+
+    public int getPlanetCode(){
+        return planetCode;
+    }
+
+    public double[] getVelocityVector()
+{
+        return velocityVector;
+    }
+
+    public void setVelocityVector(double[] velocityVector)
+    {
+        this.velocityVector = velocityVector;
+    }
+
+    public void setPlanetCode(int planetCode)
+    {
+        this.planetCode = planetCode;
     }
 
     public void setRadius(double r){
@@ -106,20 +152,15 @@ public class PlanetObject {
 
     public void setPositionalVector(double[] positionalVector) {this.positionalVector = positionalVector;}
     
-    public double gravitationalForce(double distanceKm, double objMass){       // method that calculates in Newtons the force with which 
-        double distanceM = distanceKm * 1000;                                   // from the center of the planet to the center of the object.
-        double gravForce = G * this.mass * objMass / Math.pow(distanceM, 2); // I can addapt it to use the distance from the planet's surface if 
-        return gravForce;                                                       // it is more useful.
-    }
 
     //todo fix units and make tests to see if it always works
     public double[] getForce(PlanetObject other)
     {
-        final  double Gs = 6.6742e-11;
+
         double[] force=new double[3];
 
         double[] threeDimensionalDistnace=helperFunctions.getDistanceBetweenPositionVectors(this.positionalVector,other.getPositionalVector());
-        double forceStrenght=Gs*this.mass*other.getMass()/Math.pow(helperFunctions.getVectorMagnitude(threeDimensionalDistnace),3);
+        double forceStrenght=-1000*G*this.mass*other.getMass()/Math.pow(helperFunctions.getVectorMagnitude(threeDimensionalDistnace),3);
 
         force[0]=threeDimensionalDistnace[0]*forceStrenght;
         force[1]=threeDimensionalDistnace[1]*forceStrenght;
@@ -128,5 +169,41 @@ public class PlanetObject {
 
 
         return force;
+    }
+
+
+    public double[] getAcceleration(PlanetObject other)
+    {
+
+        double[] force=new double[3];
+        double[] threeDimensionalDistnace=helperFunctions.getDistanceBetweenPositionVectors(this.positionalVector,other.getPositionalVector());
+        double forceStrenght=-1000*G*this.mass*other.getMass()/Math.pow(helperFunctions.getVectorMagnitude(threeDimensionalDistnace),3);
+
+        force[0]=threeDimensionalDistnace[0]*forceStrenght;
+        force[1]=threeDimensionalDistnace[1]*forceStrenght;
+        force[2]=threeDimensionalDistnace[2]*forceStrenght;
+        double[] acc=new double[3];
+
+        acc[0]=force[0]/this.mass;
+        acc[1]=force[1]/this.mass;
+        acc[2]=force[2]/this.mass;
+        return acc;
+
+    }
+    public void updatePositionVelocity( double[] acc,double step){
+        for(int i = 0; i < 3; i++){
+
+            velocityVector[i] += acc[i] * step;
+            positionalVector[i] += velocityVector[i] * step;
+
+        }
+    }
+    public void semiImplicitEulerSolver( double [] a, double h){
+
+        for(int i = 0; i<3; i++)
+        {
+            velocityVector[i] = velocityVector[i] + (a[i] * h);
+            positionalVector[i] = positionalVector[i] + (velocityVector[i] * h);
+        }
     }
 }
