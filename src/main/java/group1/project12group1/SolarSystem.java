@@ -2,6 +2,8 @@ package group1.project12group1;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
+
 import helperFunction.HelperFunctions;
 
 public class SolarSystem{
@@ -37,44 +39,52 @@ public class SolarSystem{
         listOfPlanets.add(Neptune);
         listOfPlanets.add(Uranus);
         HelperFunctions helperFunctions=new HelperFunctions();
-        double step=0.01;
-        for (int i = 0; i < step*100*3600*24*87; i++)
+        String tests= " X = 5.370984669850484E+07 Y =-6.096773857312337E+06 Z =-5.424870545516974E+06";
+        double[] tester=helperFunctions.stringToVector(tests);
+
+        for (int i = 0; i < tester.length; i++)
         {
-
-            for (int j = 1; j <listOfPlanets.size() ; j++)
-            {
-
-                double[] acc=new double[3];
-                for (int k = 0; k <listOfPlanets.size() ; k++)
-                {
-                    if(k!=j)
-                    {
-                        acc=helperFunctions.addition(acc,listOfPlanets.get(j).getAcceleration(listOfPlanets.get(k)));
-                    }
-
-                }
-                listOfPlanets.get(j).updatePositionVelocity(acc,step);
-            }
-        }
-        System.out.println("Original: ");
-        for (int i = 0; i <3 ; i++)
-        {
-            System.out.println(mercStart[i]);
+            System.out.println(tester[i]);
         }
 
-
-        System.out.println("Second: ");
-        for (int i = 0; i <3 ; i++)
-        {
-            System.out.println(Mercury.getPositionalVector()[i]);
-        }
-
-        
-        
-        
-        PlanetObject testEarth=new PlanetObject(0,0,0,5.97e24);
-        PlanetObject testPerson= new PlanetObject(6371,0,0,70);
-        System.out.println(testEarth.getForce(testPerson)[0]);
+//        double step=0.01;
+//        for (int i = 0; i < step*100*3600*24*87; i++)
+//        {
+//
+//            for (int j = 1; j <listOfPlanets.size() ; j++)
+//            {
+//
+//                double[] acc=new double[3];
+//                for (int k = 0; k <listOfPlanets.size() ; k++)
+//                {
+//                    if(k!=j)
+//                    {
+//                        acc=helperFunctions.addition(acc,listOfPlanets.get(j).getAcceleration(listOfPlanets.get(k)));
+//                    }
+//
+//                }
+//                listOfPlanets.get(j).updatePositionVelocity(acc,step);
+//            }
+//        }
+//        System.out.println("Original: ");
+//        for (int i = 0; i <3 ; i++)
+//        {
+//            System.out.println(mercStart[i]);
+//        }
+//
+//
+//        System.out.println("Second: ");
+//        for (int i = 0; i <3 ; i++)
+//        {
+//            System.out.println(Mercury.getPositionalVector()[i]);
+//        }
+//
+//
+//
+//
+//        PlanetObject testEarth=new PlanetObject(0,0,0,5.97e24);
+//        PlanetObject testPerson= new PlanetObject(6371,0,0,70);
+//        System.out.println(testEarth.getForce(testPerson)[0]);
 
 
 

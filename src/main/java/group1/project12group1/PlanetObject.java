@@ -5,17 +5,17 @@ import helperFunction.HelperFunctions;
 
 
 public class PlanetObject {
+    private int planetCode;
     final static double G = 6.6742e-20;
     //alternative g
-    final  double Gs = 6.6742e-11;
-
+    private double[] targetPosition;
     private double x;        // x coordinate in km
     private double y;        // y coordinate in km
     private double z;        // z coordinate in km
 
     private double[] positionalVector = new double[3];
     private double[] velocityVector = new double[3];
-    HelperFunctions helperFunctions=new HelperFunctions();
+    final static HelperFunctions helperFunctions=new HelperFunctions();
     private double vx = 0;       // velocity in x direction in km per second
     private double vy = 0;       // velocity in y direction in km per second
     private double vz = 0;       // velocity in z direction in km per second
@@ -50,6 +50,13 @@ public class PlanetObject {
         velocityVector[1] = vy;
         velocityVector[2] = vz;
         this.mass = mass;
+    }
+
+    //planetCode only constructor
+    public PlanetObject(int planetCode, double mass)
+    {
+        this.planetCode = planetCode;
+        this.mass=mass;
     }
 
     // Getters and setters for the properties
@@ -97,12 +104,42 @@ public class PlanetObject {
         return vz;
     }
 
+    public double[] getTargetPosition()
+    {
+        return targetPosition;
+    }
+
+    public void setTargetPosition(double[] targetPosition)
+    {
+        this.targetPosition = targetPosition;
+    }
+
     public void setVz(double vz) {
         this.vz = vz;
     }
 
     public double getRadius(){
         return radius;
+    }
+
+    public int getPlanetCode()
+    {
+        return planetCode;
+    }
+
+    public double[] getVelocityVector()
+    {
+        return velocityVector;
+    }
+
+    public void setVelocityVector(double[] velocityVector)
+    {
+        this.velocityVector = velocityVector;
+    }
+
+    public void setPlanetCode(int planetCode)
+    {
+        this.planetCode = planetCode;
     }
 
     public void setRadius(double r){
