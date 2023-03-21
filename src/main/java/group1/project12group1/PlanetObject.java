@@ -122,13 +122,12 @@ public class PlanetObject {
         return radius;
     }
 
-    public int getPlanetCode()
-    {
+    public int getPlanetCode(){
         return planetCode;
     }
 
     public double[] getVelocityVector()
-    {
+{
         return velocityVector;
     }
 
