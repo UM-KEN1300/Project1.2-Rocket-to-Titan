@@ -47,38 +47,45 @@ public class SolarSystem{
             System.out.println(tester[i]);
         }
 
-//        double step=0.01;
-//        for (int i = 0; i < step*100*3600*24*87; i++)
-//        {
-//
-//            for (int j = 1; j <listOfPlanets.size() ; j++)
-//            {
-//
-//                double[] acc=new double[3];
-//                for (int k = 0; k <listOfPlanets.size() ; k++)
-//                {
-//                    if(k!=j)
-//                    {
-//                        acc=helperFunctions.addition(acc,listOfPlanets.get(j).getAcceleration(listOfPlanets.get(k)));
-//                    }
-//
-//                }
-//                listOfPlanets.get(j).updatePositionVelocity(acc,step);
-//            }
-//        }
-//        System.out.println("Original: ");
-//        for (int i = 0; i <3 ; i++)
-//        {
-//            System.out.println(mercStart[i]);
-//        }
-//
-//
-//        System.out.println("Second: ");
-//        for (int i = 0; i <3 ; i++)
-//        {
-//            System.out.println(Mercury.getPositionalVector()[i]);
-//        }
-//
+        double step0p1=10*3600*24*10;
+        double step=0.0001*10000*3600*24*87;
+        for (int i = 0; i < step; i+=1)
+        {
+            if(i%70000==0)
+            {
+                System.out.println("Progress: "+i+"/"+step);
+            }
+
+            for (int j = 1; j <listOfPlanets.size() ; j++)
+            {
+
+                double[] force=new double[3];
+                for (int k = 0; k <listOfPlanets.size() ; k++)
+                {
+                    if(k!=j)
+                    {
+                        force = helperFunctions.addition(force, listOfPlanets.get(j).getForce(listOfPlanets.get(k)));
+
+                    }
+
+                }
+                listOfPlanets.get(j).setPrivousPosition(listOfPlanets.get(j).getPositionalVector());
+                listOfPlanets.get(j).updatePositionVelocityWithForce(force,0.1);
+            }
+        }
+        System.out.println("Original: ");
+        for (int i = 0; i <3 ; i++)
+        {
+            System.out.println(mercStart[i]);
+        }
+
+
+        System.out.println("Second: ");
+        for (int i = 0; i <3 ; i++)
+        {
+            System.out.println(Mercury.getPositionalVector()[i]);
+        }
+
 //
 //
 //

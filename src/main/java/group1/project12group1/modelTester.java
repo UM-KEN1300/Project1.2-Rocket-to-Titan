@@ -46,8 +46,8 @@ public class modelTester
         // between the dates example 20d if the two dates are 20 dates apart
         //follow the format below when changing
         String startDate="2022-01-01";
-        String endDate="2022-12-31";
-        String daysLong="364d";
+        String endDate="2022-01-02";
+        String daysLong="01d";
         String urlLoc = "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND='";
         BufferedReader br;
         //Sets the positions of the planet to this start frame
@@ -75,6 +75,7 @@ public class modelTester
                 listOfPlanets.get(i).setPositionalVector( helperFunctions.stringToVector(positionalVector));
                 String velocityVector=br.readLine()+"\n";
                 listOfPlanets.get(i).setVelocityVector( helperFunctions.stringToVector(velocityVector));
+
                 br.readLine();
                 br.readLine();
                 String positinalVectorTarget=br.readLine()+"\n";
@@ -91,27 +92,30 @@ public class modelTester
         //run for the same time as the initial value
         //accuracy
         System.out.println("starting the simulation of solar system.");
-        double step=0.1;
-        for (int i = 0; i < step*10*3600*24*365; i++)
+        double step0p1=10*3600*24*10;
+        double step=0.0001*10000*3600*24*1;
+        for (int i = 0; i < step; i+=1)
         {
            if(i%70000==0)
            {
-               System.out.println("Progress: "+i+"/"+step*100*3600*24*365);
+               System.out.println("Progress: "+i+"/"+step0p1);
            }
 
             for (int j = 0; j <listOfPlanets.size()-1 ; j++)
             {
 
-                double[] acc=new double[3];
+                double[] force=new double[3];
                 for (int k = 0; k <listOfPlanets.size() ; k++)
                 {
                     if(k!=j)
                     {
-                        acc=helperFunctions.addition(acc,listOfPlanets.get(j).getAcceleration(listOfPlanets.get(k)));
+                            force = helperFunctions.addition(force, listOfPlanets.get(j).getForce(listOfPlanets.get(k)));
+
                     }
 
                 }
-                listOfPlanets.get(j).updatePositionVelocity(acc,step);
+                listOfPlanets.get(j).setPrivousPosition(listOfPlanets.get(j).getPositionalVector());
+                listOfPlanets.get(j).updatePositionVelocityWithForce(force,0.1);
             }
         }
 
