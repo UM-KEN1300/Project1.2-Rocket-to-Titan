@@ -45,7 +45,6 @@ public class PlanetObject {
         positionalVector[0]=x;
         positionalVector[1]=y;
         positionalVector[2]=z;
-
         this.vx = vx;
         this.vy = vy;
         this.vz = vz;
@@ -164,6 +163,7 @@ public class PlanetObject {
         return radius;
     }
 
+
     public double[] getPrivousPosition()
     {
         return privousPosition;
@@ -180,7 +180,7 @@ public class PlanetObject {
     }
 
     public double[] getVelocityVector()
-    {
+{
         return velocityVector;
     }
 
@@ -200,9 +200,6 @@ public class PlanetObject {
     public double[] getPositionalVector() {return positionalVector;}
 
     public double getMass() {return mass;}
-
-    private  double[] acc={0,0,0};
-
 
     public void setMass(double mass) {this.mass = mass;}
 
