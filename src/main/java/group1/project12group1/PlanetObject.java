@@ -224,7 +224,7 @@ public class PlanetObject {
         return force;
     }
 
-
+    private double[] acc={0,0,0};
     public double[] getAcceleration(PlanetObject other)
     {
 
