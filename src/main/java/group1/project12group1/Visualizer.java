@@ -19,7 +19,7 @@ import java.nio.file.Paths;
 
 import static group1.project12group1.SolarSystem.*;
 
-public class HelloApplication extends Application {
+public class Visualizer extends Application {
     private final double WIDTH = Screen.getPrimary().getBounds().getWidth();
     private final double HEIGHT = Screen.getPrimary().getBounds().getHeight();
     public final double SCALE = 100;
