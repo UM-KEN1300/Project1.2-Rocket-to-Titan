@@ -4,8 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="13cb742e-4cc8-4686-864c-bc5cb4fb0b5a" name="Changes" comment="added a start of visualizer">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="13cb742e-4cc8-4686-864c-bc5cb4fb0b5a" name="Changes" comment="changed the methods to work with momentkum">
+      <change afterPath="$PROJECT_DIR$/src/main/java/group1/project12group1/GUIpart.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/group1/project12group1/HelloApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/group1/project12group1/HelloApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/group1/project12group1/PlanetObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/group1/project12group1/PlanetObject.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,7 +104,6 @@
       <updated>1679312618137</updated>
       <workItem from="1679312619245" duration="1000" />
       <workItem from="1679356589531" duration="4766000" />
-      <workItem from="1679435472314" duration="879000" />
     </task>
     <task id="LOCAL-00001" summary="WORKING HOW THIS SHIT WORKS">
       <created>1679319564168</created>
@@ -131,14 +133,7 @@
       <option name="project" value="LOCAL" />
       <updated>1679420214209</updated>
     </task>
-    <task id="LOCAL-00005" summary="added a start of visualizer">
-      <created>1679435512897</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1679435512897</updated>
-    </task>
-    <option name="localTasksCounter" value="6" />
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -162,7 +157,6 @@
     <MESSAGE value="Added some impr" />
     <MESSAGE value="changed the methods to work with momentum" />
     <MESSAGE value="changed the methods to work with momentkum" />
-    <MESSAGE value="added a start of visualizer" />
-    <option name="LAST_COMMIT_MESSAGE" value="added a start of visualizer" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed the methods to work with momentkum" />
   </component>
 </project>
