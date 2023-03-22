@@ -101,10 +101,7 @@ public class Visualizer extends Application {
                                 }
                                 planets[j].setPrivousPosition(planets[j].getPositionalVector());
                                 planets[j].updatePositionVelocity(acc, 0.1);
-
                             }
-
-
                         }
                         updateSpheres();
 
