@@ -78,11 +78,11 @@ public class GUIpart extends Application
             for (int i = 0; i <listOfPlanets.size() ; i++)
             {
                 planet=listOfPlanets.get(i).getCircle();
-             double cordX=listOfPlanets.get(i).getZ();
+             double cordX=listOfPlanets.get(i).getX();
              cordX=cordX/SCALE;
              cordX=cordX+offsetWidth;
 
-             double cordY=listOfPlanets.get(i).getX();
+             double cordY=listOfPlanets.get(i).getY();
              cordY=cordY/SCALE;
              cordY=cordY+offsetHeight;
              listOfPlanets.get(i).setX2D(cordX);

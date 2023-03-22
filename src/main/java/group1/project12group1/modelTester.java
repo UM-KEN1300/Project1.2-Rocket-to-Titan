@@ -46,8 +46,8 @@ public class modelTester
         // between the dates example 20d if the two dates are 20 dates apart
         //follow the format below when changing
         String startDate="2022-01-01";
-        String endDate="2022-01-02";
-        String daysLong="01d";
+        String endDate="2022-03-29";
+        String daysLong="87d";
         String urlLoc = "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND='";
         BufferedReader br;
         //Sets the positions of the planet to this start frame
@@ -93,30 +93,33 @@ public class modelTester
         //accuracy
         System.out.println("starting the simulation of solar system.");
         double step0p1=10*3600*24*10;
-        double step=0.0001*10000*3600*24*1;
+        double step=10*3600*24*87;
         for (int i = 0; i < step; i+=1)
         {
            if(i%70000==0)
            {
-               System.out.println("Progress: "+i+"/"+step0p1);
+               System.out.println("Progress: "+i+"/"+step);
            }
 
             for (int j = 0; j <listOfPlanets.size()-1 ; j++)
             {
 
-                double[] force=new double[3];
+                double[] acc=new double[3];
                 for (int k = 0; k <listOfPlanets.size() ; k++)
                 {
 
                     if(k!=j)
                     {
-                            force = helperFunctions.addition(force, listOfPlanets.get(j).getForce(listOfPlanets.get(k)));
-
+                        acc=helperFunctions.addition(acc, listOfPlanets.get(j).ForceCaluclatorNEW(listOfPlanets.get(k)));
                     }
 
                 }
-                listOfPlanets.get(j).setPrivousPosition(listOfPlanets.get(j).getPositionalVector());
-                listOfPlanets.get(j).updatePositionVelocityWithForce(force,0.1);
+                listOfPlanets.get(j).updatePositionVelocity(acc,0.1);
+
+
+
+//                listOfPlanets.get(j).setPrivousPosition(listOfPlanets.get(j).getPositionalVector());
+//
             }
         }
 

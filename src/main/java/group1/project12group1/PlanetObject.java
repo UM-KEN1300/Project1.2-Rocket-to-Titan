@@ -8,7 +8,7 @@ import javafx.scene.shape.Sphere;
 
 public class PlanetObject {
     private int planetCode;
-    final static double G = 6.6742e-20;
+    final static double G = 6.6743e-20;
     private Sphere circle=new Sphere();
     private  Color color=Color.BLACK;
     private double x2D;
@@ -291,7 +291,7 @@ public class PlanetObject {
     {
         double[] force=new double[3];
         double[] threeDimensionalDistnace=helperFunctions.getDistanceBetweenPositionVectors(this.positionalVector,other.getPrivousPosition());
-        double forceStrenght=-1000*G*this.mass*other.getMass()/Math.pow(helperFunctions.getVectorMagnitude(threeDimensionalDistnace),2);
+        double forceStrenght=-1000*G*this.mass*other.getMass()/Math.pow(helperFunctions.getVectorMagnitude(threeDimensionalDistnace),3);
         force[0]=threeDimensionalDistnace[0]*forceStrenght;
         force[1]=threeDimensionalDistnace[1]*forceStrenght;
         force[2]=threeDimensionalDistnace[2]*forceStrenght;
@@ -303,6 +303,7 @@ public class PlanetObject {
 
     }
 
+    //EXACTLY the same
     public void updatePositionVelocity( double[] acc,double step){
         for(int i = 0; i < 3; i++){
 
@@ -311,6 +312,7 @@ public class PlanetObject {
 
         }
     }
+
 
     public void updatePositionVelocityWithForce( double[] force,double step){
         for(int i = 0; i < 3; i++)
@@ -321,4 +323,23 @@ public class PlanetObject {
         }
     }
 
+
+    //EXCACTLY CORRECT
+    public double[] ForceCaluclatorNEW(PlanetObject other)
+    {
+        double[] force=new double[3];
+        double[] dxyz=helperFunctions.subtract(this.positionalVector,other.getPositionalVector());
+        double distance=1/helperFunctions.getDistanceBetweenWithVectors(this.positionalVector,other.getPositionalVector());
+        for (int i = 0; i <=2 ; i++)
+        {
+            force[i]=G*this.mass*other.getMass()*distance*distance*distance*dxyz[i];
+        }
+        double[] acc= new double[3];
+
+        acc[0]=force[0]/this.mass;
+        acc[1]=force[1]/this.mass;
+        acc[2]=force[2]/this.mass;
+        return acc;
+
+    }
 }
