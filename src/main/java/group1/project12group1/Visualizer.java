@@ -64,31 +64,40 @@ public class Visualizer extends Application {
 
         setUpKeyboardInput(scene);
 
+
+        fullView();
+
+//        calculation();
+//
         stage.setTitle("Solar System");
         stage.setScene(scene);
         stage.show();
 
-        fullView();
-
-//        while (true) {
-        int times = 300;
-        for (int i = 0; i < times; i++) {
-            for (int j = 1; j < planets.length; j++) {
-
-                double[] acc = new double[3];
-                for (int k = 0; k < planets.length; k++) {
-                    if (k != j)
-                        acc = HelperFunctions.addition(acc, planets[j].getForce(planets[k]));
-                }
-                planets[j].setPrivousPosition(planets[j].getPositionalVector());
-                planets[j].updatePositionVelocityWithForce(acc, 3600);
-                updateSpheres();
-            }
-        }
 
     }
 
-//    }
+    private void calculation() {
+        new java.util.Timer().schedule(
+                new java.util.TimerTask() {
+                    @Override
+                    public void run() {
+                        for (int j = 1; j < planets.length; j++) {
+
+                            double[] acc = new double[3];
+                            for (int k = 0; k < planets.length; k++) {
+                                if (k != j)
+                                    acc = HelperFunctions.addition(acc, planets[j].getForce(planets[k]));
+                            }
+                            planets[j].setPrivousPosition(planets[j].getPositionalVector());
+                            planets[j].updatePositionVelocityWithForce(acc, 100);
+                            updateSpheres();
+                        }
+                    }
+                },
+                0, // Start immediately
+                1 // Update every second
+        );
+    }
 
     private void initializeSpheres(Group group) {
         sunSphere = new Sphere(695_508 / SCALE);
