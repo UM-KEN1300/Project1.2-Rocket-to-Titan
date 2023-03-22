@@ -24,8 +24,8 @@ public class Visualizer extends Application {
     private final double WIDTH = Screen.getPrimary().getBounds().getWidth();
     private final double HEIGHT = Screen.getPrimary().getBounds().getHeight();
     public final double SCALE = 100;
-    private  HelperFunctions helperFunctions=new HelperFunctions();
-    PlanetObject[] planets = new PlanetObject[]{Sun, Mercury, Venus, Earth, Moon, Mars, Jupiter, Saturn, Titan};
+    private HelperFunctions helperFunctions = new HelperFunctions();
+    PlanetObject[] planets = new PlanetObject[]{Sun, Mercury, Venus, Earth, Moon, Mars, Jupiter, Saturn, Titan, Neptune, Uranus};
     private Sphere sunSphere;
     private Sphere mercurySphere;
     private Sphere venusSphere;
@@ -35,6 +35,8 @@ public class Visualizer extends Application {
     private Sphere jupiterSphere;
     private Sphere saturnSphere;
     private Sphere titanSphere;
+    private Sphere neptuneSphere;
+    private Sphere uranusSphere;
     private SolarCamera solarCamera;
     private Sphere currentFocus;
     Rotate rotateX, rotateZ;
@@ -65,7 +67,6 @@ public class Visualizer extends Application {
 
         setUpKeyboardInput(scene);
 
-
         fullView();
         calculation();
         stage.setTitle("Solar System");
@@ -81,19 +82,15 @@ public class Visualizer extends Application {
                     @Override
                     public void run() {
 
-                        int step=10*60*60*24*3;
-                        for (int i = 0; i < step; i+=1)
-                        {
+                        int step = 10 * 60 * 60 * 24 * 3;
+                        for (int i = 0; i < step; i += 1) {
 
-                            for (int j = 0; j < planets.length - 1; j++)
-                            {
+                            for (int j = 0; j < planets.length - 1; j++) {
 
                                 double[] acc = new double[3];
-                                for (int k = 0; k < planets.length; k++)
-                                {
+                                for (int k = 0; k < planets.length; k++) {
 
-                                    if (k != j)
-                                    {
+                                    if (k != j) {
                                         acc = helperFunctions.addition(acc, planets[j].ForceCaluclatorNEW(planets[k]));
                                     }
 
@@ -101,7 +98,6 @@ public class Visualizer extends Application {
                                 planets[j].updatePositionVelocity(acc, 0.1);
 
                             }
-
 
 
                         }
@@ -125,6 +121,8 @@ public class Visualizer extends Application {
         jupiterSphere = new Sphere(69_911 / SCALE);
         saturnSphere = new Sphere(58_232 / SCALE);
         titanSphere = new Sphere(2_574 / SCALE);
+        neptuneSphere = new Sphere(24_622 / SCALE);
+        uranusSphere = new Sphere(25_363 / SCALE);
 
         group.getChildren().add(sunSphere);
         group.getChildren().add(mercurySphere);
@@ -135,6 +133,8 @@ public class Visualizer extends Application {
         group.getChildren().add(jupiterSphere);
         group.getChildren().add(saturnSphere);
         group.getChildren().add(titanSphere);
+        group.getChildren().add(neptuneSphere);
+        group.getChildren().add(uranusSphere);
 
         setFocus(Sun);
         updateSpheres();
@@ -142,7 +142,7 @@ public class Visualizer extends Application {
     }
 
     private void updateSpheres() {
-        Sphere[] spheres = new Sphere[]{sunSphere, mercurySphere, venusSphere, earthSphere, moonSphere, marsSphere, jupiterSphere, saturnSphere, titanSphere};
+        Sphere[] spheres = new Sphere[]{sunSphere, mercurySphere, venusSphere, earthSphere, moonSphere, marsSphere, jupiterSphere, saturnSphere, titanSphere, neptuneSphere, uranusSphere};
         for (int i = 0; i < spheres.length; i++) {
             spheres[i].setTranslateX(planets[i].getPositionalVector()[0] / SCALE);
             spheres[i].setTranslateY(planets[i].getPositionalVector()[1] / SCALE);
@@ -174,13 +174,12 @@ public class Visualizer extends Application {
             if (solarCamera.getTranslateZ() > -5_000_000) {
                 if (delta < 0)
                     solarCamera.setTranslateZ(solarCamera.getTranslateZ() - delta * solarCamera.getTranslateZ() * 0.005);
-            } else if (solarCamera.getTranslateZ() < -60_000_000) {
+            } else if (solarCamera.getTranslateZ() < -150_000_000) {
                 if (delta > 0)
                     solarCamera.setTranslateZ(solarCamera.getTranslateZ() - delta * solarCamera.getTranslateZ() * 0.005);
             } else {
                 solarCamera.setTranslateZ(solarCamera.getTranslateZ() - delta * solarCamera.getTranslateZ() * 0.005);
             }
-
         });
     }
 
@@ -252,6 +251,8 @@ public class Visualizer extends Application {
         marsSphere.setRadius(marsSphere.getRadius() * SCALE * 55);
         jupiterSphere.setRadius(jupiterSphere.getRadius() * SCALE * 10);
         saturnSphere.setRadius(saturnSphere.getRadius() * SCALE * 10);
+        neptuneSphere.setRadius(neptuneSphere.getRadius() * SCALE * 35);
+        uranusSphere.setRadius(uranusSphere.getRadius() * SCALE * 35);
     }
 
     private void setFocus(PlanetObject planet) {
@@ -263,8 +264,8 @@ public class Visualizer extends Application {
     }
 
     private void setTextures() {
-        String[] names = new String[]{"sun", "mercury", "venus", "earth", "moon", "mars", "jupiter", "saturn", "titan"};
-        Sphere[] spheres = new Sphere[]{sunSphere, mercurySphere, venusSphere, earthSphere, moonSphere, marsSphere, jupiterSphere, saturnSphere, titanSphere};
+        String[] names = new String[]{"sun", "mercury", "venus", "earth", "moon", "mars", "jupiter", "saturn", "titan", "neptune", "uranus"};
+        Sphere[] spheres = new Sphere[]{sunSphere, mercurySphere, venusSphere, earthSphere, moonSphere, marsSphere, jupiterSphere, saturnSphere, titanSphere, neptuneSphere, uranusSphere};
         for (int i = 0; i < names.length; i++) {
             PhongMaterial texture = new PhongMaterial();
             texture.setDiffuseMap(new Image(Paths.get("src/main/resources/" + names[i] + ".jpg").toUri().toString()));
