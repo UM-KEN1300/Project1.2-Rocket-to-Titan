@@ -1,4 +1,5 @@
 package group1.project12group1;
+
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.PerspectiveCamera;
@@ -6,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.ScrollEvent;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Sphere;
 import javafx.scene.transform.Rotate;
@@ -50,8 +52,11 @@ public class HelloApplication extends Application {
         scene.setCamera(solarCamera);
 
 //        zoom(stage);
+        zoom2(stage);
 
-        rotateX = new Rotate(-45, Rotate.X_AXIS);
+        scene.setFill(Color.GRAY);
+
+        rotateX = new Rotate(315, Rotate.X_AXIS);
         rotateZ = new Rotate(0, Rotate.Z_AXIS);
         setUpMouseRotation(scene, rotateX, rotateZ);
         root.getTransforms().addAll(rotateX, rotateZ);
@@ -122,6 +127,14 @@ public class HelloApplication extends Application {
         });
     }
 
+    private void zoom2(Stage stage) {
+        stage.addEventHandler(ScrollEvent.SCROLL, event -> {
+            double delta = event.getDeltaY();
+            if (!(solarCamera.getTranslateZ() > -10_000_000 && delta > 0))
+                solarCamera.setTranslateZ(solarCamera.getTranslateZ() - delta * solarCamera.getTranslateZ() * 0.005);
+        });
+    }
+
 //    private void recalculateRadius() {
 //        double j = sunSphere.getRadius() / 1.1;
 //        if (solarCamera.getTranslateZ() > -sunSphere.getRadius() * 30) {
@@ -164,7 +177,10 @@ public class HelloApplication extends Application {
             double deltaX = event.getSceneX() - anchorX[0];
             double deltaY = event.getSceneY() - anchorY[0];
             rotateX.setAngle(anchorAngleX[0] + deltaY * 0.15);
-            rotateZ.setAngle(anchorAngleZ[0] - deltaX * 0.15);
+            if (anchorAngleX[0] > 90 && anchorAngleX[0] < 270)
+                rotateZ.setAngle(anchorAngleZ[0] + deltaX * 0.15);
+            else
+                rotateZ.setAngle(anchorAngleZ[0] - deltaX * 0.15);
         });
     }
 
@@ -182,9 +198,9 @@ public class HelloApplication extends Application {
 
         sunSphere.setRadius(sunSphere.getRadius() * 30);
         mercurySphere.setRadius(mercurySphere.getRadius() * SCALE * 40);
-        venusSphere.setRadius(venusSphere.getRadius() * SCALE * 30);
+        venusSphere.setRadius(venusSphere.getRadius() * SCALE * 25);
         earthSphere.setRadius(earthSphere.getRadius() * SCALE * 35);
-        marsSphere.setRadius(marsSphere.getRadius() * SCALE * 45);
+        marsSphere.setRadius(marsSphere.getRadius() * SCALE * 55);
         jupiterSphere.setRadius(jupiterSphere.getRadius() * SCALE * 10);
         saturnSphere.setRadius(saturnSphere.getRadius() * SCALE * 10);
     }
