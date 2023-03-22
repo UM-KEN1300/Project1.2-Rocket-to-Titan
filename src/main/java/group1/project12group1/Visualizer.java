@@ -14,9 +14,10 @@ import javafx.scene.shape.Sphere;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+
 import java.io.IOException;
 import java.nio.file.Paths;
-
+import java.util.Hashtable;
 
 import static group1.project12group1.SolarSystem.*;
 
@@ -76,7 +77,7 @@ public class Visualizer extends Application {
         stage.setScene(scene);
         stage.show();
     }
-    private static int counter=0;
+
     private void calculation() {
         new java.util.Timer().schedule(
                 new java.util.TimerTask() {

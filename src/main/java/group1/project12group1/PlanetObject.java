@@ -48,6 +48,8 @@ public class PlanetObject
         velocityVector[2] = vz;
         this.mass = mass;
     }
+    double speed = Math.sqrt(Math.pow(vx,2) + Math.pow(vy,2) + Math.pow(vz,2)); //measured in km/s
+    //planetCode only constructor
     //Constructor for the api that later adds the values
     public PlanetObject(int planetCode, double mass)
     {
