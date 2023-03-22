@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.Hashtable;
 
 import static group1.project12group1.SolarSystem.*;
 
@@ -38,6 +39,7 @@ public class Visualizer extends Application {
     private Sphere neptuneSphere;
     private Sphere uranusSphere;
     private SolarCamera solarCamera;
+    private Hashtable<PlanetObject, Sphere> planetDictionary;
     private Sphere currentFocus;
     Rotate rotateX, rotateZ;
 
@@ -55,7 +57,6 @@ public class Visualizer extends Application {
         Scene scene = new Scene(root, WIDTH, HEIGHT, true);
         scene.setCamera(solarCamera);
 
-//        zoom(stage);
         zoom2(stage);
 
         scene.setFill(Color.BLACK.brighter());
@@ -72,8 +73,6 @@ public class Visualizer extends Application {
         stage.setTitle("Solar System");
         stage.setScene(scene);
         stage.show();
-
-
     }
 
     private void calculation() {
@@ -82,26 +81,19 @@ public class Visualizer extends Application {
                     @Override
                     public void run() {
 
-                        int step=10*60*60;
-                        for (int i = 0; i < step; i+=1)
-                        {
+                        int step = 10 * 30000;
+                        for (int i = 0; i < step; i += 1) {
 
-                            for (int j = 0; j < planets.length - 1; j++)
-                            {
+                            for (int j = 0; j < planets.length - 1; j++) {
 
                                 double[] acc = new double[3];
-                                for (int k = 0; k < planets.length; k++)
-                                {
+                                for (int k = 0; k < planets.length; k++) {
 
-                                    if (k != j)
-                                    {
-                                        if(j<k)
-                                        {
-                                            acc = helperFunctions.addition(acc, planets[j].ForceCaluclatorNEW(planets[k]));
-                                        }
-                                        else
-                                        {
-                                            acc = helperFunctions.addition(acc, planets[j].ForceCaluclatorNEWWithOld(planets[k]));
+                                    if (k != j) {
+                                        if (j < k) {
+                                            acc = HelperFunctions.addition(acc, planets[j].ForceCaluclatorNEW(planets[k]));
+                                        } else {
+                                            acc = HelperFunctions.addition(acc, planets[j].ForceCaluclatorNEWWithOld(planets[k]));
                                         }
 
                                     }
@@ -111,7 +103,6 @@ public class Visualizer extends Application {
                                 planets[j].updatePositionVelocity(acc, 0.1);
 
                             }
-
 
 
                         }
@@ -150,7 +141,7 @@ public class Visualizer extends Application {
         group.getChildren().add(neptuneSphere);
         group.getChildren().add(uranusSphere);
 
-        setFocus(Sun);
+        setFocus(sunSphere);
         updateSpheres();
         setTextures();
     }
@@ -171,17 +162,6 @@ public class Visualizer extends Application {
         }
     }
 
-    private void zoom(Stage stage) {
-        stage.addEventHandler(ScrollEvent.SCROLL, event -> {
-            double delta = event.getDeltaY();
-            if (solarCamera.getTranslateZ() < currentFocus.getTranslateZ() - currentFocus.getRadius() * 5 || delta < 0)
-                solarCamera.setTranslateZ(solarCamera.getTranslateZ() - delta * solarCamera.getTranslateZ() * 0.005);
-
-//            if (solarCamera.getTranslateZ() == -sunSphere.getRadius() * 5)
-//                recalculateRadius();
-        });
-    }
-
     private void zoom2(Stage stage) {
         stage.addEventHandler(ScrollEvent.SCROLL, event -> {
             double delta = event.getDeltaY();
@@ -197,30 +177,6 @@ public class Visualizer extends Application {
 
         });
     }
-
-//    private void recalculateRadius() {
-//        double j = sunSphere.getRadius() / 1.1;
-//        if (solarCamera.getTranslateZ() > -sunSphere.getRadius() * 30) {
-//            sunSphere.setRadius(j);
-//            mercurySphere.setRadius(j);
-//            venusSphere.setRadius(j);
-//            earthSphere.setRadius(j);
-//            marsSphere.setRadius(j);
-//            jupiterSphere.setRadius(j);
-//            saturnSphere.setRadius(j);
-//        } else {
-//            double i = sunSphere.getRadius() * 1.1;
-//            if (solarCamera.getTranslateZ() < -sunSphere.getRadius() * 50) {
-//                sunSphere.setRadius(i);
-//                mercurySphere.setRadius(i);
-//                venusSphere.setRadius(i);
-//                earthSphere.setRadius(i);
-//                marsSphere.setRadius(i);
-//                jupiterSphere.setRadius(i);
-//                saturnSphere.setRadius(i);
-//            }
-//        }
-//    }
 
     private void setUpMouseRotation(Scene scene, Rotate rotateX, Rotate rotateZ) {
         final double[] anchorX = new double[1];
@@ -250,13 +206,21 @@ public class Visualizer extends Application {
     private void setUpKeyboardInput(Scene scene) {
         scene.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
             switch (event.getCode()) {
-                case Z:
+                case DIGIT1 -> {
                     fullView();
+                }
+                case DIGIT2 -> {
+                    setFocus(earthSphere);
+                }
+                case DIGIT3 -> {
+                    setFocus(saturnSphere);
+                }
             }
         });
     }
 
     private void fullView() {
+        setFocus(sunSphere);
         solarCamera.setTranslateZ(-2_500_000_0);
 
         sunSphere.setRadius(sunSphere.getRadius() * 30);
@@ -270,12 +234,12 @@ public class Visualizer extends Application {
         uranusSphere.setRadius(uranusSphere.getRadius() * SCALE * 35);
     }
 
-    private void setFocus(PlanetObject planet) {
+    private void setFocus(Sphere sphere) {
         currentFocus = sunSphere;
 
-        solarCamera.setTranslateX(planet.getX() / SCALE);
-        solarCamera.setTranslateY(planet.getY() / SCALE);
-        solarCamera.setTranslateZ(planet.getZ() / SCALE - currentFocus.getRadius() * 5);
+        solarCamera.setTranslateX(sphere.getTranslateX() / SCALE);
+        solarCamera.setTranslateY(sphere.getTranslateY() / SCALE);
+        solarCamera.setTranslateZ(sphere.getTranslateZ() / SCALE - currentFocus.getRadius() * 5);
     }
 
     private void setTextures() {
