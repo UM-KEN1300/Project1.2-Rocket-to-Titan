@@ -24,6 +24,7 @@ public class Visualizer extends Application {
     private final double WIDTH = Screen.getPrimary().getBounds().getWidth();
     private final double HEIGHT = Screen.getPrimary().getBounds().getHeight();
     public final double SCALE = 100;
+    private  HelperFunctions helperFunctions=new HelperFunctions();
     PlanetObject[] planets = new PlanetObject[]{Sun, Mercury, Venus, Earth, Moon, Mars, Jupiter, Saturn, Titan};
     private Sphere sunSphere;
     private Sphere mercurySphere;
@@ -66,9 +67,7 @@ public class Visualizer extends Application {
 
 
         fullView();
-
-//        calculation();
-//
+        calculation();
         stage.setTitle("Solar System");
         stage.setScene(scene);
         stage.show();
@@ -81,19 +80,36 @@ public class Visualizer extends Application {
                 new java.util.TimerTask() {
                     @Override
                     public void run() {
-                        for (int j = 1; j < planets.length; j++) {
 
-                            double[] acc = new double[3];
-                            for (int k = 0; k < planets.length; k++) {
-                                if (k != j)
-                                    acc = HelperFunctions.addition(acc, planets[j].getForce(planets[k]));
+                        int step=10*60*60*24*3;
+                        for (int i = 0; i < step; i+=1)
+                        {
+
+                            for (int j = 0; j < planets.length - 1; j++)
+                            {
+
+                                double[] acc = new double[3];
+                                for (int k = 0; k < planets.length; k++)
+                                {
+
+                                    if (k != j)
+                                    {
+                                        acc = helperFunctions.addition(acc, planets[j].ForceCaluclatorNEW(planets[k]));
+                                    }
+
+                                }
+                                planets[j].updatePositionVelocity(acc, 0.1);
+
                             }
-                            planets[j].setPrivousPosition(planets[j].getPositionalVector());
-                            planets[j].updatePositionVelocityWithForce(acc, 100);
-                            updateSpheres();
+
+
+
                         }
+                        updateSpheres();
+
                     }
                 },
+
                 0, // Start immediately
                 1 // Update every second
         );
