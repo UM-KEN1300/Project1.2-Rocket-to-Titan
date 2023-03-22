@@ -293,14 +293,12 @@ public class PlanetObject {
         double[] force=new double[3];
         double[] threeDimensionalDistnace=helperFunctions.getDistanceBetweenPositionVectors(this.positionalVector,other.getPrivousPosition());
         double forceStrenght=-1000*G*this.mass*other.getMass()/Math.pow(helperFunctions.getVectorMagnitude(threeDimensionalDistnace),2);
-
         force[0]=threeDimensionalDistnace[0]*forceStrenght;
         force[1]=threeDimensionalDistnace[1]*forceStrenght;
         force[2]=threeDimensionalDistnace[2]*forceStrenght;
-
-        this.acc[0]+=force[0]/this.mass;
-        this.acc[1]+=force[1]/this.mass;
-        this.acc[2]+=force[2]/this.mass;
+        this.acc[0]=force[0]/this.mass;
+        this.acc[1]=force[1]/this.mass;
+        this.acc[2]=force[2]/this.mass;
         return acc;
 
     }

@@ -107,6 +107,7 @@ public class modelTester
                 double[] force=new double[3];
                 for (int k = 0; k <listOfPlanets.size() ; k++)
                 {
+
                     if(k!=j)
                     {
                             force = helperFunctions.addition(force, listOfPlanets.get(j).getForce(listOfPlanets.get(k)));

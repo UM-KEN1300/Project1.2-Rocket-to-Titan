@@ -142,7 +142,7 @@ public class GUIpart extends Application
 //                                    }
 //                                    else
 //                                    {
-                                        acc = helperFunctions.addition(acc, listOfPlanets.get(j).getAcceleration(listOfPlanets.get(k)));
+                                       // acc = helperFunctions.addition(acc, listOfPlanets.get(j).getAcceleration(listOfPlanets.get(k)));
                                    // }
 
                                 }
