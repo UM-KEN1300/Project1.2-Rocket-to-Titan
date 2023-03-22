@@ -269,7 +269,7 @@ public class PlanetObject {
         return force;
     }
 
-    private double[] acc={0,0,0};
+
     public double[] getAcceleration(PlanetObject other)
     {
 
@@ -280,27 +280,25 @@ public class PlanetObject {
         force[0]=threeDimensionalDistnace[0]*forceStrenght;
         force[1]=threeDimensionalDistnace[1]*forceStrenght;
         force[2]=threeDimensionalDistnace[2]*forceStrenght;
-
-        this.acc[0]+=force[0]/this.mass;
-        this.acc[1]+=force[1]/this.mass;
-        this.acc[2]+=force[2]/this.mass;
+        double[] acc= new double[3];
+        acc[0]=force[0]/this.mass;
+        acc[1]=force[1]/this.mass;
+        acc[2]=force[2]/this.mass;
         return acc;
 
     }
     public double[] getAccelerationWithOldPosition(PlanetObject other)
     {
-
         double[] force=new double[3];
         double[] threeDimensionalDistnace=helperFunctions.getDistanceBetweenPositionVectors(this.positionalVector,other.getPrivousPosition());
         double forceStrenght=-1000*G*this.mass*other.getMass()/Math.pow(helperFunctions.getVectorMagnitude(threeDimensionalDistnace),2);
-
         force[0]=threeDimensionalDistnace[0]*forceStrenght;
         force[1]=threeDimensionalDistnace[1]*forceStrenght;
         force[2]=threeDimensionalDistnace[2]*forceStrenght;
-
-        this.acc[0]+=force[0]/this.mass;
-        this.acc[1]+=force[1]/this.mass;
-        this.acc[2]+=force[2]/this.mass;
+        double[] acc= new double[3];
+        acc[0]=force[0]/this.mass;
+        acc[1]=force[1]/this.mass;
+        acc[2]=force[2]/this.mass;
         return acc;
 
     }
@@ -322,12 +320,5 @@ public class PlanetObject {
 
         }
     }
-    public void semiImplicitEulerSolver( double [] a, double h){
 
-        for(int i = 0; i<3; i++)
-        {
-            velocityVector[i] = velocityVector[i] + (a[i] * h);
-            positionalVector[i] = positionalVector[i] + (velocityVector[i] * h);
-        }
-    }
 }
