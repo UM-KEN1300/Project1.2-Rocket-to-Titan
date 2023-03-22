@@ -133,7 +133,7 @@ public class Visualizer extends Application {
             if (solarCamera.getTranslateZ() > -5_000_000) {
                 if (delta < 0)
                     solarCamera.setTranslateZ(solarCamera.getTranslateZ() - delta * solarCamera.getTranslateZ() * 0.005);
-            } else if (solarCamera.getTranslateZ() < -45_000_000) {
+            } else if (solarCamera.getTranslateZ() < -60_000_000) {
                 if (delta > 0)
                     solarCamera.setTranslateZ(solarCamera.getTranslateZ() - delta * solarCamera.getTranslateZ() * 0.005);
             } else {
