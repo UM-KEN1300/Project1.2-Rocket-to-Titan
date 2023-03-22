@@ -1,5 +1,6 @@
 package group1.project12group1;
 
+import helperFunction.HelperFunctions;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.PerspectiveCamera;
@@ -68,7 +69,26 @@ public class Visualizer extends Application {
         stage.show();
 
         fullView();
+
+//        while (true) {
+        int times = 300;
+        for (int i = 0; i < times; i++) {
+            for (int j = 1; j < planets.length; j++) {
+
+                double[] acc = new double[3];
+                for (int k = 0; k < planets.length; k++) {
+                    if (k != j)
+                        acc = HelperFunctions.addition(acc, planets[j].getForce(planets[k]));
+                }
+                planets[j].setPrivousPosition(planets[j].getPositionalVector());
+                planets[j].updatePositionVelocityWithForce(acc, 3600);
+                updateSpheres();
+            }
+        }
+
     }
+
+//    }
 
     private void initializeSpheres(Group group) {
         sunSphere = new Sphere(695_508 / SCALE);
@@ -99,14 +119,10 @@ public class Visualizer extends Application {
     private void updateSpheres() {
         Sphere[] spheres = new Sphere[]{sunSphere, mercurySphere, venusSphere, earthSphere, moonSphere, marsSphere, jupiterSphere, saturnSphere, titanSphere};
         for (int i = 0; i < spheres.length; i++) {
-            spheres[i].setTranslateX(planets[i].getX() / SCALE);
-            spheres[i].setTranslateY(planets[i].getY() / SCALE);
-            spheres[i].setTranslateZ(planets[i].getZ() / SCALE);
+            spheres[i].setTranslateX(planets[i].getPositionalVector()[0] / SCALE);
+            spheres[i].setTranslateY(planets[i].getPositionalVector()[1] / SCALE);
+            spheres[i].setTranslateZ(planets[i].getPositionalVector()[2] / SCALE);
         }
-
-        solarCamera.setTranslateX(currentFocus.getTranslateX() / SCALE);
-        solarCamera.setTranslateY(currentFocus.getTranslateY() / SCALE);
-        solarCamera.setTranslateZ(currentFocus.getTranslateZ() / SCALE - currentFocus.getRadius() * 5);
     }
 
     static class SolarCamera extends PerspectiveCamera {
