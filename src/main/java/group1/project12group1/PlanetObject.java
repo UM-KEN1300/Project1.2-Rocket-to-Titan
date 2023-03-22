@@ -332,7 +332,24 @@ public class PlanetObject {
         double distance=1/helperFunctions.getDistanceBetweenWithVectors(this.positionalVector,other.getPositionalVector());
         for (int i = 0; i <=2 ; i++)
         {
-            force[i]=G*this.mass*other.getMass()*distance*distance*distance*dxyz[i];
+            force[i]=-G*this.mass*other.getMass()*distance*distance*distance*dxyz[i];
+        }
+        double[] acc= new double[3];
+
+        acc[0]=force[0]/this.mass;
+        acc[1]=force[1]/this.mass;
+        acc[2]=force[2]/this.mass;
+        return acc;
+
+    }
+    public double[] ForceCaluclatorNEWWithOld(PlanetObject other)
+    {
+        double[] force=new double[3];
+        double[] dxyz=helperFunctions.subtract(this.positionalVector,other.getPositionalVector());
+        double distance=1/helperFunctions.getDistanceBetweenWithVectors(this.positionalVector,other.getPrivousPosition());
+        for (int i = 0; i <=2 ; i++)
+        {
+            force[i]=-G*this.mass*other.getMass()*distance*distance*distance*dxyz[i];
         }
         double[] acc= new double[3];
 

@@ -94,7 +94,7 @@ public class modelTester
         System.out.println("starting the simulation of solar system.");
         double step0p1=10*3600*24*10;
         double step=10*3600*24*87;
-        for (int i = 0; i < step; i+=1)
+        for (int i = 0; i < step; i++)
         {
            if(i%70000==0)
            {

@@ -81,7 +81,7 @@ public class Visualizer extends Application {
                     @Override
                     public void run() {
 
-                        int step=10*60*60*24*3;
+                        int step=10*60*60;
                         for (int i = 0; i < step; i+=1)
                         {
 
@@ -94,10 +94,19 @@ public class Visualizer extends Application {
 
                                     if (k != j)
                                     {
-                                        acc = helperFunctions.addition(acc, planets[j].ForceCaluclatorNEW(planets[k]));
+                                        if(j<k)
+                                        {
+                                            acc = helperFunctions.addition(acc, planets[j].ForceCaluclatorNEW(planets[k]));
+                                        }
+                                        else
+                                        {
+                                            acc = helperFunctions.addition(acc, planets[j].ForceCaluclatorNEWWithOld(planets[k]));
+                                        }
+
                                     }
 
                                 }
+                                planets[j].setPrivousPosition(planets[j].getPositionalVector());
                                 planets[j].updatePositionVelocity(acc, 0.1);
 
                             }
