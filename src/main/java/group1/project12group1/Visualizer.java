@@ -81,7 +81,7 @@ public class Visualizer extends Application {
                     @Override
                     public void run() {
 
-                        int step = 10 * 30000;
+                        int step = 10 * 3000;
                         for (int i = 0; i < step; i += 1) {
 
                             for (int j = 0; j < planets.length - 1; j++) {
