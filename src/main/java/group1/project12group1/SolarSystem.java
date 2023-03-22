@@ -55,30 +55,30 @@ public class SolarSystem {
 
         double step0p1=10*3600*24*10;
         double step=0.0001*10000*3600*24*87;
-        for (int i = 0; i < step; i+=1)
-        {
-            if(i%70000==0)
-            {
-                System.out.println("Progress: "+i+"/"+step);
-            }
-
-            for (int j = 1; j <listOfPlanets.size() ; j++)
-            {
-
-                double[] force=new double[3];
-                for (int k = 0; k <listOfPlanets.size() ; k++)
-                {
-                    if(k!=j)
-                    {
-                        force = helperFunctions.addition(force, listOfPlanets.get(j).getForce(listOfPlanets.get(k)));
-
-                    }
-
-                }
-                listOfPlanets.get(j).setPrivousPosition(listOfPlanets.get(j).getPositionalVector());
-                listOfPlanets.get(j).updatePositionVelocityWithForce(force,0.1);
-            }
-        }
+//        for (int i = 0; i < step; i+=1)
+//        {
+//            if(i%70000==0)
+//            {
+//                System.out.println("Progress: "+i+"/"+step);
+//            }
+//
+//            for (int j = 1; j <listOfPlanets.size() ; j++)
+//            {
+//
+//                double[] force=new double[3];
+//                for (int k = 0; k <listOfPlanets.size() ; k++)
+//                {
+//                    if(k!=j)
+//                    {
+//                        force = helperFunctions.addition(force, listOfPlanets.get(j).getForce(listOfPlanets.get(k)));
+//
+//                    }
+//
+//                }
+//                listOfPlanets.get(j).setPrivousPosition(listOfPlanets.get(j).getPositionalVector());
+//                listOfPlanets.get(j).updatePositionVelocityWithForce(force,0.1);
+//            }
+//        }
         System.out.println("Original: ");
         for (int i = 0; i <3 ; i++)
         {

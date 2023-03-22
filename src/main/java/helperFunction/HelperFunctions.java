@@ -80,6 +80,7 @@ public class HelperFunctions
         PlanetObject Titan = new PlanetObject(606, 1.35e23);
         PlanetObject Uranus = new PlanetObject(799, 8.68e25);
         PlanetObject Neptune = new PlanetObject(899, 1.02e26);
+        PlanetObject Projectile= new PlanetObject(0,50000);
         listOfPlanets.add(Sun);
         listOfPlanets.add(Mercury);
         listOfPlanets.add(Venus);
@@ -89,21 +90,21 @@ public class HelperFunctions
         listOfPlanets.add(Jupiter);
         listOfPlanets.add(Saturn);
         listOfPlanets.add(Titan);
-
         listOfPlanets.add(Neptune);
         listOfPlanets.add(Uranus);
+        listOfPlanets.add(Projectile);
 
         //end of default inputs
         //Input the start time and end time after set the string to number of days
         // between the dates example 20d if the two dates are 20 dates apart
         //follow the format below when changing
-        String startDate = "2022-01-01";
-        String endDate = "2022-12-31";
-        String daysLong = "364d";
+        String startDate = "2022-04-01";
+        String endDate = "2022-04-2";
+        String daysLong = "1d";
         String urlLoc = "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND='";
         BufferedReader br;
         //Sets the positions of the planet to this start frame
-        for (int i = 0; i < listOfPlanets.size(); i++)
+        for (int i = 1; i < listOfPlanets.size()-1; i++)
         {
             System.out.println("trying to connect with planet: " + i);
             urlLoc = urlLoc + listOfPlanets.get(i).getPlanetCode() + "&OBJ_DATA='NO'&MAKE_EPHEM='YES'&EPHEM_TYPE='VECTORS'&CENTER='@sun&START_TIME='" + startDate + "'&STOP_TIME='" + endDate + "'&STEP_SIZE='" + daysLong + "'&QUANTITIES='1,9,20,23,24,29'";
@@ -146,6 +147,7 @@ public class HelperFunctions
             }
             urlLoc = "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND='";
         }
+        Projectile.setPositionalVector(Earth.getPositionalVector());
 
         PlanetObject[] re=listOfPlanets.toArray(new PlanetObject[listOfPlanets.size()]);
         return re;

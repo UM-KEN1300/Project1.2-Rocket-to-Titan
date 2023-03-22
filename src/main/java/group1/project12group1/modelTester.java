@@ -10,9 +10,6 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
 
 public class modelTester
 {
@@ -94,52 +91,52 @@ public class modelTester
 
         //run for the same time as the initial value
         //accuracy
-//        System.out.println("starting the simulation of solar system.");
-//        double step0p1=10*3600*24*10;
-//        double step=10*3600*24*365;
-//        for (int i = 0; i < step; i++)
-//        {
-//           if(i%70000==0)
-//           {
-//               System.out.println("Progress: "+i+"/"+step);
-//           }
+        System.out.println("starting the simulation of solar system.");
+        double step0p1=10*3600*24*10;
+        double step=10*3600*24*365;
+        for (int i = 0; i < step; i++)
+        {
+           if(i%70000==0)
+           {
+               System.out.println("Progress: "+i+"/"+step);
+           }
+
+            for (int j = 0; j <listOfPlanets.size()-1 ; j++)
+            {
+
+                double[] acc=new double[3];
+                for (int k = 0; k <listOfPlanets.size() ; k++)
+                {
+
+                    if(k!=j)
+                    {
+                        acc=helperFunctions.addition(acc, listOfPlanets.get(j).accelerationBetween(listOfPlanets.get(k),true));
+                    }
+
+                }
+                listOfPlanets.get(j).updatePosition(acc,0.1);
+
+
+
+//                listOfPlanets.get(j).setPrivousPosition(listOfPlanets.get(j).getPositionalVector());
 //
-//            for (int j = 0; j <listOfPlanets.size()-1 ; j++)
-//            {
-//
-//                double[] acc=new double[3];
-//                for (int k = 0; k <listOfPlanets.size() ; k++)
-//                {
-//
-//                    if(k!=j)
-//                    {
-//                        acc=helperFunctions.addition(acc, listOfPlanets.get(j).ForceCaluclatorNEW(listOfPlanets.get(k)));
-//                    }
-//
-//                }
-//                listOfPlanets.get(j).updatePositionVelocity(acc,0.1);
-//
-//
-//
-////                listOfPlanets.get(j).setPrivousPosition(listOfPlanets.get(j).getPositionalVector());
-////
-//            }
-//        }
-//
-//        System.out.println("The difference between the model and the nasa model is:");
-//        for (int i = 0; i < listOfPlanets.size()-1; i++)
-//        {
-//
-//            System.out.print("For planet with Planet Code: "+listOfPlanets.get(i).getPlanetCode()+" is: ");
-//            System.out.print(helperFunctions.getDistanceBetweenWithVectors(listOfPlanets.get(i).getPositionalVector(),listOfPlanets.get(i).getTargetPosition())+"km difference");
-//            double[] result=helperFunctions.getDistanceBetweenPositionVectors( listOfPlanets.get(i).getPositionalVector(),listOfPlanets.get(i).getTargetPosition());
-//            System.out.println("Difference in coordinates is:");
-//            for (int j = 0; j < result.length; j++)
-//            {
-//                System.out.print(result[j]+"  ");
-//            }
-//            System.out.println();
-//        }
+            }
+        }
+
+        System.out.println("The difference between the model and the nasa model is:");
+        for (int i = 0; i < listOfPlanets.size()-1; i++)
+        {
+
+            System.out.print("For planet with Planet Code: "+listOfPlanets.get(i).getPlanetCode()+" is: ");
+            System.out.print(helperFunctions.getDistanceBetweenWithVectors(listOfPlanets.get(i).getPositionalVector(),listOfPlanets.get(i).getTargetPosition())+"km difference");
+            double[] result=helperFunctions.getDistanceBetweenPositionVectors( listOfPlanets.get(i).getPositionalVector(),listOfPlanets.get(i).getTargetPosition());
+            System.out.println("Difference in coordinates is:");
+            for (int j = 0; j < result.length; j++)
+            {
+                System.out.print(result[j]+"  ");
+            }
+            System.out.println();
+        }
 
 
 
