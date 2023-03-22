@@ -1,18 +1,23 @@
 package group1.project12group1;
 
 import helperFunction.HelperFunctions;
-
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Sphere;
 
 
 public class PlanetObject {
     private int planetCode;
     final static double G = 6.6742e-20;
-    //alternative g
+    private Sphere circle=new Sphere();
+    private  Color color=Color.BLACK;
+    private double x2D;
+    private double y2D;
     private double[] targetPosition;
     private double x;        // x coordinate in km
     private double y;        // y coordinate in km
     private double z;        // z coordinate in km
-
+    private  double[] privousPosition;
     private double[] positionalVector = new double[3];
     private double[] velocityVector = new double[3];
     final static HelperFunctions helperFunctions=new HelperFunctions();
@@ -21,6 +26,8 @@ public class PlanetObject {
     private double vz = 0;       // velocity in z direction in km per second
     private double mass;     // mass in kilograms
     private double radius = 0;   // radius in km
+    private double[] momentum=new double[3];
+    private double[] forcePrevius=new double[3];
 
     // Constructor for creating PlanetObject with specified properties
     public PlanetObject (double x, double y, double z, double mass)
@@ -37,6 +44,7 @@ public class PlanetObject {
     //Second constructor with velocity
     public PlanetObject(double x, double y, double z, double vx, double vy, double vz, double mass)
     {
+        circle.setRadius(7);
         this.x = x;
         this.y = y;
         this.z = z;
@@ -49,6 +57,10 @@ public class PlanetObject {
         velocityVector[0] = vx;
         velocityVector[1] = vy;
         velocityVector[2] = vz;
+        momentum[0]=velocityVector[0]/mass;
+        momentum[1]=velocityVector[1]/mass;
+        momentum[2]=velocityVector[2]/mass;
+
         this.mass = mass;
     }
 
@@ -72,6 +84,26 @@ public class PlanetObject {
         return y;
     }
 
+    public Sphere getCircle()
+    {
+        return circle;
+    }
+
+    public void setCircle(Sphere circle)
+    {
+        this.circle = circle;
+    }
+
+    public Color getColor()
+    {
+        return color;
+    }
+
+    public void setColor(Color color)
+    {
+        this.color = color;
+    }
+
     public void setY(double y) {
         this.y = y;
     }
@@ -84,12 +116,56 @@ public class PlanetObject {
         this.z = z;
     }
 
+    public double getX2D()
+    {
+        return x2D;
+    }
+
+    public void setX2D(double x2D)
+    {
+        this.x2D = x2D;
+    }
+
+    public double getY2D()
+    {
+        return y2D;
+    }
+
+    public void setY2D(double y2D)
+    {
+        this.y2D = y2D;
+    }
+
     public double getVx() {
         return vx;
     }
 
     public void setVx(double vx) {
         this.vx = vx;
+    }
+
+    public double[] getForcePrevius(PlanetObject other)
+    {
+
+
+            double[] force=new double[3];
+
+            double[] threeDimensionalDistnace=helperFunctions.getDistanceBetweenPositionVectors(this.positionalVector,other.getPrivousPosition());
+            double forceStrenght=-1000*G*this.mass*other.getMass()/Math.pow(helperFunctions.getVectorMagnitude(threeDimensionalDistnace),3);
+
+            force[0]=threeDimensionalDistnace[0]*forceStrenght;
+            force[1]=threeDimensionalDistnace[1]*forceStrenght;
+            force[2]=threeDimensionalDistnace[2]*forceStrenght;
+
+
+
+            return force;
+
+    }
+
+    public void setForcePrevius(double[] forcePrevius)
+    {
+        this.forcePrevius = forcePrevius;
     }
 
     public double getVy() {
@@ -109,6 +185,16 @@ public class PlanetObject {
         return targetPosition;
     }
 
+    public double[] getMomentum()
+    {
+        return momentum;
+    }
+
+    public void setMomentum(double[] momentum)
+    {
+        this.momentum = momentum;
+    }
+
     public void setTargetPosition(double[] targetPosition)
     {
         this.targetPosition = targetPosition;
@@ -122,7 +208,19 @@ public class PlanetObject {
         return radius;
     }
 
-    public int getPlanetCode(){
+
+    public double[] getPrivousPosition()
+    {
+        return privousPosition;
+    }
+
+    public void setPrivousPosition(double[] privousPosition)
+    {
+        this.privousPosition = privousPosition;
+    }
+
+    public int getPlanetCode()
+    {
         return planetCode;
     }
 
@@ -171,7 +269,7 @@ public class PlanetObject {
         return force;
     }
 
-
+    private double[] acc={0,0,0};
     public double[] getAcceleration(PlanetObject other)
     {
 
@@ -182,19 +280,45 @@ public class PlanetObject {
         force[0]=threeDimensionalDistnace[0]*forceStrenght;
         force[1]=threeDimensionalDistnace[1]*forceStrenght;
         force[2]=threeDimensionalDistnace[2]*forceStrenght;
-        double[] acc=new double[3];
 
-        acc[0]=force[0]/this.mass;
-        acc[1]=force[1]/this.mass;
-        acc[2]=force[2]/this.mass;
+        this.acc[0]+=force[0]/this.mass;
+        this.acc[1]+=force[1]/this.mass;
+        this.acc[2]+=force[2]/this.mass;
         return acc;
 
     }
+    public double[] getAccelerationWithOldPosition(PlanetObject other)
+    {
+
+        double[] force=new double[3];
+        double[] threeDimensionalDistnace=helperFunctions.getDistanceBetweenPositionVectors(this.positionalVector,other.getPrivousPosition());
+        double forceStrenght=-1000*G*this.mass*other.getMass()/Math.pow(helperFunctions.getVectorMagnitude(threeDimensionalDistnace),2);
+
+        force[0]=threeDimensionalDistnace[0]*forceStrenght;
+        force[1]=threeDimensionalDistnace[1]*forceStrenght;
+        force[2]=threeDimensionalDistnace[2]*forceStrenght;
+
+        this.acc[0]+=force[0]/this.mass;
+        this.acc[1]+=force[1]/this.mass;
+        this.acc[2]+=force[2]/this.mass;
+        return acc;
+
+    }
+
     public void updatePositionVelocity( double[] acc,double step){
         for(int i = 0; i < 3; i++){
 
             velocityVector[i] += acc[i] * step;
             positionalVector[i] += velocityVector[i] * step;
+
+        }
+    }
+
+    public void updatePositionVelocityWithForce( double[] force,double step){
+        for(int i = 0; i < 3; i++)
+        {
+            momentum[i]=momentum[i]+force[i]*step;
+            positionalVector[i] += momentum[i]/mass * step;
 
         }
     }
