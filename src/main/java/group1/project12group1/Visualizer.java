@@ -83,8 +83,7 @@ public class Visualizer extends Application {
                 new java.util.TimerTask() {
                     @Override
                     public void run() {
-                        counter++;
-                        System.out.println(counter);
+
                         int step=10*60*60*3;
                         for (int i = 0; i < step; i+=1)
                         {

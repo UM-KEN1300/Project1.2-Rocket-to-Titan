@@ -4,18 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="13cb742e-4cc8-4686-864c-bc5cb4fb0b5a" name="Changes" comment="added real time coordinates">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/group1/project12group1/GUIpart.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/group1/project12group1/HelloController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/group1/project12group1/PlanetObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/group1/project12group1/PlanetObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/group1/project12group1/SolarSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/group1/project12group1/SolarSystem.java" afterDir="false" />
+    <list default="true" id="13cb742e-4cc8-4686-864c-bc5cb4fb0b5a" name="Changes" comment="Added comments and cleaned the PlanetObject">
       <change beforePath="$PROJECT_DIR$/src/main/java/group1/project12group1/Visualizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/group1/project12group1/Visualizer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/group1/project12group1/modelTester.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/group1/project12group1/modelTester.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/helperFunction/HelperFunctions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/helperFunction/HelperFunctions.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/helperFunction/testingDistance.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -126,7 +116,7 @@
       <updated>1679312618137</updated>
       <workItem from="1679312619245" duration="1000" />
       <workItem from="1679356589531" duration="4766000" />
-      <workItem from="1679512671439" duration="2151000" />
+      <workItem from="1679512671439" duration="2458000" />
     </task>
     <task id="LOCAL-00001" summary="WORKING HOW THIS SHIT WORKS">
       <created>1679319564168</created>
@@ -163,7 +153,14 @@
       <option name="project" value="LOCAL" />
       <updated>1679482920572</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Added comments and cleaned the PlanetObject">
+      <created>1679514880578</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1679514880578</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -189,6 +186,7 @@
     <MESSAGE value="changed the methods to work with momentkum" />
     <MESSAGE value="bug fix" />
     <MESSAGE value="added real time coordinates" />
-    <option name="LAST_COMMIT_MESSAGE" value="added real time coordinates" />
+    <MESSAGE value="Added comments and cleaned the PlanetObject" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added comments and cleaned the PlanetObject" />
   </component>
 </project>
