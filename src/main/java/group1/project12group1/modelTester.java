@@ -16,11 +16,13 @@ import java.util.Objects;
 
 public class modelTester
 {
-    public static void main(String[] args)
 
-    {   //default inputs
+    public static void main(String[] args)
+    {
+        //default inputs
         HelperFunctions helperFunctions=new HelperFunctions();
         ArrayList<PlanetObject> listOfPlanets=new ArrayList<>();
+        PlanetObject Sun = new PlanetObject(0, 0, 0, 0, 0, 0, 1.99e30);
         PlanetObject Mercury= new PlanetObject(199,3.3e23);
         PlanetObject Venus= new PlanetObject(299,4.87e24);
         PlanetObject Earth= new PlanetObject(399,5.97E+24);
@@ -31,6 +33,7 @@ public class modelTester
         PlanetObject Titan= new PlanetObject(606,1.35e23);
         PlanetObject Uranus= new PlanetObject(799,8.68e25);
         PlanetObject Neptune= new PlanetObject(899,1.02e26);
+        listOfPlanets.add(Sun);
         listOfPlanets.add(Mercury);
         listOfPlanets.add(Venus);
         listOfPlanets.add(Earth);
@@ -46,8 +49,8 @@ public class modelTester
         // between the dates example 20d if the two dates are 20 dates apart
         //follow the format below when changing
         String startDate="2022-01-01";
-        String endDate="2022-03-29";
-        String daysLong="87d";
+        String endDate="2022-12-31";
+        String daysLong="364d";
         String urlLoc = "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND='";
         BufferedReader br;
         //Sets the positions of the planet to this start frame
@@ -87,56 +90,56 @@ public class modelTester
             catch (IOException e) {System.out.println("Problems 3");}
             urlLoc="https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND='";
         }
-        PlanetObject Sun = new PlanetObject(0, 0, 0, 0, 0, 0, 1.99e30);
-        listOfPlanets.add(Sun);
+
+
         //run for the same time as the initial value
         //accuracy
-        System.out.println("starting the simulation of solar system.");
-        double step0p1=10*3600*24*10;
-        double step=10*3600*24*87;
-        for (int i = 0; i < step; i++)
-        {
-           if(i%70000==0)
-           {
-               System.out.println("Progress: "+i+"/"+step);
-           }
-
-            for (int j = 0; j <listOfPlanets.size()-1 ; j++)
-            {
-
-                double[] acc=new double[3];
-                for (int k = 0; k <listOfPlanets.size() ; k++)
-                {
-
-                    if(k!=j)
-                    {
-                        acc=helperFunctions.addition(acc, listOfPlanets.get(j).ForceCaluclatorNEW(listOfPlanets.get(k)));
-                    }
-
-                }
-                listOfPlanets.get(j).updatePositionVelocity(acc,0.1);
-
-
-
-//                listOfPlanets.get(j).setPrivousPosition(listOfPlanets.get(j).getPositionalVector());
+//        System.out.println("starting the simulation of solar system.");
+//        double step0p1=10*3600*24*10;
+//        double step=10*3600*24*365;
+//        for (int i = 0; i < step; i++)
+//        {
+//           if(i%70000==0)
+//           {
+//               System.out.println("Progress: "+i+"/"+step);
+//           }
 //
-            }
-        }
-
-        System.out.println("The difference between the model and the nasa model is:");
-        for (int i = 0; i < listOfPlanets.size()-1; i++)
-        {
-
-            System.out.print("For planet with Planet Code: "+listOfPlanets.get(i).getPlanetCode()+" is: ");
-            System.out.print(helperFunctions.getDistanceBetweenWithVectors(listOfPlanets.get(i).getPositionalVector(),listOfPlanets.get(i).getTargetPosition())+"km difference");
-            double[] result=helperFunctions.getDistanceBetweenPositionVectors( listOfPlanets.get(i).getPositionalVector(),listOfPlanets.get(i).getTargetPosition());
-            System.out.println("Difference in coordinates is:");
-            for (int j = 0; j < result.length; j++)
-            {
-                System.out.print(result[j]+"  ");
-            }
-            System.out.println();
-        }
+//            for (int j = 0; j <listOfPlanets.size()-1 ; j++)
+//            {
+//
+//                double[] acc=new double[3];
+//                for (int k = 0; k <listOfPlanets.size() ; k++)
+//                {
+//
+//                    if(k!=j)
+//                    {
+//                        acc=helperFunctions.addition(acc, listOfPlanets.get(j).ForceCaluclatorNEW(listOfPlanets.get(k)));
+//                    }
+//
+//                }
+//                listOfPlanets.get(j).updatePositionVelocity(acc,0.1);
+//
+//
+//
+////                listOfPlanets.get(j).setPrivousPosition(listOfPlanets.get(j).getPositionalVector());
+////
+//            }
+//        }
+//
+//        System.out.println("The difference between the model and the nasa model is:");
+//        for (int i = 0; i < listOfPlanets.size()-1; i++)
+//        {
+//
+//            System.out.print("For planet with Planet Code: "+listOfPlanets.get(i).getPlanetCode()+" is: ");
+//            System.out.print(helperFunctions.getDistanceBetweenWithVectors(listOfPlanets.get(i).getPositionalVector(),listOfPlanets.get(i).getTargetPosition())+"km difference");
+//            double[] result=helperFunctions.getDistanceBetweenPositionVectors( listOfPlanets.get(i).getPositionalVector(),listOfPlanets.get(i).getTargetPosition());
+//            System.out.println("Difference in coordinates is:");
+//            for (int j = 0; j < result.length; j++)
+//            {
+//                System.out.print(result[j]+"  ");
+//            }
+//            System.out.println();
+//        }
 
 
 

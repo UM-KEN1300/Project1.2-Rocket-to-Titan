@@ -21,11 +21,14 @@ import java.nio.file.Paths;
 import static group1.project12group1.SolarSystem.*;
 
 public class Visualizer extends Application {
+    private static HelperFunctions helperFunctions = new HelperFunctions();
+    PlanetObject[] planets = helperFunctions.testing();
     private final double WIDTH = Screen.getPrimary().getBounds().getWidth();
     private final double HEIGHT = Screen.getPrimary().getBounds().getHeight();
     public final double SCALE = 100;
-    private HelperFunctions helperFunctions = new HelperFunctions();
-    PlanetObject[] planets = new PlanetObject[]{Sun, Mercury, Venus, Earth, Moon, Mars, Jupiter, Saturn, Titan, Neptune, Uranus};
+
+    PlanetObject[] planetss = new PlanetObject[]{Sun, Mercury, Venus, Earth, Moon, Mars, Jupiter, Saturn, Titan, Neptune, Uranus};
+
     private Sphere sunSphere;
     private Sphere mercurySphere;
     private Sphere venusSphere;
@@ -77,16 +80,17 @@ public class Visualizer extends Application {
     }
 
     private void calculation() {
+
         new java.util.Timer().schedule(
                 new java.util.TimerTask() {
                     @Override
                     public void run() {
 
-                        int step=10*60*60;
+                        int step=10*60*60*3;
                         for (int i = 0; i < step; i+=1)
                         {
 
-                            for (int j = 0; j < planets.length - 1; j++)
+                            for (int j = 1; j < planets.length; j++)
                             {
 
                                 double[] acc = new double[3];
@@ -95,14 +99,8 @@ public class Visualizer extends Application {
 
                                     if (k != j)
                                     {
-                                        if(j<k)
-                                        {
+
                                             acc = helperFunctions.addition(acc, planets[j].ForceCaluclatorNEW(planets[k]));
-                                        }
-                                        else
-                                        {
-                                            acc = helperFunctions.addition(acc, planets[j].ForceCaluclatorNEWWithOld(planets[k]));
-                                        }
 
                                     }
 

@@ -34,6 +34,7 @@ public class SolarSystem {
 
 
         ArrayList<PlanetObject> listOfPlanets = new ArrayList<>();
+
         listOfPlanets.add(Sun);
         listOfPlanets.add(Mercury);
         listOfPlanets.add(Venus);
