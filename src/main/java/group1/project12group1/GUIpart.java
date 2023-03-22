@@ -20,17 +20,17 @@ import static group1.project12group1.PlanetObject.helperFunctions;
 
 public class GUIpart extends Application
 {
-    public static PlanetObject Sun = new PlanetObject(0, 0, 0, 0, 0, 0, 1.99e30);
-    public static PlanetObject Mercury = new PlanetObject(7.83e6, 4.49e7, 2.87e6, -5.75e1, 1.15e1, 6.22e0, 3.3e23);
-    public static PlanetObject Venus = new PlanetObject(-2.82e7, 1.04e8, 3.01e6, -3.4e1, -8.97e0, 1.84e0, 4.87e24);
-    public static PlanetObject Earth = new PlanetObject(-1.48e8, -2.78e7, 3.37e4, 5.05e0, -2.94e1, 1.71e-3, 5.97e24);
-    public static PlanetObject Moon = new PlanetObject(-1.48e8, -2.75e7, 7.02e4, 4.34e0, -3.0e1, -1.16e2, 7.35e22);
-    public static PlanetObject Mars = new PlanetObject(-1.59e8, 1.89e8, 7.87e6, -1.77e1, -1.35e1, 1.52e-1, 6.42e23);
-    public static PlanetObject Jupiter = new PlanetObject(6.93e8, 2.59e8, -1.66e7, -4.71e0, 1.29e1, 5.22e-2, 1.90e27);
-    public static PlanetObject Saturn = new PlanetObject(1.25e9, -7.60e8, -3.67e7, 4.47e0, 8.24e0, -3.21e1, 5.68e26);
-    public PlanetObject Titan = new PlanetObject(1.25e9, -7.61e8, -3.63e7, 9, 1.11e1, -2.25e0, 1.35e23);
-    public static PlanetObject Neptune = new PlanetObject(4.45e9, -3.98e8, -9.45e7, 4.48e-1, 5.45e0, -1.23e1, 1.02e26);
-    public static PlanetObject Uranus = new PlanetObject(1.96e9, 2.19e9, -1.72e7, -5.13e0, 4.22e0, 8.21e-2, 8.68e25);
+    public static PlanetObject Sun = new PlanetObject(0, 0, 0, 0, 0, 0, 1.9885e30);
+    public static PlanetObject Mercury = new PlanetObject(7833268.439, 44885949.37, 2867693.200,  -57.5, 11.520, 6.216,3.3e23);
+    public static PlanetObject Venus = new PlanetObject(-28216773.942, 103994008.541, 3012326.642,  -34.023, -8.965, 1.840,4.87e24);
+    public static PlanetObject Earth = new PlanetObject(-148186906.893, -27823158.571, 33746.898, 5.05, -29.392, 0.0017-3,5.97e24);
+    public static PlanetObject Moon = new PlanetObject(-148458048.395, -27524868.184, 70233.649, 4.340, -30.048, -0.011, 7.35e22);
+    public static PlanetObject Mars = new PlanetObject(-159116303.422, 189235671.561, 7870476.085, -17.695, -13.463, 0.152, 6.42e23);
+    public static PlanetObject Jupiter = new PlanetObject(692722875.928, 258560760.813, -16570817.710, -4.714, 12.855, 0.052, 1.90e27);
+    public static PlanetObject Saturn = new PlanetObject(1253801723.954, -760453007.81, -36697431.156, 4.467, 8.239, -0.320, 5.68e26);
+    public static PlanetObject Titan = new PlanetObject(1254501624.959, -761340299.067, 36309613.837, 8.995, 11.108, -2.251, 1.35e23);
+    public static PlanetObject Neptune = new PlanetObject(4454487339.094, -397895128.763, -94464151.342, 0.447,5.446, -0.122, 1.02e26);
+    public static PlanetObject Uranus = new PlanetObject(1958732435.993, 2191808553.218, -17235283.832, -5.127, 4.220, 0.082, 8.68e25);
     private static ArrayList<PlanetObject> listOfPlanets = new ArrayList<>();
     static double offsetWidth;
     static double offsetHeight;

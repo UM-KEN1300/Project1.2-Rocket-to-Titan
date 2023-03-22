@@ -19,7 +19,6 @@ public class SolarSystem {
     public static PlanetObject Uranus = new PlanetObject(1.96e9, 2.19e9, -1.72e7, -5.13e0, 4.22e0, 8.21e-2, 8.68e25);
 
     public static void main(String[] args) {
-        //todo fix the variables they were flipped
         Sun.setRadius(695_508);
         Mercury.setRadius(2439);
         Venus.setRadius(6052);

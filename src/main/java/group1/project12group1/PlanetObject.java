@@ -5,6 +5,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Sphere;
 
+import static java.lang.Math.sqrt;
 
 public class PlanetObject {
     private int planetCode;
@@ -28,6 +29,7 @@ public class PlanetObject {
     private double radius = 0;   // radius in km
     private double[] momentum=new double[3];
     private double[] forcePrevius=new double[3];
+
 
     // Constructor for creating PlanetObject with specified properties
     public PlanetObject (double x, double y, double z, double mass)
@@ -63,7 +65,7 @@ public class PlanetObject {
 
         this.mass = mass;
     }
-
+    double speed = Math.sqrt(Math.pow(vx,2) + Math.pow(vy,2) + Math.pow(vz,2)); //measured in km/s
     //planetCode only constructor
     public PlanetObject(int planetCode, double mass)
     {
