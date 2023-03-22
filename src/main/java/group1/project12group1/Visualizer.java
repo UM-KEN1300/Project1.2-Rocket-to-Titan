@@ -54,7 +54,7 @@ public class Visualizer extends Application {
 //        zoom(stage);
         zoom2(stage);
 
-        scene.setFill(Color.GRAY);
+        scene.setFill(Color.BLACK.brighter());
 
         rotateX = new Rotate(315, Rotate.X_AXIS);
         rotateZ = new Rotate(0, Rotate.Z_AXIS);
@@ -130,8 +130,16 @@ public class Visualizer extends Application {
     private void zoom2(Stage stage) {
         stage.addEventHandler(ScrollEvent.SCROLL, event -> {
             double delta = event.getDeltaY();
-            if (!(solarCamera.getTranslateZ() > -10_000_000 && delta > 0))
+            if (solarCamera.getTranslateZ() > -5_000_000) {
+                if (delta < 0)
+                    solarCamera.setTranslateZ(solarCamera.getTranslateZ() - delta * solarCamera.getTranslateZ() * 0.005);
+            } else if (solarCamera.getTranslateZ() < -45_000_000) {
+                if (delta > 0)
+                    solarCamera.setTranslateZ(solarCamera.getTranslateZ() - delta * solarCamera.getTranslateZ() * 0.005);
+            } else {
                 solarCamera.setTranslateZ(solarCamera.getTranslateZ() - delta * solarCamera.getTranslateZ() * 0.005);
+            }
+
         });
     }
 
