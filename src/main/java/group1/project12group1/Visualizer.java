@@ -22,11 +22,14 @@ import java.util.Hashtable;
 import static group1.project12group1.SolarSystem.*;
 
 public class Visualizer extends Application {
+    private static HelperFunctions helperFunctions = new HelperFunctions();
+    PlanetObject[] planets = helperFunctions.testing();
     private final double WIDTH = Screen.getPrimary().getBounds().getWidth();
     private final double HEIGHT = Screen.getPrimary().getBounds().getHeight();
     public final double SCALE = 100;
-    private HelperFunctions helperFunctions = new HelperFunctions();
-    PlanetObject[] planets = new PlanetObject[]{Sun, Mercury, Venus, Earth, Moon, Mars, Jupiter, Saturn, Titan, Neptune, Uranus};
+
+    PlanetObject[] planetss = new PlanetObject[]{Sun, Mercury, Venus, Earth, Moon, Mars, Jupiter, Saturn, Titan, Neptune, Uranus};
+
     private Sphere sunSphere;
     private Sphere mercurySphere;
     private Sphere venusSphere;
@@ -38,8 +41,8 @@ public class Visualizer extends Application {
     private Sphere titanSphere;
     private Sphere neptuneSphere;
     private Sphere uranusSphere;
+    private  Sphere projectile;
     private SolarCamera solarCamera;
-    private Hashtable<PlanetObject, Sphere> planetDictionary;
     private Sphere currentFocus;
     Rotate rotateX, rotateZ;
 
@@ -81,27 +84,31 @@ public class Visualizer extends Application {
                     @Override
                     public void run() {
 
-                        int step = 10 * 30000;
-                        for (int i = 0; i < step; i += 1) {
+                        int step=10*60*60*3;
+                        for (int i = 0; i < step; i+=1)
+                        {
 
-                            for (int j = 0; j < planets.length - 1; j++) {
+                            for (int j = 1; j < planets.length-1; j++)
+                            {
 
                                 double[] acc = new double[3];
-                                for (int k = 0; k < planets.length; k++) {
+                                for (int k = 0; k < planets.length-1; k++)
+                                {
 
-                                    if (k != j) {
-                                        if (j < k) {
-                                            acc = HelperFunctions.addition(acc, planets[j].ForceCaluclatorNEW(planets[k]));
-                                        } else {
-                                            acc = HelperFunctions.addition(acc, planets[j].ForceCaluclatorNEWWithOld(planets[k]));
-                                        }
+                                    if (k != j)
+                                    {
+
+                                            acc = helperFunctions.addition(acc, planets[j].accelerationBetween(planets[k],true));
 
                                     }
 
                                 }
-                                planets[j].setPrivousPosition(planets[j].getPositionalVector());
-                                planets[j].updatePositionVelocity(acc, 0.1);
+                                planets[j].setPreviousPosition(planets[j].getPositionalVector());
+                                planets[j].updatePosition(acc, 0.1);
+
                             }
+
+
                         }
                         updateSpheres();
 
@@ -125,6 +132,8 @@ public class Visualizer extends Application {
         titanSphere = new Sphere(2_574 / SCALE);
         neptuneSphere = new Sphere(24_622 / SCALE);
         uranusSphere = new Sphere(25_363 / SCALE);
+        projectile= new Sphere(2_439 / SCALE/2);
+
 
         group.getChildren().add(sunSphere);
         group.getChildren().add(mercurySphere);
@@ -137,6 +146,7 @@ public class Visualizer extends Application {
         group.getChildren().add(titanSphere);
         group.getChildren().add(neptuneSphere);
         group.getChildren().add(uranusSphere);
+        group.getChildren().add(projectile);
 
         setFocus(sunSphere);
         updateSpheres();
@@ -144,7 +154,8 @@ public class Visualizer extends Application {
     }
 
     private void updateSpheres() {
-        Sphere[] spheres = new Sphere[]{sunSphere, mercurySphere, venusSphere, earthSphere, moonSphere, marsSphere, jupiterSphere, saturnSphere, titanSphere, neptuneSphere, uranusSphere};
+        Sphere[] spheres = new Sphere[]{sunSphere, mercurySphere, venusSphere, earthSphere, moonSphere, marsSphere, jupiterSphere, saturnSphere, titanSphere, neptuneSphere, uranusSphere,projectile};
+
         for (int i = 0; i < spheres.length; i++) {
             spheres[i].setTranslateX(planets[i].getPositionalVector()[0] / SCALE);
             spheres[i].setTranslateY(planets[i].getPositionalVector()[1] / SCALE);
@@ -229,6 +240,7 @@ public class Visualizer extends Application {
         saturnSphere.setRadius(saturnSphere.getRadius() * SCALE * 10);
         neptuneSphere.setRadius(neptuneSphere.getRadius() * SCALE * 35);
         uranusSphere.setRadius(uranusSphere.getRadius() * SCALE * 35);
+        projectile.setRadius(mercurySphere.getRadius() * SCALE * 40/2);
     }
 
     private void setFocus(Sphere sphere) {
@@ -247,6 +259,11 @@ public class Visualizer extends Application {
             texture.setDiffuseMap(new Image(Paths.get("src/main/resources/" + names[i] + ".jpg").toUri().toString()));
             spheres[i].setMaterial(texture);
         }
+
+        PhongMaterial material = new PhongMaterial();
+        material.setDiffuseColor(Color.PINK);
+        material.setSpecularColor(Color.PINK);
+        projectile.setMaterial(material);
     }
 
     public static void main(String[] args) {

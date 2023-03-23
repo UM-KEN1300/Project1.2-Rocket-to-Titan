@@ -10,17 +10,16 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
 
 public class modelTester
 {
-    public static void main(String[] args)
 
-    {   //default inputs
+    public static void main(String[] args)
+    {
+        //default inputs
         HelperFunctions helperFunctions=new HelperFunctions();
         ArrayList<PlanetObject> listOfPlanets=new ArrayList<>();
+        PlanetObject Sun = new PlanetObject(0, 0, 0, 0, 0, 0, 1.99e30);
         PlanetObject Mercury= new PlanetObject(199,3.3e23);
         PlanetObject Venus= new PlanetObject(299,4.87e24);
         PlanetObject Earth= new PlanetObject(399,5.97E+24);
@@ -31,6 +30,7 @@ public class modelTester
         PlanetObject Titan= new PlanetObject(606,1.35e23);
         PlanetObject Uranus= new PlanetObject(799,8.68e25);
         PlanetObject Neptune= new PlanetObject(899,1.02e26);
+        listOfPlanets.add(Sun);
         listOfPlanets.add(Mercury);
         listOfPlanets.add(Venus);
         listOfPlanets.add(Earth);
@@ -46,8 +46,8 @@ public class modelTester
         // between the dates example 20d if the two dates are 20 dates apart
         //follow the format below when changing
         String startDate="2022-01-01";
-        String endDate="2022-03-29";
-        String daysLong="87d";
+        String endDate="2022-12-31";
+        String daysLong="364d";
         String urlLoc = "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND='";
         BufferedReader br;
         //Sets the positions of the planet to this start frame
@@ -87,13 +87,13 @@ public class modelTester
             catch (IOException e) {System.out.println("Problems 3");}
             urlLoc="https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND='";
         }
-        PlanetObject Sun = new PlanetObject(0, 0, 0, 0, 0, 0, 1.99e30);
-        listOfPlanets.add(Sun);
+
+
         //run for the same time as the initial value
         //accuracy
         System.out.println("starting the simulation of solar system.");
         double step0p1=10*3600*24*10;
-        double step=10*3600*24*87;
+        double step=10*3600*24*365;
         for (int i = 0; i < step; i++)
         {
            if(i%70000==0)
@@ -110,11 +110,11 @@ public class modelTester
 
                     if(k!=j)
                     {
-                        acc=helperFunctions.addition(acc, listOfPlanets.get(j).ForceCaluclatorNEW(listOfPlanets.get(k)));
+                        acc=helperFunctions.addition(acc, listOfPlanets.get(j).accelerationBetween(listOfPlanets.get(k),true));
                     }
 
                 }
-                listOfPlanets.get(j).updatePositionVelocity(acc,0.1);
+                listOfPlanets.get(j).updatePosition(acc,0.1);
 
 
 
