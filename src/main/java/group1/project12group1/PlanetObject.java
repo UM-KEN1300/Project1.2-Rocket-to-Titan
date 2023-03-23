@@ -15,13 +15,13 @@ public class PlanetObject
     //Position for end position of planet(only used for tests)
     private double[] targetPosition;
     //position of the planet in 3D array has[x,y,z] cords
-    private double[] positionalVector = new double[3];
+    protected double[] positionalVector = new double[3];
     //velocity of the planet in 3D array has[x,y,z] cords
-    private double[] velocityVector = new double[3];
+    protected double[] velocityVector = new double[3];
     //radius of the planet for the visualisation
-    private int radius;
+    protected int radius;
     //mass of the planet in kg
-    private double mass;
+    protected double mass;
     double speed = Math.sqrt(Math.pow(velocityVector[0],2) + Math.pow(velocityVector[1],2) + Math.pow(velocityVector[2],2)); //measured in km/s
 
 //______________________________________________________________________________________________________________________________________________________________________________________________________________________________________

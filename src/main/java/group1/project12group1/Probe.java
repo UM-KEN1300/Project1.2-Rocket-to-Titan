@@ -1,15 +1,8 @@
 package group1.project12group1;
-
 import helperFunction.HelperFunctions;
-
 public class Probe extends PlanetObject{
-
-    public static double fitness;
-    private double[] position;
     private  double[] initialPosition;
     private  double[]  initialVelocity;
-    private   double [] velocity;
-    private final double mass = 50000;
     private double distanceToTitan;
     private final HelperFunctions helperFunctions=new HelperFunctions();
     PlanetObject Earth;
@@ -18,9 +11,11 @@ public class Probe extends PlanetObject{
     public Probe(PlanetObject Earth, PlanetObject Titan,double[]velocity){
         this.Earth=Earth;
         this.Titan=Titan;
+        super.positionalVector=calculateInitialPosition();
         initialPosition = calculateInitialPosition();
-        this.velocity=velocity;
         this.initialVelocity=velocity;
+        super.velocityVector=velocity;
+        super.mass=50000;
         distanceToTitan=helperFunctions.getDistanceBetween(this,Titan);
     }
 
@@ -41,18 +36,17 @@ public class Probe extends PlanetObject{
         {
          directionalVector[i]=directionalVector[i]*6370/mag;
         }
-
         return directionalVector;
     }
 
     public double[] getPosition()
     {
-        return position;
+        return super.getPositionalVector();
     }
 
     public void setPosition(double[] position)
     {
-        this.position = position;
+        super.setPositionalVector( position);
     }
 
     public double[] getInitialPosition()
@@ -73,22 +67,6 @@ public class Probe extends PlanetObject{
     public void setInitialVelocity(double[] initialVelocity)
     {
         this.initialVelocity = initialVelocity;
-    }
-
-    public double[] getVelocity()
-    {
-        return velocity;
-    }
-
-    public void setVelocity(double[] velocity)
-    {
-        this.velocity = velocity;
-    }
-
-    @Override
-    public double getMass()
-    {
-        return mass;
     }
 
     public double getDistanceToTitan()

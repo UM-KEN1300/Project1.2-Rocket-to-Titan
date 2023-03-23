@@ -27,12 +27,13 @@ public class Visualizer extends Application {
 
     //Select which one you want to use by changing the name planets
     //Api version
-    PlanetObject[] planetss = helperFunctions.testing();
+    //PlanetObject[] planetss = helperFunctions.testing();
     //Solar System project
 
     private final double WIDTH = Screen.getPrimary().getBounds().getWidth();
     private final double HEIGHT = Screen.getPrimary().getBounds().getHeight();
     public final double SCALE = 100;
+
     PlanetObject[] planets = new PlanetObject[]{Sun, Mercury, Venus, Earth, Moon, Mars, Jupiter, Saturn, Titan, Neptune, Uranus, Projectile};
     Sphere[] visualizedObjects = new Sphere[12];
     private SolarCamera solarCamera;
@@ -44,6 +45,7 @@ public class Visualizer extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+
         for (int i = 0; i < planets.length; i++)
             originalCoordinates[i] = new double[]{planets[i].getX() / SCALE, planets[i].getY() / SCALE, planets[i].getZ() / SCALE};
 

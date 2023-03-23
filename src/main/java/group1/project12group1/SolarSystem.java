@@ -18,7 +18,8 @@ public class SolarSystem {
     public static PlanetObject Titan = new PlanetObject(1.25e9, -7.61e8, -3.63e7, 9, 1.11e1, -2.25e0, 1.35e23);
     public static PlanetObject Neptune = new PlanetObject(4.45e9, -3.98e8, -9.45e7, 4.48e-1, 5.45e0, -1.23e1, 1.02e26);
     public static PlanetObject Uranus = new PlanetObject(1.96e9, 2.19e9, -1.72e7, -5.13e0, 4.22e0, 8.21e-2, 8.68e25);
-    public static PlanetObject Projectile = new PlanetObject(-1.48e8, -2.78e7-2.78e7, 3.37e4, 0, 0, 0, 0);
+    static double[]arr={-46,1,0};
+    public static Probe Projectile = new Probe(Earth,Titan,arr);
 
     public static void main(String[] args) {
         ArrayList<PlanetObject> listOfPlanets = new ArrayList<>();
