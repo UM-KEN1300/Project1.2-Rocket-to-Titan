@@ -2,7 +2,6 @@ package group1.project12group1;
 
 import helperFunction.HelperFunctions;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
@@ -18,8 +17,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Scanner;
 
 import static group1.project12group1.SolarSystem.*;
 
@@ -28,17 +25,16 @@ public class Visualizer extends Application {
     private final double WIDTH = Screen.getPrimary().getBounds().getWidth();
     private final double HEIGHT = Screen.getPrimary().getBounds().getHeight();
     public final double SCALE = 100;
-
     PlanetObject[] planets = new PlanetObject[]{Sun, Mercury, Venus, Earth, Moon, Mars, Jupiter, Saturn, Titan, Neptune, Uranus, Projectile};
     Sphere[] visualizedObjects = new Sphere[12];
     private SolarCamera solarCamera;
     private Sphere currentFocus = visualizedObjects[11];
     Rotate rotateX, rotateZ;
     int currentFocusIndex;
-    int projectilePathIndex = 0;
-    Group root, paths;
-    ArrayList<Sphere> projectilePath = new ArrayList<>();
+    Group root;
     double[] shift;
+    double timePassed;
+    double distanceToTitan;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -54,14 +50,13 @@ public class Visualizer extends Application {
         Neptune.setRadius(24_622);
         Uranus.setRadius(25_362);
 
+        distanceToTitan = calculateDistance(new double[]{Projectile.getX(), Projectile.getY(), Projectile.getZ()}, new double[]{Titan.getX(), Titan.getY(), Titan.getZ()});
+
         root = new Group();
         root.setTranslateX(WIDTH / 2);
         root.setTranslateY(HEIGHT / 2);
         solarCamera = new SolarCamera();
         initializeSpheres(root);
-
-        paths = new Group();
-        root.getChildren().add(paths);
 
         solarCamera.setTranslateZ(currentFocus.getTranslateZ() - currentFocus.getRadius() * 5);
 
@@ -77,6 +72,8 @@ public class Visualizer extends Application {
         setUpMouseRotation(scene, rotateX, rotateZ);
         root.getTransforms().addAll(rotateX, rotateZ);
         setUpKeyboardInput(scene);
+
+        solarCamera.setTranslateZ(-3000000);
         calculation();
 
         stage.setTitle("Solar System");
@@ -84,12 +81,18 @@ public class Visualizer extends Application {
         stage.show();
     }
 
+    /**
+     * calculates the positions of planets and the projectile at a given step (step and the step parameter of updatePosition
+     * methods of the PlanetObject class. Changes the positions of objects in the 3D visualization.
+     */
     private void calculation() {
         new java.util.Timer().schedule(
                 new java.util.TimerTask() {
                     @Override
                     public void run() {
                         int step = 10 * 3600;
+                        double calculationStep = 0.1;
+                        timePassed += step * 0.1;
                         for (int i = 0; i < step; i += 1) {
 
                             for (int j = 1; j < planets.length; j++) {
@@ -101,15 +104,26 @@ public class Visualizer extends Application {
                                         acc = HelperFunctions.addition(acc, planets[j].accelerationBetween(planets[k]));
                                     }
                                 }
-                                planets[j].updatePosition(acc, 0.1);
+                                planets[j].updatePosition(acc, calculationStep);
                             }
                         }
-
+                        double currentDistance = Projectile.getDistanceToTitan();
+                        if (currentDistance < distanceToTitan) {
+                            timePassed = step * calculationStep;
+                            distanceToTitan = currentDistance;
+                        }
+                        System.out.println("\nLowest distance: " + currentDistance + " km");
+                        System.out.println("Recorded at " + timePassed + " seconds passed");
                         updateSpheres();
                     }
                 }, 0, 1);
     }
 
+    /**
+     * initializes the spheres in the 3D model. calls other methods for purposes of scaling and setting the coordinates.
+     *
+     * @param group takes the group from the parameter and add the new objects to it.
+     */
     private void initializeSpheres(Group group) {
         for (int i = 0; i < visualizedObjects.length; i++) {
             visualizedObjects[i] = new Sphere();
@@ -122,6 +136,9 @@ public class Visualizer extends Application {
         setTextures();
     }
 
+    /**
+     * updates the positions of the objects in the model and applies shift to them in order to focus on a planet.
+     */
     private void updateSpheres() {
         shift = new double[]{
                 -planets[currentFocusIndex].getPositionalVector()[0] / SCALE,
@@ -134,15 +151,11 @@ public class Visualizer extends Application {
             visualizedObjects[i].setTranslateY(planets[i].getPositionalVector()[1] / SCALE + shift[1]);
             visualizedObjects[i].setTranslateZ(planets[i].getPositionalVector()[2] / SCALE + shift[2]);
         }
-        Platform.runLater(() -> {
-            for (Sphere path : projectilePath) {
-                paths.setTranslateX(path.getTranslateX() + shift[0]);
-                paths.setTranslateX(path.getTranslateY() + shift[1]);
-                paths.setTranslateX(path.getTranslateZ() + shift[2]);
-            }
-        });
     }
 
+    /**
+     * initializes a camera for the model.
+     */
     static class SolarCamera extends PerspectiveCamera {
         SolarCamera() {
             setNearClip(0.1);
@@ -150,6 +163,11 @@ public class Visualizer extends Application {
         }
     }
 
+    /**
+     * moves the camera further and closer based on scroll events.
+     *
+     * @param stage the stage to which the listener is applied.
+     */
     private void zoom(Stage stage) {
         stage.addEventHandler(ScrollEvent.SCROLL, event -> {
             double delta = event.getDeltaY();
@@ -166,6 +184,9 @@ public class Visualizer extends Application {
         });
     }
 
+    /**
+     * allows for rotating the model on its X and Z coordinates based on mouse drags.
+     */
     private void setUpMouseRotation(Scene scene, Rotate rotateX, Rotate rotateZ) {
         final double[] anchorX = new double[1];
         final double[] anchorY = new double[1];
@@ -191,6 +212,10 @@ public class Visualizer extends Application {
         });
     }
 
+    /**
+     * sets actions to different keys allowing for choosing the planet to focus on,
+     * or toggling from real scale to a scale that shows the objects while zoomed out.
+     */
     private void setUpKeyboardInput(Scene scene) {
         scene.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
             switch (event.getCode()) {
@@ -220,6 +245,9 @@ public class Visualizer extends Application {
         });
     }
 
+    /**
+     * sets the sizes  to
+     */
     private void setRealScale() {
         visualizedObjects[0].setRadius(Sun.getRadius() / SCALE);
         visualizedObjects[1].setRadius(Mercury.getRadius() / SCALE);
@@ -238,6 +266,9 @@ public class Visualizer extends Application {
         solarCamera.setTranslateZ(-currentFocus.getRadius() * 5);
     }
 
+    /**
+     * sets the scale to one that makes all the planets visible while zoomed out.
+     */
     public void setVisibleScale() {
         visualizedObjects[0].setRadius(Sun.getRadius() / SCALE * 50);
         visualizedObjects[1].setRadius(Mercury.getRadius() * 25);
@@ -273,6 +304,13 @@ public class Visualizer extends Application {
         material.setDiffuseColor(Color.PINK);
         material.setSpecularColor(Color.PINK);
         visualizedObjects[11].setMaterial(material);
+    }
+
+    private double calculateDistance(double[] p1, double[] p2) {
+        double dx = p2[0] - p1[0];
+        double dy = p2[1] - p1[1];
+        double dz = p2[2] - p1[2];
+        return Math.sqrt(dx * dx + dy * dy + dz * dz);
     }
 
     public static void main(String[] args) {
