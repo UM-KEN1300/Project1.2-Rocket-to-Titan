@@ -17,10 +17,19 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.Hashtable;
 
 import static group1.project12group1.SolarSystem.*;
 
 public class Visualizer extends Application {
+    private static HelperFunctions helperFunctions = new HelperFunctions();
+
+
+    //Select which one you want to use by changing the name planets
+    //Api version
+    PlanetObject[] planetss = helperFunctions.testing();
+    //Solar System project
+    PlanetObject[] planets= new PlanetObject[]{Sun, Mercury, Venus, Earth, Moon, Mars, Jupiter, Saturn, Titan, Neptune, Uranus};
     private static final HelperFunctions helperFunctions = new HelperFunctions();
     private final double WIDTH = Screen.getPrimary().getBounds().getWidth();
     private final double HEIGHT = Screen.getPrimary().getBounds().getHeight();
@@ -53,12 +62,9 @@ public class Visualizer extends Application {
 
 
         Group root = new Group();
-
         root.setTranslateX(WIDTH / 2);
         root.setTranslateY(HEIGHT / 2);
-
         solarCamera = new SolarCamera();
-
         initializeSpheres(root);
 
         solarCamera.setTranslateZ(currentFocus.getTranslateZ() - currentFocus.getRadius() * 5);
@@ -74,7 +80,6 @@ public class Visualizer extends Application {
         rotateZ = new Rotate(0, Rotate.Z_AXIS);
         setUpMouseRotation(scene, rotateX, rotateZ);
         root.getTransforms().addAll(rotateX, rotateZ);
-
         setUpKeyboardInput(scene);
 
         calculation();
@@ -99,9 +104,10 @@ public class Visualizer extends Application {
 
                                     if (k != j) {
                                         acc = HelperFunctions.addition(acc, planets[j].accelerationBetween(planets[k], true));
+                                            acc = helperFunctions.addition(acc, planets[j].accelerationBetween(planets[k]));
+
                                     }
                                 }
-                                planets[j].setPreviousPosition(planets[j].getPositionalVector());
                                 planets[j].updatePosition(acc, 0.1);
                             }
                         }
@@ -156,6 +162,7 @@ public class Visualizer extends Application {
             } else {
                 solarCamera.setTranslateZ(solarCamera.getTranslateZ() - delta * solarCamera.getTranslateZ() * 0.005);
             }
+
         });
     }
 
