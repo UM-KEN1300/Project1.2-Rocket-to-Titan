@@ -18,8 +18,8 @@ public class SolarSystem {
     public static PlanetObject Titan = new PlanetObject(1.25e9, -7.61e8, -3.63e7, 9.e0, 1.11e1, -2.25e0, 1.35e23);
     public static PlanetObject Neptune = new PlanetObject(4.45e9, -3.98e8, -9.45e7, 4.48e-1, 5.45e0, -1.23e-1, 1.02e26);
     public static PlanetObject Uranus = new PlanetObject(1.96e9, 2.19e9, -1.72e7, -5.13e0, 4.22e0, 8.21e-2, 8.68e25);
-    static double[]arr={42,-43,-3};
-    public static Probe Projectile = new Probe(Earth,Titan,arr);
+    static double[] arr = {42, -43, -3};
+    public static Probe Projectile = new Probe(Earth, Titan, arr);
 
     public static void main(String[] args) {
         ArrayList<PlanetObject> listOfPlanets = new ArrayList<>();
@@ -49,58 +49,63 @@ public class SolarSystem {
 //             Probe probe2=new Probe(Earth,Titan,velocity2);
 //             listOfPlanets.add(probe2);
 //        }
-        double[] velocity={0,0,0};
-        Probe probes=new Probe(Earth,Titan,velocity);
-        double[] direction=helperFunctions.subtract(probes.getPositionalVector(),Sun.getVelocityVector());
-        velocity=direction;
+        double[] velocity = {0, 0, 0};
+        Probe probes = new Probe(Earth, Titan, velocity);
+        double[] direction = helperFunctions.subtract(probes.getPositionalVector(), Sun.getVelocityVector());
+        velocity = direction;
 
-        for (int i = 0; i <3 ; i++)
-        {
-            velocity[i]=-velocity[i]*53/helperFunctions.getVectorMagnitude(direction);
+        for (int i = 0; i < 3; i++) {
+            velocity[i] = -velocity[i] * 53 / helperFunctions.getVectorMagnitude(direction);
             System.out.println(velocity[i]);
         }
         System.out.println(helperFunctions.getVectorMagnitude(velocity));
 
-        double[] arr= {42,-43,-3};
-        probes.setVelocityVector(velocity);
-
-
+        double[] arr = {42, -43, -3};
+        double[] initPos = probes.getPosition();
+        double[] titanPos = new double[3];
+        titanPos[0] = 1.4487665253803456 * Math.pow(10, 9);
+        titanPos[1] = -5.616509545202004 * Math.pow(10, 8);
+        titanPos[2] = 2207623.640760994;
+        double accel[] = new double[3];
         listOfPlanets.add(probes);
+        for (int b = 0; b < listOfPlanets.size(); b++) {
 
-        double step=1*3600*24*365;
-        for (int i = 0; i < step; i++)
-        {
-            if(i%70000==0)
-            {
-                System.out.println("Progress: "+i+"/"+step);
+            if (b != 11) {
+
+                accel = helperFunctions.addition(accel, listOfPlanets.get(11).accelerationBetween(listOfPlanets.get(b)));
             }
 
-            for (int j = 1; j <listOfPlanets.size() ; j++)
-            {
+            probes.setVelocityVector(probes.initialVelocity(initPos, titanPos, accel));
 
-                double[] acc=new double[3];
-                for (int k = 0; k <listOfPlanets.size() ; k++)
-                {
-
-                    if(k!=j)
-                    {
-
-                        acc=helperFunctions.addition(acc, listOfPlanets.get(j).accelerationBetween(listOfPlanets.get(k)));
-                    }
-
+        }
+            double step = 1 * 3600 * 24 * 365;
+            for (int i = 0; i < step; i++) {
+                if (i % 70000 == 0) {
+                    System.out.println("Progress: " + i + "/" + step);
                 }
-                listOfPlanets.get(j).updatePosition(acc,1);
+
+                for (int j = 1; j < listOfPlanets.size(); j++) {
+
+                    double[] acc = new double[3];
+                    for (int k = 0; k < listOfPlanets.size(); k++) {
+
+                        if (k != j) {
+
+                            acc = helperFunctions.addition(acc, listOfPlanets.get(j).accelerationBetween(listOfPlanets.get(k)));
+                        }
+
+                    }
+                    listOfPlanets.get(j).updatePosition(acc, 1);
+                }
             }
-        }
 
-        for (int i = 0; i < 3; i++)
-        {
-            System.out.println(Titan.getPositionalVector()[i]);
-        }
+            for (int i = 0; i < 3; i++) {
+                System.out.println(Titan.getPositionalVector()[i]);
+            }
 
 
-        System.out.println(probes.getDistanceToTitan());
-        System.out.println(helperFunctions.getDistanceBetween(Sun,Titan));
+            System.out.println(probes.getDistanceToTitan());
+            System.out.println(helperFunctions.getDistanceBetween(probes, Titan));
 //        Probe tester=(Probe) listOfPlanets.get(11);
 //        double closesDistance=tester.getDistanceToTitan();
 //        int remember=11;
@@ -123,5 +128,6 @@ public class SolarSystem {
 //        }
 
 
+        }
     }
-}
+
