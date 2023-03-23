@@ -2,6 +2,7 @@ package group1.project12group1;
 
 import helperFunction.HelperFunctions;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
@@ -17,6 +18,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 import static group1.project12group1.SolarSystem.*;
 
@@ -34,12 +36,13 @@ public class Visualizer extends Application {
     PlanetObject[] planets = new PlanetObject[]{Sun, Mercury, Venus, Earth, Moon, Mars, Jupiter, Saturn, Titan, Neptune, Uranus, Projectile};
     Sphere[] visualizedObjects = new Sphere[12];
     private SolarCamera solarCamera;
-    private Sphere currentFocus = visualizedObjects[0];
-    private double[] shift = new double[]{0, 0, 0};
+    private Sphere currentFocus = visualizedObjects[11];
     Rotate rotateX, rotateZ;
     int currentFocusIndex;
     int projectilePathIndex = 0;
-    private double[] lastProjectileCoordinate, lastEarthCoordinate, lastSaturnCoordinate;
+    Group root, paths;
+    ArrayList<Sphere> projectilePath = new ArrayList<>();
+    double[] shift;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -59,11 +62,14 @@ public class Visualizer extends Application {
         Neptune.setRadius(24_622);
         Uranus.setRadius(25_362);
 
-        Group root = new Group();
+        root = new Group();
         root.setTranslateX(WIDTH / 2);
         root.setTranslateY(HEIGHT / 2);
         solarCamera = new SolarCamera();
         initializeSpheres(root);
+
+        paths = new Group();
+        root.getChildren().add(paths);
 
         solarCamera.setTranslateZ(currentFocus.getTranslateZ() - currentFocus.getRadius() * 5);
 
@@ -106,15 +112,6 @@ public class Visualizer extends Application {
                                 planets[j].updatePosition(acc, 0.1);
                             }
                         }
-                        projectilePathIndex++;
-                        if (projectilePathIndex % 2000 == 0){
-                            double[] newCoordinate = new double[]{planets[11].getX(), planets[11].getY(), planets[11].getZ()};
-                            if (projectilePathIndex>0)
-                                drawProjectilePath(newCoordinate);
-
-//                            lastProjectileCoordinate = newC;
-                        }
-
 
                         updateSpheres();
                     }
@@ -126,10 +123,9 @@ public class Visualizer extends Application {
             visualizedObjects[i] = new Sphere();
             group.getChildren().add(visualizedObjects[i]);
         }
-
+        setFocus(11);
         setVisibleScale();
-        currentFocus = visualizedObjects[0];
-        setFocus(0);
+
         updateSpheres();
         setTextures();
     }
@@ -146,6 +142,13 @@ public class Visualizer extends Application {
             visualizedObjects[i].setTranslateY(planets[i].getPositionalVector()[1] / SCALE + shift[1]);
             visualizedObjects[i].setTranslateZ(planets[i].getPositionalVector()[2] / SCALE + shift[2]);
         }
+        Platform.runLater(() -> {
+            for (Sphere path : projectilePath) {
+                paths.setTranslateX(path.getTranslateX() + shift[0]);
+                paths.setTranslateX(path.getTranslateY() + shift[1]);
+                paths.setTranslateX(path.getTranslateZ() + shift[2]);
+            }
+        });
     }
 
     static class SolarCamera extends PerspectiveCamera {
@@ -158,16 +161,16 @@ public class Visualizer extends Application {
     private void zoom(Stage stage) {
         stage.addEventHandler(ScrollEvent.SCROLL, event -> {
             double delta = event.getDeltaY();
-            if (solarCamera.getTranslateZ() > -500_000) {
-                if (delta < 0)
-                    solarCamera.setTranslateZ(solarCamera.getTranslateZ() - delta * solarCamera.getTranslateZ() * 0.005);
-            } else if (solarCamera.getTranslateZ() < -150_000_000) {
-                if (delta > 0)
-                    solarCamera.setTranslateZ(solarCamera.getTranslateZ() - delta * solarCamera.getTranslateZ() * 0.005);
-            } else {
-                solarCamera.setTranslateZ(solarCamera.getTranslateZ() - delta * solarCamera.getTranslateZ() * 0.005);
-            }
-
+//            if (solarCamera.getTranslateZ() > -1000) {
+//                if (delta < 0)
+//                    solarCamera.setTranslateZ(solarCamera.getTranslateZ() - delta * solarCamera.getTranslateZ() * 0.005);
+//            } else if (solarCamera.getTranslateZ() < -150_000_000) {
+//                if (delta > 0)
+//                    solarCamera.setTranslateZ(solarCamera.getTranslateZ() - delta * solarCamera.getTranslateZ() * 0.005);
+//            } else {
+//                solarCamera.setTranslateZ(solarCamera.getTranslateZ() - delta * solarCamera.getTranslateZ() * 0.005);
+//            }
+            solarCamera.setTranslateZ(solarCamera.getTranslateZ() - delta * solarCamera.getTranslateZ() * 0.005);
         });
     }
 
@@ -201,15 +204,22 @@ public class Visualizer extends Application {
             switch (event.getCode()) {
                 case DIGIT1 -> {
                     setFocus(0);
+
                 }
                 case DIGIT2 -> {
                     setFocus(3);
                 }
                 case DIGIT3 -> {
-                    setFocus(7);
+                    setFocus(8);
                 }
                 case DIGIT4 -> {
                     setFocus(11);
+                }
+                case P -> {
+                    setVisibleScale();
+                }
+                case O -> {
+                    setRealScale();
                 }
             }
         });
@@ -229,6 +239,8 @@ public class Visualizer extends Application {
         visualizedObjects[10].setRadius(Uranus.getRadius() / SCALE);
 
         visualizedObjects[11].setRadius(visualizedObjects[3].getRadius() / 10);
+
+        solarCamera.setTranslateZ(-currentFocus.getRadius() * 5);
     }
 
     public void setVisibleScale() {
@@ -243,11 +255,14 @@ public class Visualizer extends Application {
         visualizedObjects[10].setRadius(Uranus.getRadius() * 10);
 
         visualizedObjects[11].setRadius(visualizedObjects[3].getRadius() / 10);
+
+        solarCamera.setTranslateZ(-currentFocus.getRadius() * 5);
     }
 
     private void setFocus(int index) {
-
         currentFocusIndex = index;
+        currentFocus = visualizedObjects[index];
+
         updateSpheres();
     }
 
@@ -267,9 +282,5 @@ public class Visualizer extends Application {
 
     public static void main(String[] args) {
         launch();
-    }
-
-    private void drawProjectilePath(double[] newCoordinates){
-
     }
 }
