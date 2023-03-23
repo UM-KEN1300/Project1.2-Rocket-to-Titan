@@ -19,15 +19,11 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import static group1.project12group1.SolarSystem.*;
 
 public class Visualizer extends Application {
-    //Select which one you want to use by changing the name planets
-    //Api version
-//    PlanetObject[] planetsss = helperFunctions.testing();
-    //PlanetObject[] planetss = helperFunctions.testing();
-    //Solar System project
     private static final HelperFunctions helperFunctions = new HelperFunctions();
     private final double WIDTH = Screen.getPrimary().getBounds().getWidth();
     private final double HEIGHT = Screen.getPrimary().getBounds().getHeight();
@@ -46,10 +42,6 @@ public class Visualizer extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-
-//        for (int i = 0; i < planets.length; i++)
-//            originalCoordinates[i] = new double[]{planets[i].getX() / SCALE, planets[i].getY() / SCALE, planets[i].getZ() / SCALE};
-
         Sun.setRadius(695_508);
         Mercury.setRadius(2439);
         Venus.setRadius(6052);
@@ -213,6 +205,9 @@ public class Visualizer extends Application {
                     setFocus(8);
                 }
                 case DIGIT4 -> {
+                    setFocus(7);
+                }
+                case DIGIT5 -> {
                     setFocus(11);
                 }
                 case P -> {

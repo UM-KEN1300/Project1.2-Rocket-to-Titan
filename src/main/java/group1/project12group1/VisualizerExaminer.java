@@ -223,6 +223,9 @@ public class VisualizerExaminer extends Application {
                     setFocus(8);
                 }
                 case DIGIT4 -> {
+                    setFocus(7);
+                }
+                case DIGIT5 -> {
                     setFocus(11);
                 }
                 case P -> {
