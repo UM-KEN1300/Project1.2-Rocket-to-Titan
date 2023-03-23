@@ -1,0 +1,171 @@
+Index: src/main/java/group1/project12group1/SolarSystem.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package group1.project12group1;\n\n\nimport helperFunction.HelperFunctions;\n\nimport java.util.ArrayList;\n\npublic class SolarSystem {\n\n    public static PlanetObject Sun = new PlanetObject(0, 0, 0, 0, 0, 0, 1.99e30);\n    public static PlanetObject Mercury = new PlanetObject(7.83e6, 4.49e7, 2.87e6, -5.75e1, 1.15e1, 6.22e0, 3.3e23);\n    public static PlanetObject Venus = new PlanetObject(-2.82e7, 1.04e8, 3.01e6, -3.4e1, -8.97e0, 1.84e0, 4.87e24);\n    public static PlanetObject Earth = new PlanetObject(-1.48e8, -2.78e7, 3.37e4, 5.05e0, -2.94e1, 1.71e-3, 5.97e24);\n    public static PlanetObject Moon = new PlanetObject(-1.48e8, -2.75e7, 7.02e4, 4.34e0, -3.0e1, -1.16e2, 7.35e22);\n    public static PlanetObject Mars = new PlanetObject(-1.59e8, 1.89e8, 7.87e6, -1.77e1, -1.35e1, 1.52e-1, 6.42e23);\n    public static PlanetObject Jupiter = new PlanetObject(6.93e8, 2.59e8, -1.66e7, -4.71e0, 1.29e1, 5.22e-2, 1.90e27);\n    public static PlanetObject Saturn = new PlanetObject(1.25e9, -7.60e8, -3.67e7, 4.47e0, 8.24e0, -3.21e1, 5.68e26);\n    public PlanetObject Titan = new PlanetObject(1.25e9, -7.61e8, -3.63e7, 9, 1.11e1, -2.25e0, 1.35e23);\n    public static PlanetObject Neptune = new PlanetObject(4.45e9, -3.98e8, -9.45e7, 4.48e-1, 5.45e0, -1.23e1, 1.02e26);\n    public static PlanetObject Uranus = new PlanetObject(1.96e9, 2.19e9, -1.72e7, -5.13e0, 4.22e0, 8.21e-2, 8.68e25);\n\n    public static void main(String[] args) {\n        //todo fix the variables they were flipped\n\n\n        double[] mercStart = {7.83e6, 4.49e7, 2.87e6};\n\n\n        ArrayList<PlanetObject> listOfPlanets = new ArrayList<>();\n        listOfPlanets.add(Sun);\n        listOfPlanets.add(Mercury);\n        listOfPlanets.add(Venus);\n        listOfPlanets.add(Earth);\n        listOfPlanets.add(Moon);\n        listOfPlanets.add(Mars);\n        listOfPlanets.add(Jupiter);\n        listOfPlanets.add(Saturn);\n        listOfPlanets.add(Neptune);\n        listOfPlanets.add(Uranus);\n        HelperFunctions helperFunctions = new HelperFunctions();\n        String tests = \" X = 5.370984669850484E+07 Y =-6.096773857312337E+06 Z =-5.424870545516974E+06\";\n        double[] tester = helperFunctions.stringToVector(tests);\n\n        for (int i = 0; i < tester.length; i++) {\n            System.out.println(tester[i]);\n        }\n\n//        double step=0.01;\n//        for (int i = 0; i < step*100*3600*24*87; i++)\n//        {\n//\n//            for (int j = 1; j <listOfPlanets.size() ; j++)\n//            {\n//\n//                double[] acc=new double[3];\n//                for (int k = 0; k <listOfPlanets.size() ; k++)\n//                {\n//                    if(k!=j)\n//                    {\n//                        acc=helperFunctions.addition(acc,listOfPlanets.get(j).getAcceleration(listOfPlanets.get(k)));\n//                    }\n//\n//                }\n//                listOfPlanets.get(j).updatePositionVelocity(acc,step);\n//            }\n//        }\n//        System.out.println(\"Original: \");\n//        for (int i = 0; i <3 ; i++)\n//        {\n//            System.out.println(mercStart[i]);\n//        }\n//\n//\n//        System.out.println(\"Second: \");\n//        for (int i = 0; i <3 ; i++)\n//        {\n//            System.out.println(Mercury.getPositionalVector()[i]);\n//        }\n//\n//\n//\n//\n//        PlanetObject testEarth=new PlanetObject(0,0,0,5.97e24);\n//        PlanetObject testPerson= new PlanetObject(6371,0,0,70);\n//        System.out.println(testEarth.getForce(testPerson)[0]);\n\n\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/group1/project12group1/SolarSystem.java b/src/main/java/group1/project12group1/SolarSystem.java
+--- a/src/main/java/group1/project12group1/SolarSystem.java	(revision 71274404a1d98037cae8730af97a420901c7a3c5)
++++ b/src/main/java/group1/project12group1/SolarSystem.java	(date 1679437346058)
+@@ -6,7 +6,6 @@
+ import java.util.ArrayList;
+ 
+ public class SolarSystem {
+-
+     public static PlanetObject Sun = new PlanetObject(0, 0, 0, 0, 0, 0, 1.99e30);
+     public static PlanetObject Mercury = new PlanetObject(7.83e6, 4.49e7, 2.87e6, -5.75e1, 1.15e1, 6.22e0, 3.3e23);
+     public static PlanetObject Venus = new PlanetObject(-2.82e7, 1.04e8, 3.01e6, -3.4e1, -8.97e0, 1.84e0, 4.87e24);
+@@ -15,7 +14,7 @@
+     public static PlanetObject Mars = new PlanetObject(-1.59e8, 1.89e8, 7.87e6, -1.77e1, -1.35e1, 1.52e-1, 6.42e23);
+     public static PlanetObject Jupiter = new PlanetObject(6.93e8, 2.59e8, -1.66e7, -4.71e0, 1.29e1, 5.22e-2, 1.90e27);
+     public static PlanetObject Saturn = new PlanetObject(1.25e9, -7.60e8, -3.67e7, 4.47e0, 8.24e0, -3.21e1, 5.68e26);
+-    public PlanetObject Titan = new PlanetObject(1.25e9, -7.61e8, -3.63e7, 9, 1.11e1, -2.25e0, 1.35e23);
++    public static PlanetObject Titan = new PlanetObject(1.25e9, -7.61e8, -3.63e7, 9, 1.11e1, -2.25e0, 1.35e23);
+     public static PlanetObject Neptune = new PlanetObject(4.45e9, -3.98e8, -9.45e7, 4.48e-1, 5.45e0, -1.23e1, 1.02e26);
+     public static PlanetObject Uranus = new PlanetObject(1.96e9, 2.19e9, -1.72e7, -5.13e0, 4.22e0, 8.21e-2, 8.68e25);
+ 
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"ExternalStorageConfigurationManager\" enabled=\"true\" />\n  <component name=\"MavenProjectsManager\">\n    <option name=\"originalFiles\">\n      <list>\n        <option value=\"$PROJECT_DIR$/pom.xml\" />\n      </list>\n    </option>\n  </component>\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_X\" default=\"true\" project-jdk-name=\"corretto-19\" project-jdk-type=\"JavaSDK\">\n    <output url=\"file://$PROJECT_DIR$/out\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision 71274404a1d98037cae8730af97a420901c7a3c5)
++++ b/.idea/misc.xml	(date 1679413261655)
+@@ -8,7 +8,7 @@
+       </list>
+     </option>
+   </component>
+-  <component name="ProjectRootManager" version="2" languageLevel="JDK_X" default="true" project-jdk-name="corretto-19" project-jdk-type="JavaSDK">
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_19" default="true" project-jdk-name="corretto-19" project-jdk-type="JavaSDK">
+     <output url="file://$PROJECT_DIR$/out" />
+   </component>
+ </project>
+\ No newline at end of file
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"13cb742e-4cc8-4686-864c-bc5cb4fb0b5a\" name=\"Changes\" comment=\"\" />\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"MavenImportPreferences\">\n    <option name=\"importingSettings\">\n      <MavenImportingSettings>\n        <option name=\"workspaceImportEnabled\" value=\"true\" />\n      </MavenImportingSettings>\n    </option>\n  </component>\n  <component name=\"ProjectId\" id=\"2NHEToQGlRKTbWGVth802s3yKhD\" />\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\" />\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\"><![CDATA[{\n  \"keyToString\": {\n    \"RunOnceActivity.OpenProjectViewOnStart\": \"true\",\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\n    \"WebServerToolWindowFactoryState\": \"false\",\n    \"vue.rearranger.settings.migration\": \"true\"\n  }\n}]]></component>\n  <component name=\"RunManager\">\n    <configuration default=\"true\" type=\"JetRunConfigurationType\">\n      <module name=\"Project1.2 Group 1\" />\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration default=\"true\" type=\"KotlinStandaloneScriptRunConfigurationType\">\n      <module name=\"Project1.2 Group 1\" />\n      <option name=\"filePath\" />\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n  </component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"13cb742e-4cc8-4686-864c-bc5cb4fb0b5a\" name=\"Changes\" comment=\"\" />\n      <created>1679312618137</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1679312618137</updated>\n      <workItem from=\"1679312619245\" duration=\"1000\" />\n    </task>\n    <servers />\n  </component>\n</project>\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 71274404a1d98037cae8730af97a420901c7a3c5)
++++ b/.idea/workspace.xml	(date 1679468139522)
+@@ -4,12 +4,30 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="13cb742e-4cc8-4686-864c-bc5cb4fb0b5a" name="Changes" comment="" />
++    <list default="true" id="13cb742e-4cc8-4686-864c-bc5cb4fb0b5a" name="Changes" comment="idk">
++      <change afterPath="$PROJECT_DIR$/src/main/resources/mercury.jpg" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/main/resources/titan.jpg" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/main/resources/venus.jpg" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/group1/project12group1/HelloApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/group1/project12group1/HelloApplication.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/group1/project12group1/SolarSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/group1/project12group1/SolarSystem.java" afterDir="false" />
++    </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+     <option name="LAST_RESOLUTION" value="IGNORE" />
+   </component>
++  <component name="FileTemplateManagerImpl">
++    <option name="RECENT_TEMPLATES">
++      <list>
++        <option value="Class" />
++      </list>
++    </option>
++  </component>
++  <component name="MarkdownSettingsMigration">
++    <option name="stateVersion" value="1" />
++  </component>
+   <component name="MavenImportPreferences">
+     <option name="importingSettings">
+       <MavenImportingSettings>
+@@ -18,19 +36,30 @@
+     </option>
+   </component>
+   <component name="ProjectId" id="2NHEToQGlRKTbWGVth802s3yKhD" />
+-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
++  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
++    <ConfirmationsSetting value="2" id="Add" />
++  </component>
+   <component name="ProjectViewState">
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+-  <component name="PropertiesComponent"><![CDATA[{
+-  "keyToString": {
+-    "RunOnceActivity.OpenProjectViewOnStart": "true",
+-    "RunOnceActivity.ShowReadmeOnStart": "true",
+-    "WebServerToolWindowFactoryState": "false",
+-    "vue.rearranger.settings.migration": "true"
+-  }
+-}]]></component>
++  <component name="PropertiesComponent">{
++  &quot;keyToString&quot;: {
++    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
++    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
++    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
++    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
++    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
++    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
++    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
++    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
++  }
++}</component>
++  <component name="RecentsManager">
++    <key name="MoveFile.RECENT_KEYS">
++      <recent name="$PROJECT_DIR$/src/main/resources" />
++    </key>
++  </component>
+   <component name="RunManager">
+     <configuration default="true" type="JetRunConfigurationType">
+       <module name="Project1.2 Group 1" />
+@@ -55,7 +84,39 @@
+       <option name="presentableId" value="Default" />
+       <updated>1679312618137</updated>
+       <workItem from="1679312619245" duration="1000" />
++      <workItem from="1679413205711" duration="56000" />
++      <workItem from="1679413282133" duration="11000" />
++      <workItem from="1679413334156" duration="79000" />
++      <workItem from="1679413608206" duration="704000" />
++      <workItem from="1679414502478" duration="10991000" />
++      <workItem from="1679439690569" duration="10456000" />
++    </task>
++    <task id="LOCAL-00001" summary="idk">
++      <created>1679410063094</created>
++      <option name="number" value="00001" />
++      <option name="presentableId" value="LOCAL-00001" />
++      <option name="project" value="LOCAL" />
++      <updated>1679410063094</updated>
+     </task>
++    <option name="localTasksCounter" value="2" />
+     <servers />
+   </component>
+-</project>
++  <component name="TypeScriptGeneratedFilesManager">
++    <option name="version" value="3" />
++  </component>
++  <component name="Vcs.Log.Tabs.Properties">
++    <option name="TAB_STATES">
++      <map>
++        <entry key="MAIN">
++          <value>
++            <State />
++          </value>
++        </entry>
++      </map>
++    </option>
++  </component>
++  <component name="VcsManagerConfiguration">
++    <MESSAGE value="idk" />
++    <option name="LAST_COMMIT_MESSAGE" value="idk" />
++  </component>
++</project>
+\ No newline at end of file
