@@ -44,8 +44,8 @@ public class Visualizer extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
-        for (int i = 0; i < planets.length; i++)
-            originalCoordinates[i] = new double[]{planets[i].getX() / SCALE, planets[i].getY() / SCALE, planets[i].getZ() / SCALE};
+//        for (int i = 0; i < planets.length; i++)
+//            originalCoordinates[i] = new double[]{planets[i].getX() / SCALE, planets[i].getY() / SCALE, planets[i].getZ() / SCALE};
 
         Sun.setRadius(695_508);
         Mercury.setRadius(2439);
@@ -79,7 +79,6 @@ public class Visualizer extends Application {
         setUpMouseRotation(scene, rotateX, rotateZ);
         root.getTransforms().addAll(rotateX, rotateZ);
         setUpKeyboardInput(scene);
-
         calculation();
 
         stage.setTitle("Solar System");
@@ -92,10 +91,10 @@ public class Visualizer extends Application {
                 new java.util.TimerTask() {
                     @Override
                     public void run() {
-                        int step = 10 * 6000;
+                        int step = 10 * 3600;
                         for (int i = 0; i < step; i += 1) {
 
-                            for (int j = 1; j < planets.length - 1; j++) {
+                            for (int j = 1; j < planets.length; j++) {
 
                                 double[] acc = new double[3];
                                 for (int k = 0; k < planets.length; k++) {

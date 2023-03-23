@@ -11,8 +11,7 @@ public class Probe extends PlanetObject{
     public Probe(PlanetObject Earth, PlanetObject Titan,double[]velocity){
         this.Earth=Earth;
         this.Titan=Titan;
-        super.positionalVector=calculateInitialPosition();
-        initialPosition = calculateInitialPosition();
+        super.positionalVector=helperFunctions.addition(calculateInitialPosition(),Earth.getPositionalVector());
         this.initialVelocity=velocity;
         super.velocityVector=velocity;
         super.mass=50000;
@@ -31,11 +30,14 @@ public class Probe extends PlanetObject{
     public double[] calculateInitialPosition()
     {
         double[] directionalVector=helperFunctions.subtract(Earth.getPositionalVector(),Titan.getPositionalVector());
+        System.out.println(directionalVector);
         double mag=helperFunctions.getVectorMagnitude(directionalVector);
         for (int i = 0; i < 3; i++)
         {
          directionalVector[i]=directionalVector[i]*6370/mag;
+         System.out.println(directionalVector[i]);
         }
+
         return directionalVector;
     }
 

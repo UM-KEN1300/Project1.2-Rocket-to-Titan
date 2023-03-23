@@ -18,7 +18,7 @@ public class SolarSystem {
     public static PlanetObject Titan = new PlanetObject(1.25e9, -7.61e8, -3.63e7, 9.e0, 1.11e1, -2.25e0, 1.35e23);
     public static PlanetObject Neptune = new PlanetObject(4.45e9, -3.98e8, -9.45e7, 4.48e-1, 5.45e0, -1.23e-1, 1.02e26);
     public static PlanetObject Uranus = new PlanetObject(1.96e9, 2.19e9, -1.72e7, -5.13e0, 4.22e0, 8.21e-2, 8.68e25);
-    static double[]arr={-46,1,0};
+    static double[]arr={42,-43,-3};
     public static Probe Projectile = new Probe(Earth,Titan,arr);
 
     public static void main(String[] args) {
@@ -36,23 +36,36 @@ public class SolarSystem {
         listOfPlanets.add(Uranus);
         HelperFunctions helperFunctions = new HelperFunctions();
 
-        for (int i = 1; i < 25; i++)
+//        for (int i = 1; i < 25; i++)
+//        {
+//            double cordY=i;
+//            double cordX=(-262+29*cordY)/5;
+//            double[] velocity={cordX,cordY,0};
+//            Probe probe=new Probe(Earth,Titan,velocity);
+//            listOfPlanets.add(probe);
+//             cordY=-i;
+//             cordX=(-262+29*cordY)/5;
+//             double[] velocity2={cordX,cordY,0};
+//             Probe probe2=new Probe(Earth,Titan,velocity2);
+//             listOfPlanets.add(probe2);
+//        }
+        double[] velocity={0,0,0};
+        Probe probes=new Probe(Earth,Titan,velocity);
+        double[] direction=helperFunctions.subtract(probes.getPositionalVector(),Sun.getVelocityVector());
+        velocity=direction;
+
+        for (int i = 0; i <3 ; i++)
         {
-            double cordY=i;
-            double cordX=(-262+29*cordY)/5;
-            double[] velocity={cordX,cordY,0};
-            Probe probe=new Probe(Earth,Titan,velocity);
-            listOfPlanets.add(probe);
-
-             cordY=-i;
-             cordX=(-262+29*cordY)/5;
-             double[] velocity2={cordX,cordY,0};
-             Probe probe2=new Probe(Earth,Titan,velocity2);
-             listOfPlanets.add(probe2);
+            velocity[i]=-velocity[i]*53/helperFunctions.getVectorMagnitude(direction);
+            System.out.println(velocity[i]);
         }
+        System.out.println(helperFunctions.getVectorMagnitude(velocity));
+
+        double[] arr= {42,-43,-3};
+        probes.setVelocityVector(velocity);
 
 
-
+        listOfPlanets.add(probes);
 
         double step=1*3600*24*365;
         for (int i = 0; i < step; i++)
@@ -80,26 +93,34 @@ public class SolarSystem {
             }
         }
 
-        Probe tester=(Probe) listOfPlanets.get(11);
-        double closesDistance=tester.getDistanceToTitan();
-        int remember=11;
-        for (int i = 12; i <listOfPlanets.size() ; i++)
+        for (int i = 0; i < 3; i++)
         {
-             tester=(Probe) listOfPlanets.get(i);
-            if(closesDistance>tester.getDistanceToTitan()){
-                closesDistance=tester.getDistanceToTitan();
-                remember=i;
-            }
+            System.out.println(Titan.getPositionalVector()[i]);
+        }
 
 
-        }
-        tester=(Probe) listOfPlanets.get(remember);
-        System.out.println("The probe "+remember+"was the closes to titan with distance "+closesDistance);
-        System.out.println("The probe had intial velosity of ");
-        for (int i= 0; i <3 ; i++)
-        {
-            System.out.println(tester.getInitialVelocity()[i]);
-        }
+        System.out.println(probes.getDistanceToTitan());
+        System.out.println(helperFunctions.getDistanceBetween(Sun,Titan));
+//        Probe tester=(Probe) listOfPlanets.get(11);
+//        double closesDistance=tester.getDistanceToTitan();
+//        int remember=11;
+//        for (int i = 12; i <listOfPlanets.size() ; i++)
+//        {
+//             tester=(Probe) listOfPlanets.get(i);
+//            if(closesDistance>tester.getDistanceToTitan()){
+//                closesDistance=tester.getDistanceToTitan();
+//                remember=i;
+//            }
+//
+//
+//        }
+//        tester=(Probe) listOfPlanets.get(remember);
+//        System.out.println("The probe "+remember+"was the closes to titan with distance "+closesDistance);
+//        System.out.println("The probe had intial velosity of ");
+//        for (int i= 0; i <3 ; i++)
+//        {
+//            System.out.println(tester.getInitialVelocity()[i]);
+//        }
 
 
     }
