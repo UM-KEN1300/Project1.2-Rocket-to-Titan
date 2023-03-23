@@ -111,9 +111,10 @@ public class Visualizer extends Application {
                         if (currentDistance < distanceToTitan) {
                             timePassed = step * calculationStep;
                             distanceToTitan = currentDistance;
+                            System.out.println("\nLowest distance: " + currentDistance + " km");
+                            System.out.println("Recorded at " + timePassed + " seconds passed");
                         }
-                        System.out.println("\nLowest distance: " + currentDistance + " km");
-                        System.out.println("Recorded at " + timePassed + " seconds passed");
+
                         updateSpheres();
                     }
                 }, 0, 1);

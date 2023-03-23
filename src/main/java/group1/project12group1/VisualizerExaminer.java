@@ -3,9 +3,8 @@ package group1.project12group1;
 import helperFunction.HelperFunctions;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.scene.Group;
-import javafx.scene.PerspectiveCamera;
-import javafx.scene.Scene;
+import javafx.scene.*;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.ScrollEvent;
@@ -44,6 +43,8 @@ public class VisualizerExaminer extends Application {
     Group root, paths;
     ArrayList<Sphere> projectilePath = new ArrayList<>();
     double[] shift;
+    double timePassed;
+    double distanceToTitan;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -63,7 +64,7 @@ public class VisualizerExaminer extends Application {
         Neptune.setRadius(24_622);
         Uranus.setRadius(25_362);
 
-        double []earthVelVect = new double[3]; // velocity vector is input + earth's velocity vector
+        double[] earthVelVect = new double[3]; // velocity vector is input + earth's velocity vector
         double v1, v2, v3;
         earthVelVect = Earth.getVelocityVector();
         Scanner myObj = new Scanner(System.in);
@@ -78,7 +79,7 @@ public class VisualizerExaminer extends Application {
         System.out.println("Is the position relative to the Earth(1) or to the Sun(2) ?");
         int pick = myObj.nextInt();
         double p1, p2, p3;
-        double []earthPosVect = new double[3]; // position vector is input + earth's positional vector
+        double[] earthPosVect = new double[3]; // position vector is input + earth's positional vector
         earthPosVect = Earth.getPositionalVector();
         System.out.println("Enter p1:");
         p1 = myObj.nextDouble();
@@ -86,7 +87,7 @@ public class VisualizerExaminer extends Application {
         p2 = myObj.nextDouble();
         System.out.println("Enter p3:");
         p3 = myObj.nextDouble();
-        if(pick == 1){
+        if (pick == 1) {
             p1 = p1 + earthPosVect[0];
             p2 = p2 + earthPosVect[1];
             p3 = p3 + earthPosVect[2];
@@ -131,6 +132,8 @@ public class VisualizerExaminer extends Application {
                     @Override
                     public void run() {
                         int step = 10 * 3600;
+                        double calculationStep = 0.1;
+                        timePassed += step * 0.1;
                         for (int i = 0; i < step; i += 1) {
 
                             for (int j = 1; j < planets.length; j++) {
@@ -145,7 +148,16 @@ public class VisualizerExaminer extends Application {
                                 planets[j].updatePosition(acc, 0.1);
                             }
                         }
+                        double currentDistance = Projectile.getDistanceToTitan();
+                        if (currentDistance < distanceToTitan) {
+                            timePassed = step * calculationStep;
+                            distanceToTitan = currentDistance;
 
+                            Platform.runLater(()->{
+                                System.out.println("\nLowest distance: " + currentDistance + " km");
+                            System.out.println("Recorded at " + timePassed + " seconds passed");
+                            });
+                        }
                         updateSpheres();
                     }
                 }, 0, 1);
