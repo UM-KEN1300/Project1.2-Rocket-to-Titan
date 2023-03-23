@@ -17,37 +17,41 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.Hashtable;
 
 import static group1.project12group1.SolarSystem.*;
 
 public class Visualizer extends Application {
-    private static HelperFunctions helperFunctions = new HelperFunctions();
-    PlanetObject[] planets = helperFunctions.testing();
+    private static final HelperFunctions helperFunctions = new HelperFunctions();
     private final double WIDTH = Screen.getPrimary().getBounds().getWidth();
     private final double HEIGHT = Screen.getPrimary().getBounds().getHeight();
     public final double SCALE = 100;
-
-    PlanetObject[] planetss = new PlanetObject[]{Sun, Mercury, Venus, Earth, Moon, Mars, Jupiter, Saturn, Titan, Neptune, Uranus};
-
-    private Sphere sunSphere;
-    private Sphere mercurySphere;
-    private Sphere venusSphere;
-    private Sphere earthSphere;
-    private Sphere moonSphere;
-    private Sphere marsSphere;
-    private Sphere jupiterSphere;
-    private Sphere saturnSphere;
-    private Sphere titanSphere;
-    private Sphere neptuneSphere;
-    private Sphere uranusSphere;
-    private  Sphere projectile;
+    PlanetObject[] planets = new PlanetObject[]{Sun, Mercury, Venus, Earth, Moon, Mars, Jupiter, Saturn, Titan, Neptune, Uranus, Projectile};
+    Sphere[] visualizedObjects = new Sphere[12];
     private SolarCamera solarCamera;
-    private Sphere currentFocus;
+    private Sphere currentFocus = visualizedObjects[0];
+    private double[] shift = new double[]{0, 0, 0};
+    private double[][] originalCoordinates = new double[12][3];
     Rotate rotateX, rotateZ;
+    int currentFocusIndex;
 
     @Override
     public void start(Stage stage) throws IOException {
+        for (int i = 0; i < planets.length; i++)
+            originalCoordinates[i] = new double[]{planets[i].getX() / SCALE, planets[i].getY() / SCALE, planets[i].getZ() / SCALE};
+
+        Sun.setRadius(695_508);
+        Mercury.setRadius(2439);
+        Venus.setRadius(6052);
+        Earth.setRadius(6371);
+        Moon.setRadius(1737);
+        Mars.setRadius(3390);
+        Jupiter.setRadius(69_911);
+        Saturn.setRadius(58_232);
+        Titan.setRadius(2574);
+        Neptune.setRadius(24_622);
+        Uranus.setRadius(25_362);
+
+
         Group root = new Group();
 
         root.setTranslateX(WIDTH / 2);
@@ -57,22 +61,24 @@ public class Visualizer extends Application {
 
         initializeSpheres(root);
 
+        solarCamera.setTranslateZ(currentFocus.getTranslateZ() - currentFocus.getRadius() * 5);
+
         Scene scene = new Scene(root, WIDTH, HEIGHT, true);
         scene.setCamera(solarCamera);
 
-        zoom2(stage);
+        zoom(stage);
 
         scene.setFill(Color.BLACK.brighter());
 
-        rotateX = new Rotate(315, Rotate.X_AXIS);
+        rotateX = new Rotate(0, Rotate.X_AXIS);
         rotateZ = new Rotate(0, Rotate.Z_AXIS);
         setUpMouseRotation(scene, rotateX, rotateZ);
         root.getTransforms().addAll(rotateX, rotateZ);
 
         setUpKeyboardInput(scene);
 
-        fullView();
         calculation();
+
         stage.setTitle("Solar System");
         stage.setScene(scene);
         stage.show();
@@ -83,83 +89,51 @@ public class Visualizer extends Application {
                 new java.util.TimerTask() {
                     @Override
                     public void run() {
+                        int step = 10 * 6000;
+                        for (int i = 0; i < step; i += 1) {
 
-                        int step=10*60*60*3;
-                        for (int i = 0; i < step; i+=1)
-                        {
-
-                            for (int j = 1; j < planets.length-1; j++)
-                            {
+                            for (int j = 1; j < planets.length - 1; j++) {
 
                                 double[] acc = new double[3];
-                                for (int k = 0; k < planets.length-1; k++)
-                                {
+                                for (int k = 0; k < planets.length ; k++) {
 
-                                    if (k != j)
-                                    {
-
-                                            acc = helperFunctions.addition(acc, planets[j].accelerationBetween(planets[k],true));
-
+                                    if (k != j) {
+                                        acc = HelperFunctions.addition(acc, planets[j].accelerationBetween(planets[k], true));
                                     }
-
                                 }
                                 planets[j].setPreviousPosition(planets[j].getPositionalVector());
                                 planets[j].updatePosition(acc, 0.1);
-
                             }
-
-
                         }
                         updateSpheres();
-
                     }
-                },
-
-                0, // Start immediately
-                1 // Update every second
-        );
+                }, 0, 1);
     }
 
     private void initializeSpheres(Group group) {
-        sunSphere = new Sphere(695_508 / SCALE);
-        mercurySphere = new Sphere(2_439 / SCALE);
-        venusSphere = new Sphere(6052 / SCALE);
-        earthSphere = new Sphere(6_371 / SCALE);
-        moonSphere = new Sphere(1_737 / SCALE);
-        marsSphere = new Sphere(3_390 / SCALE);
-        jupiterSphere = new Sphere(69_911 / SCALE);
-        saturnSphere = new Sphere(58_232 / SCALE);
-        titanSphere = new Sphere(2_574 / SCALE);
-        neptuneSphere = new Sphere(24_622 / SCALE);
-        uranusSphere = new Sphere(25_363 / SCALE);
-        projectile= new Sphere(2_439 / SCALE/2);
+        for (int i = 0; i < visualizedObjects.length; i++) {
+            visualizedObjects[i] = new Sphere();
+            group.getChildren().add(visualizedObjects[i]);
+        }
 
-
-        group.getChildren().add(sunSphere);
-        group.getChildren().add(mercurySphere);
-        group.getChildren().add(venusSphere);
-        group.getChildren().add(earthSphere);
-        group.getChildren().add(moonSphere);
-        group.getChildren().add(marsSphere);
-        group.getChildren().add(jupiterSphere);
-        group.getChildren().add(saturnSphere);
-        group.getChildren().add(titanSphere);
-        group.getChildren().add(neptuneSphere);
-        group.getChildren().add(uranusSphere);
-        group.getChildren().add(projectile);
-
-        setFocus(sunSphere);
+        setVisibleScale();
+        currentFocus = visualizedObjects[0];
+        setFocus(0);
         updateSpheres();
         setTextures();
     }
 
     private void updateSpheres() {
-        Sphere[] spheres = new Sphere[]{sunSphere, mercurySphere, venusSphere, earthSphere, moonSphere, marsSphere, jupiterSphere, saturnSphere, titanSphere, neptuneSphere, uranusSphere,projectile};
+        shift = new double[]{
+                -planets[currentFocusIndex].getPositionalVector()[0] / SCALE,
+                -planets[currentFocusIndex].getPositionalVector()[1] / SCALE,
+                -planets[currentFocusIndex].getPositionalVector()[2] / SCALE
+        };
 
-        for (int i = 0; i < spheres.length; i++) {
-            spheres[i].setTranslateX(planets[i].getPositionalVector()[0] / SCALE);
-            spheres[i].setTranslateY(planets[i].getPositionalVector()[1] / SCALE);
-            spheres[i].setTranslateZ(planets[i].getPositionalVector()[2] / SCALE);
+        for (int i = 0; i < visualizedObjects.length; i++) {
+            visualizedObjects[i].setTranslateX(planets[i].getPositionalVector()[0] / SCALE + shift[0]);
+            visualizedObjects[i].setTranslateY(planets[i].getPositionalVector()[1] / SCALE + shift[1]);
+            visualizedObjects[i].setTranslateZ(planets[i].getPositionalVector()[2] / SCALE + shift[2]);
         }
     }
 
@@ -170,10 +144,10 @@ public class Visualizer extends Application {
         }
     }
 
-    private void zoom2(Stage stage) {
+    private void zoom(Stage stage) {
         stage.addEventHandler(ScrollEvent.SCROLL, event -> {
             double delta = event.getDeltaY();
-            if (solarCamera.getTranslateZ() > -5_000_000) {
+            if (solarCamera.getTranslateZ() > -500_000) {
                 if (delta < 0)
                     solarCamera.setTranslateZ(solarCamera.getTranslateZ() - delta * solarCamera.getTranslateZ() * 0.005);
             } else if (solarCamera.getTranslateZ() < -150_000_000) {
@@ -182,7 +156,6 @@ public class Visualizer extends Application {
             } else {
                 solarCamera.setTranslateZ(solarCamera.getTranslateZ() - delta * solarCamera.getTranslateZ() * 0.005);
             }
-
         });
     }
 
@@ -215,55 +188,69 @@ public class Visualizer extends Application {
         scene.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
             switch (event.getCode()) {
                 case DIGIT1 -> {
-                    fullView();
+                    setFocus(0);
                 }
                 case DIGIT2 -> {
-                    setFocus(earthSphere);
+                    setFocus(3);
                 }
                 case DIGIT3 -> {
-                    setFocus(saturnSphere);
+                    setFocus(7);
+                }
+                case DIGIT4 -> {
+                    setFocus(11);
                 }
             }
         });
     }
 
-    private void fullView() {
-        setFocus(sunSphere);
-        solarCamera.setTranslateZ(-2_500_000_0);
+    private void setRealScale() {
+        visualizedObjects[0].setRadius(Sun.getRadius() / SCALE);
+        visualizedObjects[1].setRadius(Mercury.getRadius() / SCALE);
+        visualizedObjects[2].setRadius(Venus.getRadius() / SCALE);
+        visualizedObjects[3].setRadius(Earth.getRadius() / SCALE);
+        visualizedObjects[4].setRadius(Moon.getRadius() / SCALE);
+        visualizedObjects[5].setRadius(Mars.getRadius() / SCALE);
+        visualizedObjects[6].setRadius(Jupiter.getRadius() / SCALE);
+        visualizedObjects[7].setRadius(Saturn.getRadius() / SCALE);
+        visualizedObjects[8].setRadius(Titan.getRadius() / SCALE);
+        visualizedObjects[9].setRadius(Neptune.getRadius() / SCALE);
+        visualizedObjects[10].setRadius(Uranus.getRadius() / SCALE);
 
-        sunSphere.setRadius(sunSphere.getRadius() * 30);
-        mercurySphere.setRadius(mercurySphere.getRadius() * SCALE * 40);
-        venusSphere.setRadius(venusSphere.getRadius() * SCALE * 25);
-        earthSphere.setRadius(earthSphere.getRadius() * SCALE * 35);
-        marsSphere.setRadius(marsSphere.getRadius() * SCALE * 55);
-        jupiterSphere.setRadius(jupiterSphere.getRadius() * SCALE * 10);
-        saturnSphere.setRadius(saturnSphere.getRadius() * SCALE * 10);
-        neptuneSphere.setRadius(neptuneSphere.getRadius() * SCALE * 35);
-        uranusSphere.setRadius(uranusSphere.getRadius() * SCALE * 35);
-        projectile.setRadius(mercurySphere.getRadius() * SCALE * 40/2);
+        visualizedObjects[11].setRadius(visualizedObjects[3].getRadius() / 10);
     }
 
-    private void setFocus(Sphere sphere) {
-        currentFocus = sunSphere;
+    public void setVisibleScale() {
+        visualizedObjects[0].setRadius(Sun.getRadius() / SCALE * 50);
+        visualizedObjects[1].setRadius(Mercury.getRadius() * 25);
+        visualizedObjects[2].setRadius(Venus.getRadius() * 10);
+        visualizedObjects[3].setRadius(Earth.getRadius() * 10);
+        visualizedObjects[5].setRadius(Mars.getRadius() * 20);
+        visualizedObjects[6].setRadius(Jupiter.getRadius() * 3);
+        visualizedObjects[7].setRadius(Saturn.getRadius() * 3);
+        visualizedObjects[9].setRadius(Neptune.getRadius() * 10);
+        visualizedObjects[10].setRadius(Uranus.getRadius() * 10);
 
-        solarCamera.setTranslateX(sphere.getTranslateX() / SCALE);
-        solarCamera.setTranslateY(sphere.getTranslateY() / SCALE);
-        solarCamera.setTranslateZ(sphere.getTranslateZ() / SCALE - currentFocus.getRadius() * 5);
+        visualizedObjects[11].setRadius(visualizedObjects[3].getRadius() / 10);
+    }
+
+    private void setFocus(int index) {
+
+        currentFocusIndex = index;
+        updateSpheres();
     }
 
     private void setTextures() {
         String[] names = new String[]{"sun", "mercury", "venus", "earth", "moon", "mars", "jupiter", "saturn", "titan", "neptune", "uranus"};
-        Sphere[] spheres = new Sphere[]{sunSphere, mercurySphere, venusSphere, earthSphere, moonSphere, marsSphere, jupiterSphere, saturnSphere, titanSphere, neptuneSphere, uranusSphere};
         for (int i = 0; i < names.length; i++) {
             PhongMaterial texture = new PhongMaterial();
             texture.setDiffuseMap(new Image(Paths.get("src/main/resources/" + names[i] + ".jpg").toUri().toString()));
-            spheres[i].setMaterial(texture);
+            visualizedObjects[i].setMaterial(texture);
         }
 
         PhongMaterial material = new PhongMaterial();
         material.setDiffuseColor(Color.PINK);
         material.setSpecularColor(Color.PINK);
-        projectile.setMaterial(material);
+        visualizedObjects[11].setMaterial(material);
     }
 
     public static void main(String[] args) {
