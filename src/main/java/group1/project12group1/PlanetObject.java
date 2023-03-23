@@ -28,6 +28,10 @@ public class PlanetObject
     //Constructors
 
     //Constructor with velocity
+    //default constructor
+    public PlanetObject (){
+
+    }
     public PlanetObject (double x, double y, double z, double mass)
     {
         positionalVector[0]=x;
