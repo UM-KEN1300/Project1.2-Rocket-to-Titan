@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import static group1.project12group1.SolarSystem.*;
 
@@ -61,6 +62,15 @@ public class VisualizerExaminer extends Application {
         Titan.setRadius(2574);
         Neptune.setRadius(24_622);
         Uranus.setRadius(25_362);
+
+        double v1, v2, v3;
+        Scanner myObj = new Scanner(System.in);
+        System.out.println("Enter v1:");
+        v1 = myObj.nextDouble();
+        v2 = myObj.nextDouble();
+        v3 = myObj.nextDouble();
+        Projectile.setVelocityVector(new double[]{v1, v2, v3});
+        myObj.close();
 
         root = new Group();
         root.setTranslateX(WIDTH / 2);
