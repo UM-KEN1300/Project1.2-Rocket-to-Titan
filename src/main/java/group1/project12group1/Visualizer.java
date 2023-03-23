@@ -17,19 +17,14 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.Hashtable;
 
 import static group1.project12group1.SolarSystem.*;
 
 public class Visualizer extends Application {
-    private static HelperFunctions helperFunctions = new HelperFunctions();
-
-
     //Select which one you want to use by changing the name planets
     //Api version
-    PlanetObject[] planetss = helperFunctions.testing();
+//    PlanetObject[] planetsss = helperFunctions.testing();
     //Solar System project
-    PlanetObject[] planets= new PlanetObject[]{Sun, Mercury, Venus, Earth, Moon, Mars, Jupiter, Saturn, Titan, Neptune, Uranus};
     private static final HelperFunctions helperFunctions = new HelperFunctions();
     private final double WIDTH = Screen.getPrimary().getBounds().getWidth();
     private final double HEIGHT = Screen.getPrimary().getBounds().getHeight();
@@ -39,15 +34,13 @@ public class Visualizer extends Application {
     private SolarCamera solarCamera;
     private Sphere currentFocus = visualizedObjects[0];
     private double[] shift = new double[]{0, 0, 0};
-    private double[][] originalCoordinates = new double[12][3];
     Rotate rotateX, rotateZ;
     int currentFocusIndex;
+    int projectilePathIndex = 0;
+    private double[] lastProjectileCoordinate, lastEarthCoordinate, lastSaturnCoordinate;
 
     @Override
     public void start(Stage stage) throws IOException {
-        for (int i = 0; i < planets.length; i++)
-            originalCoordinates[i] = new double[]{planets[i].getX() / SCALE, planets[i].getY() / SCALE, planets[i].getZ() / SCALE};
-
         Sun.setRadius(695_508);
         Mercury.setRadius(2439);
         Venus.setRadius(6052);
@@ -59,7 +52,6 @@ public class Visualizer extends Application {
         Titan.setRadius(2574);
         Neptune.setRadius(24_622);
         Uranus.setRadius(25_362);
-
 
         Group root = new Group();
         root.setTranslateX(WIDTH / 2);
@@ -100,17 +92,25 @@ public class Visualizer extends Application {
                             for (int j = 1; j < planets.length - 1; j++) {
 
                                 double[] acc = new double[3];
-                                for (int k = 0; k < planets.length ; k++) {
+                                for (int k = 0; k < planets.length; k++) {
 
                                     if (k != j) {
-                                        acc = HelperFunctions.addition(acc, planets[j].accelerationBetween(planets[k], true));
-                                            acc = helperFunctions.addition(acc, planets[j].accelerationBetween(planets[k]));
-
+                                        acc = HelperFunctions.addition(acc, planets[j].accelerationBetween(planets[k]));
                                     }
                                 }
                                 planets[j].updatePosition(acc, 0.1);
                             }
                         }
+                        projectilePathIndex++;
+                        if (projectilePathIndex % 2000 == 0){
+                            double[] newCoordinate = new double[]{planets[11].getX(), planets[11].getY(), planets[11].getZ()};
+                            if (projectilePathIndex>0)
+                                drawProjectilePath(newCoordinate);
+
+//                            lastProjectileCoordinate = newC;
+                        }
+
+
                         updateSpheres();
                     }
                 }, 0, 1);
@@ -262,5 +262,9 @@ public class Visualizer extends Application {
 
     public static void main(String[] args) {
         launch();
+    }
+
+    private void drawProjectilePath(double[] newCoordinates){
+
     }
 }
