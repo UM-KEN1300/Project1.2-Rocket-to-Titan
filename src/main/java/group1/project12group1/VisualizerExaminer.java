@@ -63,13 +63,36 @@ public class VisualizerExaminer extends Application {
         Neptune.setRadius(24_622);
         Uranus.setRadius(25_362);
 
+        double []earthVelVect = new double[3]; // velocity vector is inpu + earth's velocity vector
         double v1, v2, v3;
+        earthVelVect = Earth.getVelocityVector();
         Scanner myObj = new Scanner(System.in);
         System.out.println("Enter v1:");
-        v1 = myObj.nextDouble();
-        v2 = myObj.nextDouble();
-        v3 = myObj.nextDouble();
+        v1 = myObj.nextDouble() + earthVelVect[0];
+        System.out.println("Enter v2:");
+        v2 = myObj.nextDouble() + earthVelVect[1];
+        System.out.println("Enter v3:");
+        v3 = myObj.nextDouble() + earthVelVect[2];
         Projectile.setVelocityVector(new double[]{v1, v2, v3});
+
+        System.out.println("Is the position relative to the Earth(1) or to the Sun(2) ?");
+        int pick = myObj.nextInt();
+        double p1, p2, p3;
+        double []earthPosVect = new double[3]; // position vector is input + earth's positional vector
+        earthPosVect = Earth.getPositionalVector();
+        System.out.println("Enter p1:");
+        p1 = myObj.nextDouble();
+        System.out.println("Enter p2:");
+        p2 = myObj.nextDouble();
+        System.out.println("Enter p3:");
+        p3 = myObj.nextDouble();
+        if(pick == 1){
+            p1 = p1 + earthPosVect[0];
+            p2 = p2 + earthPosVect[1];
+            p3 = p3 + earthPosVect[2];
+        }
+//68.7, -44, -2
+        Projectile.setPositionalVector(new double[]{p1, p2, p3});
         myObj.close();
 
         root = new Group();

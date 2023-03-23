@@ -1,5 +1,8 @@
 package group1.project12group1;
 import helperFunction.HelperFunctions;
+
+import java.util.ArrayList;
+
 public class Probe extends PlanetObject{
     private  double[] initialPosition;
     private  double[]  initialVelocity;
@@ -39,6 +42,27 @@ public class Probe extends PlanetObject{
         }
 
         return directionalVector;
+    }
+
+    public double[] initialVelocity(double[] initialPosition, double[] target, double[] acc){
+        double gx = acc[0];
+        double gy = acc[1];
+        double gz = acc[2];
+
+        double dx = target[0] - initialPosition[0];
+        double dy = target[1] - initialPosition[1];
+        double dz = target[2] - initialPosition[2];
+        double d = Math.sqrt(dx*dx + dy*dy + dz*dz);
+
+        double v = Math.sqrt((d*gx)/(2*Math.sin(Math.PI/4)));
+        double theta = Math.atan2(dy, Math.sqrt(dx*dx + dz*dz));
+
+        double vx = v*Math.sqrt(2)/2;
+        double vy = v*Math.sin(theta);
+        double vz = v*Math.sqrt(2)/2;
+
+        double[] initialVelocity = {vx, vy, vz};
+        return initialVelocity;
     }
 
     public double[] getPosition()
