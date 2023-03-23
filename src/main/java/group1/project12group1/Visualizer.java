@@ -50,6 +50,7 @@ public class Visualizer extends Application {
         Neptune.setRadius(24_622);
         Uranus.setRadius(25_362);
 
+
         distanceToTitan = calculateDistance(new double[]{Projectile.getX(), Projectile.getY(), Projectile.getZ()}, new double[]{Titan.getX(), Titan.getY(), Titan.getZ()});
 
         root = new Group();
