@@ -110,34 +110,32 @@ public class modelTester
 
                     if(k!=j)
                     {
-                        acc=helperFunctions.addition(acc, listOfPlanets.get(j).accelerationBetween(listOfPlanets.get(k),true));
+
+                        acc=helperFunctions.addition(acc, listOfPlanets.get(j).accelerationBetween(listOfPlanets.get(k)));
                     }
 
                 }
                 listOfPlanets.get(j).updatePosition(acc,0.1);
 
-
-
-//                listOfPlanets.get(j).setPrivousPosition(listOfPlanets.get(j).getPositionalVector());
-//
             }
         }
-
-        System.out.println("The difference between the model and the nasa model is:");
+        int difference=0;
+        System.out.println("The difference between the model and the nasa model is: ");
         for (int i = 0; i < listOfPlanets.size()-1; i++)
         {
 
-            System.out.print("For planet with Planet Code: "+listOfPlanets.get(i).getPlanetCode()+" is: ");
-            System.out.print(helperFunctions.getDistanceBetweenWithVectors(listOfPlanets.get(i).getPositionalVector(),listOfPlanets.get(i).getTargetPosition())+"km difference");
-            double[] result=helperFunctions.getDistanceBetweenPositionVectors( listOfPlanets.get(i).getPositionalVector(),listOfPlanets.get(i).getTargetPosition());
-            System.out.println("Difference in coordinates is:");
-            for (int j = 0; j < result.length; j++)
-            {
-                System.out.print(result[j]+"  ");
-            }
-            System.out.println();
-        }
+           difference+=helperFunctions.getDistanceBetweenWithVectors(listOfPlanets.get(i).getPositionalVector(),listOfPlanets.get(i).getTargetPosition());
 
+
+          //  double[] result=helperFunctions.getDistanceBetweenPositionVectors( listOfPlanets.get(i).getPositionalVector(),listOfPlanets.get(i).getTargetPosition());
+//            System.out.println("Difference in coordinates is:");
+//            for (int j = 0; j < result.length; j++)
+//            {
+//                System.out.print(result[j]+"  ");
+//            }
+//            System.out.println();
+        }
+        System.out.print(difference);
 
 
 

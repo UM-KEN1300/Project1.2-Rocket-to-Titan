@@ -98,8 +98,8 @@ public class HelperFunctions
         //Input the start time and end time after set the string to number of days
         // between the dates example 20d if the two dates are 20 dates apart
         //follow the format below when changing
-        String startDate = "2022-04-01";
-        String endDate = "2022-04-2";
+        String startDate = "2023-04-01";
+        String endDate = "2023-04-2";
         String daysLong = "1d";
         String urlLoc = "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND='";
         BufferedReader br;

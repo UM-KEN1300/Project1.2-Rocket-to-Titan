@@ -23,12 +23,18 @@ import static group1.project12group1.SolarSystem.*;
 
 public class Visualizer extends Application {
     private static HelperFunctions helperFunctions = new HelperFunctions();
-    PlanetObject[] planets = helperFunctions.testing();
+
+
+    //Select which one you want to use by changing the name planets
+    //Api version
+    PlanetObject[] planetss = helperFunctions.testing();
+    //Solar System project
+    PlanetObject[] planets= new PlanetObject[]{Sun, Mercury, Venus, Earth, Moon, Mars, Jupiter, Saturn, Titan, Neptune, Uranus};
     private final double WIDTH = Screen.getPrimary().getBounds().getWidth();
     private final double HEIGHT = Screen.getPrimary().getBounds().getHeight();
     public final double SCALE = 100;
 
-    PlanetObject[] planetss = new PlanetObject[]{Sun, Mercury, Venus, Earth, Moon, Mars, Jupiter, Saturn, Titan, Neptune, Uranus};
+
 
     private Sphere sunSphere;
     private Sphere mercurySphere;
@@ -49,28 +55,19 @@ public class Visualizer extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         Group root = new Group();
-
         root.setTranslateX(WIDTH / 2);
         root.setTranslateY(HEIGHT / 2);
-
         solarCamera = new SolarCamera();
-
         initializeSpheres(root);
-
         Scene scene = new Scene(root, WIDTH, HEIGHT, true);
         scene.setCamera(solarCamera);
-
         zoom2(stage);
-
         scene.setFill(Color.BLACK.brighter());
-
         rotateX = new Rotate(315, Rotate.X_AXIS);
         rotateZ = new Rotate(0, Rotate.Z_AXIS);
         setUpMouseRotation(scene, rotateX, rotateZ);
         root.getTransforms().addAll(rotateX, rotateZ);
-
         setUpKeyboardInput(scene);
-
         fullView();
         calculation();
         stage.setTitle("Solar System");
@@ -84,7 +81,7 @@ public class Visualizer extends Application {
                     @Override
                     public void run() {
 
-                        int step=10*60*60*3;
+                        int step=10*60*60*10;
                         for (int i = 0; i < step; i+=1)
                         {
 
@@ -98,12 +95,11 @@ public class Visualizer extends Application {
                                     if (k != j)
                                     {
 
-                                            acc = helperFunctions.addition(acc, planets[j].accelerationBetween(planets[k],true));
+                                            acc = helperFunctions.addition(acc, planets[j].accelerationBetween(planets[k]));
 
                                     }
 
                                 }
-                                planets[j].setPreviousPosition(planets[j].getPositionalVector());
                                 planets[j].updatePosition(acc, 0.1);
 
                             }
@@ -154,7 +150,7 @@ public class Visualizer extends Application {
     }
 
     private void updateSpheres() {
-        Sphere[] spheres = new Sphere[]{sunSphere, mercurySphere, venusSphere, earthSphere, moonSphere, marsSphere, jupiterSphere, saturnSphere, titanSphere, neptuneSphere, uranusSphere,projectile};
+        Sphere[] spheres = new Sphere[]{sunSphere, mercurySphere, venusSphere, earthSphere, moonSphere, marsSphere, jupiterSphere, saturnSphere, titanSphere, neptuneSphere, uranusSphere};
 
         for (int i = 0; i < spheres.length; i++) {
             spheres[i].setTranslateX(planets[i].getPositionalVector()[0] / SCALE);
