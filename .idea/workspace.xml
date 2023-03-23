@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="13cb742e-4cc8-4686-864c-bc5cb4fb0b5a" name="Changes" comment="Added comments and cleaned the PlanetObject">
+    <list default="true" id="13cb742e-4cc8-4686-864c-bc5cb4fb0b5a" name="Changes" comment="eeeeee">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/group1/project12group1/VisualizerExaminer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/group1/project12group1/VisualizerExaminer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/group1/project12group1/SolarSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/group1/project12group1/SolarSystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/group1/project12group1/Visualizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/group1/project12group1/Visualizer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -120,8 +121,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Visualizer" />
         <item itemvalue="Application.SolarSystem" />
+        <item itemvalue="Application.Visualizer" />
         <item itemvalue="Application.modelTester" />
         <item itemvalue="Application.GUIpart" />
       </list>
@@ -194,7 +195,28 @@
       <option name="project" value="LOCAL" />
       <updated>1679603739673</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="eeeeee">
+      <created>1679608031109</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1679608031109</updated>
+    </task>
+    <task id="LOCAL-00010" summary="eeeeee">
+      <created>1679610941972</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1679610941972</updated>
+    </task>
+    <task id="LOCAL-00011" summary="eeeeee">
+      <created>1679611003457</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1679611003457</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -220,7 +242,8 @@
     <MESSAGE value="changed the methods to work with momentkum" />
     <MESSAGE value="bug fix" />
     <MESSAGE value="Added comments and cleaned the PlanetObject" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added comments and cleaned the PlanetObject" />
+    <MESSAGE value="eeeeee" />
+    <option name="LAST_COMMIT_MESSAGE" value="eeeeee" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Project1_2_Rocket_to_Titan$SolarSystem.ic" NAME="SolarSystem Coverage Results" MODIFIED="1679580725908" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
