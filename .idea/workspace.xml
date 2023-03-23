@@ -47,7 +47,7 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.Visualizer">
     <configuration name="GUIpart" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="group1.project12group1.GUIpart" />
       <module name="Project1-2-Group-1" />
@@ -102,9 +102,9 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.modelTester" />
         <item itemvalue="Application.Visualizer" />
         <item itemvalue="Application.GUIpart" />
+        <item itemvalue="Application.modelTester" />
       </list>
     </recent_temporary>
   </component>
@@ -180,5 +180,10 @@
     <MESSAGE value="changed the methods to work with momentkum" />
     <MESSAGE value="bug fix" />
     <option name="LAST_COMMIT_MESSAGE" value="bug fix" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Project1_2_Rocket_to_Titan$SolarSystem.ic" NAME="SolarSystem Coverage Results" MODIFIED="1679580725908" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>group1.project12group1.*</FILTER>
+    </SUITE>
   </component>
 </project>
