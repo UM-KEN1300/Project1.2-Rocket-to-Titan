@@ -63,7 +63,7 @@ public class VisualizerExaminer extends Application {
         Neptune.setRadius(24_622);
         Uranus.setRadius(25_362);
 
-        double []earthVelVect = new double[3]; // velocity vector is inpu + earth's velocity vector
+        double []earthVelVect = new double[3]; // velocity vector is input + earth's velocity vector
         double v1, v2, v3;
         earthVelVect = Earth.getVelocityVector();
         Scanner myObj = new Scanner(System.in);
