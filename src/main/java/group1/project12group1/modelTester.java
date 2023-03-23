@@ -93,7 +93,7 @@ public class modelTester
         //accuracy
         System.out.println("starting the simulation of solar system.");
         double step0p1=10*3600*24*10;
-        double step=10*3600*24*365;
+        double step=1*3600*24*365;
         for (int i = 0; i < step; i++)
         {
            if(i%70000==0)
@@ -115,7 +115,7 @@ public class modelTester
                     }
 
                 }
-                listOfPlanets.get(j).updatePosition(acc,0.1);
+                listOfPlanets.get(j).updatePosition(acc,1);
 
             }
         }
