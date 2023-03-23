@@ -29,7 +29,8 @@ public class Visualizer extends Application {
     //Api version
     PlanetObject[] planetss = helperFunctions.testing();
     //Solar System project
-
+    PlanetObject[] planets= new PlanetObject[]{Sun, Mercury, Venus, Earth, Moon, Mars, Jupiter, Saturn, Titan, Neptune, Uranus};
+    private static final HelperFunctions helperFunctions = new HelperFunctions();
     private final double WIDTH = Screen.getPrimary().getBounds().getWidth();
     private final double HEIGHT = Screen.getPrimary().getBounds().getHeight();
     public final double SCALE = 100;
@@ -102,7 +103,9 @@ public class Visualizer extends Application {
                                 for (int k = 0; k < planets.length ; k++) {
 
                                     if (k != j) {
-                                        acc = HelperFunctions.addition(acc, planets[j].accelerationBetween(planets[k]));
+                                        acc = HelperFunctions.addition(acc, planets[j].accelerationBetween(planets[k], true));
+                                            acc = helperFunctions.addition(acc, planets[j].accelerationBetween(planets[k]));
+
                                     }
                                 }
                                 planets[j].updatePosition(acc, 0.1);
