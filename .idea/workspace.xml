@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="13cb742e-4cc8-4686-864c-bc5cb4fb0b5a" name="Changes" comment="Added comments and cleaned the PlanetObject">
+    <list default="true" id="13cb742e-4cc8-4686-864c-bc5cb4fb0b5a" name="Changes" comment="changed the methods to work with momentkum">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/group1/project12group1/PlanetObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/group1/project12group1/PlanetObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/group1/project12group1/Probe.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/group1/project12group1/Probe.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/group1/project12group1/SolarSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/group1/project12group1/SolarSystem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/group1/project12group1/Visualizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/group1/project12group1/Visualizer.java" afterDir="false" />
     </list>
@@ -102,11 +102,16 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Application.GUIpart" />
+      <item itemvalue="Application.Visualizer" />
+      <item itemvalue="Application.modelTester" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Visualizer" />
-        <item itemvalue="Application.GUIpart" />
         <item itemvalue="Application.modelTester" />
+        <item itemvalue="Application.GUIpart" />
       </list>
     </recent_temporary>
   </component>
@@ -156,14 +161,7 @@
       <option name="project" value="LOCAL" />
       <updated>1679482920572</updated>
     </task>
-    <task id="LOCAL-00006" summary="Added comments and cleaned the PlanetObject">
-      <created>1679585913205</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1679585913205</updated>
-    </task>
-    <option name="localTasksCounter" value="7" />
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -188,8 +186,7 @@
     <MESSAGE value="changed the methods to work with momentum" />
     <MESSAGE value="changed the methods to work with momentkum" />
     <MESSAGE value="bug fix" />
-    <MESSAGE value="Added comments and cleaned the PlanetObject" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added comments and cleaned the PlanetObject" />
+    <option name="LAST_COMMIT_MESSAGE" value="bug fix" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Project1_2_Rocket_to_Titan$SolarSystem.ic" NAME="SolarSystem Coverage Results" MODIFIED="1679580725908" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">

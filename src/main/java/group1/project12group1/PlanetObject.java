@@ -88,8 +88,7 @@ public class PlanetObject
         return acceleration;
     }
 
-
-
+    
     /**
      * @param acceleration is the all the accelerations that affect a planet
      * @param step is amount of time we move the planet 1 second is 1
