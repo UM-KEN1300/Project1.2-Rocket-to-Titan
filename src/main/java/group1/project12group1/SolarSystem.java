@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class SolarSystem {
+    //initialises the planets using the PlanetObject object
     public static PlanetObject Sun = new PlanetObject(0, 0, 0, 0, 0, 0, 1.99e30);
     public static PlanetObject Mercury = new PlanetObject(7.83e6, 4.49e7, 2.87e6, -5.75e1, 1.15e1, 6.22e0, 3.3e23);
     public static PlanetObject Venus = new PlanetObject(-2.82e7, 1.04e8, 3.01e6, -3.4e1, -8.97e0, 1.84e0, 4.87e24);
@@ -23,7 +24,7 @@ public class SolarSystem {
 
     public static void main(String[] args) {
         ArrayList<PlanetObject> listOfPlanets = new ArrayList<>();
-        listOfPlanets.add(Sun);
+        listOfPlanets.add(Sun); //list of planets
         listOfPlanets.add(Mercury);
         listOfPlanets.add(Venus);
         listOfPlanets.add(Earth);
@@ -36,19 +37,6 @@ public class SolarSystem {
         listOfPlanets.add(Uranus);
         HelperFunctions helperFunctions = new HelperFunctions();
 
-//        for (int i = 1; i < 25; i++)
-//        {
-//            double cordY=i;
-//            double cordX=(-262+29*cordY)/5;
-//            double[] velocity={cordX,cordY,0};
-//            Probe probe=new Probe(Earth,Titan,velocity);
-//            listOfPlanets.add(probe);
-//             cordY=-i;
-//             cordX=(-262+29*cordY)/5;
-//             double[] velocity2={cordX,cordY,0};
-//             Probe probe2=new Probe(Earth,Titan,velocity2);
-//             listOfPlanets.add(probe2);
-//        }
         double[] velocity = {0, 0, 0};
         Probe probes = new Probe(Earth, Titan, velocity);
         double[] direction = helperFunctions.subtract(probes.getPositionalVector(), Sun.getVelocityVector());
@@ -59,25 +47,6 @@ public class SolarSystem {
             System.out.println(velocity[i]);
         }
         System.out.println(helperFunctions.getVectorMagnitude(velocity));
-
-        double[] arr = {42, -43, -3};
-        double[] initPos = probes.getPosition();
-        double[] titanPos = new double[3];
-        titanPos[0] = 1.4487665253803456 * Math.pow(10, 9);
-        titanPos[1] = -5.616509545202004 * Math.pow(10, 8);
-        titanPos[2] = 2207623.640760994;
-        double accel[] = new double[3];
-        listOfPlanets.add(probes);
-        for (int b = 0; b < listOfPlanets.size(); b++) {
-
-            if (b != 11) {
-
-                accel = helperFunctions.addition(accel, listOfPlanets.get(11).accelerationBetween(listOfPlanets.get(b)));
-            }
-
-            probes.setVelocityVector(probes.initialVelocity(initPos, titanPos, accel));
-
-        }
             double step = 1 * 3600 * 24 * 365;
             for (int i = 0; i < step; i++) {
                 if (i % 70000 == 0) {
