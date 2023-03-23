@@ -3,8 +3,9 @@ package group1.project12group1;
 import helperFunction.HelperFunctions;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.scene.*;
-import javafx.scene.control.Label;
+import javafx.scene.Group;
+import javafx.scene.PerspectiveCamera;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.ScrollEvent;
@@ -39,7 +40,6 @@ public class VisualizerExaminer extends Application {
     private Sphere currentFocus = visualizedObjects[11];
     Rotate rotateX, rotateZ;
     int currentFocusIndex;
-    int projectilePathIndex = 0;
     Group root, paths;
     ArrayList<Sphere> projectilePath = new ArrayList<>();
     double[] shift;
@@ -96,6 +96,10 @@ public class VisualizerExaminer extends Application {
         Projectile.setPositionalVector(new double[]{p1, p2, p3});
         myObj.close();
 
+//        Projectile = new Probe(Earth, Titan, new double[]{42, -42, -3});
+
+
+
         root = new Group();
         root.setTranslateX(WIDTH / 2);
         root.setTranslateY(HEIGHT / 2);
@@ -119,6 +123,10 @@ public class VisualizerExaminer extends Application {
         setUpMouseRotation(scene, rotateX, rotateZ);
         root.getTransforms().addAll(rotateX, rotateZ);
         setUpKeyboardInput(scene);
+
+        System.out.println("\nLowest distance: " + distanceToTitan + " km");
+        System.out.println("Recorded at " + timePassed + " seconds passed");
+
         calculation();
 
         stage.setTitle("Solar System");
@@ -153,14 +161,15 @@ public class VisualizerExaminer extends Application {
                             timePassed = step * calculationStep;
                             distanceToTitan = currentDistance;
 
-                            Platform.runLater(()->{
-                                System.out.println("\nLowest distance: " + currentDistance + " km");
+                            System.out.println("\nLowest distance: " + currentDistance + " km");
                             System.out.println("Recorded at " + timePassed + " seconds passed");
-                            });
                         }
+
                         updateSpheres();
+
                     }
-                }, 0, 1);
+                },
+                0, 1);
     }
 
     private void initializeSpheres(Group group) {

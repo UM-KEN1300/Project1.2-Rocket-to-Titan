@@ -20,7 +20,15 @@ public class Probe extends PlanetObject{
         super.mass=50000;
         distanceToTitan=helperFunctions.getDistanceBetween(this,Titan);
     }
-
+@Override
+    public void updatePosition(double[] acceleration, double step){
+        for(int i = 0; i < 3; i++)
+        {
+            velocityVector[i] += acceleration[i] * step;
+            positionalVector[i] += velocityVector[i] * step;
+        }
+        checkDistance();
+    }
     public void
     checkDistance()
     {
