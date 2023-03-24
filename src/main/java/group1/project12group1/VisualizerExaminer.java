@@ -140,7 +140,7 @@ public class VisualizerExaminer extends Application {
                     @Override
                     public void run() {
                         int step = 10 * 3600;
-                        double calculationStep = 0.5;
+                        double calculationStep = 2;
                         for (int i = 0; i < step; i += 1) {
 
                             for (int j = 1; j < planets.length; j++) {
@@ -161,7 +161,7 @@ public class VisualizerExaminer extends Application {
                             distanceToTitan = currentDistance;
 
                             System.out.println("\nLowest distance: " + currentDistance + " km");
-                            System.out.println("Recorded at " + timePassed + " seconds passed ("+(int)(timePassed/(60*60*24))+" days)");
+                            System.out.println("Recorded at " + timePassed + " seconds passed (" + (int) (timePassed / (60 * 60 * 24)) + " days)");
                         }
 
                         updateSpheres();
@@ -257,7 +257,6 @@ public class VisualizerExaminer extends Application {
             switch (event.getCode()) {
                 case DIGIT1 -> {
                     setFocus(0);
-
                 }
                 case DIGIT2 -> {
                     setFocus(3);

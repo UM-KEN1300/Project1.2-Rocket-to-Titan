@@ -43,12 +43,12 @@ public class Visualizer extends Application {
     Group root, paths;
     ArrayList<Sphere> projectilePath = new ArrayList<>();
     double[] shift;
+    double timePassed;
+    double distanceToTitan;
 
     @Override
     public void start(Stage stage) throws IOException {
-
-//        for (int i = 0; i < planets.length; i++)
-//            originalCoordinates[i] = new double[]{planets[i].getX() / SCALE, planets[i].getY() / SCALE, planets[i].getZ() / SCALE};
+        distanceToTitan = Projectile.getDistanceToTitan();
 
         Sun.setRadius(695_508);
         Mercury.setRadius(2439);
@@ -98,6 +98,7 @@ public class Visualizer extends Application {
                     @Override
                     public void run() {
                         int step = 10 * 3600;
+                        double calculationStep = 2;
                         for (int i = 0; i < step; i += 1) {
 
                             for (int j = 1; j < planets.length; j++) {
@@ -109,8 +110,16 @@ public class Visualizer extends Application {
                                         acc = HelperFunctions.addition(acc, planets[j].accelerationBetween(planets[k]));
                                     }
                                 }
-                                planets[j].updatePosition(acc, 2);
+                                planets[j].updatePosition(acc, calculationStep);
                             }
+                        }
+                        double currentDistance = Projectile.getDistanceToTitan();
+                        timePassed += calculationStep * step;
+                        if (currentDistance < distanceToTitan) {
+                            distanceToTitan = currentDistance;
+
+                            System.out.println("\nLowest distance: " + currentDistance + " km");
+                            System.out.println("Recorded at " + timePassed + " seconds passed (" + (int) (timePassed / (60 * 60 * 24)) + " days)");
                         }
 
                         updateSpheres();
