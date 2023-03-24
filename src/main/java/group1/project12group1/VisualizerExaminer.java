@@ -97,7 +97,7 @@ public class VisualizerExaminer extends Application {
         myObj.close();
 
 //        Projectile = new Probe(Earth, Titan, new double[]{42, -42, -3});
-
+        distanceToTitan = Projectile.getDistanceToTitan();
 
 
         root = new Group();
@@ -124,8 +124,8 @@ public class VisualizerExaminer extends Application {
         root.getTransforms().addAll(rotateX, rotateZ);
         setUpKeyboardInput(scene);
 
-        System.out.println("\nLowest distance: " + distanceToTitan + " km");
-        System.out.println("Recorded at " + timePassed + " seconds passed");
+//        System.out.println("\nLowest distance: " + distanceToTitan + " km");
+//        System.out.println("Recorded at " + timePassed + " seconds passed");
 
         calculation();
 
@@ -140,8 +140,7 @@ public class VisualizerExaminer extends Application {
                     @Override
                     public void run() {
                         int step = 10 * 3600;
-                        double calculationStep = 0.1;
-                        timePassed += step * 0.1;
+                        double calculationStep = 0.5;
                         for (int i = 0; i < step; i += 1) {
 
                             for (int j = 1; j < planets.length; j++) {
@@ -153,16 +152,16 @@ public class VisualizerExaminer extends Application {
                                         acc = HelperFunctions.addition(acc, planets[j].accelerationBetween(planets[k]));
                                     }
                                 }
-                                planets[j].updatePosition(acc, 0.1);
+                                planets[j].updatePosition(acc, calculationStep);
                             }
                         }
                         double currentDistance = Projectile.getDistanceToTitan();
+                        timePassed += calculationStep * step;
                         if (currentDistance < distanceToTitan) {
-                            timePassed = step * calculationStep;
                             distanceToTitan = currentDistance;
 
                             System.out.println("\nLowest distance: " + currentDistance + " km");
-                            System.out.println("Recorded at " + timePassed + " seconds passed");
+                            System.out.println("Recorded at " + timePassed + " seconds passed ("+(int)(timePassed/(60*60*24))+" days)");
                         }
 
                         updateSpheres();
@@ -311,7 +310,7 @@ public class VisualizerExaminer extends Application {
         visualizedObjects[9].setRadius(Neptune.getRadius() * 10);
         visualizedObjects[10].setRadius(Uranus.getRadius() * 10);
 
-        visualizedObjects[11].setRadius(visualizedObjects[3].getRadius() / 10);
+        visualizedObjects[11].setRadius(visualizedObjects[3].getRadius() / 5);
 
         solarCamera.setTranslateZ(-currentFocus.getRadius() * 5);
     }
