@@ -4,6 +4,8 @@ module group1.project12group1 {
 
 
 
-    opens group1.project12group1 to javafx.fxml;
-    exports group1.project12group1;
+    opens Model to javafx.fxml;
+    exports Model;
+    exports GUI;
+    opens GUI to javafx.fxml;
 }
