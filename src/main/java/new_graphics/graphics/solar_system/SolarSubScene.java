@@ -1,9 +1,9 @@
-package graphics.solar_system;
+package new_graphics.graphics.solar_system;
 
-import com.graphics.solar_system.controllers.SolarScrollController;
-import com.model.Model;
-import com.model.objects.CelestialBody;
-import javafx.scene.*;
+import javafx.scene.Group;
+import javafx.scene.PerspectiveCamera;
+import javafx.scene.SceneAntialiasing;
+import javafx.scene.SubScene;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
@@ -11,6 +11,8 @@ import javafx.scene.shape.Polyline;
 import javafx.scene.shape.Sphere;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
+import new_graphics.graphics.solar_system.controllers.SolarScrollController;
+import new_graphics.model_from_file.objects.CelestialBody;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -20,6 +22,8 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+
+import new_graphics.model_from_file.Model;
 
 /**
  * Class responsible for creating and managing the movement of the 3D objects in the visualization.
@@ -134,20 +138,20 @@ public class SolarSubScene extends SubScene implements SolarSubSceneInterface {
     }
 
     public void updateSizes() {
-        double cameraZ = -getCamera().getTranslateZ(); // Make sure cameraZ is positive
+        double cameraZ = -getCamera().getTranslateZ();
         double scaleFactor;
         double zoomLevel = cameraZ / (2000.0 * SolarSubSceneInterface.SCALE);
 
         for (Map.Entry<String, Sphere> entry : celestialBodyViews.entrySet()) {
             String key = entry.getKey();
             Sphere view = entry.getValue();
-            double minSize = CELESTIAL_BODY_SIZES.get(key) / SolarSubSceneInterface.SCALE; // Get the minimum size and apply the scaling factor
+            double minSize = CELESTIAL_BODY_SIZES.get(key) / SolarSubSceneInterface.SCALE;
 
             scaleFactor = 1 + 2 * zoomLevel;
-            scaleFactor = Math.max(1, scaleFactor); // Prevent the scaleFactor from going below 1
+            scaleFactor = Math.max(1, scaleFactor);
 
             if (key.equals("Sun")) {
-                scaleFactor = scaleFactor * 0.03; // Apply a different scaling factor for the Sun
+                scaleFactor = scaleFactor * 0.03;
             }
 
             view.setRadius(minSize * scaleFactor);
@@ -173,7 +177,7 @@ public class SolarSubScene extends SubScene implements SolarSubSceneInterface {
         }
     }
 
-    public Map<String, Sphere> getCelestialBodyViews(){
+    public Map<String, Sphere> getCelestialBodyViews() {
         return celestialBodyViews;
     }
 }

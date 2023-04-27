@@ -1,4 +1,4 @@
-package graphics.overlay;
+package new_graphics.graphics.overlay;
 
 import javafx.scene.Group;
 import javafx.scene.layout.AnchorPane;

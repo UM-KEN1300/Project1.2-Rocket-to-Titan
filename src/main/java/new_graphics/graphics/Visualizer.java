@@ -1,5 +1,7 @@
-package graphics;
+package new_graphics.graphics;
 
+import new_graphics.graphics.solar_system.SolarSubScene;
+import new_graphics.graphics.solar_system.controllers.SolarMouseController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Group;

@@ -1,5 +1,5 @@
 package GUI;
-import Algorithms.ModelRunner;
+import  Algorithms.ModelRunner;
 import Model.PlanetObject;
 import Model.Probe;
 import Model.SolarSystemModel;

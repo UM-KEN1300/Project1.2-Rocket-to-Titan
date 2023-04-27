@@ -1,6 +1,6 @@
-package graphics.solar_system.controllers;
+package new_graphics.graphics.solar_system.controllers;
 
-import com.graphics.solar_system.SolarSubScene;
+import new_graphics.graphics.solar_system.SolarSubScene;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.transform.Rotate;

@@ -1,7 +1,7 @@
-package model_from_file.objects;
+package new_graphics.model_from_file.objects;
 
 /**
- * Class whose objects store information about celestial bodies represented in the model_from_file.
+ * Class whose objects store information about celestial bodies represented in the new_graphics.model_from_file.
  */
 public class CelestialBody {
     private final double[] COORDINATES;

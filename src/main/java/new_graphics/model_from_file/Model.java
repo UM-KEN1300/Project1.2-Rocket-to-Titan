@@ -1,6 +1,5 @@
-package model_from_file;
+package new_graphics.model_from_file;
 
-import com.model_from_file.objects.CelestialBody;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -10,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+import new_graphics.model_from_file.objects.CelestialBody;
 
 public class Model {
     private static Model instance;
