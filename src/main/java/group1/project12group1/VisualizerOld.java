@@ -22,7 +22,7 @@ import java.util.ArrayList;
 
 import static group1.project12group1.SolarSystem.*;
 
-public class Visualizer extends Application {
+public class VisualizerOld extends Application {
     //Select which one you want to use by changing the name planets
     //Api version
 //    PlanetObject[] planetsss = helperFunctions.testing();
