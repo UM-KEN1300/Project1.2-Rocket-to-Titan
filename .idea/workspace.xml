@@ -4,8 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="13cb742e-4cc8-4686-864c-bc5cb4fb0b5a" name="Changes" comment="base for graphics, general structure, will be updated">
-      <change beforePath="$PROJECT_DIR$/src/main/java/graphics/Visualizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/graphics/Visualizer.java" afterDir="false" />
+    <list default="true" id="13cb742e-4cc8-4686-864c-bc5cb4fb0b5a" name="Changes" comment="reading model from xlsx files and planet-spaceship classes used by the graphics (will be merged later)">
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Model/hello-view.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/background.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/earth.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/group1/project12group1/hello-view.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/jupiter.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mars.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mercury.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/moon.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/neptune.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/saturn.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sun.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/titan.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/uranus.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/venus.jpg" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,20 +51,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "new-structure",
-    "last_opened_file_path": "/Users/marcell/Documents/*School/Year 1/Semester 2/Project 1-2/Phase 2/git/src/main/java",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;new-structure&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/marcell/Documents/*School/Year 1/Semester 2/Project 1-2/Phase 2/git/src/main/java&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/java" />
@@ -152,6 +165,7 @@
       <workItem from="1679649470844" duration="787000" />
       <workItem from="1682574830037" duration="138000" />
       <workItem from="1682575019746" duration="212000" />
+      <workItem from="1682575286272" duration="169000" />
     </task>
     <task id="LOCAL-00001" summary="WORKING HOW THIS SHIT WORKS">
       <created>1679319564168</created>
@@ -272,7 +286,14 @@
       <option name="project" value="LOCAL" />
       <updated>1682575177410</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="reading model from xlsx files and planet-spaceship classes used by the graphics (will be merged later)">
+      <created>1682575388176</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1682575388176</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -300,7 +321,8 @@
     <MESSAGE value="Added comments and cleaned the PlanetObject" />
     <MESSAGE value="eeeeee" />
     <MESSAGE value="base for graphics, general structure, will be updated" />
-    <option name="LAST_COMMIT_MESSAGE" value="base for graphics, general structure, will be updated" />
+    <MESSAGE value="reading model from xlsx files and planet-spaceship classes used by the graphics (will be merged later)" />
+    <option name="LAST_COMMIT_MESSAGE" value="reading model from xlsx files and planet-spaceship classes used by the graphics (will be merged later)" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Project1_2_Rocket_to_Titan$SolarSystem.ic" NAME="SolarSystem Coverage Results" MODIFIED="1679580725908" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
