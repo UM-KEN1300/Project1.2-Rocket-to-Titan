@@ -4,14 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="13cb742e-4cc8-4686-864c-bc5cb4fb0b5a" name="Changes" comment="eeeeee">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-03-22,_08_01_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-03-22,_12_51_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-03-22,_13_22_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-03-22,_14_09_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-03-23,_13_12_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_21_03_23,_18_31_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_22_03_23,_12_02_[Changes]/shelved.patch" beforeDir="false" />
+    <list default="true" id="13cb742e-4cc8-4686-864c-bc5cb4fb0b5a" name="Changes" comment="base for graphics, general structure, will be updated">
+      <change beforePath="$PROJECT_DIR$/src/main/java/graphics/Visualizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/graphics/Visualizer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,6 +44,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "new-structure",
+    "last_opened_file_path": "/Users/marcell/Documents/*School/Year 1/Semester 2/Project 1-2/Phase 2/git/src/main/java",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
@@ -57,6 +52,11 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/java" />
+    </key>
+  </component>
   <component name="RunManager" selected="Application.SolarSystem">
     <configuration name="GUIpart" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="group1.project12group1.GUIpart" />
@@ -84,8 +84,8 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Visualizer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="group1.project12group1.Visualizer" />
+    <configuration name="VisualizerOld" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="group1.project12group1.VisualizerOld" />
       <module name="Project1-2-Group-1" />
       <extension name="coverage">
         <pattern>
@@ -124,15 +124,15 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="Application.VisualizerOld" />
       <item itemvalue="Application.SolarSystem" />
       <item itemvalue="Application.GUIpart" />
-      <item itemvalue="Application.Visualizer" />
       <item itemvalue="Application.modelTester" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.SolarSystem" />
-        <item itemvalue="Application.Visualizer" />
+        <item itemvalue="Application.VisualizerOld" />
         <item itemvalue="Application.modelTester" />
         <item itemvalue="Application.GUIpart" />
       </list>
@@ -151,6 +151,7 @@
       <workItem from="1679636818916" duration="2665000" />
       <workItem from="1679649470844" duration="787000" />
       <workItem from="1682574830037" duration="138000" />
+      <workItem from="1682575019746" duration="212000" />
     </task>
     <task id="LOCAL-00001" summary="WORKING HOW THIS SHIT WORKS">
       <created>1679319564168</created>
@@ -264,7 +265,14 @@
       <option name="project" value="LOCAL" />
       <updated>1679649317635</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="base for graphics, general structure, will be updated">
+      <created>1682575177410</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1682575177410</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -291,7 +299,8 @@
     <MESSAGE value="bug fix" />
     <MESSAGE value="Added comments and cleaned the PlanetObject" />
     <MESSAGE value="eeeeee" />
-    <option name="LAST_COMMIT_MESSAGE" value="eeeeee" />
+    <MESSAGE value="base for graphics, general structure, will be updated" />
+    <option name="LAST_COMMIT_MESSAGE" value="base for graphics, general structure, will be updated" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Project1_2_Rocket_to_Titan$SolarSystem.ic" NAME="SolarSystem Coverage Results" MODIFIED="1679580725908" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
