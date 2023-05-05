@@ -23,7 +23,7 @@ class HelperFunctionsTest {
         double[] two = new double[]{-Double.MAX_VALUE, 0, 0};
 
         double distance = HelperFunctions.getDistanceBetweenWithVectors(one, two);
-        assertEquals(Double.POSITIVE_INFINITY, distance, "The distance between the two vectors should be 2 * Double.MAX_VALUE");
+        assertEquals(Double.POSITIVE_INFINITY, distance, "The distance between the two vectors should be infinite");
     }
 
     @Test
