@@ -5,8 +5,9 @@ module group1.project12group1 {
     requires org.apache.poi.ooxml;
 
     opens new_graphics.graphics to javafx.fxml;
-
     opens Model to javafx.fxml;
+
+    exports helperFunction;
     exports new_graphics.graphics.solar_system.controllers;
     exports Model;
     exports GUI;
