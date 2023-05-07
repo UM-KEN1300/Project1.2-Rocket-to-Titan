@@ -78,7 +78,7 @@ public class HelperFunctions {
      * @param vector The input vector.
      * @return The magnitude of the vector.
      */
-    public double getVectorMagnitude(double[] vector) {
+    public static double getVectorMagnitude(double[] vector) {
         return Math.sqrt(vector[0] * vector[0] + vector[1] * vector[1] + vector[2] * vector[2]);
     }
 
