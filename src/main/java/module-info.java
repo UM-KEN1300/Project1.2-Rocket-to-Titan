@@ -10,8 +10,8 @@ module group1.project12group1 {
     exports helperFunction;
     exports new_graphics.graphics.solar_system.controllers;
     exports Model;
-    exports GUI;
-    opens GUI to javafx.fxml;
+    exports GUIold;
+    opens GUIold to javafx.fxml;
     exports new_graphics.model_from_file;
     exports new_graphics.graphics;
     exports new_graphics.graphics.overlay;

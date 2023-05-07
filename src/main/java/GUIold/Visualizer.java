@@ -1,4 +1,4 @@
-package GUI;
+package GUIold;
 import  Algorithms.ModelRunner;
 import Model.PlanetObject;
 import Model.Probe;

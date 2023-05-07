@@ -89,7 +89,7 @@
       <recent name="group1.project12group1" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.SolarSystem">
+  <component name="RunManager">
     <configuration name="GUIpart" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="group1.project12group1.GUIpart" />
       <module name="Project1-2-Group-1" />
