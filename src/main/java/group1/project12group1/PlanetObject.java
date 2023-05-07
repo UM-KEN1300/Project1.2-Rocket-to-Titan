@@ -1,4 +1,4 @@
-package group1.project12group1;
+package Model;
 
 import helperFunction.HelperFunctions;
 
@@ -23,6 +23,7 @@ public class PlanetObject
     //mass of the planet in kg
     protected double mass;
     double speed = Math.sqrt(Math.pow(velocityVector[0],2) + Math.pow(velocityVector[1],2) + Math.pow(velocityVector[2],2)); //measured in km/s
+    protected double [] acceleration;
 
 //______________________________________________________________________________________________________________________________________________________________________________________________________________________________________
     //Constructors
@@ -59,6 +60,17 @@ public class PlanetObject
         this.planetCode = planetCode;
         this.mass=mass;
     }
+    public double [] getAcceleration(){
+        return acceleration;
+    }
+
+    public void setAcceleration(double [] acceleration){
+        this.acceleration = acceleration;
+    }
+
+    public void initializeAcceleration(){
+        acceleration = new double[3];
+    }
 
     //______________________________________________________________________________________________________________________________________________________________________________________________________________________________________
     //Methods
@@ -84,24 +96,37 @@ public class PlanetObject
         {
             force[i]=-G*this.mass*other.getMass()*distance*distance*distance*positionalVector[i];
             acceleration[i]=force[i]/this.mass;
+            //System.out.println("Acceleration1 ["+i+"]: "+acceleration[i]);
         }
+        //System.out.println(acceleration);
+        return acceleration;
+    }
+
+    public double accelerationForSolvers(double position1D, PlanetObject otherObject, int i){
+        HelperFunctions helperFunctions = new HelperFunctions();
+        double force = 0;
+        double acceleration = 0;
+        double M1 = this.mass;
+        double M2 = otherObject.getMass();
+        double positionalDifference = 0;
+        double [] positionalVector = this.positionalVector;
+        double [] otherPositionalVector = otherObject.getPositionalVector();
+
+
+        positionalDifference = position1D - otherPositionalVector[i];
+
+        double distance = 1/helperFunctions.getDistanceBetweenWithVectors(positionalVector, otherPositionalVector);
+
+        force = -G * M1 * M2 *(Math.pow(distance, 3)) * positionalDifference;
+        acceleration = force / M1;
+
+        //System.out.println("Acceleration2 ["+i+"]: "+acceleration);
+
         return acceleration;
     }
 
     
-    /**
-     * @param acceleration is the all the accelerations that affect a planet
-     * @param step is amount of time we move the planet 1 second is 1
-     *
-     * This is the Euler's solver that updates the planet position with step in time
-     */
-    public void updatePosition(double[] acceleration, double step){
-        for(int i = 0; i < 3; i++)
-        {
-            velocityVector[i] += acceleration[i] * step;
-            positionalVector[i] += velocityVector[i] * step;
-        }
-    }
+
 
     //______________________________________________________________________________________________________________________________________________________________________________________________________________________________________
 
