@@ -8,6 +8,27 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * Tests methods in helperFunction.HelperFunctions
  */
 class HelperFunctionsTest {
+
+    @Test
+    public void testGetDistanceBetween() {
+        PlanetObject one = new PlanetObject(0, 0, 0, 10);
+        PlanetObject two = new PlanetObject(0, 0, 5, 20);
+        double expected = 5;
+        double actual = PlanetObject.getDistanceBetween(one, two);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testGetVectorMagnitude(){
+        double[] vector = {3, 4, 5};
+       
+        double expectedMagnitude = Math.sqrt(50);
+        double actualMagnitude = HelperFunctions.getVectorMagnitude(vector);
+       
+        assertEquals(expectedMagnitude, actualMagnitude);
+    }
+
+
     @Test
     void testGetDistanceBetweenWithVectors() {
         double[] one = new double[]{0, 0, 0};
@@ -33,6 +54,16 @@ class HelperFunctionsTest {
 
         double[] result = HelperFunctions.addition(vectorOne, vectorTwo);
         assertArrayEquals(new double[]{7, 10, 13}, result, "The resulting vector after addition should be {7, 10, 13}");
+    }
+
+    @Test
+    void testSubtraction(){
+        double [] vectorOne = new double[]{9, 7, 15};
+        double [] vectorTwo = new double[]{3, 5, 11};
+
+        double[] result = HelperFunctions.subtract(vectorOne, vectorTwo);
+
+        assertArrayEquals(new double[]{6,2,4}, result, "The resulting vector after subtraction should be {6, 2, 4}");
     }
 
     @Test
