@@ -98,4 +98,8 @@ public class PlanetObject implements ModeledObject {
     {
         this.targetPosition = targetPosition;
     }
+
+    public double getX(){return this.COORDINATES[0];}
+    public double getY(){return this.COORDINATES[1];}
+    public double getZ(){return this.COORDINATES[2];}
 }
