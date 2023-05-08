@@ -1,30 +1,31 @@
-import helperFunction.HelperFunctions;
+import code.model.objects.PlanetObject;
+import code.model.objects.ModeledObject;
+import code.utils.HelperFunctions;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * Tests methods in helperFunction.HelperFunctions
+ * Tests methods in utils.HelperFunctions
  */
 class HelperFunctionsTest {
-
     @Test
     public void testGetDistanceBetween() {
-        PlanetObject one = new PlanetObject(0, 0, 0, 10);
-        PlanetObject two = new PlanetObject(0, 0, 5, 20);
+        ModeledObject one = new PlanetObject(new double[]{0, 0, 5}, new double[]{0, 0, 0}, 0);
+        ModeledObject two = new PlanetObject(new double[]{0, 0, 0}, new double[]{0, 0, 0}, 0);
         double expected = 5;
-        double actual = PlanetObject.getDistanceBetween(one, two);
+        double actual = HelperFunctions.getDistanceBetween(one, two);
         assertEquals(expected, actual);
     }
 
     @Test
-    void testGetVectorMagnitude(){
+    void testGetVectorMagnitude() {
         double[] vector = {3, 4, 5};
-       
+
         double expectedMagnitude = Math.sqrt(50);
         double actualMagnitude = HelperFunctions.getVectorMagnitude(vector);
-       
+
         assertEquals(expectedMagnitude, actualMagnitude);
     }
 
@@ -57,13 +58,13 @@ class HelperFunctionsTest {
     }
 
     @Test
-    void testSubtraction(){
-        double [] vectorOne = new double[]{9, 7, 15};
-        double [] vectorTwo = new double[]{3, 5, 11};
+    void testSubtraction() {
+        double[] vectorOne = new double[]{9, 7, 15};
+        double[] vectorTwo = new double[]{3, 5, 11};
 
         double[] result = HelperFunctions.subtract(vectorOne, vectorTwo);
 
-        assertArrayEquals(new double[]{6,2,4}, result, "The resulting vector after subtraction should be {6, 2, 4}");
+        assertArrayEquals(new double[]{6, 2, 4}, result, "The resulting vector after subtraction should be {6, 2, 4}");
     }
 
     @Test

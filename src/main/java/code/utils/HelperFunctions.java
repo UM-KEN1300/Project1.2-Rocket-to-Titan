@@ -1,29 +1,28 @@
-package helperFunction;
+package code.utils;
 
-import Model.PlanetObject;
+
+import code.model.objects.ModeledObject;
 
 /**
- * HelperFunctions class contains utility methods for operations
- * related to distance calculation, vector addition, subtraction,
- * and string-to-vector conversion.
+ * HelperFunctions class contains utility methods for operations on vectors.
  */
 public class HelperFunctions {
-
-    public HelperFunctions() {
+    private HelperFunctions() {
     }
+
 
     /**
      * Calculate the distance between two PlanetObjects.
      *
-     * @param one The first PlanetObject.
-     * @param two The second PlanetObject.
+     * @param object1 The first PlanetObject.
+     * @param object2 The second PlanetObject.
      * @return The distance between the two PlanetObjects.
      */
-    public static double getDistanceBetween(PlanetObject one, PlanetObject two) {
+    public static double getDistanceBetween(ModeledObject object1, ModeledObject object2) {
         return Math.sqrt(
-                Math.pow((two.getPositionalVector()[0] - one.getPositionalVector()[0]), 2)
-                        + Math.pow((two.getPositionalVector()[1] - one.getPositionalVector()[1]), 2)
-                        + Math.pow((two.getPositionalVector()[2] - one.getPositionalVector()[2]), 2)
+                Math.pow((object2.getCoordinates()[0] - object1.getCoordinates()[0]), 2)
+                        + Math.pow((object2.getCoordinates()[1] - object1.getCoordinates()[1]), 2)
+                        + Math.pow((object2.getCoordinates()[2] - object1.getCoordinates()[2]), 2)
         );
     }
 

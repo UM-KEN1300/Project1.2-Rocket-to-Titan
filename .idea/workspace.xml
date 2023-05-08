@@ -5,35 +5,48 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="13cb742e-4cc8-4686-864c-bc5cb4fb0b5a" name="Changes" comment="resources">
+      <change afterPath="$PROJECT_DIR$/src/main/java/code/Main.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/Solvers.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/code/graphics/Visualizer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/code/model/objects/ModeledObject.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/code/model/objects/PlanetObject.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/code/model/objects/Probe.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/PlanetObjectTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/GUI/Visualizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GUI/Visualizer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/graphics/Visualizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/new_graphics/graphics/Visualizer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/graphics/overlay/OverlayAnchorPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/new_graphics/graphics/overlay/OverlayAnchorPane.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/graphics/overlay/controllers/OverlayController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/new_graphics/graphics/overlay/controllers/OverlayController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/graphics/solar_system/SolarSubScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/new_graphics/graphics/solar_system/SolarSubScene.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/graphics/solar_system/SolarSubSceneInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/new_graphics/graphics/solar_system/SolarSubSceneInterface.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/graphics/solar_system/controllers/SolarKeyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/new_graphics/graphics/solar_system/controllers/SolarKeyController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/graphics/solar_system/controllers/SolarMouseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/new_graphics/graphics/solar_system/controllers/SolarMouseController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/graphics/solar_system/controllers/SolarScrollController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/new_graphics/graphics/solar_system/controllers/SolarScrollController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model_from_file/Model.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/new_graphics/model_from_file/Model.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model_from_file/objects/CelestialBody.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/new_graphics/model_from_file/objects/CelestialBody.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model_from_file/objects/Spaceship.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/new_graphics/model_from_file/objects/Spaceship.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Algorithms/ModelRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/ModelRunner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Algorithms/Solvers.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/GUIold/Visualizer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Model/PlanetObject.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Model/Probe.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Model/SolarSystemModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/helperFunction/HelperFunctions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/utils/HelperFunctions.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/graphics/background.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/new_graphics/graphics/background.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/graphics/textures/earth.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/new_graphics/graphics/textures/earth.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/graphics/textures/jupiter.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/new_graphics/graphics/textures/jupiter.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/graphics/textures/mars.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/new_graphics/graphics/textures/mars.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/graphics/textures/mercury.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/new_graphics/graphics/textures/mercury.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/graphics/textures/moon.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/new_graphics/graphics/textures/moon.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/graphics/textures/neptune.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/new_graphics/graphics/textures/neptune.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/graphics/textures/saturn.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/new_graphics/graphics/textures/saturn.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/graphics/textures/sun.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/new_graphics/graphics/textures/sun.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/graphics/textures/titan.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/new_graphics/graphics/textures/titan.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/graphics/textures/uranus.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/new_graphics/graphics/textures/uranus.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/graphics/textures/venus.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/new_graphics/graphics/textures/venus.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/model_from_file/initial_stats.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/new_graphics/model_from_file/initial_stats.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/model_from_file/radius.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/new_graphics/model_from_file/radius.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/new_graphics/graphics/Visualizer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/new_graphics/graphics/overlay/OverlayAnchorPane.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/new_graphics/graphics/overlay/controllers/OverlayController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/new_graphics/graphics/solar_system/SolarSubScene.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/new_graphics/graphics/solar_system/SolarSubSceneInterface.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/new_graphics/graphics/solar_system/controllers/SolarKeyController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/new_graphics/graphics/solar_system/controllers/SolarMouseController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/new_graphics/graphics/solar_system/controllers/SolarScrollController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/new_graphics/model_from_file/Model.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/model/Model.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/new_graphics/model_from_file/objects/CelestialBody.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/new_graphics/model_from_file/objects/Spaceship.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/new_graphics/graphics/background.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/graphics/background.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/new_graphics/graphics/textures/earth.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/graphics/textures/earth.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/new_graphics/graphics/textures/jupiter.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/graphics/textures/jupiter.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/new_graphics/graphics/textures/mars.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/graphics/textures/mars.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/new_graphics/graphics/textures/mercury.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/graphics/textures/mercury.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/new_graphics/graphics/textures/moon.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/graphics/textures/moon.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/new_graphics/graphics/textures/neptune.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/graphics/textures/neptune.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/new_graphics/graphics/textures/saturn.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/graphics/textures/saturn.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/new_graphics/graphics/textures/sun.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/graphics/textures/sun.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/new_graphics/graphics/textures/titan.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/graphics/textures/titan.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/new_graphics/graphics/textures/uranus.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/graphics/textures/uranus.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/new_graphics/graphics/textures/venus.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/graphics/textures/venus.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/new_graphics/model_from_file/initial_stats.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/model/initial_stats.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/new_graphics/model_from_file/radius.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/model/radius.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/HelperFunctionsTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/HelperFunctionsTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,7 +63,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="boosterImplementation" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -66,22 +79,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;new-structure&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/marcell/Documents/*School/Year 1/Semester 2/Project 1-2/Phase 2/git/src/main/resources&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "new-structure",
+    "last_opened_file_path": "/Users/marcell/Documents/*School/Year 1/Semester 2/Project 1-2/Phase 2/Project1.2-Rocket-to-Titan",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/src/main/resources" />
       <recent name="$PROJECT_DIR$/src/main/java" />
     </key>
@@ -89,7 +103,7 @@
       <recent name="group1.project12group1" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.VisualizerOld">
     <configuration name="GUIpart" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="group1.project12group1.GUIpart" />
       <module name="Project1-2-Group-1" />
@@ -163,10 +177,11 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.SolarSystem" />
-        <item itemvalue="Application.VisualizerOld" />
         <item itemvalue="Application.modelTester" />
         <item itemvalue="Application.GUIpart" />
+        <item itemvalue="Application.SolarSystem" />
+        <item itemvalue="Application.VisualizerOld" />
+        <item itemvalue="Application.SolarSystem" />
       </list>
     </recent_temporary>
   </component>
@@ -188,6 +203,11 @@
       <workItem from="1682575476442" duration="191000" />
       <workItem from="1682575733021" duration="369000" />
       <workItem from="1682576135260" duration="55000" />
+      <workItem from="1683509128969" duration="1000" />
+      <workItem from="1683509165621" duration="1000" />
+      <workItem from="1683517925630" duration="15000" />
+      <workItem from="1683524116632" duration="504000" />
+      <workItem from="1683547172038" duration="96000" />
     </task>
     <task id="LOCAL-00001" summary="WORKING HOW THIS SHIT WORKS">
       <created>1679319564168</created>

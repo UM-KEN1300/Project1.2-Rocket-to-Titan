@@ -1,5 +1,7 @@
-package new_graphics.model_from_file;
+package code.model;
 
+import code.model.objects.PlanetObject;
+import code.model.objects.Probe;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -7,35 +9,44 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import new_graphics.model_from_file.objects.CelestialBody;
 
 public class Model {
-    private static Model instance;
-    private final Map<String, CelestialBody> CELESTIAL_BODIES;
+    private final Map<String, PlanetObject> PLANET_OBJECT;
+    private final List<Probe> PROBES;
 
-
-    public Model() {
-        CELESTIAL_BODIES = new HashMap<>();
-        initializeCelestialBodies();
+    private Model() {
+        PLANET_OBJECT = new HashMap<>();
+        PROBES = new ArrayList<>();
+        initializeFromFile();
     }
 
-
-    public static Model getInstance() {
-        if (instance == null)
-            instance = new Model();
-
-        return instance;
+    private static final class InstanceHolder {
+        private static final Model INSTANCE = new Model();
     }
 
-    public Map<String, CelestialBody> getCelestialBodies() {
-        return CELESTIAL_BODIES;
+    private static Model getInstance() {
+        return InstanceHolder.INSTANCE;
     }
 
-    private void initializeCelestialBodies() {
+    public static Map<String, PlanetObject> getPlanetObjects() {
+        return getInstance().PLANET_OBJECT;
+    }
+
+    public static List<Probe> getProbes() {
+        return getInstance().PROBES;
+    }
+
+    public static void addProbe(Probe probe) {
+        getInstance().PROBES.add(probe);
+    }
+
+    private void initializeFromFile() {
         try (InputStream inputStream = getClass().getResourceAsStream("/model/initial_stats.xlsx")) {
-            assert inputStream != null: "Initial stats resource not found";
+            assert inputStream != null : "Initial stats resource not found";
             try (Workbook workbook = new XSSFWorkbook(inputStream)) {
                 Sheet sheet = workbook.getSheetAt(0);
 
@@ -45,16 +56,16 @@ public class Model {
                     String name = row.getCell(0).getStringCellValue();
 
                     double[] coordinates = new double[3];
-                    for (int i = 0; i < 3; i++)
+                    for (int i = 0; i <= 2; i++)
                         coordinates[i] = row.getCell(i + 1).getNumericCellValue();
 
                     double[] velocity = new double[3];
-                    for (int i = 0; i < 3; i++)
+                    for (int i = 0; i <= 2; i++)
                         velocity[i] = row.getCell(i + 4).getNumericCellValue();
 
                     long mass = Math.round(row.getCell(7).getNumericCellValue());
 
-                    CELESTIAL_BODIES.put(name, new CelestialBody(coordinates, velocity, mass));
+                    PLANET_OBJECT.put(name, new PlanetObject(coordinates, velocity, mass));
                 }
             }
         } catch (IOException exception) {
