@@ -16,6 +16,7 @@ import java.util.Map;
 
 public class Model {
     private final Map<String, PlanetObject> PLANET_OBJECT;
+
     private final List<Probe> PROBES;
 
     private Model() {
@@ -72,4 +73,6 @@ public class Model {
             exception.printStackTrace();
         }
     }
+
+
 }

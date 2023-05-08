@@ -6,6 +6,21 @@ public class PlanetObject implements ModeledObject {
     private final double[] COORDINATES;
     private final double[] VELOCITY;
     private final long MASS;
+    //planetCode is Nasa object code
+    private int planetCode;
+    //Position for end position of planet(only used for tests)
+    private double[] targetPosition;
+
+
+    //planetCode only constructor
+    // for the api that later adds the values
+    public PlanetObject(int planetCode, long mass)
+    {
+        this.planetCode = planetCode;
+        this.MASS=mass;
+        COORDINATES= new double[]{0, 0, 0};
+        VELOCITY= new double[]{0, 0, 0};
+    }
 
 
     public PlanetObject(double[] COORDINATES, double[] VELOCITY, long MASS) {
@@ -61,5 +76,26 @@ public class PlanetObject implements ModeledObject {
             acceleration[i] = force[i] / MASS;
         }
         return acceleration;
+    }
+
+//GETTER and SETTERS
+    public int getPlanetCode()
+    {
+        return planetCode;
+    }
+
+    public void setPlanetCode(int planetCode)
+    {
+        this.planetCode = planetCode;
+    }
+
+    public double[] getTargetPosition()
+    {
+        return targetPosition;
+    }
+
+    public void setTargetPosition(double[] targetPosition)
+    {
+        this.targetPosition = targetPosition;
     }
 }
