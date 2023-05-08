@@ -4,50 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="13cb742e-4cc8-4686-864c-bc5cb4fb0b5a" name="Changes" comment="resources">
-      <change afterPath="$PROJECT_DIR$/src/main/java/code/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/Solvers.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/code/graphics/Visualizer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/code/model/objects/ModeledObject.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/code/model/objects/PlanetObject.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/code/model/objects/Probe.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/PlanetObjectTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Algorithms/ModelRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/ModelRunner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Algorithms/Solvers.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/GUIold/Visualizer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Model/PlanetObject.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Model/Probe.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Model/SolarSystemModel.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/helperFunction/HelperFunctions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/utils/HelperFunctions.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/new_graphics/graphics/Visualizer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/new_graphics/graphics/overlay/OverlayAnchorPane.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/new_graphics/graphics/overlay/controllers/OverlayController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/new_graphics/graphics/solar_system/SolarSubScene.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/new_graphics/graphics/solar_system/SolarSubSceneInterface.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/new_graphics/graphics/solar_system/controllers/SolarKeyController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/new_graphics/graphics/solar_system/controllers/SolarMouseController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/new_graphics/graphics/solar_system/controllers/SolarScrollController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/new_graphics/model_from_file/Model.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/model/Model.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/new_graphics/model_from_file/objects/CelestialBody.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/new_graphics/model_from_file/objects/Spaceship.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/new_graphics/graphics/background.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/graphics/background.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/new_graphics/graphics/textures/earth.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/graphics/textures/earth.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/new_graphics/graphics/textures/jupiter.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/graphics/textures/jupiter.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/new_graphics/graphics/textures/mars.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/graphics/textures/mars.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/new_graphics/graphics/textures/mercury.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/graphics/textures/mercury.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/new_graphics/graphics/textures/moon.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/graphics/textures/moon.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/new_graphics/graphics/textures/neptune.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/graphics/textures/neptune.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/new_graphics/graphics/textures/saturn.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/graphics/textures/saturn.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/new_graphics/graphics/textures/sun.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/graphics/textures/sun.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/new_graphics/graphics/textures/titan.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/graphics/textures/titan.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/new_graphics/graphics/textures/uranus.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/graphics/textures/uranus.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/new_graphics/graphics/textures/venus.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/graphics/textures/venus.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/new_graphics/model_from_file/initial_stats.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/model/initial_stats.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/new_graphics/model_from_file/radius.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/model/radius.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/HelperFunctionsTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/HelperFunctionsTest.java" afterDir="false" />
-    </list>
+    <list default="true" id="13cb742e-4cc8-4686-864c-bc5cb4fb0b5a" name="Changes" comment="new new structure" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -103,59 +60,7 @@
       <recent name="group1.project12group1" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.VisualizerOld">
-    <configuration name="GUIpart" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="group1.project12group1.GUIpart" />
-      <module name="Project1-2-Group-1" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="group1.project12group1.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="SolarSystem" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="group1.project12group1.SolarSystem" />
-      <module name="Project1-2-Group-1" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="group1.project12group1.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="VisualizerOld" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="group1.project12group1.VisualizerOld" />
-      <module name="Project1-2-Group-1" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="group1.project12group1.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="modelTester" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="group1.project12group1.modelTester" />
-      <module name="Project1-2-Group-1" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="group1.project12group1.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager">
     <configuration default="true" type="JetRunConfigurationType">
       <module name="Project1.2 Group 1" />
       <method v="2">
@@ -169,18 +74,8 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <list>
-      <item itemvalue="Application.VisualizerOld" />
-      <item itemvalue="Application.SolarSystem" />
-      <item itemvalue="Application.GUIpart" />
-      <item itemvalue="Application.modelTester" />
-    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.modelTester" />
-        <item itemvalue="Application.GUIpart" />
-        <item itemvalue="Application.SolarSystem" />
-        <item itemvalue="Application.VisualizerOld" />
         <item itemvalue="Application.SolarSystem" />
       </list>
     </recent_temporary>
@@ -207,7 +102,7 @@
       <workItem from="1683509165621" duration="1000" />
       <workItem from="1683517925630" duration="15000" />
       <workItem from="1683524116632" duration="504000" />
-      <workItem from="1683547172038" duration="96000" />
+      <workItem from="1683547172038" duration="177000" />
     </task>
     <task id="LOCAL-00001" summary="WORKING HOW THIS SHIT WORKS">
       <created>1679319564168</created>
@@ -342,7 +237,14 @@
       <option name="project" value="LOCAL" />
       <updated>1682575516061</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="new new structure">
+      <created>1683547337492</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1683547337492</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -372,7 +274,8 @@
     <MESSAGE value="base for graphics, general structure, will be updated" />
     <MESSAGE value="reading model from xlsx files and planet-spaceship classes used by the graphics (will be merged later)" />
     <MESSAGE value="resources" />
-    <option name="LAST_COMMIT_MESSAGE" value="resources" />
+    <MESSAGE value="new new structure" />
+    <option name="LAST_COMMIT_MESSAGE" value="new new structure" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Project1_2_Rocket_to_Titan$SolarSystem.ic" NAME="SolarSystem Coverage Results" MODIFIED="1679580725908" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
