@@ -7,9 +7,10 @@ public class Probe extends PlanetObject {
     private double shortestDistanceToTitan;
 
 
-    public Probe(double[] VELOCITY) {
-        super(new double[]{0, 0, 0}, VELOCITY, 50_000);
+    public Probe(double[] velocity) {
+        super(new double[3], velocity);
         setCoordinates(initialPosition());
+        setMass(50_000);
         shortestDistanceToTitan = getDistanceToTitan();
     }
 

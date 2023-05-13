@@ -20,7 +20,6 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
-
 public class Visualizer extends Application {
     private final double WIDTH = Screen.getPrimary().getBounds().getWidth();
     private final double HEIGHT = Screen.getPrimary().getBounds().getHeight();
@@ -44,11 +43,9 @@ public class Visualizer extends Application {
     private Sphere currentFocus = visualizedObjects[11];
     Rotate rotateX, rotateZ;
     int currentFocusIndex;
-    int projectilePathIndex = 0;
     Group root, paths;
     ArrayList<Sphere> projectilePath = new ArrayList<>();
     double[] shift;
-    double timePassed;
     double distanceToTitan;
     int[] radius = new int[11];
     double test = 0;
@@ -104,14 +101,10 @@ public class Visualizer extends Application {
                     @Override
                     public void run() {
                         test += 50000;
-                        Platform.runLater(new Runnable() {
-                            @Override
-                            public void run() {
-                                Model.getProbes().get(0).setCoordinates(new double[]{test, 0, 0});
-                                visualizedObjects[11].setTranslateX(test);
+                        Platform.runLater(() -> {
+                            Model.getProbes().get(0).setCoordinates(new double[]{test, 0, 0});
 
-                                updateSpheres();
-                            }
+                            updateSpheres();
                         });
 
                     }
@@ -143,13 +136,6 @@ public class Visualizer extends Application {
             visualizedObjects[i].setTranslateY(planets[i].getCoordinates()[1] / SCALE + shift[1]);
             visualizedObjects[i].setTranslateZ(planets[i].getCoordinates()[2] / SCALE + shift[2]);
         }
-        Platform.runLater(() -> {
-            for (Sphere path : projectilePath) {
-                paths.setTranslateX(path.getTranslateX() + shift[0]);
-                paths.setTranslateX(path.getTranslateY() + shift[1]);
-                paths.setTranslateX(path.getTranslateZ() + shift[2]);
-            }
-        });
     }
 
     static class SolarCamera extends PerspectiveCamera {
