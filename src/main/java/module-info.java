@@ -5,4 +5,7 @@ module code {
 
     exports code.graphics;
     exports code.model;
+    exports code.model.objects;
+    exports code.utils;
+    exports code.algorithms;
 }
