@@ -1,9 +1,11 @@
-module group1.project12group1 {
+module code {
     requires javafx.controls;
-    requires javafx.fxml;
+    requires org.apache.poi.poi;
+    requires org.apache.poi.ooxml;
 
-
-
-    opens group1.project12group1 to javafx.fxml;
-    exports group1.project12group1;
+    exports code.graphics;
+    exports code.model.objects;
+    exports code.model.data.loaders;
+    exports code.utils;
+    exports code.model;
 }
