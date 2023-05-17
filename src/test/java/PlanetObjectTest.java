@@ -28,9 +28,12 @@ public class PlanetObjectTest {
         double[] velocity3 = {0, 0, 0};
         long mass3 = 30;
 
-        planetObject1 = new PlanetObject(coordinates1, velocity1, mass1);
-        planetObject2 = new PlanetObject(coordinates2, velocity2, mass2);
-        planetObject3 = new PlanetObject(coordinates3, velocity3, mass3);
+        planetObject1 = new PlanetObject(coordinates1, velocity1);
+        planetObject1.setMass(mass1);
+        planetObject2 = new PlanetObject(coordinates2, velocity2);
+        planetObject2.setMass(mass2);
+        planetObject3 = new PlanetObject(coordinates3, velocity3);
+        planetObject3.setMass(mass3);
     }
 
     @Test

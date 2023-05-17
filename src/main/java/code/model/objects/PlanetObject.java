@@ -5,12 +5,13 @@ import code.utils.HelperFunctions;
 public class PlanetObject implements ModeledObject {
     private final double[] COORDINATES = new double[3];
     private final double[] VELOCITY = new double[3];
-    private long mass;
+    private double mass;
     private long radius;
     //planetCode is Nasa object code
     private int planetCode;
     //Position for end position of planet(only used for tests)
     private double[] targetPosition;
+    private double [] acceleration;
 
 
     public PlanetObject(double[] coordinates, double[] velocity) {
@@ -18,9 +19,7 @@ public class PlanetObject implements ModeledObject {
         setVelocity(velocity);
     }
 
-
-    //planetCode only constructor
-    // for the api that later adds the values
+    // Constructor for NASA data (for testing)
     public PlanetObject(int planetCode) {
         this.planetCode = planetCode;
     }
@@ -50,13 +49,25 @@ public class PlanetObject implements ModeledObject {
         VELOCITY[2] = velocity[2];
     }
 
-    public void setMass(long mass) {
+    public void setMass(double mass) {
         this.mass = mass;
     }
 
     @Override
-    public long getMass() {
+    public double getMass() {
         return mass;
+    }
+
+    public double[] getAcceleration() {
+        return acceleration;
+    }
+
+    public void setAcceleration(double[] acceleration) {
+        this.acceleration = acceleration;
+    }
+
+    public void initializeAcceleration(){
+        acceleration = new double[3];
     }
 
     @Override
@@ -98,5 +109,12 @@ public class PlanetObject implements ModeledObject {
 
     public void setTargetPosition(double[] targetPosition) {
         this.targetPosition = targetPosition;
+    }
+
+    public void updatePosition(double[] acceleration, double step) {
+        for (int i = 0; i < 3; i++) {
+            VELOCITY[i] += acceleration[i] * step;
+            COORDINATES[i] += VELOCITY[i] * step;
+        }
     }
 }

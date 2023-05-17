@@ -12,8 +12,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class HelperFunctionsTest {
     @Test
     public void testGetDistanceBetween() {
-        ModeledObject one = new PlanetObject(new double[]{0, 0, 5}, new double[]{0, 0, 0}, 0);
-        ModeledObject two = new PlanetObject(new double[]{0, 0, 0}, new double[]{0, 0, 0}, 0);
+        ModeledObject one = new PlanetObject(new double[]{0, 0, 5}, new double[]{0, 0, 0});
+        ModeledObject two = new PlanetObject(new double[]{0, 0, 0}, new double[]{0, 0, 0});
         double expected = 5;
         double actual = HelperFunctions.getDistanceBetween(one, two);
         assertEquals(expected, actual);

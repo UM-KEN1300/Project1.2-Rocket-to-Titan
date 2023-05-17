@@ -16,12 +16,10 @@ import java.util.Map;
 
 public class Model {
     private Map<String, PlanetObject> planetObjects;
-    private final List<Probe> PROBES;
+    private List<Probe> probes;
 
 
     private Model() {
-        planetObjects = new HashMap<>();
-        PROBES = new ArrayList<>();
     }
 
 
@@ -38,15 +36,16 @@ public class Model {
     }
 
     public static List<Probe> getProbes() {
-        return getInstance().PROBES;
+        return getInstance().probes;
     }
 
     public static void addProbe(Probe probe) {
-        getInstance().PROBES.add(probe);
+        getInstance().probes.add(probe);
     }
 
     public void loadData(DataLoader dataLoader) {
         planetObjects = new HashMap<>();
+        probes = new ArrayList<>();
         dataLoader.load(planetObjects);
         loadRadii();
         loadMass();
@@ -78,7 +77,7 @@ public class Model {
 
                 for (int index = 0; index <= 10; index++) {
                     String name = sheet.getRow(index).getCell(0).getStringCellValue();
-                    long mass = (long) sheet.getRow(index).getCell(1).getNumericCellValue();
+                    double mass = sheet.getRow(index).getCell(1).getNumericCellValue();
 
                     planetObjects.get(name).setMass(mass);
                 }

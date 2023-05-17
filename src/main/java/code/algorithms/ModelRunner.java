@@ -11,13 +11,12 @@ public class ModelRunner {
     public static void runnerForGUI(int smoothness, double accuracy, PlanetObject[] planets) {
         for (int i = 0; i < smoothness; i += 1) {
             for (int j = 1; j < planets.length; j++) {
-                double[] acc = new double[3];
+                planets[j].initializeAcceleration();
                 for (int k = 0; k < planets.length; k++) {
                     if (k != j) {
-                        acc = HelperFunctions.addition(acc, planets[j].accelerationBetween(planets[k]));
+                        Solvers.explicitEuler(planets[j], planets[k], accuracy);
                     }
                 }
-                Solvers.eulerSolver(planets[j], acc, accuracy);
             }
         }
     }
@@ -31,7 +30,7 @@ public class ModelRunner {
                         acc = HelperFunctions.addition(acc, planets[j].accelerationBetween(planets[k]));
                     }
                 }
-                Solvers.eulerSolver(planets[j], acc, accuracy);
+                //Solvers.eulerSolver(planets[j], acc, accuracy);
             }
         }
     }

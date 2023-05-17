@@ -1,5 +1,6 @@
 package code.graphics;
 
+import code.algorithms.ModelRunner;
 import code.model.Model;
 import code.model.objects.PlanetObject;
 import javafx.application.Application;
@@ -18,7 +19,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 
 public class Visualizer extends Application {
     private final double WIDTH = Screen.getPrimary().getBounds().getWidth();
@@ -44,11 +44,9 @@ public class Visualizer extends Application {
     Rotate rotateX, rotateZ;
     int currentFocusIndex;
     Group root, paths;
-    ArrayList<Sphere> projectilePath = new ArrayList<>();
     double[] shift;
     double distanceToTitan;
     int[] radius = new int[11];
-    double test = 0;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -100,13 +98,12 @@ public class Visualizer extends Application {
                 new java.util.TimerTask() {
                     @Override
                     public void run() {
-                        test += 50000;
-                        Platform.runLater(() -> {
-                            Model.getProbes().get(0).setCoordinates(new double[]{test, 0, 0});
-
-                            updateSpheres();
-                        });
-
+                        for (int i = 0; i < 10; i++) {
+                            ModelRunner.runnerForGUI(180, 1, planets);
+                            Platform.runLater(() -> {
+                                updateSpheres();
+                            });
+                        }
                     }
                 }, 0, 1);
     }
@@ -130,6 +127,7 @@ public class Visualizer extends Application {
                 -planets[currentFocusIndex].getCoordinates()[1] / SCALE,
                 -planets[currentFocusIndex].getCoordinates()[2] / SCALE
         };
+//        shift = new double[]{0, 0, 0};
 
         for (int i = 0; i < visualizedObjects.length; i++) {
             visualizedObjects[i].setTranslateX(planets[i].getCoordinates()[0] / SCALE + shift[0]);
@@ -185,12 +183,12 @@ public class Visualizer extends Application {
         visualizedObjects[4].setRadius(radius[4] * 20);
         visualizedObjects[5].setRadius(radius[5] * 20);
         visualizedObjects[6].setRadius(radius[6] * 10);
-//        visualizedObjects[7].setRadius(radius[7] * 10);
+//        visualizedObjects[7].setRadius(radius[7] );
         visualizedObjects[8].setRadius(radius[6] * 2);
         visualizedObjects[9].setRadius(radius[7] * 25);
         visualizedObjects[10].setRadius(radius[8] * 10);
 
-        visualizedObjects[11].setRadius(visualizedObjects[3].getRadius());
+        visualizedObjects[11].setRadius(visualizedObjects[3].getRadius() * 2 / 3);
 
         solarCamera.setTranslateZ(-currentFocus.getRadius() * 5);
     }

@@ -15,24 +15,28 @@ public class Probe extends PlanetObject {
     }
 
 
+    @Override
+    public void setCoordinates(double[] coordinates) {
+        super.setCoordinates(coordinates);
+
+        double distanceToTitan = getDistanceToTitan();
+        if (distanceToTitan < shortestDistanceToTitan)
+            shortestDistanceToTitan = distanceToTitan;
+    }
+
     private double[] initialPosition() {
-        double[] directionalVector = HelperFunctions.subtract(Model.getPlanetObjects().get("Earth").getCoordinates(),
+        double[] coordinates = HelperFunctions.subtract(Model.getPlanetObjects().get("Earth").getCoordinates(),
                 Model.getPlanetObjects().get("Titan").getCoordinates());
 
-        double magnitude = HelperFunctions.getVectorMagnitude(directionalVector);
+        double magnitude = HelperFunctions.getVectorMagnitude(coordinates);
         for (int i = 0; i <= 2; i++)
-            directionalVector[i] = directionalVector[i] * 6370 / magnitude;
+            coordinates[i] = coordinates[i] * 6370 / magnitude;
 
-        return directionalVector;
+        return HelperFunctions.addition(coordinates, Model.getPlanetObjects().get("Earth").getCoordinates());
     }
 
     public double getDistanceToTitan() {
         return HelperFunctions.getDistanceBetween(this, Model.getPlanetObjects().get("Titan"));
-    }
-
-    private void checkDistance() {
-        if (getDistanceToTitan() < shortestDistanceToTitan)
-            shortestDistanceToTitan = getDistanceToTitan();
     }
 
     public double getShortestDistanceToTitan() {

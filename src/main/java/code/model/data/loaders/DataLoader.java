@@ -6,7 +6,8 @@ import java.util.Map;
 
 public interface DataLoader {
     /**
-     * Load the information about celestial bodies from a selected location, creates the PlanetObject objects and puts them into the passed Map.
+     * Loads the information about celestial bodies from a selected location,
+     * creates the PlanetObject objects and puts them into the passed Map.
      *
      * @param planetObjects an empty Map where after loading the keys will be strings representing names of
      *                      celestial bodies and values PlanetObject objects

@@ -5,44 +5,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="13cb742e-4cc8-4686-864c-bc5cb4fb0b5a" name="Changes" comment="new new structure">
-      <change afterPath="$PROJECT_DIR$/src/main/java/code/model/data/loaders/DataLoader.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/code/model/data/loaders/FileDataLoader.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/code/model/data/loaders/NasaDataLoader.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/model/mass.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/model/nase_planet_codes.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_7_05_23,_21_45_[Changes]1/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_7_05_23__21_45__Changes_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_8_05_23,_13_36_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_8_05_23,_13_42_[Changes]/HelperFunctions.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_8_05_23,_13_42_[Changes]/Probe.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_8_05_23,_13_42_[Changes]/module-info.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_8_05_23,_13_42_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_8_05_23__13_36__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_8_05_23__13_42__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/code/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/ModelRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/ModelRunner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/Solvers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/Solvers.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/code/graphics/Visualizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/graphics/Visualizer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/code/model/Model.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/model/Model.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/code/model/objects/NASAMODELFIX.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/model/data/loaders/DataLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/model/data/loaders/DataLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/model/objects/ModeledObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/model/objects/ModeledObject.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/code/model/objects/PlanetObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/model/objects/PlanetObject.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/code/model/objects/Probe.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/model/objects/Probe.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/model/initial_stats.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/model/initial_stats.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Algorithms/ModelRunner.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Algorithms/Solvers.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/GUI/Visualizer$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/GUI/Visualizer$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/GUI/Visualizer$SolarCamera.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/GUI/Visualizer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Model/PlanetObject.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Model/Probe.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Model/SolarSystemModel.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Model/hello-view.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/background.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/earth.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/helperFunction/HelperFunctions.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/jupiter.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/mars.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/mercury.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/module-info.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/module-info.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/moon.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/neptune.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/saturn.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/sun.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/titan.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/uranus.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/venus.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/graphics/background.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/HelperFunctionsTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/HelperFunctionsTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/PlanetObjectTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/PlanetObjectTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,8 +37,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -76,20 +61,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;new-structure&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/marcell/Desktop/copy&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "new-structure",
+    "last_opened_file_path": "/Users/marcell/Documents/*School/Year 1/Semester 2/Project 1-2/Phase 2/Project1.2-Rocket-to-Titan",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "settings.editor.selected.configurable": "preferences.editor",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
@@ -97,13 +82,14 @@
       <recent name="$PROJECT_DIR$/src/main/java" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/test/java" />
       <recent name="$PROJECT_DIR$/src/main/resources/model" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="group1.project12group1" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="code.Main" />
       <module name="Project1-2-Group-1" />
@@ -113,6 +99,24 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="HelperFunctionsTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Project1-2-Group-1" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="HelperFunctionsTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PlanetObjectTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Project1-2-Group-1" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="PlanetObjectTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -133,6 +137,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
+        <item itemvalue="JUnit.PlanetObjectTest" />
+        <item itemvalue="JUnit.HelperFunctionsTest" />
       </list>
     </recent_temporary>
   </component>
@@ -169,6 +175,14 @@
       <workItem from="1683956122161" duration="1278000" />
       <workItem from="1683957543331" duration="65000" />
       <workItem from="1683957626120" duration="767000" />
+      <workItem from="1684149645676" duration="5926000" />
+      <workItem from="1684230444313" duration="356000" />
+      <workItem from="1684231111698" duration="93000" />
+      <workItem from="1684231446204" duration="2195000" />
+      <workItem from="1684254939940" duration="209000" />
+      <workItem from="1684255315975" duration="1579000" />
+      <workItem from="1684271461931" duration="2763000" />
+      <workItem from="1684286667400" duration="9645000" />
     </task>
     <task id="LOCAL-00001" summary="WORKING HOW THIS SHIT WORKS">
       <created>1679319564168</created>
@@ -342,6 +356,14 @@
     <MESSAGE value="resources" />
     <MESSAGE value="new new structure" />
     <option name="LAST_COMMIT_MESSAGE" value="new new structure" />
+  </component>
+  <component name="XDebuggerManager">
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="code.model.objects.Probe" memberName="COORDINATES" />
+        <PinnedItemInfo parentTag="code.model.objects.PlanetObject" memberName="COORDINATES" />
+      </pinned-members>
+    </pin-to-top-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Project1_2_Rocket_to_Titan$SolarSystem.ic" NAME="SolarSystem Coverage Results" MODIFIED="1679580725908" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
