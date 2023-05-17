@@ -5,69 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="13cb742e-4cc8-4686-864c-bc5cb4fb0b5a" name="Changes" comment="new new structure">
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_7_05_23,_21_45_[Changes]/shelved.patch" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_7_05_23__21_45__Changes_.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_8_05_23,_13_54_[Changes]/HelperFunctions.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_8_05_23,_13_54_[Changes]/Probe.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_8_05_23,_13_54_[Changes]/shelved.patch" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/code/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/ModelRunner.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/Solvers.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/code/graphics/Visualizer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/code/model/Model.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/code/model/data/loaders/DataLoader.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/code/model/data/loaders/FileDataLoader.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/code/model/data/loaders/NasaDataLoader.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/code/model/objects/ModeledObject.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/code/model/objects/PlanetObject.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/code/model/objects/Probe.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/code/utils/HelperFunctions.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/model/initial_stats.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/model/mass.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/model/nasa_planet_codes.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/model/radius.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/HelperFunctionsTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/PlanetObjectTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/module-info.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-03-22,_08_01_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-03-22,_12_51_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-03-22,_13_22_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-03-22,_14_09_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-03-22__08_01__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-03-22__12_51__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-03-22__13_22__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-03-22__14_09__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-03-23,_13_12_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-03-23__13_12__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_21_03_23,_18_31_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_21_03_23__18_31__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_22_03_23,_12_02_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_22_03_23__12_02__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/group1/project12group1/OptimizePath.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/group1/project12group1/PlanetObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/group1/project12group1/PlanetObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/group1/project12group1/Probe.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/group1/project12group1/SolarSystem.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/group1/project12group1/Visualizer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/group1/project12group1/VisualizerExaminer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/group1/project12group1/modelTester.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/helperFunction/HelperFunctions.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/background.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/earth.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/graphics/textures/earth.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/group1/project12group1/hello-view.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/jupiter.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/graphics/textures/jupiter.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mars.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/graphics/textures/mars.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mercury.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/graphics/textures/mercury.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/moon.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/graphics/textures/moon.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/neptune.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/graphics/textures/neptune.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/saturn.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/graphics/textures/saturn.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/sun.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/graphics/textures/sun.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/titan.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/graphics/textures/titan.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/uranus.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/graphics/textures/uranus.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/venus.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/graphics/textures/venus.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/module-info.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,13 +19,14 @@
       <list>
         <option value="Class" />
         <option value="Interface" />
+        <option value="module-info" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="boosterImplementation" />
+        <entry key="$PROJECT_DIR$" value="new-structure" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -106,7 +47,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "Merging main",
+    "git-widget-placeholder": "main",
     "last_opened_file_path": "/Users/marcell/Documents/*School/Year 1/Semester 2/Project 1-2/Phase 2/Project1.2-Rocket-to-Titan",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",

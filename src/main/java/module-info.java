@@ -1,11 +1,8 @@
 module code {
-    requires javafx.controls;
     requires org.apache.poi.poi;
     requires org.apache.poi.ooxml;
+    requires javafx.graphics;
 
     exports code.graphics;
-    exports code.model.objects;
-    exports code.model.data.loaders;
-    exports code.utils;
     exports code.model;
 }
