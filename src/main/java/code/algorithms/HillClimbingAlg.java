@@ -1,5 +1,6 @@
 package code.algorithms;
 
+import java.util.Arrays;
 import java.util.Random;
 import code.algorithms.LaunchRocketHC;
 
@@ -10,8 +11,11 @@ public class HillClimbingAlg {
     final int XMINUS = 2;
     final int YPLUS = 3;
     final int YMINUS = 4;
-    final int ZPLUS = 5;
+    final int ZPLUS = 5; 
     final int ZMINUS = 6;
+    final int X = 0;
+    final int Y = 1;
+    final int Z = 2;
 
     public double[] HillClimbingAlg() {
 
@@ -21,41 +25,45 @@ public class HillClimbingAlg {
         double[] DistancesToTitan = new double[7];
         int closestRocket = 0;
 
-        double InitalXVelocity = rn.nextDouble();
-        double InitalYVelocity = rn.nextDouble();
-        double InitalZVelocity = rn.nextDouble();
+        double[][] velocitiesOfRockets = new double[7][3];
 
-        double XVelocityPlus = InitalXVelocity + VelocityChange;
-        double XVelocityMinus = InitalXVelocity - VelocityChange;
-
-        double YVelocityPlus = InitalYVelocity + VelocityChange;
-        double YVelocityMinus = InitalYVelocity - VelocityChange;
-
-        double ZVelocityPlus = InitalZVelocity + VelocityChange;
-        double ZVelocityMinus = InitalZVelocity - VelocityChange;
+        velocitiesOfRockets[INITIAL][X] = rn.nextDouble();
+        velocitiesOfRockets[INITIAL][Y] = rn.nextDouble();
+        velocitiesOfRockets[INITIAL][Z] = rn.nextDouble();
 
         while (true) {
-        LaunchRocketHC.launchOneRocket(new double [] {-40, -2, 60});
-        LaunchRocketHC.launchOneRocket(new double [] {60, -2, -40});
-        LaunchRocketHC.launchOneRocket(new double [] {30, -50, 50});
+            System.out.println(Arrays.toString(velocitiesOfRockets[INITIAL]));
+            for(int i=1; i < velocitiesOfRockets.length; i++) {                 //Loads the velocitiesOfRockets 2D array with respecting velocities.
+                velocitiesOfRockets[i][X] = velocitiesOfRockets[INITIAL][X];
+                velocitiesOfRockets[i][Y] = velocitiesOfRockets[INITIAL][Y];
+                velocitiesOfRockets[i][Z] = velocitiesOfRockets[INITIAL][Z];
+            }
+            velocitiesOfRockets[XPLUS][X] = velocitiesOfRockets[INITIAL][X] + VelocityChange;
+            velocitiesOfRockets[XMINUS][X] = velocitiesOfRockets[INITIAL][X] - VelocityChange;
+            velocitiesOfRockets[YPLUS][Y] = velocitiesOfRockets[INITIAL][Y] + VelocityChange;
+            velocitiesOfRockets[YMINUS][Y] = velocitiesOfRockets[INITIAL][Y] - VelocityChange;
+            velocitiesOfRockets[ZPLUS][Z] = velocitiesOfRockets[INITIAL][Z] + VelocityChange;
+            velocitiesOfRockets[ZMINUS][Z] = velocitiesOfRockets[INITIAL][Z] - VelocityChange;
+
+
 
             closestRocket = findSmallest(DistancesToTitan);
 
             switch (closestRocket) {
                 case INITIAL:
-                    return new double[] { InitalXVelocity, InitalYVelocity, InitalZVelocity };
+                    return new double[] { velocitiesOfRockets[INITIAL][X], velocitiesOfRockets[INITIAL][Y], velocitiesOfRockets[INITIAL][Z] };
                 case XPLUS:
-                    InitalXVelocity = InitalXVelocity + VelocityChange;
+                    velocitiesOfRockets[INITIAL][X] = velocitiesOfRockets[INITIAL][X] + VelocityChange;
                 case XMINUS:
-                    InitalXVelocity = InitalXVelocity - VelocityChange;
+                    velocitiesOfRockets[INITIAL][X] = velocitiesOfRockets[INITIAL][X] - VelocityChange;
                 case YPLUS:
-                    InitalYVelocity = InitalYVelocity + VelocityChange;
+                    velocitiesOfRockets[INITIAL][Y] = velocitiesOfRockets[INITIAL][Y] + VelocityChange;
                 case YMINUS:
-                    InitalYVelocity = InitalYVelocity - VelocityChange;
+                    velocitiesOfRockets[INITIAL][Y] = velocitiesOfRockets[INITIAL][Y] - VelocityChange;
                 case ZPLUS:
-                    InitalZVelocity = InitalZVelocity + VelocityChange;
+                    velocitiesOfRockets[INITIAL][Z] = velocitiesOfRockets[INITIAL][Z] + VelocityChange;
                 case ZMINUS:
-                    InitalZVelocity = InitalZVelocity - VelocityChange;
+                    velocitiesOfRockets[INITIAL][Z] = velocitiesOfRockets[INITIAL][Z] - VelocityChange;
             }
         }
     }
