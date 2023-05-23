@@ -1,8 +1,13 @@
 package code.algorithms;
 
 
+import code.model.Model;
 import code.model.objects.PlanetObject;
+import code.model.objects.Probe;
 import code.utils.HelperFunctions;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ModelRunner {
     public ModelRunner() {
@@ -30,7 +35,22 @@ public class ModelRunner {
                         acc = HelperFunctions.addition(acc, planets[j].accelerationBetween(planets[k]));
                     }
                 }
-                //Solvers.eulerSolver(planets[j], acc, accuracy);
+//                Solvers.eulerSolver(planets[j], acc, accuracy);
+            }
+        }
+    }
+
+    public static void runnerForMultipleProbes(int numberOfDays, double accuracy, List<PlanetObject> planets, List<Probe> probes) {
+        ArrayList<PlanetObject> allObjects = new ArrayList<>(planets);
+        allObjects.addAll(probes);
+
+        for (int i = 0; i < (1 / accuracy) * 60 * 60 * 24 * numberOfDays; i += 1) {
+            for (PlanetObject evaluatedObject : allObjects.subList(1, allObjects.size())) {
+                evaluatedObject.initializeAcceleration();
+                for (PlanetObject otherPlanet : planets) {
+                    if (!evaluatedObject.equals(otherPlanet))
+                        Solvers.explicitEuler(evaluatedObject, otherPlanet, accuracy);
+                }
             }
         }
     }
