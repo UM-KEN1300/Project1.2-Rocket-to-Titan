@@ -1,7 +1,5 @@
 package code.algorithms;
 
-
-import code.model.Model;
 import code.model.objects.PlanetObject;
 import code.model.objects.Probe;
 import code.utils.HelperFunctions;
@@ -10,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ModelRunner {
-    public ModelRunner() {
+    private ModelRunner() {
     }
 
     public static void runnerForGUI(int smoothness, double accuracy, PlanetObject[] planets) {
