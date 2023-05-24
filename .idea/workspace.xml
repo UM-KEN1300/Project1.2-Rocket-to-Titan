@@ -4,8 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="13cb742e-4cc8-4686-864c-bc5cb4fb0b5a" name="Changes" comment="before merging branch">
+    <list default="true" id="13cb742e-4cc8-4686-864c-bc5cb4fb0b5a" name="Changes" comment=".">
+      <change afterPath="$PROJECT_DIR$/src/main/java/code/graphics/overlay/OverlayPane.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/code/graphics/Visualizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/graphics/Visualizer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/graphics/visuals/SolarCamera.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/graphics/visuals/SolarCamera.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/graphics/visuals/SolarSubScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/graphics/visuals/SolarSubScene.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/graphics/visuals/controllers/SolarScrollController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/graphics/visuals/controllers/SolarScrollController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/graphics/visuals/objects/SolarGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/graphics/visuals/objects/SolarGroup.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,6 +22,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
+        <option value="JavaFXApplication" />
         <option value="Class" />
       </list>
     </option>

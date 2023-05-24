@@ -1,7 +1,6 @@
 package code.graphics.visuals;
 
 import code.graphics.visuals.controllers.SolarKeyController;
-import code.graphics.visuals.controllers.SolarScrollController;
 import code.graphics.visuals.objects.SolarGroup;
 import code.model.Model;
 import javafx.scene.Group;
@@ -34,7 +33,6 @@ public class SolarSubScene extends SubScene {
     private void initializeSubScene() {
         setFill(Color.BLACK.brighter());
         setCamera(CAMERA);
-        new SolarScrollController(this);
         new SolarKeyController(this);
     }
 

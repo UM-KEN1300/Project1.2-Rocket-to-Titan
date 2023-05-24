@@ -101,8 +101,8 @@ public class SolarGroup extends Group {
         PLANET_SPHERES.get("Earth").setMaxRadius(PLANET_SPHERES.get("Earth").getMinRadius() * 1000000 / SCALE);
         PLANET_SPHERES.get("Moon").setMaxRadius(PLANET_SPHERES.get("Moon").getMinRadius() * 900000 / SCALE);
         PLANET_SPHERES.get("Mars").setMaxRadius(PLANET_SPHERES.get("Mars").getMinRadius() * 800000 / SCALE);
-        PLANET_SPHERES.get("Jupiter").setMaxRadius(PLANET_SPHERES.get("Jupiter").getMinRadius() * 300000 / SCALE);
-        PLANET_SPHERES.get("Saturn").setMaxRadius(PLANET_SPHERES.get("Saturn").getMinRadius() * 250000 / SCALE);
+        PLANET_SPHERES.get("Jupiter").setMaxRadius(PLANET_SPHERES.get("Jupiter").getMinRadius() * 200000 / SCALE);
+        PLANET_SPHERES.get("Saturn").setMaxRadius(PLANET_SPHERES.get("Saturn").getMinRadius() * 200000 / SCALE);
         PLANET_SPHERES.get("Titan").setMaxRadius(PLANET_SPHERES.get("Titan").getMinRadius() * 1000000 / SCALE);
         PLANET_SPHERES.get("Neptune").setMaxRadius(PLANET_SPHERES.get("Neptune").getMinRadius() * 300000 / SCALE);
         PLANET_SPHERES.get("Uranus").setMaxRadius(PLANET_SPHERES.get("Uranus").getMinRadius() * 200000 / SCALE);
