@@ -6,7 +6,7 @@ public class PlanetObject implements ModeledObject {
     private final double[] COORDINATES = new double[3];
     private final double[] VELOCITY = new double[3];
     private double mass;
-    private long radius;
+    private double radius;
     //planetCode is Nasa object code
     private int planetCode;
     //Position for end position of planet(only used for tests)
@@ -17,13 +17,11 @@ public class PlanetObject implements ModeledObject {
     public PlanetObject(double[] coordinates, double[] velocity) {
         setCoordinates(coordinates);
         setVelocity(velocity);
-        initializeAcceleration();
     }
 
     // Constructor for NASA data (for testing)
     public PlanetObject(int planetCode) {
         this.planetCode = planetCode;
-        initializeAcceleration();
     }
 
 
@@ -91,20 +89,13 @@ public class PlanetObject implements ModeledObject {
         return acceleration;
     }
 
-    @Override
-    public String toString()
-    {
-        return "PlanetObject{" +
-                "planetCode=" + planetCode +
-                '}';
-    }
-//GETTER and SETTERS
+//  GETTER and SETTERS
 
-    public long getRadius() {
+    public double getRadius() {
         return radius;
     }
 
-    public void setRadius(long radius) {
+    public void setRadius(double radius) {
         this.radius = radius;
     }
 
@@ -120,10 +111,5 @@ public class PlanetObject implements ModeledObject {
         this.targetPosition = targetPosition;
     }
 
-    public void updatePosition(double[] acceleration, double step) {
-        for (int i = 0; i < 3; i++) {
-            VELOCITY[i] += acceleration[i] * step;
-            COORDINATES[i] += VELOCITY[i] * step;
-        }
-    }
+
 }

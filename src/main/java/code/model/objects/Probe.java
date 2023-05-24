@@ -4,6 +4,7 @@ import code.model.Model;
 import code.utils.HelperFunctions;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
@@ -20,6 +21,13 @@ public class Probe extends PlanetObject {
 
     public Probe() {
         super(new double[3], new double[]{0,0,0});
+        listOfBoosts=new PriorityQueue<Boost>();
+        setCoordinates(initialPosition());
+        setMass(50_000);
+        shortestDistanceToTitan = getDistanceToTitan();
+    }
+    public Probe(double[] intial) {
+        super(new double[3], intial);
         listOfBoosts=new PriorityQueue<Boost>();
         setCoordinates(initialPosition());
         setMass(50_000);
@@ -70,6 +78,7 @@ public class Probe extends PlanetObject {
             {
                 double[] probeVelocity=getVelocity();
                 double[] boostVelocity=listOfBoosts.poll().getVelocityOfBoost();
+                System.out.println(Arrays.toString(HelperFunctions.addition(probeVelocity, boostVelocity)));
                 setVelocity(HelperFunctions.addition(probeVelocity,boostVelocity));
             }
         }
@@ -87,20 +96,20 @@ public class Probe extends PlanetObject {
 
     public static class Boost implements Comparable
     {
-    private double timeOfBoost;
-    private double[] velocityOfBoost;
-    private double fuel;
-    public Boost(double time,double[] velocityOfBoost)
-    {
-        this.timeOfBoost=time;
-        this.velocityOfBoost=velocityOfBoost;
-        calculateFuelUsed();
-    }
+        private double timeOfBoost;
+        private double[] velocityOfBoost;
+        private double fuel;
+        public Boost(double time,double[] velocityOfBoost)
+        {
+            this.timeOfBoost=time;
+            this.velocityOfBoost=velocityOfBoost;
+            calculateFuelUsed();
+        }
 
-    public void calculateFuelUsed()
-    {
-        fuel=0;
-    }
+        public void calculateFuelUsed()
+        {
+            fuel=0;
+        }
 
         public double getTimeOfBoost() {return timeOfBoost;}
 
