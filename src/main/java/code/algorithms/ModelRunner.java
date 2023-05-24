@@ -69,7 +69,7 @@ public class ModelRunner {
             for (int j = 1; j < planets.length; j++) {
 
                 double[] acc = new double[3];
-                for (int k = 0; k < planets.length; k++) {
+                for (int k = 0; k < planets.length-probes.size(); k++) {
 
                     if (k != j) {
                         acc = HelperFunctions.addition(acc, planets[j].accelerationBetween(planets[k]));
