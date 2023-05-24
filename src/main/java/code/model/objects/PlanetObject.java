@@ -111,10 +111,5 @@ public class PlanetObject implements ModeledObject {
         this.targetPosition = targetPosition;
     }
 
-    public void updatePosition(double[] acceleration, double step) {
-        for (int i = 0; i < 3; i++) {
-            VELOCITY[i] += acceleration[i] * step;
-            COORDINATES[i] += VELOCITY[i] * step;
-        }
-    }
+
 }
