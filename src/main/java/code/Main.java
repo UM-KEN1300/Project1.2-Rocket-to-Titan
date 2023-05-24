@@ -1,13 +1,9 @@
 package code;
 
-import code.algorithms.ModelRunner;
 import code.graphics.Visualizer;
 import code.model.Model;
 import code.model.data.loaders.FileDataLoader;
-import code.model.data.loaders.NasaDataLoader;
 import code.model.objects.Probe;
-
-import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
