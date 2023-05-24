@@ -99,7 +99,7 @@ public class Visualizer extends Application {
                     @Override
                     public void run() {
                         for (int i = 0; i < 10; i++) {
-                            ModelRunner.runnerForGUI(180, 1, planets);
+                            ModelRunner.guiRunnerOldButFast(1800, 1, planets);
                             Platform.runLater(() -> {
                                 updateSpheres();
                             });
@@ -194,8 +194,8 @@ public class Visualizer extends Application {
     }
 
     private void setFocus() {
-        currentFocusIndex = 11;
-        currentFocus = visualizedObjects[11];
+        currentFocusIndex = 0;
+        currentFocus = visualizedObjects[0];
 
         updateSpheres();
     }

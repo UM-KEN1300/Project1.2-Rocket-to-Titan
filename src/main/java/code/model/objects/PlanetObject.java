@@ -17,11 +17,13 @@ public class PlanetObject implements ModeledObject {
     public PlanetObject(double[] coordinates, double[] velocity) {
         setCoordinates(coordinates);
         setVelocity(velocity);
+        initializeAcceleration();
     }
 
     // Constructor for NASA data (for testing)
     public PlanetObject(int planetCode) {
         this.planetCode = planetCode;
+        initializeAcceleration();
     }
 
 
@@ -89,6 +91,13 @@ public class PlanetObject implements ModeledObject {
         return acceleration;
     }
 
+    @Override
+    public String toString()
+    {
+        return "PlanetObject{" +
+                "planetCode=" + planetCode +
+                '}';
+    }
 //GETTER and SETTERS
 
     public long getRadius() {

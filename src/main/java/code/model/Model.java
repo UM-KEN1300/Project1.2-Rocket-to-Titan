@@ -34,6 +34,11 @@ public class Model {
     public static Map<String, PlanetObject> getPlanetObjects() {
         return getInstance().planetObjects;
     }
+    public static PlanetObject[] getPlanetObjectsArray() {
+        Map<String, PlanetObject> planets=getInstance().planetObjects;
+
+        return planets.values().toArray(new PlanetObject[planets.size()]);
+    }
 
     public static List<Probe> getProbes() {
         return getInstance().probes;
@@ -41,6 +46,7 @@ public class Model {
 
     public static void addProbe(Probe probe) {
         getInstance().probes.add(probe);
+        getInstance().planetObjects.put("probe",probe);
     }
 
     public void loadData(DataLoader dataLoader) {

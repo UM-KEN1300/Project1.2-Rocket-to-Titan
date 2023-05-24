@@ -38,8 +38,8 @@ public class NasaDataLoader implements DataLoader {
             exception.printStackTrace();
         }
 
-        String startDate = "2023-04-1", endDate = "2023-04-2";
-        String daysLong = "1d";
+        String startDate = "2023-04-1", endDate = "2023-04-11";
+        String daysLong = "10d";
         String urlLoc = "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND='";
         BufferedReader br;
 
@@ -64,6 +64,11 @@ public class NasaDataLoader implements DataLoader {
                 entry.getValue().setCoordinates(HelperFunctions.stringToVector(positionalVector));
                 String velocityVector = br.readLine() + "\n";
                 entry.getValue().setVelocity(HelperFunctions.stringToVector(velocityVector));
+
+                br.readLine();
+                br.readLine();
+                String positinalVectorTarget=br.readLine()+"\n";
+                entry.getValue().setTargetPosition(HelperFunctions.stringToVector(positinalVectorTarget));
 
                 System.out.println("Data added to the planet");
             } catch (MalformedURLException e) {
