@@ -42,7 +42,7 @@ public interface ModeledObject {
      *
      * @return a long representing the mass of the modeled object.
      */
-    long getMass();
+    double getMass();
 
     /**
      * This function can calculate how much force does planet 2 apply to planet 1 and turn it to acceleration.

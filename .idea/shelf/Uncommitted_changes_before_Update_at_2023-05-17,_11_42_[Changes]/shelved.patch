@@ -1,0 +1,1554 @@
+Index: src/main/java/group1/project12group1/modelTester.java
+===================================================================
+diff --git a/src/main/java/group1/project12group1/modelTester.java b/src/main/java/group1/project12group1/modelTester.java
+deleted file mode 100644
+--- a/src/main/java/group1/project12group1/modelTester.java	(revision f0e9462de202943976210442ed6d5cc689180274)
++++ /dev/null	(revision f0e9462de202943976210442ed6d5cc689180274)
+@@ -1,145 +0,0 @@
+-package group1.project12group1;
+-
+-import helperFunction.HelperFunctions;
+-
+-import java.io.BufferedReader;
+-import java.io.IOException;
+-import java.io.InputStreamReader;
+-import java.net.HttpURLConnection;
+-import java.net.MalformedURLException;
+-import java.net.ProtocolException;
+-import java.net.URL;
+-import java.util.ArrayList;
+-
+-public class modelTester
+-{
+-
+-    public static void main(String[] args)
+-    {
+-        //default inputs
+-        HelperFunctions helperFunctions=new HelperFunctions();
+-        ArrayList<PlanetObject> listOfPlanets=new ArrayList<>();
+-        PlanetObject Sun = new PlanetObject(0, 0, 0, 0, 0, 0, 1.99e30);
+-        PlanetObject Mercury= new PlanetObject(199,3.3e23);
+-        PlanetObject Venus= new PlanetObject(299,4.87e24);
+-        PlanetObject Earth= new PlanetObject(399,5.97E+24);
+-        PlanetObject Moon= new PlanetObject(301,7.35e22);
+-        PlanetObject Mars= new PlanetObject(499,6.42e23);
+-        PlanetObject Jupiter= new PlanetObject(599,1.90e27);
+-        PlanetObject Saturn= new PlanetObject(699,5.68e26);
+-        PlanetObject Titan= new PlanetObject(606,1.35e23);
+-        PlanetObject Uranus= new PlanetObject(799,8.68e25);
+-        PlanetObject Neptune= new PlanetObject(899,1.02e26);
+-        listOfPlanets.add(Sun);
+-        listOfPlanets.add(Mercury);
+-        listOfPlanets.add(Venus);
+-        listOfPlanets.add(Earth);
+-        listOfPlanets.add(Moon);
+-        listOfPlanets.add(Mars);
+-        listOfPlanets.add(Jupiter);
+-        listOfPlanets.add(Saturn);
+-        listOfPlanets.add(Neptune);
+-        listOfPlanets.add(Uranus);
+-
+-        //end of default inputs
+-        //Input the start time and end time after set the string to number of days
+-        // between the dates example 20d if the two dates are 20 dates apart
+-        //follow the format below when changing
+-        String startDate="2022-01-01";
+-        String endDate="2022-12-31";
+-        String daysLong="364d";
+-        String urlLoc = "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND='";
+-        BufferedReader br;
+-        //Sets the positions of the planet to this start frame
+-        for (int i = 0; i <listOfPlanets.size() ; i++)
+-        {
+-            System.out.println("trying to connect with planet: "+i);
+-            urlLoc=urlLoc+listOfPlanets.get(i).getPlanetCode()+"&OBJ_DATA='NO'&MAKE_EPHEM='YES'&EPHEM_TYPE='VECTORS'&CENTER='@sun&START_TIME='"+startDate+"'&STOP_TIME='"+endDate+"'&STEP_SIZE='"+daysLong+"'&QUANTITIES='1,9,20,23,24,29'";
+-            try
+-            {
+-                URL locationHTTPS = new URL(urlLoc);
+-                HttpURLConnection connectionLoc = (HttpURLConnection) locationHTTPS.openConnection();
+-                connectionLoc.setRequestMethod("GET");
+-                connectionLoc.connect();
+-                System.out.println("Connection successful!");
+-                 br = new BufferedReader(new InputStreamReader((connectionLoc.getInputStream())));
+-
+-                String output="";
+-                while (!output.equals("$$SOE")  )
+-                {
+-                   output= br.readLine();
+-
+-                }
+-                br.readLine();
+-                String positionalVector=br.readLine();
+-                listOfPlanets.get(i).setPositionalVector( helperFunctions.stringToVector(positionalVector));
+-                String velocityVector=br.readLine()+"\n";
+-                listOfPlanets.get(i).setVelocityVector( helperFunctions.stringToVector(velocityVector));
+-
+-                br.readLine();
+-                br.readLine();
+-                String positinalVectorTarget=br.readLine()+"\n";
+-                listOfPlanets.get(i).setTargetPosition(( helperFunctions.stringToVector(positinalVectorTarget)));
+-                System.out.println("Data added to the planet");
+-            }
+-            catch (MalformedURLException e){System.out.println("Problems 1");;}
+-            catch (ProtocolException e) {System.out.println("Problems 2");}
+-            catch (IOException e) {System.out.println("Problems 3");}
+-            urlLoc="https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND='";
+-        }
+-
+-
+-        //run for the same time as the initial value
+-        //accuracy
+-        System.out.println("starting the simulation of solar system.");
+-        double step0p1=10*3600*24*10;
+-        double step=1*3600*24*365;
+-        for (int i = 0; i < step; i++)
+-        {
+-           if(i%70000==0)
+-           {
+-               System.out.println("Progress: "+i+"/"+step);
+-           }
+-
+-            for (int j = 0; j <listOfPlanets.size()-1 ; j++)
+-            {
+-
+-                double[] acc=new double[3];
+-                for (int k = 0; k <listOfPlanets.size() ; k++)
+-                {
+-
+-                    if(k!=j)
+-                    {
+-
+-                        acc=helperFunctions.addition(acc, listOfPlanets.get(j).accelerationBetween(listOfPlanets.get(k)));
+-                    }
+-
+-                }
+-                listOfPlanets.get(j).updatePosition(acc,1);
+-
+-            }
+-        }
+-        int difference=0;
+-        System.out.println("The difference between the model and the nasa model is: ");
+-        for (int i = 0; i < listOfPlanets.size()-1; i++)
+-        {
+-
+-           difference+=helperFunctions.getDistanceBetweenWithVectors(listOfPlanets.get(i).getPositionalVector(),listOfPlanets.get(i).getTargetPosition());
+-
+-
+-          //  double[] result=helperFunctions.getDistanceBetweenPositionVectors( listOfPlanets.get(i).getPositionalVector(),listOfPlanets.get(i).getTargetPosition());
+-//            System.out.println("Difference in coordinates is:");
+-//            for (int j = 0; j < result.length; j++)
+-//            {
+-//                System.out.print(result[j]+"  ");
+-//            }
+-//            System.out.println();
+-        }
+-        System.out.print(difference);
+-
+-
+-
+-
+-
+-    }
+-}
+Index: src/main/java/group1/project12group1/SolarSystem.java
+===================================================================
+diff --git a/src/main/java/group1/project12group1/SolarSystem.java b/src/main/java/group1/project12group1/SolarSystem.java
+deleted file mode 100644
+--- a/src/main/java/group1/project12group1/SolarSystem.java	(revision f0e9462de202943976210442ed6d5cc689180274)
++++ /dev/null	(revision f0e9462de202943976210442ed6d5cc689180274)
+@@ -1,101 +0,0 @@
+-package group1.project12group1;
+-
+-
+-import helperFunction.HelperFunctions;
+-
+-import java.util.ArrayList;
+-import java.util.Arrays;
+-
+-public class SolarSystem {
+-    //initialises the planets using the PlanetObject object
+-    public static PlanetObject Sun = new PlanetObject(0, 0, 0, 0, 0, 0, 1.99e30);
+-    public static PlanetObject Mercury = new PlanetObject(7.83e6, 4.49e7, 2.87e6, -5.75e1, 1.15e1, 6.22e0, 3.3e23);
+-    public static PlanetObject Venus = new PlanetObject(-2.82e7, 1.04e8, 3.01e6, -3.4e1, -8.97e0, 1.84e0, 4.87e24);
+-    public static PlanetObject Earth = new PlanetObject(-1.48e8, -2.78e7, 3.37e4, 5.05e0, -2.94e1, 1.71e-3, 5.97e24);
+-    public static PlanetObject Moon = new PlanetObject(-1.48e8, -2.75e7, 7.02e4, 4.34e0, -3.0e1, -1.16e-2, 7.35e22);
+-    public static PlanetObject Mars = new PlanetObject(-1.59e8, 1.89e8, 7.87e6, -1.77e1, -1.35e1, 1.52e-1, 6.42e23);
+-    public static PlanetObject Jupiter = new PlanetObject(6.93e8, 2.59e8, -1.66e7, -4.71e0, 1.29e1, 5.22e-2, 1.90e27);
+-    public static PlanetObject Saturn = new PlanetObject(1253801723.95465, -760453007.810989, -36697431.1565206, 4.46781341335014, 8.23989540475628, -0.320745376969732, 5.68E+26);
+-    public static PlanetObject Titan = new PlanetObject(1.25e9, -7.61e8, -3.63e7, 9.e0, 1.11e1, -2.25e0, 1.35e23);
+-    public static PlanetObject Neptune = new PlanetObject(4.45e9, -3.98e8, -9.45e7, 4.48e-1, 5.45e0, -1.23e-1, 1.02e26);
+-    public static PlanetObject Uranus = new PlanetObject(1.96e9, 2.19e9, -1.72e7, -5.13e0, 4.22e0, 8.21e-2, 8.68e25);
+-    static double[] arr = {68.7449, -44.1, -2.2176};
+-    public static Probe Projectile = new Probe(Earth, Titan, arr);
+-
+-    public static void main(String[] args) {
+-        ArrayList<PlanetObject> listOfPlanets = new ArrayList<>();
+-        listOfPlanets.add(Sun); //list of planets
+-        listOfPlanets.add(Mercury);
+-        listOfPlanets.add(Venus);
+-        listOfPlanets.add(Earth);
+-        listOfPlanets.add(Moon);
+-        listOfPlanets.add(Mars);
+-        listOfPlanets.add(Jupiter);
+-        listOfPlanets.add(Titan);
+-        listOfPlanets.add(Saturn);
+-        listOfPlanets.add(Neptune);
+-        listOfPlanets.add(Uranus);
+-        HelperFunctions helperFunctions = new HelperFunctions();
+-
+-        double[] velocity = {0, 0, 0};
+-        Probe probes = new Probe(Earth, Titan, velocity);
+-        double[] direction = helperFunctions.subtract(probes.getPositionalVector(), Sun.getVelocityVector());
+-        velocity = direction;
+-
+-        for (int i = 0; i < 3; i++) {
+-            velocity[i] = -velocity[i] * 53 / helperFunctions.getVectorMagnitude(direction);
+-            System.out.println(velocity[i]);
+-        }
+-        System.out.println(helperFunctions.getVectorMagnitude(velocity));
+-            double step = 1 * 3600 * 24 * 365;
+-            for (int i = 0; i < step; i++) {
+-                if (i % 70000 == 0) {
+-                    System.out.println("Progress: " + i + "/" + step);
+-                }
+-
+-                for (int j = 1; j < listOfPlanets.size(); j++) {
+-
+-                    double[] acc = new double[3];
+-                    for (int k = 0; k < listOfPlanets.size(); k++) {
+-
+-                        if (k != j) {
+-
+-                            acc = helperFunctions.addition(acc, listOfPlanets.get(j).accelerationBetween(listOfPlanets.get(k)));
+-                        }
+-
+-                    }
+-                    listOfPlanets.get(j).updatePosition(acc, 1);
+-                }
+-            }
+-
+-            for (int i = 0; i < 3; i++) {
+-                System.out.println(Titan.getPositionalVector()[i]);
+-            }
+-
+-
+-            System.out.println(probes.getDistanceToTitan());
+-            System.out.println(helperFunctions.getDistanceBetween(probes, Titan));
+-//        Probe tester=(Probe) listOfPlanets.get(11);
+-//        double closesDistance=tester.getDistanceToTitan();
+-//        int remember=11;
+-//        for (int i = 12; i <listOfPlanets.size() ; i++)
+-//        {
+-//             tester=(Probe) listOfPlanets.get(i);
+-//            if(closesDistance>tester.getDistanceToTitan()){
+-//                closesDistance=tester.getDistanceToTitan();
+-//                remember=i;
+-//            }
+-//
+-//
+-//        }
+-//        tester=(Probe) listOfPlanets.get(remember);
+-//        System.out.println("The probe "+remember+"was the closes to titan with distance "+closesDistance);
+-//        System.out.println("The probe had intial velosity of ");
+-//        for (int i= 0; i <3 ; i++)
+-//        {
+-//            System.out.println(tester.getInitialVelocity()[i]);
+-//        }
+-
+-
+-        }
+-    }
+Index: src/main/resources/group1/project12group1/hello-view.fxml
+===================================================================
+diff --git a/src/main/resources/group1/project12group1/hello-view.fxml b/src/main/resources/group1/project12group1/hello-view.fxml
+deleted file mode 100644
+--- a/src/main/resources/group1/project12group1/hello-view.fxml	(revision f0e9462de202943976210442ed6d5cc689180274)
++++ /dev/null	(revision f0e9462de202943976210442ed6d5cc689180274)
+@@ -1,16 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-
+-<?import javafx.geometry.Insets?>
+-<?import javafx.scene.control.Label?>
+-<?import javafx.scene.layout.VBox?>
+-
+-<?import javafx.scene.control.Button?>
+-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
+-      fx:controller="group1.project12group1.HelloController">
+-    <padding>
+-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+-    </padding>
+-
+-    <Label fx:id="welcomeText"/>
+-    <Button text="Hello!" onAction="#onHelloButtonClick"/>
+-</VBox>
+Index: src/main/java/helperFunction/HelperFunctions.java
+===================================================================
+diff --git a/src/main/java/helperFunction/HelperFunctions.java b/src/main/java/helperFunction/HelperFunctions.java
+deleted file mode 100644
+--- a/src/main/java/helperFunction/HelperFunctions.java	(revision f0e9462de202943976210442ed6d5cc689180274)
++++ /dev/null	(revision f0e9462de202943976210442ed6d5cc689180274)
+@@ -1,188 +0,0 @@
+-package helperFunction;
+-import  group1.project12group1.*;
+-
+-import java.io.BufferedReader;
+-import java.io.IOException;
+-import java.io.InputStreamReader;
+-import java.net.HttpURLConnection;
+-import java.net.MalformedURLException;
+-import java.net.ProtocolException;
+-import java.net.URL;
+-import java.util.ArrayList;
+-import java.util.Arrays;
+-import java.util.regex.Matcher;
+-import java.util.regex.Pattern;
+-
+-
+-public class HelperFunctions
+-{
+-
+-    public HelperFunctions()
+-    {}
+-
+-
+-    public static double getDistanceBetween(PlanetObject one, PlanetObject two)
+-    {
+-        return (Math.sqrt(
+-                Math.pow((two.getPositionalVector()[0]-one.getPositionalVector()[0]),2)
+-                +Math.pow((two.getPositionalVector()[1]-one.getPositionalVector()[1]),2)
+-                +Math.pow((two.getPositionalVector()[2]-one.getPositionalVector()[2]),2))
+-        );
+-    }
+-
+-    public static double getDistanceBetweenWithVectors(double[] one, double[] two)
+-    {
+-        return (Math.sqrt(
+-                Math.pow((two[0]-one[0]),2)
+-                        +Math.pow((two[1]-one[1]),2)
+-                        +Math.pow((two[2]-one[2]),2))
+-        );
+-    }
+-
+-
+-    public static double[] subtract(double[]vectorOne, double[] vectorTwo)
+-    {
+-       double[] returnable=new double[3];
+-       returnable[0]=vectorOne[0]-vectorTwo[0];
+-        returnable[1]=vectorOne[1]-vectorTwo[1];
+-        returnable[2]=vectorOne[2]-vectorTwo[2];
+-        return returnable;
+-    }
+-
+-    public static double[] addition(double[]vectorOne, double[] vectorTwo)
+-    {
+-        double[] returnable=new double[3];
+-        returnable[0]=vectorOne[0]+vectorTwo[0];
+-        returnable[1]=vectorOne[1]+vectorTwo[1];
+-        returnable[2]=vectorOne[2]+vectorTwo[2];
+-        return returnable;
+-    }
+-    //todo is this distance and check how we use it
+-    public double[] getDistanceBetweenPositionVectors(double[] vectorOne, double[] vectorTwo)
+-    {
+-        double[] returnable=new double[3];
+-        returnable[0]=vectorOne[0]-vectorTwo[0];
+-        returnable[1]=vectorOne[1]-vectorTwo[1];
+-        returnable[2]=vectorOne[2]-vectorTwo[2];
+-        return returnable;
+-    }
+-    public PlanetObject[] testing()
+-    {
+-        ArrayList<PlanetObject> listOfPlanets = new ArrayList<>();
+-        PlanetObject Sun = new PlanetObject(0, 0, 0, 0, 0, 0, 1.99e30);
+-        PlanetObject Mercury = new PlanetObject(199, 3.3e23);
+-        PlanetObject Venus = new PlanetObject(299, 4.87e24);
+-        PlanetObject Earth = new PlanetObject(399, 5.97E+24);
+-        PlanetObject Moon = new PlanetObject(301, 7.35e22);
+-        PlanetObject Mars = new PlanetObject(499, 6.42e23);
+-        PlanetObject Jupiter = new PlanetObject(599, 1.90e27);
+-        PlanetObject Saturn = new PlanetObject(699, 5.68e26);
+-        PlanetObject Titan = new PlanetObject(606, 1.35e23);
+-        PlanetObject Uranus = new PlanetObject(799, 8.68e25);
+-        PlanetObject Neptune = new PlanetObject(899, 1.02e26);
+-        PlanetObject Projectile= new PlanetObject(0,50000);
+-        listOfPlanets.add(Sun);
+-        listOfPlanets.add(Mercury);
+-        listOfPlanets.add(Venus);
+-        listOfPlanets.add(Earth);
+-        listOfPlanets.add(Moon);
+-        listOfPlanets.add(Mars);
+-        listOfPlanets.add(Jupiter);
+-        listOfPlanets.add(Saturn);
+-        listOfPlanets.add(Titan);
+-        listOfPlanets.add(Neptune);
+-        listOfPlanets.add(Uranus);
+-        listOfPlanets.add(Projectile);
+-
+-        //end of default inputs
+-        //Input the start time and end time after set the string to number of days
+-        // between the dates example 20d if the two dates are 20 dates apart
+-        //follow the format below when changing
+-        String startDate = "2023-04-01";
+-        String endDate = "2023-04-2";
+-        String daysLong = "1d";
+-        String urlLoc = "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND='";
+-        BufferedReader br;
+-        //Sets the positions of the planet to this start frame
+-        for (int i = 1; i < listOfPlanets.size()-1; i++)
+-        {
+-            System.out.println("trying to connect with planet: " + i);
+-            urlLoc = urlLoc + listOfPlanets.get(i).getPlanetCode() + "&OBJ_DATA='NO'&MAKE_EPHEM='YES'&EPHEM_TYPE='VECTORS'&CENTER='@sun&START_TIME='" + startDate + "'&STOP_TIME='" + endDate + "'&STEP_SIZE='" + daysLong + "'&QUANTITIES='1,9,20,23,24,29'";
+-            try
+-            {
+-                URL locationHTTPS = new URL(urlLoc);
+-                HttpURLConnection connectionLoc = (HttpURLConnection) locationHTTPS.openConnection();
+-                connectionLoc.setRequestMethod("GET");
+-                connectionLoc.connect();
+-                System.out.println("Connection successful!");
+-                br = new BufferedReader(new InputStreamReader((connectionLoc.getInputStream())));
+-
+-                String output = "";
+-                while (!output.equals("$$SOE"))
+-                {
+-                    output = br.readLine();
+-
+-                }
+-                br.readLine();
+-                String positionalVector = br.readLine();
+-                listOfPlanets.get(i).setPositionalVector(stringToVector(positionalVector));
+-                String velocityVector = br.readLine() + "\n";
+-                listOfPlanets.get(i).setVelocityVector(stringToVector(velocityVector));
+-
+-                br.readLine();
+-                br.readLine();
+-                String positinalVectorTarget = br.readLine() + "\n";
+-                listOfPlanets.get(i).setTargetPosition((stringToVector(positinalVectorTarget)));
+-                System.out.println("Data added to the planet");
+-            } catch (MalformedURLException e)
+-            {
+-                System.out.println("Problems 1");
+-                ;
+-            } catch (ProtocolException e)
+-            {
+-                System.out.println("Problems 2");
+-            } catch (IOException e)
+-            {
+-                System.out.println("Problems 3");
+-            }
+-            urlLoc = "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND='";
+-        }
+-        Projectile.setPositionalVector(Earth.getPositionalVector());
+-
+-        PlanetObject[] re=listOfPlanets.toArray(new PlanetObject[listOfPlanets.size()]);
+-        return re;
+-
+-
+-    }
+-
+-    public double getVectorMagnitude(double[] vector)
+-    {
+-        return Math.sqrt(vector[0]*vector[0]+vector[1]*vector[1]+vector[2]*vector[2]);
+-    }
+-
+-    public static double[] stringToVector(String input)
+-    {
+-        input = (input.replace("X",""));
+-        input = (input.replace("V",""));
+-        input = (input.replace("Y",""));
+-        input = (input.replace("Z",""));
+-        input = (input.replace("=",""));
+-
+-        String[] srt = input.split(" ");
+-        double[] returnable= new double[3];
+-        int counter=0;
+-        for (int i = 0; i < srt.length; i++)
+-        {
+-            if (!srt[i].isEmpty())
+-            {
+-                returnable[counter]=Double.valueOf(srt[i]);
+-                counter++;
+-            }
+-
+-        }
+-
+-
+-        return returnable;
+-    }
+-
+-}
+Index: src/main/java/module-info.java
+===================================================================
+diff --git a/src/main/java/module-info.java b/src/main/java/module-info.java
+deleted file mode 100644
+--- a/src/main/java/module-info.java	(revision f0e9462de202943976210442ed6d5cc689180274)
++++ /dev/null	(revision f0e9462de202943976210442ed6d5cc689180274)
+@@ -1,9 +0,0 @@
+-module group1.project12group1 {
+-    requires javafx.controls;
+-    requires javafx.fxml;
+-
+-
+-
+-    opens group1.project12group1 to javafx.fxml;
+-    exports group1.project12group1;
+-}
+\ No newline at end of file
+Index: src/main/java/group1/project12group1/Probe.java
+===================================================================
+diff --git a/src/main/java/group1/project12group1/Probe.java b/src/main/java/group1/project12group1/Probe.java
+deleted file mode 100644
+--- a/src/main/java/group1/project12group1/Probe.java	(revision f0e9462de202943976210442ed6d5cc689180274)
++++ /dev/null	(revision f0e9462de202943976210442ed6d5cc689180274)
+@@ -1,115 +0,0 @@
+-package group1.project12group1;
+-import helperFunction.HelperFunctions;
+-
+-import java.util.ArrayList;
+-
+-public class Probe extends PlanetObject{
+-    private  double[] initialPosition;
+-    private  double[]  initialVelocity;
+-    private double distanceToTitan;
+-    private final HelperFunctions helperFunctions=new HelperFunctions();
+-    PlanetObject Earth;
+-    PlanetObject Titan;
+-
+-    public Probe(PlanetObject Earth, PlanetObject Titan,double[]velocity){
+-        this.Earth=Earth;
+-        this.Titan=Titan;
+-        super.positionalVector=helperFunctions.addition(calculateInitialPosition(),Earth.getPositionalVector());
+-        this.initialVelocity=velocity;
+-        super.velocityVector=velocity;
+-        super.mass=50000;
+-        distanceToTitan=helperFunctions.getDistanceBetween(this,Titan);
+-    }
+-@Override
+-    public void updatePosition(double[] acceleration, double step){
+-        for(int i = 0; i < 3; i++)
+-        {
+-            velocityVector[i] += acceleration[i] * step;
+-            positionalVector[i] += velocityVector[i] * step;
+-        }
+-        checkDistance();
+-    }
+-    public void
+-    checkDistance()
+-    {
+-        double newDistance=HelperFunctions.getDistanceBetween(this,Titan);
+-        if(newDistance<distanceToTitan)
+-        distanceToTitan=newDistance;
+-
+-    }
+-
+-    public double[] calculateInitialPosition()
+-    {
+-        double[] directionalVector=helperFunctions.subtract(Earth.getPositionalVector(),Titan.getPositionalVector());
+-        System.out.println(directionalVector);
+-        double mag=helperFunctions.getVectorMagnitude(directionalVector);
+-        for (int i = 0; i < 3; i++)
+-        {
+-         directionalVector[i]=directionalVector[i]*6370/mag;
+-         System.out.println(directionalVector[i]);
+-        }
+-
+-        return directionalVector;
+-    }
+-
+-    public double[] initialVelocity(double[] initialPosition, double[] target, double[] acc){
+-        double gx = acc[0];
+-        double gy = acc[1];
+-        double gz = acc[2];
+-
+-        double dx = target[0] - initialPosition[0];
+-        double dy = target[1] - initialPosition[1];
+-        double dz = target[2] - initialPosition[2];
+-        double d = Math.sqrt(dx*dx + dy*dy + dz*dz);
+-
+-        double v = Math.sqrt((d*gx)/(2*Math.sin(Math.PI/4)));
+-        double theta = Math.atan2(dy, Math.sqrt(dx*dx + dz*dz));
+-
+-        double vx = v*Math.sqrt(2)/2;
+-        double vy = v*Math.sin(theta);
+-        double vz = v*Math.sqrt(2)/2;
+-
+-        double[] initialVelocity = {vx, vy, vz};
+-        return initialVelocity;
+-    }
+-
+-    public double[] getPosition()
+-    {
+-        return super.getPositionalVector();
+-    }
+-
+-    public void setPosition(double[] position)
+-    {
+-        super.setPositionalVector( position);
+-    }
+-
+-    public double[] getInitialPosition()
+-    {
+-        return initialPosition;
+-    }
+-
+-    public void setInitialPosition(double[] initialPosition)
+-    {
+-        this.initialPosition = initialPosition;
+-    }
+-
+-    public double[] getInitialVelocity()
+-    {
+-        return initialVelocity;
+-    }
+-
+-    public void setInitialVelocity(double[] initialVelocity)
+-    {
+-        this.initialVelocity = initialVelocity;
+-    }
+-
+-    public double getDistanceToTitan()
+-    {
+-        return distanceToTitan;
+-    }
+-
+-    public void setDistanceToTitan(double distanceToTitan)
+-    {
+-        this.distanceToTitan = distanceToTitan;
+-    }
+-}
+Index: src/main/java/group1/project12group1/OptimizePath.java
+===================================================================
+diff --git a/src/main/java/group1/project12group1/OptimizePath.java b/src/main/java/group1/project12group1/OptimizePath.java
+deleted file mode 100644
+--- a/src/main/java/group1/project12group1/OptimizePath.java	(revision f0e9462de202943976210442ed6d5cc689180274)
++++ /dev/null	(revision f0e9462de202943976210442ed6d5cc689180274)
+@@ -1,22 +0,0 @@
+-package group1.project12group1;
+-
+-import helperFunction.HelperFunctions;
+-
+-public class OptimizePath {
+-
+-    public static void optimizePath(PlanetObject probe){
+-
+-
+-    }
+-
+-   /* public static double getFitness(PlanetObject probe, PlanetObject Titan){
+-        double initialDistance = HelperFunctions.getDistanceBetween(probe, Titan);
+-        //Timer -- after time elapses
+-        double finalDistance = HelperFunctions.getDistanceBetween(probe, Titan);
+-        double fitness = 1;
+-        if (finalDistance < initialDistance){
+-            return fitness = finalDistance/initialDistance;
+-        }
+-        else return fitness;
+-    }*/
+-}
+Index: src/main/java/group1/project12group1/PlanetObject.java
+===================================================================
+diff --git a/src/main/java/group1/project12group1/PlanetObject.java b/src/main/java/group1/project12group1/PlanetObject.java
+deleted file mode 100644
+--- a/src/main/java/group1/project12group1/PlanetObject.java	(revision f0e9462de202943976210442ed6d5cc689180274)
++++ /dev/null	(revision f0e9462de202943976210442ed6d5cc689180274)
+@@ -1,163 +0,0 @@
+-package Model;
+-
+-import helperFunction.HelperFunctions;
+-
+-public class PlanetObject
+-{
+-    //Variables
+-
+-    //Helper functions for basic tasks
+-    public final static HelperFunctions helperFunctions=new HelperFunctions();
+-    //Gravitational Constant
+-    public final static double G = 6.6743e-20;
+-    //planetCode is Nasa object code
+-    private int planetCode;
+-    //Position for end position of planet(only used for tests)
+-    private double[] targetPosition;
+-    //position of the planet in 3D array has[x,y,z] cords
+-    protected double[] positionalVector = new double[3];
+-    //velocity of the planet in 3D array has[x,y,z] cords
+-    protected double[] velocityVector = new double[3];
+-    //radius of the planet for the visualisation
+-    protected int radius;
+-    //mass of the planet in kg
+-    protected double mass;
+-    double speed = Math.sqrt(Math.pow(velocityVector[0],2) + Math.pow(velocityVector[1],2) + Math.pow(velocityVector[2],2)); //measured in km/s
+-    protected double [] acceleration;
+-
+-//______________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+-    //Constructors
+-
+-    //Constructor with velocity
+-    //default constructor
+-    public PlanetObject (){
+-
+-    }
+-    public PlanetObject (double x, double y, double z, double mass)
+-    {
+-        positionalVector[0]=x;
+-        positionalVector[1]=y;
+-        positionalVector[2]=z;
+-        this.mass = mass;
+-    }
+-
+-    //Main constructor with all important variables
+-    public PlanetObject(double x, double y, double z, double vx, double vy, double vz, double mass)
+-    {
+-        positionalVector[0]=x;
+-        positionalVector[1]=y;
+-        positionalVector[2]=z;
+-        velocityVector[0] = vx;
+-        velocityVector[1] = vy;
+-        velocityVector[2] = vz;
+-        this.mass = mass;
+-    }
+-
+-    //planetCode only constructor
+-    //Constructor for the api that later adds the values
+-    public PlanetObject(int planetCode, double mass)
+-    {
+-        this.planetCode = planetCode;
+-        this.mass=mass;
+-    }
+-    public double [] getAcceleration(){
+-        return acceleration;
+-    }
+-
+-    public void setAcceleration(double [] acceleration){
+-        this.acceleration = acceleration;
+-    }
+-
+-    public void initializeAcceleration(){
+-        acceleration = new double[3];
+-    }
+-
+-    //______________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+-    //Methods
+-
+-
+-    /**
+-     * @param other the planet that is interaction with the current planet
+-     * @return the acceleration vector of the force generated by the attraction between planet 1 and planet 2
+-     * This function can calculate how much force does planet 2 apply to planet 1 and turn it to acceleration
+-     * It uses Newton’s law of universal gravity for 3 dimensions
+-     *
+-     */
+-    public double[] accelerationBetween(PlanetObject other)
+-    {
+-        double[] force=new double[3];
+-        double[] positionalVector;
+-        double[] acceleration= new double[3];
+-
+-        positionalVector=helperFunctions.subtract(this.positionalVector,other.getPositionalVector());
+-
+-        double distance=1/helperFunctions.getDistanceBetweenWithVectors(this.positionalVector,other.getPositionalVector());
+-        for (int i = 0; i <=2 ; i++)
+-        {
+-            force[i]=-G*this.mass*other.getMass()*distance*distance*distance*positionalVector[i];
+-            acceleration[i]=force[i]/this.mass;
+-            //System.out.println("Acceleration1 ["+i+"]: "+acceleration[i]);
+-        }
+-        //System.out.println(acceleration);
+-        return acceleration;
+-    }
+-
+-    public double accelerationForSolvers(double position1D, PlanetObject otherObject, int i){
+-        HelperFunctions helperFunctions = new HelperFunctions();
+-        double force = 0;
+-        double acceleration = 0;
+-        double M1 = this.mass;
+-        double M2 = otherObject.getMass();
+-        double positionalDifference = 0;
+-        double [] positionalVector = this.positionalVector;
+-        double [] otherPositionalVector = otherObject.getPositionalVector();
+-
+-
+-        positionalDifference = position1D - otherPositionalVector[i];
+-
+-        double distance = 1/helperFunctions.getDistanceBetweenWithVectors(positionalVector, otherPositionalVector);
+-
+-        force = -G * M1 * M2 *(Math.pow(distance, 3)) * positionalDifference;
+-        acceleration = force / M1;
+-
+-        //System.out.println("Acceleration2 ["+i+"]: "+acceleration);
+-
+-        return acceleration;
+-    }
+-
+-    
+-
+-
+-    //______________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+-
+-
+-    // Getters and setters for the properties
+-    public double getX() {
+-        return positionalVector[0];
+-    }
+-    public double getY() {
+-        return positionalVector[1];
+-    }
+-    public double getZ() {
+-        return positionalVector[2];
+-    }
+-    public double getVx() {
+-        return velocityVector[0];
+-    }
+-    public int getRadius() {return radius;}
+-    public void setRadius(int radius) {this.radius = radius;}
+-    public double getVy() {
+-        return velocityVector[1];
+-    }
+-    public double getVz() {return velocityVector[2];}
+-    public double[] getTargetPosition() {return targetPosition;}
+-    public void setTargetPosition(double[] targetPosition) {this.targetPosition = targetPosition;}
+-    public int getPlanetCode() {return planetCode;}
+-    public double[] getVelocityVector() {return velocityVector;}
+-    public void setVelocityVector(double[] velocityVector) {this.velocityVector = velocityVector;}
+-    public void setPlanetCode(int planetCode) {this.planetCode = planetCode;}
+-    public double[] getPositionalVector() {return positionalVector;}
+-    public double getMass() {return mass;}
+-    public void setMass(double mass) {this.mass = mass;}
+-    public void setPositionalVector(double[] positionalVector) {this.positionalVector = positionalVector;}
+-}
+\ No newline at end of file
+Index: src/main/java/group1/project12group1/VisualizerExaminer.java
+===================================================================
+diff --git a/src/main/java/group1/project12group1/VisualizerExaminer.java b/src/main/java/group1/project12group1/VisualizerExaminer.java
+deleted file mode 100644
+--- a/src/main/java/group1/project12group1/VisualizerExaminer.java	(revision f0e9462de202943976210442ed6d5cc689180274)
++++ /dev/null	(revision f0e9462de202943976210442ed6d5cc689180274)
+@@ -1,341 +0,0 @@
+-package group1.project12group1;
+-
+-import helperFunction.HelperFunctions;
+-import javafx.application.Application;
+-import javafx.application.Platform;
+-import javafx.scene.Group;
+-import javafx.scene.PerspectiveCamera;
+-import javafx.scene.Scene;
+-import javafx.scene.image.Image;
+-import javafx.scene.input.KeyEvent;
+-import javafx.scene.input.ScrollEvent;
+-import javafx.scene.paint.Color;
+-import javafx.scene.paint.PhongMaterial;
+-import javafx.scene.shape.Sphere;
+-import javafx.scene.transform.Rotate;
+-import javafx.stage.Screen;
+-import javafx.stage.Stage;
+-
+-import java.io.IOException;
+-import java.nio.file.Paths;
+-import java.util.ArrayList;
+-import java.util.Scanner;
+-
+-import static group1.project12group1.SolarSystem.*;
+-
+-public class VisualizerExaminer extends Application {
+-    //Select which one you want to use by changing the name planets
+-    //Api version
+-//    PlanetObject[] planetsss = helperFunctions.testing();
+-    //PlanetObject[] planetss = helperFunctions.testing();
+-    //Solar System project
+-    private static final HelperFunctions helperFunctions = new HelperFunctions();
+-    private final double WIDTH = Screen.getPrimary().getBounds().getWidth();
+-    private final double HEIGHT = Screen.getPrimary().getBounds().getHeight();
+-    public final double SCALE = 100;
+-
+-    PlanetObject[] planets = new PlanetObject[]{Sun, Mercury, Venus, Earth, Moon, Mars, Jupiter, Saturn, Titan, Neptune, Uranus, Projectile};
+-    Sphere[] visualizedObjects = new Sphere[12];
+-    private SolarCamera solarCamera;
+-    private Sphere currentFocus = visualizedObjects[11];
+-    Rotate rotateX, rotateZ;
+-    int currentFocusIndex;
+-    Group root, paths;
+-    ArrayList<Sphere> projectilePath = new ArrayList<>();
+-    double[] shift;
+-    double timePassed;
+-    double distanceToTitan;
+-
+-    @Override
+-    public void start(Stage stage) throws IOException {
+-
+-//        for (int i = 0; i < planets.length; i++)
+-//            originalCoordinates[i] = new double[]{planets[i].getX() / SCALE, planets[i].getY() / SCALE, planets[i].getZ() / SCALE};
+-
+-        Sun.setRadius(695_508);
+-        Mercury.setRadius(2439);
+-        Venus.setRadius(6052);
+-        Earth.setRadius(6371);
+-        Moon.setRadius(1737);
+-        Mars.setRadius(3390);
+-        Jupiter.setRadius(69_911);
+-        Saturn.setRadius(58_232);
+-        Titan.setRadius(2574);
+-        Neptune.setRadius(24_622);
+-        Uranus.setRadius(25_362);
+-
+-        double[] earthVelVect = new double[3]; // velocity vector is input + earth's velocity vector
+-        double v1, v2, v3;
+-        earthVelVect = Earth.getVelocityVector();
+-        Scanner myObj = new Scanner(System.in);
+-        System.out.println("Enter v1:");
+-        v1 = myObj.nextDouble() + earthVelVect[0];
+-        System.out.println("Enter v2:");
+-        v2 = myObj.nextDouble() + earthVelVect[1];
+-        System.out.println("Enter v3:");
+-        v3 = myObj.nextDouble() + earthVelVect[2];
+-        Projectile.setVelocityVector(new double[]{v1, v2, v3});
+-
+-        System.out.println("Is the position relative to the Earth(1) or to the Sun(2) ?");
+-        int pick = myObj.nextInt();
+-        double p1, p2, p3;
+-        double[] earthPosVect = new double[3]; // position vector is input + earth's positional vector
+-        earthPosVect = Earth.getPositionalVector();
+-        System.out.println("Enter p1:");
+-        p1 = myObj.nextDouble();
+-        System.out.println("Enter p2:");
+-        p2 = myObj.nextDouble();
+-        System.out.println("Enter p3:");
+-        p3 = myObj.nextDouble();
+-        if (pick == 1) {
+-            p1 = p1 + earthPosVect[0];
+-            p2 = p2 + earthPosVect[1];
+-            p3 = p3 + earthPosVect[2];
+-        }
+-//68.7, -44, -2
+-        Projectile.setPositionalVector(new double[]{p1, p2, p3});
+-        myObj.close();
+-
+-//        Projectile = new Probe(Earth, Titan, new double[]{42, -42, -3});
+-        distanceToTitan = Projectile.getDistanceToTitan();
+-
+-
+-        root = new Group();
+-        root.setTranslateX(WIDTH / 2);
+-        root.setTranslateY(HEIGHT / 2);
+-        solarCamera = new SolarCamera();
+-        initializeSpheres(root);
+-
+-        paths = new Group();
+-        root.getChildren().add(paths);
+-
+-        solarCamera.setTranslateZ(currentFocus.getTranslateZ() - currentFocus.getRadius() * 5);
+-
+-        Scene scene = new Scene(root, WIDTH, HEIGHT, true);
+-        scene.setCamera(solarCamera);
+-
+-        zoom(stage);
+-
+-        scene.setFill(Color.BLACK.brighter());
+-
+-        rotateX = new Rotate(0, Rotate.X_AXIS);
+-        rotateZ = new Rotate(0, Rotate.Z_AXIS);
+-        setUpMouseRotation(scene, rotateX, rotateZ);
+-        root.getTransforms().addAll(rotateX, rotateZ);
+-        setUpKeyboardInput(scene);
+-
+-//        System.out.println("\nLowest distance: " + distanceToTitan + " km");
+-//        System.out.println("Recorded at " + timePassed + " seconds passed");
+-
+-        calculation();
+-
+-        stage.setTitle("Solar System");
+-        stage.setScene(scene);
+-        stage.show();
+-    }
+-
+-    private void calculation() {
+-        new java.util.Timer().schedule(
+-                new java.util.TimerTask() {
+-                    @Override
+-                    public void run() {
+-                        int step = 10 * 3600;
+-                        double calculationStep = 2;
+-                        for (int i = 0; i < step; i += 1) {
+-
+-                            for (int j = 1; j < planets.length; j++) {
+-
+-                                double[] acc = new double[3];
+-                                for (int k = 0; k < planets.length; k++) {
+-
+-                                    if (k != j) {
+-                                        acc = HelperFunctions.addition(acc, planets[j].accelerationBetween(planets[k]));
+-                                    }
+-                                }
+-                                planets[j].updatePosition(acc, calculationStep);
+-                            }
+-                        }
+-                        double currentDistance = Projectile.getDistanceToTitan();
+-                        timePassed += calculationStep * step;
+-                        if (currentDistance < distanceToTitan) {
+-                            distanceToTitan = currentDistance;
+-
+-                            System.out.println("\nLowest distance: " + currentDistance + " km");
+-                            System.out.println("Recorded at " + timePassed + " seconds passed (" + (int) (timePassed / (60 * 60 * 24)) + " days)");
+-                        }
+-
+-                        updateSpheres();
+-
+-                    }
+-                },
+-                0, 1);
+-    }
+-
+-    private void initializeSpheres(Group group) {
+-        for (int i = 0; i < visualizedObjects.length; i++) {
+-            visualizedObjects[i] = new Sphere();
+-            group.getChildren().add(visualizedObjects[i]);
+-        }
+-        setFocus(11);
+-        setVisibleScale();
+-
+-        updateSpheres();
+-        setTextures();
+-    }
+-
+-    private void updateSpheres() {
+-        shift = new double[]{
+-                -planets[currentFocusIndex].getPositionalVector()[0] / SCALE,
+-                -planets[currentFocusIndex].getPositionalVector()[1] / SCALE,
+-                -planets[currentFocusIndex].getPositionalVector()[2] / SCALE
+-        };
+-
+-        for (int i = 0; i < visualizedObjects.length; i++) {
+-            visualizedObjects[i].setTranslateX(planets[i].getPositionalVector()[0] / SCALE + shift[0]);
+-            visualizedObjects[i].setTranslateY(planets[i].getPositionalVector()[1] / SCALE + shift[1]);
+-            visualizedObjects[i].setTranslateZ(planets[i].getPositionalVector()[2] / SCALE + shift[2]);
+-        }
+-        Platform.runLater(() -> {
+-            for (Sphere path : projectilePath) {
+-                paths.setTranslateX(path.getTranslateX() + shift[0]);
+-                paths.setTranslateX(path.getTranslateY() + shift[1]);
+-                paths.setTranslateX(path.getTranslateZ() + shift[2]);
+-            }
+-        });
+-    }
+-
+-    static class SolarCamera extends PerspectiveCamera {
+-        SolarCamera() {
+-            setNearClip(0.1);
+-            setFarClip(100_000_000_000_000D);
+-        }
+-    }
+-
+-    private void zoom(Stage stage) {
+-        stage.addEventHandler(ScrollEvent.SCROLL, event -> {
+-            double delta = event.getDeltaY();
+-//            if (solarCamera.getTranslateZ() > -1000) {
+-//                if (delta < 0)
+-//                    solarCamera.setTranslateZ(solarCamera.getTranslateZ() - delta * solarCamera.getTranslateZ() * 0.005);
+-//            } else if (solarCamera.getTranslateZ() < -150_000_000) {
+-//                if (delta > 0)
+-//                    solarCamera.setTranslateZ(solarCamera.getTranslateZ() - delta * solarCamera.getTranslateZ() * 0.005);
+-//            } else {
+-//                solarCamera.setTranslateZ(solarCamera.getTranslateZ() - delta * solarCamera.getTranslateZ() * 0.005);
+-//            }
+-            solarCamera.setTranslateZ(solarCamera.getTranslateZ() - delta * solarCamera.getTranslateZ() * 0.005);
+-        });
+-    }
+-
+-    private void setUpMouseRotation(Scene scene, Rotate rotateX, Rotate rotateZ) {
+-        final double[] anchorX = new double[1];
+-        final double[] anchorY = new double[1];
+-
+-        final double[] anchorAngleX = new double[1];
+-        final double[] anchorAngleZ = new double[1];
+-
+-        scene.setOnMousePressed(event -> {
+-            anchorX[0] = event.getSceneX();
+-            anchorY[0] = event.getSceneY();
+-            anchorAngleX[0] = rotateX.getAngle();
+-            anchorAngleZ[0] = rotateZ.getAngle();
+-        });
+-
+-        scene.setOnMouseDragged(event -> {
+-            double deltaX = event.getSceneX() - anchorX[0];
+-            double deltaY = event.getSceneY() - anchorY[0];
+-            rotateX.setAngle(anchorAngleX[0] + deltaY * 0.15);
+-            if (anchorAngleX[0] > 90 && anchorAngleX[0] < 270)
+-                rotateZ.setAngle(anchorAngleZ[0] + deltaX * 0.15);
+-            else
+-                rotateZ.setAngle(anchorAngleZ[0] - deltaX * 0.15);
+-        });
+-    }
+-
+-    private void setUpKeyboardInput(Scene scene) {
+-        scene.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+-            switch (event.getCode()) {
+-                case DIGIT1 -> {
+-                    setFocus(0);
+-                }
+-                case DIGIT2 -> {
+-                    setFocus(3);
+-                }
+-                case DIGIT3 -> {
+-                    setFocus(8);
+-                }
+-                case DIGIT4 -> {
+-                    setFocus(7);
+-                }
+-                case DIGIT5 -> {
+-                    setFocus(11);
+-                }
+-                case P -> {
+-                    setVisibleScale();
+-                }
+-                case O -> {
+-                    setRealScale();
+-                }
+-            }
+-        });
+-    }
+-
+-    private void setRealScale() {
+-        visualizedObjects[0].setRadius(Sun.getRadius() / SCALE);
+-        visualizedObjects[1].setRadius(Mercury.getRadius() / SCALE);
+-        visualizedObjects[2].setRadius(Venus.getRadius() / SCALE);
+-        visualizedObjects[3].setRadius(Earth.getRadius() / SCALE);
+-        visualizedObjects[4].setRadius(Moon.getRadius() / SCALE);
+-        visualizedObjects[5].setRadius(Mars.getRadius() / SCALE);
+-        visualizedObjects[6].setRadius(Jupiter.getRadius() / SCALE);
+-        visualizedObjects[7].setRadius(Saturn.getRadius() / SCALE);
+-        visualizedObjects[8].setRadius(Titan.getRadius() / SCALE);
+-        visualizedObjects[9].setRadius(Neptune.getRadius() / SCALE);
+-        visualizedObjects[10].setRadius(Uranus.getRadius() / SCALE);
+-
+-        visualizedObjects[11].setRadius(visualizedObjects[3].getRadius() / 10);
+-
+-        solarCamera.setTranslateZ(-currentFocus.getRadius() * 5);
+-    }
+-
+-    public void setVisibleScale() {
+-        visualizedObjects[0].setRadius(Sun.getRadius() / SCALE * 50);
+-        visualizedObjects[1].setRadius(Mercury.getRadius() * 25);
+-        visualizedObjects[2].setRadius(Venus.getRadius() * 10);
+-        visualizedObjects[3].setRadius(Earth.getRadius() * 10);
+-        visualizedObjects[5].setRadius(Mars.getRadius() * 20);
+-        visualizedObjects[6].setRadius(Jupiter.getRadius() * 3);
+-        visualizedObjects[7].setRadius(Saturn.getRadius() * 3);
+-        visualizedObjects[9].setRadius(Neptune.getRadius() * 10);
+-        visualizedObjects[10].setRadius(Uranus.getRadius() * 10);
+-
+-        visualizedObjects[11].setRadius(visualizedObjects[3].getRadius() / 5);
+-
+-        solarCamera.setTranslateZ(-currentFocus.getRadius() * 5);
+-    }
+-
+-    private void setFocus(int index) {
+-        currentFocusIndex = index;
+-        currentFocus = visualizedObjects[index];
+-
+-        updateSpheres();
+-    }
+-
+-    private void setTextures() {
+-        String[] names = new String[]{"sun", "mercury", "venus", "earth", "moon", "mars", "jupiter", "saturn", "titan", "neptune", "uranus"};
+-        for (int i = 0; i < names.length; i++) {
+-            PhongMaterial texture = new PhongMaterial();
+-            texture.setDiffuseMap(new Image(Paths.get("src/main/resources/" + names[i] + ".jpg").toUri().toString()));
+-            visualizedObjects[i].setMaterial(texture);
+-        }
+-
+-        PhongMaterial material = new PhongMaterial();
+-        material.setDiffuseColor(Color.PINK);
+-        material.setSpecularColor(Color.PINK);
+-        visualizedObjects[11].setMaterial(material);
+-    }
+-
+-    public static void main(String[] args) {
+-        launch();
+-    }
+-}
+Index: src/main/java/group1/project12group1/Visualizer.java
+===================================================================
+diff --git a/src/main/java/group1/project12group1/Visualizer.java b/src/main/java/group1/project12group1/Visualizer.java
+deleted file mode 100644
+--- a/src/main/java/group1/project12group1/Visualizer.java	(revision f0e9462de202943976210442ed6d5cc689180274)
++++ /dev/null	(revision f0e9462de202943976210442ed6d5cc689180274)
+@@ -1,295 +0,0 @@
+-package group1.project12group1;
+-
+-import helperFunction.HelperFunctions;
+-import javafx.application.Application;
+-import javafx.application.Platform;
+-import javafx.scene.Group;
+-import javafx.scene.PerspectiveCamera;
+-import javafx.scene.Scene;
+-import javafx.scene.image.Image;
+-import javafx.scene.input.KeyEvent;
+-import javafx.scene.input.ScrollEvent;
+-import javafx.scene.paint.Color;
+-import javafx.scene.paint.PhongMaterial;
+-import javafx.scene.shape.Sphere;
+-import javafx.scene.transform.Rotate;
+-import javafx.stage.Screen;
+-import javafx.stage.Stage;
+-
+-import java.io.IOException;
+-import java.nio.file.Paths;
+-import java.util.ArrayList;
+-
+-import static group1.project12group1.SolarSystem.*;
+-
+-public class Visualizer extends Application {
+-    //Select which one you want to use by changing the name planets
+-    //Api version
+-//    PlanetObject[] planetsss = helperFunctions.testing();
+-    //PlanetObject[] planetss = helperFunctions.testing();
+-    //Solar System project
+-    private static final HelperFunctions helperFunctions = new HelperFunctions();
+-    private final double WIDTH = Screen.getPrimary().getBounds().getWidth();
+-    private final double HEIGHT = Screen.getPrimary().getBounds().getHeight();
+-    public final double SCALE = 100;
+-
+-    PlanetObject[] planets = new PlanetObject[]{Sun, Mercury, Venus, Earth, Moon, Mars, Jupiter, Saturn, Titan, Neptune, Uranus, Projectile};
+-    Sphere[] visualizedObjects = new Sphere[12];
+-    private SolarCamera solarCamera;
+-    private Sphere currentFocus = visualizedObjects[11];
+-    Rotate rotateX, rotateZ;
+-    int currentFocusIndex;
+-    int projectilePathIndex = 0;
+-    Group root, paths;
+-    ArrayList<Sphere> projectilePath = new ArrayList<>();
+-    double[] shift;
+-    double timePassed;
+-    double distanceToTitan;
+-
+-    @Override
+-    public void start(Stage stage) throws IOException {
+-        distanceToTitan = Projectile.getDistanceToTitan();
+-
+-        Sun.setRadius(695_508);
+-        Mercury.setRadius(2439);
+-        Venus.setRadius(6052);
+-        Earth.setRadius(6371);
+-        Moon.setRadius(1737);
+-        Mars.setRadius(3390);
+-        Jupiter.setRadius(69_911);
+-        Saturn.setRadius(58_232);
+-        Titan.setRadius(2574);
+-        Neptune.setRadius(24_622);
+-        Uranus.setRadius(25_362);
+-
+-        root = new Group();
+-        root.setTranslateX(WIDTH / 2);
+-        root.setTranslateY(HEIGHT / 2);
+-        solarCamera = new SolarCamera();
+-        initializeSpheres(root);
+-
+-        paths = new Group();
+-        root.getChildren().add(paths);
+-
+-        solarCamera.setTranslateZ(currentFocus.getTranslateZ() - currentFocus.getRadius() * 5);
+-
+-        Scene scene = new Scene(root, WIDTH, HEIGHT, true);
+-        scene.setCamera(solarCamera);
+-
+-        zoom(stage);
+-
+-        scene.setFill(Color.BLACK.brighter());
+-
+-        rotateX = new Rotate(0, Rotate.X_AXIS);
+-        rotateZ = new Rotate(0, Rotate.Z_AXIS);
+-        setUpMouseRotation(scene, rotateX, rotateZ);
+-        root.getTransforms().addAll(rotateX, rotateZ);
+-        setUpKeyboardInput(scene);
+-        calculation();
+-
+-        stage.setTitle("Solar System");
+-        stage.setScene(scene);
+-        stage.show();
+-    }
+-
+-    private void calculation() {
+-        new java.util.Timer().schedule(
+-                new java.util.TimerTask() {
+-                    @Override
+-                    public void run() {
+-                        int step = 10 * 3600;
+-                        double calculationStep = 2;
+-                        for (int i = 0; i < step; i += 1) {
+-
+-                            for (int j = 1; j < planets.length; j++) {
+-
+-                                double[] acc = new double[3];
+-                                for (int k = 0; k < planets.length; k++) {
+-
+-                                    if (k != j) {
+-                                        acc = HelperFunctions.addition(acc, planets[j].accelerationBetween(planets[k]));
+-                                    }
+-                                }
+-                                planets[j].updatePosition(acc, calculationStep);
+-                            }
+-                        }
+-                        double currentDistance = Projectile.getDistanceToTitan();
+-                        timePassed += calculationStep * step;
+-                        if (currentDistance < distanceToTitan) {
+-                            distanceToTitan = currentDistance;
+-
+-                            System.out.println("\nLowest distance: " + currentDistance + " km");
+-                            System.out.println("Recorded at " + timePassed + " seconds passed (" + (int) (timePassed / (60 * 60 * 24)) + " days)");
+-                        }
+-
+-                        updateSpheres();
+-                    }
+-                }, 0, 1);
+-    }
+-
+-    private void initializeSpheres(Group group) {
+-        for (int i = 0; i < visualizedObjects.length; i++) {
+-            visualizedObjects[i] = new Sphere();
+-            group.getChildren().add(visualizedObjects[i]);
+-        }
+-        setFocus(11);
+-        setVisibleScale();
+-
+-        updateSpheres();
+-        setTextures();
+-    }
+-
+-    private void updateSpheres() {
+-        shift = new double[]{
+-                -planets[currentFocusIndex].getPositionalVector()[0] / SCALE,
+-                -planets[currentFocusIndex].getPositionalVector()[1] / SCALE,
+-                -planets[currentFocusIndex].getPositionalVector()[2] / SCALE
+-        };
+-
+-        for (int i = 0; i < visualizedObjects.length; i++) {
+-            visualizedObjects[i].setTranslateX(planets[i].getPositionalVector()[0] / SCALE + shift[0]);
+-            visualizedObjects[i].setTranslateY(planets[i].getPositionalVector()[1] / SCALE + shift[1]);
+-            visualizedObjects[i].setTranslateZ(planets[i].getPositionalVector()[2] / SCALE + shift[2]);
+-        }
+-        Platform.runLater(() -> {
+-            for (Sphere path : projectilePath) {
+-                paths.setTranslateX(path.getTranslateX() + shift[0]);
+-                paths.setTranslateX(path.getTranslateY() + shift[1]);
+-                paths.setTranslateX(path.getTranslateZ() + shift[2]);
+-            }
+-        });
+-    }
+-
+-    static class SolarCamera extends PerspectiveCamera {
+-        SolarCamera() {
+-            setNearClip(0.1);
+-            setFarClip(100_000_000_000_000D);
+-        }
+-    }
+-
+-    private void zoom(Stage stage) {
+-        stage.addEventHandler(ScrollEvent.SCROLL, event -> {
+-            double delta = event.getDeltaY();
+-//            if (solarCamera.getTranslateZ() > -1000) {
+-//                if (delta < 0)
+-//                    solarCamera.setTranslateZ(solarCamera.getTranslateZ() - delta * solarCamera.getTranslateZ() * 0.005);
+-//            } else if (solarCamera.getTranslateZ() < -150_000_000) {
+-//                if (delta > 0)
+-//                    solarCamera.setTranslateZ(solarCamera.getTranslateZ() - delta * solarCamera.getTranslateZ() * 0.005);
+-//            } else {
+-//                solarCamera.setTranslateZ(solarCamera.getTranslateZ() - delta * solarCamera.getTranslateZ() * 0.005);
+-//            }
+-            solarCamera.setTranslateZ(solarCamera.getTranslateZ() - delta * solarCamera.getTranslateZ() * 0.005);
+-        });
+-    }
+-
+-    private void setUpMouseRotation(Scene scene, Rotate rotateX, Rotate rotateZ) {
+-        final double[] anchorX = new double[1];
+-        final double[] anchorY = new double[1];
+-
+-        final double[] anchorAngleX = new double[1];
+-        final double[] anchorAngleZ = new double[1];
+-
+-        scene.setOnMousePressed(event -> {
+-            anchorX[0] = event.getSceneX();
+-            anchorY[0] = event.getSceneY();
+-            anchorAngleX[0] = rotateX.getAngle();
+-            anchorAngleZ[0] = rotateZ.getAngle();
+-        });
+-
+-        scene.setOnMouseDragged(event -> {
+-            double deltaX = event.getSceneX() - anchorX[0];
+-            double deltaY = event.getSceneY() - anchorY[0];
+-            rotateX.setAngle(anchorAngleX[0] + deltaY * 0.15);
+-            if (anchorAngleX[0] > 90 && anchorAngleX[0] < 270)
+-                rotateZ.setAngle(anchorAngleZ[0] + deltaX * 0.15);
+-            else
+-                rotateZ.setAngle(anchorAngleZ[0] - deltaX * 0.15);
+-        });
+-    }
+-
+-    private void setUpKeyboardInput(Scene scene) {
+-        scene.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+-            switch (event.getCode()) {
+-                case DIGIT1 -> {
+-                    setFocus(0);
+-
+-                }
+-                case DIGIT2 -> {
+-                    setFocus(3);
+-                }
+-                case DIGIT3 -> {
+-                    setFocus(8);
+-                }
+-                case DIGIT4 -> {
+-                    setFocus(11);
+-                }
+-                case P -> {
+-                    setVisibleScale();
+-                }
+-                case O -> {
+-                    setRealScale();
+-                }
+-            }
+-        });
+-    }
+-
+-    private void setRealScale() {
+-        visualizedObjects[0].setRadius(Sun.getRadius() / SCALE);
+-        visualizedObjects[1].setRadius(Mercury.getRadius() / SCALE);
+-        visualizedObjects[2].setRadius(Venus.getRadius() / SCALE);
+-        visualizedObjects[3].setRadius(Earth.getRadius() / SCALE);
+-        visualizedObjects[4].setRadius(Moon.getRadius() / SCALE);
+-        visualizedObjects[5].setRadius(Mars.getRadius() / SCALE);
+-        visualizedObjects[6].setRadius(Jupiter.getRadius() / SCALE);
+-        visualizedObjects[7].setRadius(Saturn.getRadius() / SCALE);
+-        visualizedObjects[8].setRadius(Titan.getRadius() / SCALE);
+-        visualizedObjects[9].setRadius(Neptune.getRadius() / SCALE);
+-        visualizedObjects[10].setRadius(Uranus.getRadius() / SCALE);
+-
+-        visualizedObjects[11].setRadius(visualizedObjects[3].getRadius() / 10);
+-
+-        solarCamera.setTranslateZ(-currentFocus.getRadius() * 5);
+-    }
+-
+-    public void setVisibleScale() {
+-        visualizedObjects[0].setRadius(Sun.getRadius() / SCALE * 50);
+-        visualizedObjects[1].setRadius(Mercury.getRadius() * 25);
+-        visualizedObjects[2].setRadius(Venus.getRadius() * 10);
+-        visualizedObjects[3].setRadius(Earth.getRadius() * 10);
+-        visualizedObjects[5].setRadius(Mars.getRadius() * 20);
+-        visualizedObjects[6].setRadius(Jupiter.getRadius() * 3);
+-        visualizedObjects[7].setRadius(Saturn.getRadius() * 3);
+-        visualizedObjects[9].setRadius(Neptune.getRadius() * 10);
+-        visualizedObjects[10].setRadius(Uranus.getRadius() * 10);
+-
+-        visualizedObjects[11].setRadius(visualizedObjects[3].getRadius() / 10);
+-
+-        solarCamera.setTranslateZ(-currentFocus.getRadius() * 5);
+-    }
+-
+-    private void setFocus(int index) {
+-        currentFocusIndex = index;
+-        currentFocus = visualizedObjects[index];
+-
+-        updateSpheres();
+-    }
+-
+-    private void setTextures() {
+-        String[] names = new String[]{"sun", "mercury", "venus", "earth", "moon", "mars", "jupiter", "saturn", "titan", "neptune", "uranus"};
+-        for (int i = 0; i < names.length; i++) {
+-            PhongMaterial texture = new PhongMaterial();
+-            texture.setDiffuseMap(new Image(Paths.get("src/main/resources/" + names[i] + ".jpg").toUri().toString()));
+-            visualizedObjects[i].setMaterial(texture);
+-        }
+-
+-        PhongMaterial material = new PhongMaterial();
+-        material.setDiffuseColor(Color.PINK);
+-        material.setSpecularColor(Color.PINK);
+-        visualizedObjects[11].setMaterial(material);
+-    }
+-
+-    public static void main(String[] args) {
+-        launch();
+-    }
+-}
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"13cb742e-4cc8-4686-864c-bc5cb4fb0b5a\" name=\"Changes\" comment=\"eeeeee\">\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/group1/project12group1/Visualizer.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/group1/project12group1/Visualizer.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/group1/project12group1/VisualizerExaminer.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/group1/project12group1/VisualizerExaminer.java\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"FileTemplateManagerImpl\">\n    <option name=\"RECENT_TEMPLATES\">\n      <list>\n        <option value=\"Class\" />\n      </list>\n    </option>\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"MarkdownSettingsMigration\">\n    <option name=\"stateVersion\" value=\"1\" />\n  </component>\n  <component name=\"ProjectId\" id=\"2NHEToQGlRKTbWGVth802s3yKhD\" />\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\">\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\n  </component>\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\">{\n  &quot;keyToString&quot;: {\n    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\n    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,\n    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,\n    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,\n    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,\n    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,\n    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;\n  }\n}</component>\n  <component name=\"RunManager\">\n    <configuration name=\"GUIpart\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\n      <option name=\"MAIN_CLASS_NAME\" value=\"group1.project12group1.GUIpart\" />\n      <module name=\"Project1-2-Group-1\" />\n      <extension name=\"coverage\">\n        <pattern>\n          <option name=\"PATTERN\" value=\"group1.project12group1.*\" />\n          <option name=\"ENABLED\" value=\"true\" />\n        </pattern>\n      </extension>\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"SolarSystem\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\n      <option name=\"MAIN_CLASS_NAME\" value=\"group1.project12group1.SolarSystem\" />\n      <module name=\"Project1-2-Group-1\" />\n      <extension name=\"coverage\">\n        <pattern>\n          <option name=\"PATTERN\" value=\"group1.project12group1.*\" />\n          <option name=\"ENABLED\" value=\"true\" />\n        </pattern>\n      </extension>\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"Visualizer\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\n      <option name=\"MAIN_CLASS_NAME\" value=\"group1.project12group1.Visualizer\" />\n      <module name=\"Project1-2-Group-1\" />\n      <extension name=\"coverage\">\n        <pattern>\n          <option name=\"PATTERN\" value=\"group1.project12group1.*\" />\n          <option name=\"ENABLED\" value=\"true\" />\n        </pattern>\n      </extension>\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"modelTester\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\n      <option name=\"MAIN_CLASS_NAME\" value=\"group1.project12group1.modelTester\" />\n      <module name=\"Project1-2-Group-1\" />\n      <extension name=\"coverage\">\n        <pattern>\n          <option name=\"PATTERN\" value=\"group1.project12group1.*\" />\n          <option name=\"ENABLED\" value=\"true\" />\n        </pattern>\n      </extension>\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration default=\"true\" type=\"JetRunConfigurationType\">\n      <module name=\"Project1.2 Group 1\" />\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration default=\"true\" type=\"KotlinStandaloneScriptRunConfigurationType\">\n      <module name=\"Project1.2 Group 1\" />\n      <option name=\"filePath\" />\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <list>\n      <item itemvalue=\"Application.SolarSystem\" />\n      <item itemvalue=\"Application.GUIpart\" />\n      <item itemvalue=\"Application.Visualizer\" />\n      <item itemvalue=\"Application.modelTester\" />\n    </list>\n    <recent_temporary>\n      <list>\n        <item itemvalue=\"Application.SolarSystem\" />\n        <item itemvalue=\"Application.Visualizer\" />\n        <item itemvalue=\"Application.modelTester\" />\n        <item itemvalue=\"Application.GUIpart\" />\n      </list>\n    </recent_temporary>\n  </component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"13cb742e-4cc8-4686-864c-bc5cb4fb0b5a\" name=\"Changes\" comment=\"\" />\n      <created>1679312618137</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1679312618137</updated>\n      <workItem from=\"1679312619245\" duration=\"1000\" />\n      <workItem from=\"1679356589531\" duration=\"4766000\" />\n      <workItem from=\"1679636818916\" duration=\"2665000\" />\n      <workItem from=\"1679649470844\" duration=\"787000\" />\n    </task>\n    <task id=\"LOCAL-00001\" summary=\"WORKING HOW THIS SHIT WORKS\">\n      <created>1679319564168</created>\n      <option name=\"number\" value=\"00001\" />\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679319564168</updated>\n    </task>\n    <task id=\"LOCAL-00002\" summary=\"Added some verson of working code\">\n      <created>1679322553538</created>\n      <option name=\"number\" value=\"00002\" />\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679322553538</updated>\n    </task>\n    <task id=\"LOCAL-00003\" summary=\"Added some impr\">\n      <created>1679341953937</created>\n      <option name=\"number\" value=\"00003\" />\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679341953937</updated>\n    </task>\n    <task id=\"LOCAL-00004\" summary=\"changed the methods to work with momentkum\">\n      <created>1679420214209</created>\n      <option name=\"number\" value=\"00004\" />\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679420214209</updated>\n    </task>\n    <task id=\"LOCAL-00005\" summary=\"bug fix\">\n      <created>1679482920572</created>\n      <option name=\"number\" value=\"00005\" />\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679482920572</updated>\n    </task>\n    <task id=\"LOCAL-00006\" summary=\"Added comments and cleaned the PlanetObject\">\n      <created>1679599809794</created>\n      <option name=\"number\" value=\"00006\" />\n      <option name=\"presentableId\" value=\"LOCAL-00006\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679599809794</updated>\n    </task>\n    <task id=\"LOCAL-00007\" summary=\"Added comments and cleaned the PlanetObject\">\n      <created>1679600320463</created>\n      <option name=\"number\" value=\"00007\" />\n      <option name=\"presentableId\" value=\"LOCAL-00007\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679600320463</updated>\n    </task>\n    <task id=\"LOCAL-00008\" summary=\"Added comments and cleaned the PlanetObject\">\n      <created>1679603739673</created>\n      <option name=\"number\" value=\"00008\" />\n      <option name=\"presentableId\" value=\"LOCAL-00008\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679603739673</updated>\n    </task>\n    <task id=\"LOCAL-00009\" summary=\"eeeeee\">\n      <created>1679608031109</created>\n      <option name=\"number\" value=\"00009\" />\n      <option name=\"presentableId\" value=\"LOCAL-00009\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679608031109</updated>\n    </task>\n    <task id=\"LOCAL-00010\" summary=\"eeeeee\">\n      <created>1679610941972</created>\n      <option name=\"number\" value=\"00010\" />\n      <option name=\"presentableId\" value=\"LOCAL-00010\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679610941972</updated>\n    </task>\n    <task id=\"LOCAL-00011\" summary=\"eeeeee\">\n      <created>1679611003457</created>\n      <option name=\"number\" value=\"00011\" />\n      <option name=\"presentableId\" value=\"LOCAL-00011\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679611003457</updated>\n    </task>\n    <task id=\"LOCAL-00012\" summary=\"eeeeee\">\n      <created>1679611384750</created>\n      <option name=\"number\" value=\"00012\" />\n      <option name=\"presentableId\" value=\"LOCAL-00012\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679611384750</updated>\n    </task>\n    <task id=\"LOCAL-00013\" summary=\"eeeeee\">\n      <created>1679611794976</created>\n      <option name=\"number\" value=\"00013\" />\n      <option name=\"presentableId\" value=\"LOCAL-00013\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679611794976</updated>\n    </task>\n    <task id=\"LOCAL-00014\" summary=\"eeeeee\">\n      <created>1679612189357</created>\n      <option name=\"number\" value=\"00014\" />\n      <option name=\"presentableId\" value=\"LOCAL-00014\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679612189357</updated>\n    </task>\n    <task id=\"LOCAL-00015\" summary=\"eeeeee\">\n      <created>1679649307609</created>\n      <option name=\"number\" value=\"00015\" />\n      <option name=\"presentableId\" value=\"LOCAL-00015\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679649307609</updated>\n    </task>\n    <task id=\"LOCAL-00016\" summary=\"eeeeee\">\n      <created>1679649317635</created>\n      <option name=\"number\" value=\"00016\" />\n      <option name=\"presentableId\" value=\"LOCAL-00016\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679649317635</updated>\n    </task>\n    <option name=\"localTasksCounter\" value=\"17\" />\n    <servers />\n  </component>\n  <component name=\"TypeScriptGeneratedFilesManager\">\n    <option name=\"version\" value=\"3\" />\n  </component>\n  <component name=\"Vcs.Log.Tabs.Properties\">\n    <option name=\"TAB_STATES\">\n      <map>\n        <entry key=\"MAIN\">\n          <value>\n            <State />\n          </value>\n        </entry>\n      </map>\n    </option>\n  </component>\n  <component name=\"VcsManagerConfiguration\">\n    <MESSAGE value=\"added getAcceleration\" />\n    <MESSAGE value=\"WORKING HOW THIS SHIT WORKS\" />\n    <MESSAGE value=\"Added some verson of working code\" />\n    <MESSAGE value=\"Added some impr\" />\n    <MESSAGE value=\"changed the methods to work with momentum\" />\n    <MESSAGE value=\"changed the methods to work with momentkum\" />\n    <MESSAGE value=\"bug fix\" />\n    <MESSAGE value=\"Added comments and cleaned the PlanetObject\" />\n    <MESSAGE value=\"eeeeee\" />\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"eeeeee\" />\n  </component>\n  <component name=\"com.intellij.coverage.CoverageDataManagerImpl\">\n    <SUITE FILE_PATH=\"coverage/Project1_2_Rocket_to_Titan$SolarSystem.ic\" NAME=\"SolarSystem Coverage Results\" MODIFIED=\"1679580725908\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\n      <FILTER>group1.project12group1.*</FILTER>\n    </SUITE>\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision f0e9462de202943976210442ed6d5cc689180274)
++++ b/.idea/workspace.xml	(date 1684316311133)
+@@ -5,9 +5,7 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="13cb742e-4cc8-4686-864c-bc5cb4fb0b5a" name="Changes" comment="eeeeee">
+-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/group1/project12group1/Visualizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/group1/project12group1/Visualizer.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/group1/project12group1/VisualizerExaminer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/group1/project12group1/VisualizerExaminer.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -35,19 +33,20 @@
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+-  <component name="PropertiesComponent">{
+-  &quot;keyToString&quot;: {
+-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
++  <component name="PropertiesComponent"><![CDATA[{
++  "keyToString": {
++    "RunOnceActivity.OpenProjectViewOnStart": "true",
++    "RunOnceActivity.ShowReadmeOnStart": "true",
++    "WebServerToolWindowFactoryState": "false",
++    "git-widget-placeholder": "main",
++    "node.js.detected.package.eslint": "true",
++    "node.js.selected.package.eslint": "(autodetect)",
++    "node.js.selected.package.tslint": "(autodetect)",
++    "settings.editor.selected.configurable": "preferences.lookFeel",
++    "vue.rearranger.settings.migration": "true"
+   }
+-}</component>
+-  <component name="RunManager">
++}]]></component>
++  <component name="RunManager" selected="Application.SolarSystem">
+     <configuration name="GUIpart" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+       <option name="MAIN_CLASS_NAME" value="group1.project12group1.GUIpart" />
+       <module name="Project1-2-Group-1" />
+@@ -281,6 +280,14 @@
+     <MESSAGE value="Added comments and cleaned the PlanetObject" />
+     <MESSAGE value="eeeeee" />
+     <option name="LAST_COMMIT_MESSAGE" value="eeeeee" />
++  </component>
++  <component name="XDebuggerManager">
++    <pin-to-top-manager>
++      <pinned-members>
++        <PinnedItemInfo parentTag="code.model.objects.Probe" memberName="COORDINATES" />
++        <PinnedItemInfo parentTag="code.model.objects.PlanetObject" memberName="COORDINATES" />
++      </pinned-members>
++    </pin-to-top-manager>
+   </component>
+   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+     <SUITE FILE_PATH="coverage/Project1_2_Rocket_to_Titan$SolarSystem.ic" NAME="SolarSystem Coverage Results" MODIFIED="1679580725908" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+Index: pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project xmlns=\"http://maven.apache.org/POM/4.0.0\"\n         xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n         xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd\">\n    <modelVersion>4.0.0</modelVersion>\n\n    <groupId>Group1</groupId>\n    <artifactId>Project1-2-Group-1</artifactId>\n    <version>1.0-SNAPSHOT</version>\n    <name>Project1.2 Group 1</name>\n\n    <properties>\n        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>\n        <junit.version>5.9.1</junit.version>\n    </properties>\n\n    <dependencies>\n        <dependency>\n            <groupId>org.openjfx</groupId>\n            <artifactId>javafx-controls</artifactId>\n            <version>19</version>\n        </dependency>\n\n\n\n\n\n        <dependency>\n            <groupId>org.openjfx</groupId>\n            <artifactId>javafx-fxml</artifactId>\n            <version>19</version>\n        </dependency>\n\n        <dependency>\n            <groupId>org.junit.jupiter</groupId>\n            <artifactId>junit-jupiter-api</artifactId>\n            <version>${junit.version}</version>\n            <scope>test</scope>\n        </dependency>\n        <dependency>\n            <groupId>org.junit.jupiter</groupId>\n            <artifactId>junit-jupiter-engine</artifactId>\n            <version>${junit.version}</version>\n            <scope>test</scope>\n        </dependency>\n        <dependency>\n            <groupId>org.apache.xbean</groupId>\n            <artifactId>xbean-reflect</artifactId>\n            <version>3.4</version>\n        </dependency>\n        <dependency>\n            <groupId>org.slf4j</groupId>\n            <artifactId>slf4j-api</artifactId>\n            <version>1.7.32</version>\n        </dependency>\n    </dependencies>\n\n    <build>\n        <plugins>\n            <plugin>\n                <groupId>org.apache.maven.plugins</groupId>\n                <artifactId>maven-compiler-plugin</artifactId>\n                <version>3.10.1</version>\n                <configuration>\n                    <source>19</source>\n                    <target>19</target>\n                </configuration>\n            </plugin>\n            <plugin>\n                <groupId>org.openjfx</groupId>\n                <artifactId>javafx-maven-plugin</artifactId>\n                <version>0.0.8</version>\n                <executions>\n                    <execution>\n                        <!-- Default configuration for running with: mvn clean javafx:run -->\n                        <id>default-cli</id>\n                        <configuration>\n                            <mainClass>group1.project12group1/group1.project12group1.Visualizer</mainClass>\n                            <launcher>app</launcher>\n                            <jlinkZipName>app</jlinkZipName>\n                            <jlinkImageName>app</jlinkImageName>\n                            <noManPages>true</noManPages>\n                            <stripDebug>true</stripDebug>\n                            <noHeaderFiles>true</noHeaderFiles>\n                        </configuration>\n                    </execution>\n                </executions>\n            </plugin>\n        </plugins>\n    </build>\n</project>\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/pom.xml b/pom.xml
+--- a/pom.xml	(revision f0e9462de202943976210442ed6d5cc689180274)
++++ b/pom.xml	(date 1684316302913)
+@@ -24,7 +24,6 @@
+ 
+ 
+ 
+-
+         <dependency>
+             <groupId>org.openjfx</groupId>
+             <artifactId>javafx-fxml</artifactId>

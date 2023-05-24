@@ -1,8 +1,8 @@
 package code.model;
 
+import code.model.data.loaders.DataLoader;
 import code.model.objects.PlanetObject;
 import code.model.objects.Probe;
-import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -15,58 +15,53 @@ import java.util.List;
 import java.util.Map;
 
 public class Model {
-    private final Map<String, PlanetObject> PLANET_OBJECT;
+    private Map<String, PlanetObject> planetObjects;
+    private List<Probe> probes;
 
-    private final List<Probe> PROBES;
 
     private Model() {
-        PLANET_OBJECT = new HashMap<>();
-        PROBES = new ArrayList<>();
-        initializeFromFile();
     }
+
 
     private static final class InstanceHolder {
         private static final Model INSTANCE = new Model();
     }
 
-    private static Model getInstance() {
+    public static Model getInstance() {
         return InstanceHolder.INSTANCE;
     }
 
     public static Map<String, PlanetObject> getPlanetObjects() {
-        return getInstance().PLANET_OBJECT;
+        return getInstance().planetObjects;
     }
 
     public static List<Probe> getProbes() {
-        return getInstance().PROBES;
+        return getInstance().probes;
     }
 
     public static void addProbe(Probe probe) {
-        getInstance().PROBES.add(probe);
+        getInstance().probes.add(probe);
     }
 
-    private void initializeFromFile() {
-        try (InputStream inputStream = getClass().getResourceAsStream("/model/initial_stats.xlsx")) {
-            assert inputStream != null : "Initial stats resource not found";
+    public void loadData(DataLoader dataLoader) {
+        planetObjects = new HashMap<>();
+        probes = new ArrayList<>();
+        dataLoader.load(planetObjects);
+        loadRadii();
+        loadMass();
+    }
+
+    private void loadRadii() {
+        try (InputStream inputStream = getClass().getResourceAsStream("/model/radius.xlsx")) {
+            assert inputStream != null;
             try (Workbook workbook = new XSSFWorkbook(inputStream)) {
                 Sheet sheet = workbook.getSheetAt(0);
 
-                for (int index = 1; index <= 11; index++) {
-                    Row row = sheet.getRow(index);
+                for (int index = 0; index <= 10; index++) {
+                    String name = sheet.getRow(index).getCell(0).getStringCellValue();
+                    double radius = sheet.getRow(index).getCell(1).getNumericCellValue();
 
-                    String name = row.getCell(0).getStringCellValue();
-
-                    double[] coordinates = new double[3];
-                    for (int i = 0; i <= 2; i++)
-                        coordinates[i] = row.getCell(i + 1).getNumericCellValue();
-
-                    double[] velocity = new double[3];
-                    for (int i = 0; i <= 2; i++)
-                        velocity[i] = row.getCell(i + 4).getNumericCellValue();
-
-                    long mass = Math.round(row.getCell(7).getNumericCellValue());
-
-                    PLANET_OBJECT.put(name, new PlanetObject(coordinates, velocity, mass));
+                    planetObjects.get(name).setRadius(radius);
                 }
             }
         } catch (IOException exception) {
@@ -74,5 +69,21 @@ public class Model {
         }
     }
 
+    private void loadMass(){
+        try (InputStream inputStream = getClass().getResourceAsStream("/model/mass.xlsx")) {
+            assert inputStream != null;
+            try (Workbook workbook = new XSSFWorkbook(inputStream)) {
+                Sheet sheet = workbook.getSheetAt(0);
 
+                for (int index = 0; index <= 10; index++) {
+                    String name = sheet.getRow(index).getCell(0).getStringCellValue();
+                    double mass = sheet.getRow(index).getCell(1).getNumericCellValue();
+
+                    planetObjects.get(name).setMass(mass);
+                }
+            }
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+    }
 }
