@@ -48,6 +48,19 @@ public class Solvers {
         planetObject.setAcceleration(acceleration);
     }
 
+    public static void fastEuler(PlanetObject planetObject, double[] acceleration, double step){
+        double[] velocityVector=planetObject.getVelocity();
+        double[] positionalVector= planetObject.getCoordinates();
+        for(int i = 0; i < 3; i++)
+        {
+            velocityVector[i] += acceleration[i] * step;
+            positionalVector[i] += velocityVector[i] * step;
+        }
+        planetObject.setVelocity(velocityVector);
+        planetObject.setCoordinates(positionalVector);
+    }
+
+
 //    public static double accelerationForSolversV(double velocity1D, PlanetObject planetObject, PlanetObject otherObject, int i) {
 //        double force = 0;
 //        double acceleration = 0;
