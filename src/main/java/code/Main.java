@@ -1,6 +1,5 @@
 package code;
 
-
 import code.algorithms.ModelRunner;
 import code.graphics.Visualizer;
 import code.model.Model;
@@ -15,7 +14,7 @@ public class Main {
         Model.getInstance().loadData(new FileDataLoader());
         Model.addProbe(new Probe(new double[]{68.7449, -44.1, -2.2176}));
 
-//        Visualizer.main(args);
-        ModelRunner.runnerForMultipleProbes(366, 1, new ArrayList<>(Model.getPlanetObjects().values()), Model.getProbes());
+        Visualizer.main(args);
+//        ModelRunner.runnerForMultipleProbes(366, 1, new ArrayList<>(Model.getPlanetObjects().values()), Model.getProbes());
     }
 }
