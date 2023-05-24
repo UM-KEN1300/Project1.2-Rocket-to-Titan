@@ -1,7 +1,6 @@
 package code.graphics;
 
 import code.algorithms.ModelRunner;
-import code.graphics.overlay.OverlayGroup;
 import code.graphics.visuals.SolarSubScene;
 import code.graphics.visuals.controllers.SolarKeyController;
 import code.graphics.visuals.controllers.SolarMouseController;

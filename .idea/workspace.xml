@@ -4,22 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="13cb742e-4cc8-4686-864c-bc5cb4fb0b5a" name="Changes" comment=".">
-      <change afterPath="$PROJECT_DIR$/src/main/java/code/graphics/overlay/OverlayGroup.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/code/graphics/overlay/controllers/OverlayController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/code/graphics/visuals/SolarCamera.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/code/graphics/visuals/SolarSubScene.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/code/graphics/visuals/controllers/SolarKeyController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/code/graphics/visuals/controllers/SolarMouseController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/code/graphics/visuals/controllers/SolarScrollController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/code/graphics/visuals/objects/PlanetSphere.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/code/graphics/visuals/objects/SolarGroup.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/code/graphics/visuals/objects/SolarLabel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/code/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/ModelRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/ModelRunner.java" afterDir="false" />
+    <list default="true" id="13cb742e-4cc8-4686-864c-bc5cb4fb0b5a" name="Changes" comment="before merging branch">
       <change beforePath="$PROJECT_DIR$/src/main/java/code/graphics/Visualizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/graphics/Visualizer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/code/model/objects/Probe.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/model/objects/Probe.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -183,7 +169,7 @@
       <workItem from="1684286667400" duration="9645000" />
       <workItem from="1684888640017" duration="702000" />
       <workItem from="1684889819665" duration="23285000" />
-      <workItem from="1684917492693" duration="11332000" />
+      <workItem from="1684917492693" duration="11884000" />
     </task>
     <task id="LOCAL-00001" summary="WORKING HOW THIS SHIT WORKS">
       <created>1679319564168</created>
@@ -332,7 +318,14 @@
       <option name="project" value="LOCAL" />
       <updated>1684838530111</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="before merging branch">
+      <created>1684932175721</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1684932175721</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -376,7 +369,8 @@
     <MESSAGE value="resources" />
     <MESSAGE value="new new structure" />
     <MESSAGE value="." />
-    <option name="LAST_COMMIT_MESSAGE" value="." />
+    <MESSAGE value="before merging branch" />
+    <option name="LAST_COMMIT_MESSAGE" value="before merging branch" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
