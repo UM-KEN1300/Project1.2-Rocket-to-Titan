@@ -59,7 +59,7 @@ public class Model {
 
                 for (int index = 0; index <= 10; index++) {
                     String name = sheet.getRow(index).getCell(0).getStringCellValue();
-                    long radius = (long) sheet.getRow(index).getCell(1).getNumericCellValue();
+                    double radius = sheet.getRow(index).getCell(1).getNumericCellValue();
 
                     planetObjects.get(name).setRadius(radius);
                 }

@@ -6,7 +6,7 @@ public class PlanetObject implements ModeledObject {
     private final double[] COORDINATES = new double[3];
     private final double[] VELOCITY = new double[3];
     private double mass;
-    private long radius;
+    private double radius;
     //planetCode is Nasa object code
     private int planetCode;
     //Position for end position of planet(only used for tests)
@@ -89,13 +89,13 @@ public class PlanetObject implements ModeledObject {
         return acceleration;
     }
 
-//GETTER and SETTERS
+//  GETTER and SETTERS
 
-    public long getRadius() {
+    public double getRadius() {
         return radius;
     }
 
-    public void setRadius(long radius) {
+    public void setRadius(double radius) {
         this.radius = radius;
     }
 
