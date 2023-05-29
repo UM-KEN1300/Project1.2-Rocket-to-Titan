@@ -33,12 +33,14 @@ public class SolarSubScene extends SubScene {
         setFill(Color.BLACK.brighter());
         setCamera(CAMERA);
         new SolarKeyController(this);
+        setCurrentFocus("Probe");
+        rescaleObjects();
     }
 
     /**
      * Updates the positions of all 3D objects representations.
      */
-    public void updateAndRescale() {
+    public void updateObjects() {
         SOLAR_GROUP.updateGroup();
     }
 

@@ -12,10 +12,9 @@ public class SolarCamera extends PerspectiveCamera {
         setNearClip(0.1);
         setFarClip(1_000_000_000);
 
-        setMinZoom(-500);
         MAX_ZOOM = -1_000_000_00d;
 
-        setTranslateZ(-1_000);
+        setTranslateZ(-30_000);
     }
 
 

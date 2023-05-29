@@ -10,6 +10,7 @@ import code.model.Model;
 import code.model.objects.PlanetObject;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
@@ -64,12 +65,19 @@ public class Visualizer extends Application {
 
         timer = new Timer();
         count = 0;
-        stage.setOnCloseRequest(e -> {
-            timer.cancel();
-            Platform.exit();
-            System.exit(0);
-        });
-        calculation();
+        Task<Void> sleeper = new Task<>() {
+            @Override
+            protected Void call() {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    System.out.println("Sleep interrupted");
+                }
+                return null;
+            }
+        };
+        sleeper.setOnSucceeded(event -> calculation());
+        new Thread(sleeper).start();
     }
 
 
@@ -79,9 +87,9 @@ public class Visualizer extends Application {
                     @Override
                     public void run() {
                         for (int i = 0; i < 10; i++) {
-                            ModelRunner.runnerForGUI(180, 2, planets);
+                            ModelRunner.runnerForGUI(180, 1, planets);
                             Platform.runLater(() -> {
-                                solarSubScene.updateAndRescale();
+                                solarSubScene.updateObjects();
                                 overlayPane.update();
                             });
                         }

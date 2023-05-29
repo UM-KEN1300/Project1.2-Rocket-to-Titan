@@ -32,7 +32,7 @@ public class OverlayPane extends AnchorPane {
 
 
     public void update() {
-        String labelText = "Distance to Titan: " + DF.format(PROBE.getDistanceToTitan()) + " km\nFuel used: "+PROBE.getUsedFuel();
+        String labelText = "Distance to Titan: " + DF.format(PROBE.getDistanceToTitan()) + " km\nFuel used: " + PROBE.getUsedFuel();
         DISTANCE_LABEL.setText(labelText);
     }
 
