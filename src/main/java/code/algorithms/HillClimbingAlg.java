@@ -33,13 +33,11 @@ public class HillClimbingAlg {
         int ZVelocityMinus = InitalZVelocity - VelocityChange;
 
         while (true) {
-            
             // launch seven rockets, one being the initial one, and the other 6 only
             // changing one velocity either plus or minus.
             // put distances of every rocket after 1 year in DistancesToTitan
 
             closestRocket = findSmallest(DistancesToTitan);
-
             switch (closestRocket) {
                 case INITIAL:
                     return new int[] { InitalXVelocity, InitalYVelocity, InitalZVelocity };
