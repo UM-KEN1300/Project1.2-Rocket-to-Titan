@@ -39,6 +39,10 @@ public class Probe extends PlanetObject {
         return HelperFunctions.getDistanceBetween(this, Model.getPlanetObjects().get("Titan"));
     }
 
+    public double getDistanceToEarth() {
+        return HelperFunctions.getDistanceBetween(this, Model.getPlanetObjects().get("Earth"));
+    }
+
     public double getShortestDistanceToTitan() {
         return shortestDistanceToTitan;
     }
