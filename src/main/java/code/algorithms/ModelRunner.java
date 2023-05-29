@@ -46,6 +46,23 @@ public class ModelRunner {
         }
     }
 
+    public static void runnerForModel(int numberOfDays, double accuracy, PlanetObject[] planets) {
+        for (int i = 0; i < (1 / accuracy) * 60 * 60 * 24 * numberOfDays; i += 1) {
+            if(i%((1 / accuracy) * 60 * 60 * 24)==0)
+            {
+                System.out.println(i /( (1 / accuracy) * 60 * 60 * 24));
+            }
+            for (int j = 1; j < planets.length; j++) {
+                planets[j].initializeAcceleration();
+                for (int k = 0; k < planets.length; k++) {
+                    if (k != j) {
+                        Solvers.explicitEuler(planets[j], planets[k], accuracy);
+                    }
+                }
+            }
+        }
+    }
+
     public static void runnerForMultipleProbes(int numberOfDays, double accuracy, List<PlanetObject> planetss, List<Probe> probes) {
         ArrayList<PlanetObject> allObjects = new ArrayList<>(planetss);
         allObjects.addAll(probes);
