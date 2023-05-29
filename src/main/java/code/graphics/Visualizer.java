@@ -24,8 +24,8 @@ public class Visualizer extends Application {
     public static final int SCALE = 50; // don't change this
     private final double WIDTH = Screen.getPrimary().getBounds().getWidth();
     private final double HEIGHT = Screen.getPrimary().getBounds().getHeight();
-    SolarSubScene solarSubScene;
-    OverlayPane overlayPane;
+    private SolarSubScene solarSubScene;
+    private OverlayPane overlayPane;
     private final PlanetObject[] planets = new PlanetObject[]{
             Model.getPlanetObjects().get("Sun"),
             Model.getPlanetObjects().get("Mercury"),
@@ -53,12 +53,12 @@ public class Visualizer extends Application {
         Scene scene = new Scene(stackPane, WIDTH, HEIGHT, true);
 
         solarSubScene = new SolarSubScene(new Group(), WIDTH, HEIGHT);
-        new SolarMouseController(solarSubScene, scene);
+        new SolarMouseController(scene, solarSubScene);
         new SolarScrollController(scene, solarSubScene);
         scene.addEventFilter(KeyEvent.KEY_PRESSED, new SolarKeyController(solarSubScene));
         stackPane.getChildren().add(solarSubScene);
 
-        overlayPane = new OverlayPane(Model.getProbes().get(0));
+        overlayPane = new OverlayPane();
         stackPane.getChildren().add(overlayPane);
 
         stage.setScene(scene);

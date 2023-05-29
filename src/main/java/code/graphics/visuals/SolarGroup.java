@@ -1,8 +1,8 @@
 package code.graphics.visuals;
 
-import code.graphics.visuals.objects.PlanetSphere;
 import code.graphics.visuals.objects.ProbeSphere;
 import code.graphics.visuals.objects.TrailSphere;
+import code.graphics.visuals.objects.PlanetSphere;
 import code.model.objects.PlanetObject;
 import code.model.objects.Probe;
 import javafx.scene.Group;

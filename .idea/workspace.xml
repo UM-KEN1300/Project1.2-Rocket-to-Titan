@@ -5,7 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="13cb742e-4cc8-4686-864c-bc5cb4fb0b5a" name="Changes" comment=".">
+      <change afterPath="$PROJECT_DIR$/src/main/java/code/graphics/scene/MainScene.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/graphics/Visualizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/graphics/Visualizer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/graphics/overlay/OverlayPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/graphics/overlay/OverlayPane.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/graphics/visuals/SolarCamera.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/graphics/scene/subscene/SolarCamera.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/graphics/visuals/SolarGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/graphics/scene/subscene/SolarGroup.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/graphics/visuals/SolarSubScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/graphics/scene/subscene/SolarSubScene.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/graphics/visuals/controllers/SolarKeyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/graphics/scene/subscene/controllers/SolarKeyController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/graphics/visuals/controllers/SolarMouseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/graphics/scene/subscene/controllers/SolarMouseController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/graphics/visuals/controllers/SolarScrollController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/graphics/scene/subscene/controllers/SolarScrollController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/graphics/visuals/objects/PlanetSphere.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/graphics/scene/subscene/objects/PlanetSphere.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/graphics/visuals/objects/ProbeSphere.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/graphics/scene/subscene/objects/ProbeSphere.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/graphics/visuals/objects/TrailSphere.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/graphics/scene/subscene/objects/TrailSphere.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -195,7 +207,8 @@
       <workItem from="1684987179847" duration="18196000" />
       <workItem from="1685237021566" duration="609000" />
       <workItem from="1685309710200" duration="12857000" />
-      <workItem from="1685340479131" duration="1667000" />
+      <workItem from="1685340479131" duration="2513000" />
+      <workItem from="1685345522631" duration="1922000" />
     </task>
     <task id="LOCAL-00001" summary="WORKING HOW THIS SHIT WORKS">
       <created>1679319564168</created>
@@ -421,7 +434,21 @@
       <option name="project" value="LOCAL" />
       <updated>1685344124939</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary=".">
+      <created>1685344944273</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1685344944273</updated>
+    </task>
+    <task id="LOCAL-00034" summary=".">
+      <created>1685344987702</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1685344987702</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

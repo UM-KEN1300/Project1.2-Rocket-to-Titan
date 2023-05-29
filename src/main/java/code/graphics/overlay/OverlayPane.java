@@ -1,5 +1,6 @@
 package code.graphics.overlay;
 
+import code.model.Model;
 import code.model.objects.Probe;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
@@ -18,9 +19,9 @@ public class OverlayPane extends AnchorPane {
     private final Font font = Font.font("Verdana", FontWeight.BOLD, 15);
 
 
-    public OverlayPane(Probe probe) {
+    public OverlayPane() {
         super();
-        PROBE = probe;
+        PROBE = Model.getProbes().get(0);
         DISTANCE_LABEL = new ProbeStatsLabel();
         getChildren().add(new GuideLabel());
         getChildren().add(DISTANCE_LABEL);

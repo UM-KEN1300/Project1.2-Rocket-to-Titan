@@ -10,7 +10,7 @@ public class SolarMouseController {
     private double anchorAngleX, anchorAngleZ;
     private final Rotate xRotate, zRotate;
 
-    public SolarMouseController(SolarSubScene solarSubScene, Scene scene) {
+    public SolarMouseController(Scene scene, SolarSubScene solarSubScene) {
         Group root = (Group) solarSubScene.getRoot();
         xRotate = new Rotate(-45, Rotate.X_AXIS);
         zRotate = new Rotate(0, Rotate.Z_AXIS);
