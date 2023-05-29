@@ -15,20 +15,20 @@ import java.util.Queue;
 
 public class Probe extends PlanetObject {
     private double shortestDistanceToTitan;
-
     private final Queue<Boost> listOfBoosts;
     private double fuelUsed;
 
     public Probe() {
-        super(new double[3], new double[]{0,0,0});
-        listOfBoosts=new PriorityQueue<Boost>();
+        super(new double[3], new double[]{0, 0, 0});
+        listOfBoosts = new PriorityQueue<Boost>();
         setCoordinates(initialPosition());
         setMass(50_000);
         shortestDistanceToTitan = getDistanceToTitan();
     }
+
     public Probe(double[] intial) {
         super(new double[3], intial);
-        listOfBoosts=new PriorityQueue<Boost>();
+        listOfBoosts = new PriorityQueue<Boost>();
         setCoordinates(initialPosition());
         setMass(50_000);
         shortestDistanceToTitan = getDistanceToTitan();
@@ -64,29 +64,24 @@ public class Probe extends PlanetObject {
     }
 
 
-    public void addBoost(Boost boost)
-    {
+    public void addBoost(Boost boost) {
         listOfBoosts.add(boost);
-        fuelUsed+=boost.fuel;
+        fuelUsed += boost.fuel;
     }
 
-    public void BoosterMECH(double time)
-    {
-        if(listOfBoosts.peek()!=null)
-        {
-            if (time ==listOfBoosts.peek().getTimeOfBoost())
-            {
-                double[] probeVelocity=getVelocity();
-                double[] boostVelocity=listOfBoosts.poll().getVelocityOfBoost();
+    public void BoosterMECH(double time) {
+        if (listOfBoosts.peek() != null) {
+            if (time == listOfBoosts.peek().getTimeOfBoost()) {
+                double[] probeVelocity = getVelocity();
+                double[] boostVelocity = listOfBoosts.poll().getVelocityOfBoost();
                 System.out.println(Arrays.toString(HelperFunctions.addition(probeVelocity, boostVelocity)));
-                setVelocity(HelperFunctions.addition(probeVelocity,boostVelocity));
+                setVelocity(HelperFunctions.addition(probeVelocity, boostVelocity));
             }
         }
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "Probe{" +
                 "shortestDistanceToTitan=" + shortestDistanceToTitan +
                 ", listOfBoosts=" + listOfBoosts +
@@ -94,31 +89,38 @@ public class Probe extends PlanetObject {
                 '}';
     }
 
-    public static class Boost implements Comparable
-    {
+    public static class Boost implements Comparable {
         private double timeOfBoost;
         private double[] velocityOfBoost;
         private double fuel;
-        public Boost(double time,double[] velocityOfBoost)
-        {
-            this.timeOfBoost=time;
-            this.velocityOfBoost=velocityOfBoost;
+
+
+        public Boost(double time, double[] velocityOfBoost) {
+            this.timeOfBoost = time;
+            this.velocityOfBoost = velocityOfBoost;
             calculateFuelUsed();
         }
 
-        public void calculateFuelUsed()
-        {
-            fuel=0;
+
+        public void calculateFuelUsed() {
+            fuel = 0;
         }
 
-        public double getTimeOfBoost() {return timeOfBoost;}
+        public double getTimeOfBoost() {
+            return timeOfBoost;
+        }
 
-        public double[] getVelocityOfBoost() {return velocityOfBoost;}
+        public double[] getVelocityOfBoost() {
+            return velocityOfBoost;
+        }
 
         @Override
-        public int compareTo(Object o)
-        {
+        public int compareTo(Object o) {
             return 0;
         }
+    }
+
+    public double getFuelUsed() {
+        return fuelUsed;
     }
 }

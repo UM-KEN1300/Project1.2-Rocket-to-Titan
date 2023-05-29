@@ -3,6 +3,7 @@ package code.utils;
 
 import code.model.objects.ModeledObject;
 import code.model.objects.PlanetObject;
+
 /**
  * HelperFunctions class contains utility methods for operations on vectors.
  */
@@ -113,7 +114,7 @@ public class HelperFunctions {
         double distance = getDistanceBetween(myObj, planet);   //distance between myObj and planet
         double gravitationalForce = PlanetObject.G * myObj.getMass() * planet.getMass() / Math.pow(distance, 2);//gravitational force between myObj and planet
         double centripetalForce = myObj.getMass() * Math.pow(velocityMagnitude, 2) / distance;//calculate the centripetal force required to keep myObj in orbit
-        double dotProduct = velX * (myObj.getX() - planet.getX()) + velY * (myObj.getY() - planet.getY()) + velZ * (myObj.getZ() - planet.getZ());
+        double dotProduct = velX * (myObj.getCoordinates()[0] - planet.getCoordinates()[0]) + velY * (myObj.getCoordinates()[1] - planet.getCoordinates()[1]) + velZ * (myObj.getCoordinates()[2] - planet.getCoordinates()[2]);
         if (dotProduct != 0) {       //check if the velocity vector of myObj is perpendicular to the position vector of myObj relative to planet
             return false;
         }
@@ -121,7 +122,8 @@ public class HelperFunctions {
         double e = 0.001; // A small tolerance to account for rounding errors
         return Math.abs(centripetalForce - gravitationalForce) < e;
     }
-    public boolean isInOrbitDistance(PlanetObject myObj, PlanetObject planet){ //checks if myObj is in orbit distance of planet
+
+    public boolean isInOrbitDistance(PlanetObject myObj, PlanetObject planet) { //checks if myObj is in orbit distance of planet
         boolean result;
         double radii = 2574.7; //supposed to be the sum of the radius of the 2 objects, but the probe is small and idk where to take the radius of titan from, will change later
         double distance = getDistanceBetween(myObj, planet);
