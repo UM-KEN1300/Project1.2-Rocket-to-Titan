@@ -1,7 +1,6 @@
 package code;
 
 import code.algorithms.ModelRunner;
-import code.graphics.Visualizer;
 import code.model.Model;
 import code.model.data.loaders.FileDataLoader;
 import code.model.objects.Probe;
