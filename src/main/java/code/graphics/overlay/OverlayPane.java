@@ -28,6 +28,8 @@ public class OverlayPane extends AnchorPane {
 
         DF = new DecimalFormat("#.###");
         DF.setRoundingMode(RoundingMode.HALF_UP);
+
+        update();
     }
 
 
@@ -39,7 +41,7 @@ public class OverlayPane extends AnchorPane {
     private class GuideLabel extends Label {
         GuideLabel() {
             super("""
-                    Probe - [1]
+                    Spacecraft - [1]
                     Sun - [2]
                     Titan - [3]
                     Earth - [4]

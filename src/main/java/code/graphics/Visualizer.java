@@ -75,8 +75,7 @@ public class Visualizer extends Application {
             protected Void call() {
                 try {
                     Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    System.out.println("Sleep interrupted");
+                } catch (InterruptedException ignored) {
                 }
                 return null;
             }
