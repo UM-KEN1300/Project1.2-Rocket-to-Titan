@@ -69,8 +69,5 @@ public class ModelRunner {
                 Solvers.fastEuler(planets[j], acc, accuracy);
             }
         }
-
     }
-
-
 }
