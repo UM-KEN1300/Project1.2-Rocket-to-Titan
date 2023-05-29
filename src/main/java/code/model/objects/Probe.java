@@ -5,6 +5,7 @@ import code.utils.HelperFunctions;
 
 public class Probe extends PlanetObject {
     private double shortestDistanceToTitan;
+    private double usedFuel;
 
 
     public Probe(double[] velocity) {
@@ -12,6 +13,7 @@ public class Probe extends PlanetObject {
         setCoordinates(initialPosition());
         setMass(50_000);
         shortestDistanceToTitan = getDistanceToTitan();
+        usedFuel=0;
     }
 
 
@@ -41,5 +43,13 @@ public class Probe extends PlanetObject {
 
     public double getShortestDistanceToTitan() {
         return shortestDistanceToTitan;
+    }
+
+    public double getUsedFuel() {
+        return usedFuel;
+    }
+
+    public void setUsedFuel(double usedFuel) {
+        this.usedFuel = usedFuel;
     }
 }

@@ -32,7 +32,8 @@ public class OverlayPane extends AnchorPane {
 
 
     public void update() {
-        DISTANCE_LABEL.setText("Distance to Titan: " + DF.format(PROBE.getDistanceToTitan()) + " km");
+        String labelText = "Distance to Titan: " + DF.format(PROBE.getDistanceToTitan()) + " km\nFuel used: "+PROBE.getUsedFuel();
+        DISTANCE_LABEL.setText(labelText);
     }
 
     private class GuideLabel extends Label {
@@ -58,6 +59,7 @@ public class OverlayPane extends AnchorPane {
             super();
             setFont(font);
             setTextFill(Color.WHITE);
+            setStyle("-fx-line-spacing: 5;");
             setTopAnchor(this, 10d);
             setLeftAnchor(this, 10d);
         }
