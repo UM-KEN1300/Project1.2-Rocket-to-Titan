@@ -69,12 +69,11 @@ public class ModelRunner {
         boolean stopper = false;
         // check if the boosts
         for (Probe probe : probes) {
-            if (probe.areBoostsValid(accuracy)) {
+            if (!probe.areBoostsValid(accuracy)) {
                 stopper = true;
                 System.out.println("The probe " + probe.getProbeNumber() + " with wrong boost");
             }
         }
-
 
         if (!stopper) {
             for (int i = 0; i < (1 / accuracy) * 60 * 60 * 24 * numberOfDays; i += 1) {
@@ -99,8 +98,5 @@ public class ModelRunner {
                 }
             }
         }
-
     }
-
-
 }

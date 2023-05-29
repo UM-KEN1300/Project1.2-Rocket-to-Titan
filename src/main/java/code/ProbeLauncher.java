@@ -13,6 +13,8 @@ public class ProbeLauncher {
         probe.addBoost(boost);
         Model.addProbe(probe);
 //        ModelRunner.runnerForMultipleProbes(365, 2, Model.getPlanetObjectsArrayList(), Model.getProbes());
+//        System.out.println(probe.getShortestDistanceToTitan());
+
         Visualizer.main(args);
     }
 }

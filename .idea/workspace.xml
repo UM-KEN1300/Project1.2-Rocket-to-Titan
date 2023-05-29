@@ -7,8 +7,11 @@
     <list default="true" id="13cb742e-4cc8-4686-864c-bc5cb4fb0b5a" name="Changes" comment=".">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/code/ProbeLauncher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/ProbeLauncher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/HillClimbingAlg.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/HillClimbingAlg.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/ModelRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/ModelRunner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/code/graphics/Visualizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/graphics/Visualizer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/Solvers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/Solvers.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/model/Model.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/model/Model.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/model/objects/Probe.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/model/objects/Probe.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -446,7 +449,14 @@
       <option name="project" value="LOCAL" />
       <updated>1685353595496</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary=".">
+      <created>1685354891688</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1685354891688</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -495,6 +505,15 @@
     <option name="LAST_COMMIT_MESSAGE" value="." />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/code/graphics/visuals/SolarGroup.java</url>
+          <line>57</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="code.model.objects.Probe" memberName="COORDINATES" />

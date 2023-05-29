@@ -13,20 +13,20 @@ import java.util.*;
 public class Probe extends PlanetObject {
     private double shortestDistanceToTitan;
     private int probeNumber;
-    private static int probeCounter=0;
+    private static int probeCounter = 0;
     private final Queue<Boost> listOfBoosts;
     private double fuelUsed;
 
+
     public Probe() {
-        super(new double[3], new double[]{0,0,0});
-        probeNumber=probeCounter;
+        super(new double[3], new double[]{0, 0, 0});
+        probeNumber = probeCounter;
         probeCounter++;
-        listOfBoosts=new PriorityQueue<Boost>();
+        listOfBoosts = new PriorityQueue<Boost>();
         setCoordinates(initialPosition());
         setMass(50_000);
         shortestDistanceToTitan = getDistanceToTitan();
     }
-
 
 
     @Override
@@ -57,50 +57,41 @@ public class Probe extends PlanetObject {
         return shortestDistanceToTitan;
     }
 
-    public boolean areBoostsValid(double step)
-    {
-        double maxImpulse=3*(Math.pow(10,7))*step;
+    public boolean areBoostsValid(double step) {
+        double maxImpulse = 3 * (Math.pow(10, 7)) * step;
         ArrayList<Boost> list = new ArrayList<Boost>(listOfBoosts);
-        for(Boost boost:list)
-        {
-            if(boost.getFuel()>maxImpulse)
+        for (Boost boost : list) {
+            if (boost.getFuel() > maxImpulse)
                 return false;
         }
         return true;
     }
 
-    public void addBoost(Boost boost)
-    {
+    public void addBoost(Boost boost) {
         listOfBoosts.add(boost);
-        fuelUsed+=boost.fuel;
+        fuelUsed += boost.fuel;
     }
 
-    public void BoosterMECH(double time)
-    {
-        if(listOfBoosts.peek()!=null)
-        {
-            if (time ==listOfBoosts.peek().getTimeOfBoost())
-            {
-                double[] probeVelocity=getVelocity();
-                double[] boostVelocity=listOfBoosts.poll().getVelocityOfBoost();
-                setVelocity(HelperFunctions.addition(probeVelocity,boostVelocity));
+    public void BoosterMECH(double time) {
+        if (listOfBoosts.peek() != null) {
+            if (time == listOfBoosts.peek().getTimeOfBoost()) {
+                double[] probeVelocity = getVelocity();
+                double[] boostVelocity = listOfBoosts.poll().getVelocityOfBoost();
+                setVelocity(HelperFunctions.addition(probeVelocity, boostVelocity));
             }
         }
     }
 
-    public int getProbeNumber()
-    {
+    public int getProbeNumber() {
         return probeNumber;
     }
 
-    public double getFuelUsed()
-    {
+    public double getFuelUsed() {
         return fuelUsed;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "Probe{" +
                 "shortestDistanceToTitan=" + shortestDistanceToTitan +
                 ", listOfBoosts=" + listOfBoosts +
@@ -108,32 +99,33 @@ public class Probe extends PlanetObject {
                 '}';
     }
 
-    public static class Boost implements Comparable
-    {
+    public static class Boost implements Comparable {
         private double timeOfBoost;
         private double[] velocityOfBoost;
         private double fuel;
-        public Boost(double time,double[] velocityOfBoost)
-        {
-            this.timeOfBoost=time;
-            this.velocityOfBoost=velocityOfBoost;
+
+        public Boost(double time, double[] velocityOfBoost) {
+            this.timeOfBoost = time;
+            this.velocityOfBoost = velocityOfBoost;
             //calculate the fuel used by the boost
-            fuel=HelperFunctions.getVectorMagnitude(velocityOfBoost)*50_000;
+            fuel = HelperFunctions.getVectorMagnitude(velocityOfBoost) * 50_000;
         }
 
 
-        public double getTimeOfBoost() {return timeOfBoost;}
+        public double getTimeOfBoost() {
+            return timeOfBoost;
+        }
 
-        public double[] getVelocityOfBoost() {return velocityOfBoost;}
+        public double[] getVelocityOfBoost() {
+            return velocityOfBoost;
+        }
 
-        public double getFuel()
-        {
+        public double getFuel() {
             return fuel;
         }
 
         @Override
-        public int compareTo(Object o)
-        {
+        public int compareTo(Object o) {
             return 0;
         }
     }
