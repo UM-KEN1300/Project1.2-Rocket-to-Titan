@@ -5,23 +5,23 @@ import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Sphere;
 
 public class TrailSphere extends Sphere {
-    private double minRadius;
-    private double maxRadius;
+    private final double MIN_RADIUS;
+    private final double MAX_RADIUS;
 
 
     public TrailSphere(double probeMinRadius, double probeMaxRadius) {
         setVisible(false);
-        minRadius = probeMinRadius / 2;
-        maxRadius = probeMaxRadius / 3;
+        MIN_RADIUS = probeMinRadius / 2;
+        MAX_RADIUS = probeMaxRadius / 3;
         setMaterial(new PhongMaterial(Color.rgb(182, 255, 46)));
     }
 
 
     public double getMinRadius() {
-        return minRadius;
+        return MIN_RADIUS;
     }
 
     public double getMaxRadius() {
-        return maxRadius;
+        return MAX_RADIUS;
     }
 }

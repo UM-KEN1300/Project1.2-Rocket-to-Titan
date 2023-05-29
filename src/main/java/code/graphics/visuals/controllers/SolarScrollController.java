@@ -16,7 +16,12 @@ public class SolarScrollController {
         scene.addEventHandler(ScrollEvent.SCROLL, event -> {
             double deltaY = event.getDeltaY();
 
-            double zoomStep = 0.01;
+            double zoomStep;
+            if(camera.getTranslateZ()> -4500000)
+                zoomStep = 0.03;
+            else
+                zoomStep = 0.01;
+
             if (camera.getTranslateZ() - deltaY * camera.getTranslateZ() * zoomStep > camera.getMinZoom())
                 camera.setTranslateZ(camera.getMinZoom());
             else

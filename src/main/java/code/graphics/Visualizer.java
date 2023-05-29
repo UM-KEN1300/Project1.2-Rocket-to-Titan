@@ -20,7 +20,7 @@ import javafx.stage.Stage;
 import java.util.Timer;
 
 public class Visualizer extends Application {
-    public static final int SCALE = 50;
+    public static final int SCALE = 50; // don't change this
     private final double WIDTH = Screen.getPrimary().getBounds().getWidth();
     private final double HEIGHT = Screen.getPrimary().getBounds().getHeight();
     SolarSubScene solarSubScene;
@@ -79,7 +79,7 @@ public class Visualizer extends Application {
                     @Override
                     public void run() {
                         for (int i = 0; i < 10; i++) {
-                            ModelRunner.runnerForGUI(180, 1, planets);
+                            ModelRunner.runnerForGUI(180, 2, planets);
                             Platform.runLater(() -> {
                                 solarSubScene.updateAndRescale();
                                 overlayPane.update();
