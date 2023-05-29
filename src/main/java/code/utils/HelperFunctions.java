@@ -3,6 +3,7 @@ package code.utils;
 
 import code.model.objects.ModeledObject;
 import code.model.objects.PlanetObject;
+
 /**
  * HelperFunctions class contains utility methods for operations on vectors.
  */

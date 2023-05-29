@@ -10,7 +10,7 @@ public class SolarMouseController {
     private double anchorAngleX, anchorAngleZ;
     private final Rotate xRotate, zRotate;
 
-    public SolarMouseController(SolarSubScene solarSubScene, Scene scene) {
+    public SolarMouseController(Scene scene, SolarSubScene solarSubScene) {
         Group root = (Group) solarSubScene.getRoot();
         xRotate = new Rotate(-45, Rotate.X_AXIS);
         zRotate = new Rotate(0, Rotate.Z_AXIS);
@@ -28,7 +28,13 @@ public class SolarMouseController {
             double deltaX = event.getSceneX() - anchorX;
             double deltaY = event.getSceneY() - anchorY;
 
-            xRotate.setAngle(anchorAngleX + deltaY * 0.2);
+            double newXAngle = anchorAngleX + deltaY * 0.2;
+            if (newXAngle < -90)
+                newXAngle = -90;
+            else if (newXAngle > 0)
+                newXAngle = 0;
+
+            xRotate.setAngle(newXAngle);
             zRotate.setAngle(anchorAngleZ - deltaX * 0.2);
         });
     }

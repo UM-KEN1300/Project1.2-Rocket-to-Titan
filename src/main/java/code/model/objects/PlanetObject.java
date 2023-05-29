@@ -110,6 +110,4 @@ public class PlanetObject implements ModeledObject {
     public void setTargetPosition(double[] targetPosition) {
         this.targetPosition = targetPosition;
     }
-
-
 }

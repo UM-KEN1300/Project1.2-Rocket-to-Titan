@@ -25,16 +25,12 @@ public class ModelRunner {
         }
     }
 
-
-
-    public static void runnerForFastEuler(int numberOfDays,double accuracy, PlanetObject[] planets)
-    {
+    public static void runnerForFastEuler(int numberOfDays, double accuracy, PlanetObject[] planets) {
         Probe probe = (Probe) planets[11];
-        for (int i = 0; i <(1/accuracy)*60*60*24*numberOfDays ; i += 1) {
-            if(i%((1 / accuracy) * 60 * 60 * 24)==0)
-            {
-                double day=i /( (1 / accuracy) * 60 * 60 * 24);
-                System.out.println("Day "+day);
+        for (int i = 0; i < (1 / accuracy) * 60 * 60 * 24 * numberOfDays; i += 1) {
+            if (i % ((1 / accuracy) * 60 * 60 * 24) == 0) {
+                double day = i / ((1 / accuracy) * 60 * 60 * 24);
+                System.out.println("Day " + day);
                 probe.BoosterMECH(day);
             }
             for (int j = 1; j < planets.length; j++) {
@@ -46,11 +42,27 @@ public class ModelRunner {
                         acc = HelperFunctions.addition(acc, planets[j].accelerationBetween(planets[k]));
                     }
                 }
-                Solvers.fastEuler(planets[j],acc, accuracy);
+                Solvers.fastEuler(planets[j], acc, accuracy);
             }
         }
     }
 
+    public static void runnerForModel(int numberOfDays, double accuracy, PlanetObject[] planets) {
+        for (int i = 0; i < (1 / accuracy) * 60 * 60 * 24 * numberOfDays; i += 1) {
+            if(i%((1 / accuracy) * 60 * 60 * 24)==0)
+            {
+                System.out.println(i /( (1 / accuracy) * 60 * 60 * 24));
+            }
+            for (int j = 1; j < planets.length; j++) {
+                planets[j].initializeAcceleration();
+                for (int k = 0; k < planets.length; k++) {
+                    if (k != j) {
+                        Solvers.explicitEuler(planets[j], planets[k], accuracy);
+                    }
+                }
+            }
+        }
+    }
 
     public static void runnerForMultipleProbes(int numberOfDays, double accuracy, List<PlanetObject> planetss, List<Probe> probes) {
         ArrayList<PlanetObject> allObjects = new ArrayList<>(planetss);
@@ -99,6 +111,7 @@ public class ModelRunner {
                 }
             }
         }
+
     }
 
 
