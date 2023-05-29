@@ -27,6 +27,7 @@ public class ProbeSphere extends PlanetSphere {
         TRAILS[trailIndex%TRAILS.length].setTranslateX(getTranslateX());
         TRAILS[trailIndex%TRAILS.length].setTranslateY(getTranslateY());
         TRAILS[trailIndex%TRAILS.length].setTranslateZ(getTranslateZ());
+        TRAILS[trailIndex%TRAILS.length].setVisible(true);
         trailIndex++;
     }
 

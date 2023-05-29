@@ -5,16 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="13cb742e-4cc8-4686-864c-bc5cb4fb0b5a" name="Changes" comment="gui">
-      <change afterPath="$PROJECT_DIR$/src/main/java/code/graphics/visuals/objects/ProbeSphere.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/code/graphics/visuals/objects/TrailSphere.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/code/graphics/Visualizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/graphics/Visualizer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/code/graphics/visuals/SolarSubScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/graphics/visuals/SolarSubScene.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/code/graphics/visuals/controllers/SolarMouseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/graphics/visuals/controllers/SolarMouseController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/code/graphics/visuals/objects/PlanetSphere.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/graphics/visuals/objects/PlanetSphere.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/code/graphics/visuals/objects/SolarGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/graphics/visuals/SolarGroup.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/code/model/objects/Probe.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/model/objects/Probe.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/graphics/visuals/objects/TrailSphere.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/graphics/visuals/objects/TrailSphere.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -190,7 +181,7 @@
       <workItem from="1684985027174" duration="2126000" />
       <workItem from="1684987179847" duration="18196000" />
       <workItem from="1685237021566" duration="609000" />
-      <workItem from="1685309710200" duration="9905000" />
+      <workItem from="1685309710200" duration="10347000" />
     </task>
     <task id="LOCAL-00001" summary="WORKING HOW THIS SHIT WORKS">
       <created>1679319564168</created>
@@ -353,7 +344,14 @@
       <option name="project" value="LOCAL" />
       <updated>1684944212239</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="gui">
+      <created>1685328017347</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1685328017347</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
