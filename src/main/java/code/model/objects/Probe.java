@@ -11,7 +11,6 @@ public class Probe extends PlanetObject {
         super(new double[3], velocity);
         setCoordinates(initialPosition());
         setMass(50_000);
-        setRadius(Model.getPlanetObjects().get("Earth").getRadius() / 3);
         shortestDistanceToTitan = getDistanceToTitan();
     }
 

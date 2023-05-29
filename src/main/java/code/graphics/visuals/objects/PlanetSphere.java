@@ -7,15 +7,15 @@ import static code.graphics.Visualizer.SCALE;
 
 public class PlanetSphere extends Sphere {
     private final PlanetObject PLANET_OBJECT;
-    private final double MIN_RADIUS;
+    private double minRadius;
     private double maxRadius;
 
 
     public PlanetSphere(PlanetObject planetObject) {
         super();
         PLANET_OBJECT = planetObject;
-        MIN_RADIUS = PLANET_OBJECT.getRadius() / SCALE;
-        setRadius(MIN_RADIUS);
+        setMinRadius(PLANET_OBJECT.getRadius() / SCALE);
+        setRadius(minRadius);
         updateCoordinates();
     }
 
@@ -32,12 +32,16 @@ public class PlanetSphere extends Sphere {
 
     // getters and setters
 
+    public void setMinRadius(double minRadius) {
+        this.minRadius = minRadius;
+    }
+
     public void setMaxRadius(double maxRadius) {
         this.maxRadius = maxRadius;
     }
 
     public double getMinRadius() {
-        return MIN_RADIUS;
+        return minRadius;
     }
 
     public double getMaxRadius() {

@@ -40,6 +40,7 @@ public class Visualizer extends Application {
             Model.getProbes().get(0)
     };
     private Timer timer;
+    private int count;
 
 
     @Override
@@ -62,6 +63,7 @@ public class Visualizer extends Application {
         stage.setScene(scene);
 
         timer = new Timer();
+        count = 0;
         stage.setOnCloseRequest(e -> {
             timer.cancel();
             Platform.exit();
@@ -70,18 +72,24 @@ public class Visualizer extends Application {
         calculation();
     }
 
+
     private void calculation() {
         timer.schedule(
                 new java.util.TimerTask() {
                     @Override
                     public void run() {
                         for (int i = 0; i < 10; i++) {
-                            ModelRunner.runnerForGUI(180, 5, planets);
+                            ModelRunner.runnerForGUI(180, 1, planets);
                             Platform.runLater(() -> {
                                 solarSubScene.updateAndRescale();
                                 overlayPane.update();
                             });
                         }
+
+                        count++;
+                        if (count % 5 == 0)
+                            Platform.runLater(() -> solarSubScene.addTrail());
+
                     }
                 }, 0, 1);
     }
