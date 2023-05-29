@@ -1,8 +1,6 @@
 package code.graphics.visuals;
 
 import code.graphics.visuals.controllers.SolarKeyController;
-import code.graphics.visuals.controllers.SolarScrollController;
-import code.graphics.visuals.objects.SolarGroup;
 import code.model.Model;
 import javafx.scene.Group;
 import javafx.scene.SceneAntialiasing;
@@ -34,19 +32,20 @@ public class SolarSubScene extends SubScene {
     private void initializeSubScene() {
         setFill(Color.BLACK.brighter());
         setCamera(CAMERA);
-        new SolarScrollController(this);
         new SolarKeyController(this);
+        setCurrentFocus("Probe");
+        rescaleObjects();
     }
 
     /**
      * Updates the positions of all 3D objects representations.
      */
-    public void updateAndRescale() {
+    public void updateObjects() {
         SOLAR_GROUP.updateGroup();
     }
 
     public void rescaleObjects() {
-        double zoomThreshold = -10000;
+        double zoomThreshold = -100;
         double maxZoom = -4_000_000_00d;
         double currentZoom = CAMERA.getTranslateZ();
 
@@ -63,5 +62,10 @@ public class SolarSubScene extends SubScene {
 
     public void setCurrentFocus(String planetName) {
         SOLAR_GROUP.setCurrentFocus(planetName);
+        CAMERA.setMinZoom(-SOLAR_GROUP.getPlanetSphereByName(planetName).getMinRadius());
+    }
+
+    public void addTrail(){
+        SOLAR_GROUP.addTrail();
     }
 }
