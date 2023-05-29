@@ -101,7 +101,6 @@ public class Visualizer extends Application {
                         count++;
                         if (count % 5 == 0)
                             Platform.runLater(() -> solarSubScene.addTrail());
-
                     }
                 }, 0, 1);
     }
