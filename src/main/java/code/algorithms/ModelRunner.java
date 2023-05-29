@@ -56,29 +56,49 @@ public class ModelRunner {
         ArrayList<PlanetObject> allObjects = new ArrayList<>(planetss);
         allObjects.addAll(probes);
         PlanetObject[] planets= allObjects.toArray(new PlanetObject[allObjects.size()]);
-        for (int i = 0; i <(1/accuracy)*60*60*24*numberOfDays ; i += 1) {
-            if(i%((1 / accuracy) * 60 * 60 * 24)==0)
+        boolean stopper=false;
+        // check if the boosts
+        for(Probe probe:probes)
+        {
+            if(probe.areBoostsValid(accuracy))
             {
-                double day=i /( (1 / accuracy) * 60 * 60 * 24);
-                System.out.println("Day "+day);
-                for(Probe probe:probes)
-                {
-                    probe.BoosterMECH(day);
-                }
-            }
-            for (int j = 1; j < planets.length; j++) {
-
-                double[] acc = new double[3];
-                for (int k = 0; k < planets.length-probes.size(); k++) {
-
-                    if (k != j) {
-                        acc = HelperFunctions.addition(acc, planets[j].accelerationBetween(planets[k]));
-                    }
-                }
-                Solvers.fastEuler(planets[j],acc, accuracy);
+            stopper=true;
+                System.out.println("The probe "+probe.getProbeNumber() +" with wrong boost");
             }
         }
 
+
+
+        if(!stopper)
+        {
+            for (int i = 0; i < (1 / accuracy) * 60 * 60 * 24 * numberOfDays; i += 1)
+            {
+
+                if (i % ((1 / accuracy) * 60 * 60 * 24) == 0)
+                {
+                    double day = i / ((1 / accuracy) * 60 * 60 * 24);
+                    System.out.println("Day " + day);
+                    for (Probe probe : probes)
+                    {
+                        probe.BoosterMECH(day);
+                    }
+                }
+                for (int j = 1; j < planets.length; j++)
+                {
+
+                    double[] acc = new double[3];
+                    for (int k = 0; k < planets.length - probes.size(); k++)
+                    {
+
+                        if (k != j)
+                        {
+                            acc = HelperFunctions.addition(acc, planets[j].accelerationBetween(planets[k]));
+                        }
+                    }
+                    Solvers.fastEuler(planets[j], acc, accuracy);
+                }
+            }
+        }
     }
 
 

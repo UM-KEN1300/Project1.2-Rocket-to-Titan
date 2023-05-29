@@ -3,10 +3,7 @@ package code.model.objects;
 import code.model.Model;
 import code.utils.HelperFunctions;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.PriorityQueue;
-import java.util.Queue;
+import java.util.*;
 
 //TODO boost velocity to fuel
 //TODO fix the queue
@@ -15,24 +12,21 @@ import java.util.Queue;
 
 public class Probe extends PlanetObject {
     private double shortestDistanceToTitan;
-
+    private int probeNumber;
+    private static int probeCounter=0;
     private final Queue<Boost> listOfBoosts;
     private double fuelUsed;
 
     public Probe() {
         super(new double[3], new double[]{0,0,0});
+        probeNumber=probeCounter;
+        probeCounter++;
         listOfBoosts=new PriorityQueue<Boost>();
         setCoordinates(initialPosition());
         setMass(50_000);
         shortestDistanceToTitan = getDistanceToTitan();
     }
-    public Probe(double[] intial) {
-        super(new double[3], intial);
-        listOfBoosts=new PriorityQueue<Boost>();
-        setCoordinates(initialPosition());
-        setMass(50_000);
-        shortestDistanceToTitan = getDistanceToTitan();
-    }
+
 
 
     @Override
@@ -63,6 +57,17 @@ public class Probe extends PlanetObject {
         return shortestDistanceToTitan;
     }
 
+    public boolean areBoostsValid(double step)
+    {
+        double maxImpulse=3*(Math.pow(10,7))*step;
+        ArrayList<Boost> list = new ArrayList<Boost>(listOfBoosts);
+        for(Boost boost:list)
+        {
+            if(boost.getFuel()>maxImpulse)
+                return false;
+        }
+        return true;
+    }
 
     public void addBoost(Boost boost)
     {
@@ -78,10 +83,19 @@ public class Probe extends PlanetObject {
             {
                 double[] probeVelocity=getVelocity();
                 double[] boostVelocity=listOfBoosts.poll().getVelocityOfBoost();
-                System.out.println(Arrays.toString(HelperFunctions.addition(probeVelocity, boostVelocity)));
                 setVelocity(HelperFunctions.addition(probeVelocity,boostVelocity));
             }
         }
+    }
+
+    public int getProbeNumber()
+    {
+        return probeNumber;
+    }
+
+    public double getFuelUsed()
+    {
+        return fuelUsed;
     }
 
     @Override
@@ -103,17 +117,19 @@ public class Probe extends PlanetObject {
         {
             this.timeOfBoost=time;
             this.velocityOfBoost=velocityOfBoost;
-            calculateFuelUsed();
+            //calculate the fuel used by the boost
+            fuel=HelperFunctions.getVectorMagnitude(velocityOfBoost)*50_000;
         }
 
-        public void calculateFuelUsed()
-        {
-            fuel=0;
-        }
 
         public double getTimeOfBoost() {return timeOfBoost;}
 
         public double[] getVelocityOfBoost() {return velocityOfBoost;}
+
+        public double getFuel()
+        {
+            return fuel;
+        }
 
         @Override
         public int compareTo(Object o)
