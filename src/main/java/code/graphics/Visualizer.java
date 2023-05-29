@@ -65,6 +65,11 @@ public class Visualizer extends Application {
 
         timer = new Timer();
         count = 0;
+        stage.setOnCloseRequest(e -> {
+            timer.cancel();
+            Platform.exit();
+            System.exit(0);
+        });
         Task<Void> sleeper = new Task<>() {
             @Override
             protected Void call() {
