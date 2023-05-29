@@ -3,8 +3,6 @@ package code.algorithms;
 import code.model.objects.PlanetObject;
 import code.utils.HelperFunctions;
 
-import java.util.ArrayList;
-
 public class Solvers {
     final static double G = PlanetObject.G;
 
@@ -32,7 +30,7 @@ public class Solvers {
         return acceleration;
     }
 
-     public static void explicitEuler(PlanetObject planetObject, PlanetObject otherObject, double h) {
+    public static void explicitEuler(PlanetObject planetObject, PlanetObject otherObject, double h) {
         double[] velocity = planetObject.getVelocity();
         double[] coordinates = planetObject.getCoordinates();
         double[] acceleration = planetObject.getAcceleration();
@@ -48,11 +46,10 @@ public class Solvers {
         planetObject.setAcceleration(acceleration);
     }
 
-    public static void fastEuler(PlanetObject planetObject, double[] acceleration, double step){
-        double[] velocityVector=planetObject.getVelocity();
-        double[] positionalVector= planetObject.getCoordinates();
-        for(int i = 0; i < 3; i++)
-        {
+    public static void fastEuler(PlanetObject planetObject, double[] acceleration, double step) {
+        double[] velocityVector = planetObject.getVelocity();
+        double[] positionalVector = planetObject.getCoordinates();
+        for (int i = 0; i < 3; i++) {
             velocityVector[i] += acceleration[i] * step;
             positionalVector[i] += velocityVector[i] * step;
         }

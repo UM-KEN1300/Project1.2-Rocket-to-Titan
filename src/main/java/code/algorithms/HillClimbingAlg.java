@@ -1,9 +1,8 @@
-package group1.project12group1;
+package code.algorithms;
 
 import java.util.Random;
 
 public class HillClimbingAlg {
-
     final int INITIAL = 0;
     final int XPLUS = 1;
     final int XMINUS = 2;
