@@ -62,7 +62,7 @@ public class Probe extends PlanetObject {
     }
 
     public double getDistanceToTitan() {
-        return HelperFunctions.getDistanceBetween(this, Model.getPlanetObjects().get("Titan"));
+        return HelperFunctions.getDistanceBetween(this, Model.getPlanetObjects().get("Titan")) - Model.getPlanetObjects().get("Titan").getRadius();
     }
 
     public double getDistanceToEarth() {

@@ -28,7 +28,7 @@ public class ModelRunner {
         // check if the boosts
         for (Probe probe : probes) {
             boolean checker = probe.areBoostsValid(accuracy);
-            System.out.println(checker);
+//            System.out.println(checker);
             if (!checker) {
                 stopper = true;
                 System.out.println("The probe " + probe.getProbeNumber() + " with wrong boost");
@@ -40,7 +40,7 @@ public class ModelRunner {
 
                 if (i % ((1 / accuracy) * 60 * 60 * 24) == 0) {
                     double day = i / ((1 / accuracy) * 60 * 60 * 24);
-                    System.out.println("Day " + day);
+//                    System.out.println("Day " + day);
                     for (Probe probe : probes) {
                         probe.BoosterMECH(day);
                     }

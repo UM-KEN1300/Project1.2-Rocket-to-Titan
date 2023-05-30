@@ -18,6 +18,7 @@ import java.text.DecimalFormat;
  */
 public class OverlayPane extends AnchorPane {
     private final ProbeStatsLabel DISTANCE_LABEL;
+    private final DateLabel DATE_LABEL;
     private final DecimalFormat DF;
     private final Probe PROBE;
     private final Font font = Font.font("Verdana", FontWeight.BOLD, 15);
@@ -27,23 +28,25 @@ public class OverlayPane extends AnchorPane {
         super();
         PROBE = Model.getProbes().get(0);
         DISTANCE_LABEL = new ProbeStatsLabel();
+        DATE_LABEL = new DateLabel();
         getChildren().add(new GuideLabel());
         getChildren().add(DISTANCE_LABEL);
-//        getChildren().add(new DateLabel());
+        getChildren().add(DATE_LABEL);
 
         DF = new DecimalFormat("#.###");
         DF.setRoundingMode(RoundingMode.HALF_UP);
 
-        update();
+        update(0);
     }
 
 
     /**
      * Updates the labels
      */
-    public void update() {
+    public void update(double day) {
         String labelText = "Distance to Titan: " + DF.format(PROBE.getDistanceToTitan()) + " km\nFuel used: " + DF.format(PROBE.getFuelUsed());
         DISTANCE_LABEL.setText(labelText);
+        DATE_LABEL.setText("Day of Simulation: " + (int) day);
     }
 
     /**
@@ -80,7 +83,7 @@ public class OverlayPane extends AnchorPane {
 
     private class DateLabel extends Label {
         DateLabel() {
-            super("Date: ");
+            super("Day of Simulation: ");
             setFont(font);
             setTextFill(Color.WHITE);
             setTopAnchor(this, 10d);

@@ -1,0 +1,19 @@
+package code;
+
+import code.graphics.Visualizer;
+import code.model.Model;
+import code.model.data.loaders.FileDataLoader;
+import code.model.objects.Boost;
+import code.model.objects.Probe;
+
+public class Main {
+    public static void main(String[] args) {
+        Model.loadData(new FileDataLoader());
+        Probe probe = new Probe();
+        Boost boost = new Boost(0, new double[]{159.78470381490106, -97.12752946315422, -8.151758278466753});
+        probe.addBoost(boost);
+        Model.addProbe(probe);
+
+        Visualizer.main(args);
+    }
+}

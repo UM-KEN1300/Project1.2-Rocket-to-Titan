@@ -20,7 +20,7 @@ import javafx.stage.Stage;
 import java.util.Timer;
 
 /**
- * Main graphic class which sets up the Scene and runs the engine which updates all 3D representations of
+ * code.Main graphic class which sets up the Scene and runs the engine which updates all 3D representations of
  * objects in the model in real-time.
  */
 public class Visualizer extends Application {
@@ -82,11 +82,10 @@ public class Visualizer extends Application {
                     public void run() {
                         for (int i = 0; i < 10; i++) {
                             double day = time / (60 * 60 * 24);
-                            if (day < 20)
-                                time = ModelRunner.runnerForGUI(time, 20, 4, Model.getPlanetObjectsArrayList(), Model.getProbes());
+                            time = ModelRunner.runnerForGUI(time, 20, 4, Model.getPlanetObjectsArrayList(), Model.getProbes());
                             Platform.runLater(() -> {
                                 solarSubScene.update();
-                                overlayPane.update();
+                                overlayPane.update(day);
                             });
                         }
 
