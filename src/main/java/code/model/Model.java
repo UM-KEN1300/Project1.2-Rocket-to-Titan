@@ -61,7 +61,6 @@ public class Model {
 
     public static void addProbe(Probe probe) {
         getInstance().probes.add(probe);
-        getInstance().planetObjects.put("probe",probe);
     }
 
     public void loadData(DataLoader dataLoader) {

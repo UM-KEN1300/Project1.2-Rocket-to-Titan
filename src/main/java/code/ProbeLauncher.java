@@ -13,7 +13,8 @@ public class ProbeLauncher
         Probe.Boost boost=new Probe.Boost(0,new double[]{68.7449, -44.1, -2.2176});
         probe.addBoost(boost);
         Model.addProbe(probe);
-        ModelRunner.runnerForMultipleProbes(365,2,Model.getPlanetObjectsArrayList(),Model.getProbes());
-        System.out.println(probe.getShortestDistanceToTitan());
+        Visualizer.main(args);
+//        ModelRunner.runnerForMultipleProbes(365,2,Model.getPlanetObjectsArrayList(),Model.getProbes());
+//        System.out.println(probe.getShortestDistanceToTitan());
     }
 }

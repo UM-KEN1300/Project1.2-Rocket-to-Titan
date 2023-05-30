@@ -86,12 +86,13 @@ public class Visualizer extends Application {
 
 
     private void calculation() {
+        double time=0;
         timer.schedule(
                 new java.util.TimerTask() {
                     @Override
                     public void run() {
                         for (int i = 0; i < 10; i++) {
-                            ModelRunner.runnerForGUI(180, 1, planets);
+                            ModelRunner.runnerForGUI(time,10, 1, Model.getPlanetObjectsArrayList(),Model.getProbes());
                             Platform.runLater(() -> {
                                 solarSubScene.updateObjects();
                                 overlayPane.update();

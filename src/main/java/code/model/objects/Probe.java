@@ -32,7 +32,6 @@ public class Probe extends PlanetObject {
     @Override
     public void setCoordinates(double[] coordinates) {
         super.setCoordinates(coordinates);
-
         double distanceToTitan = getDistanceToTitan();
         if (distanceToTitan < shortestDistanceToTitan)
             shortestDistanceToTitan = distanceToTitan;
@@ -64,7 +63,12 @@ public class Probe extends PlanetObject {
         for(Boost boost:list)
         {
             if(boost.getFuel()>maxImpulse)
+            {
+                System.out.println("Max is"+maxImpulse);
+                System.out.println("Boots is"+boost.getFuel());
                 return false;
+
+            }
         }
         return true;
     }

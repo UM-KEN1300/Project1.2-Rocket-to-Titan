@@ -9,43 +9,60 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ModelRunner {
+
     private ModelRunner() {
     }
 
-    public static void runnerForGUI(int smoothness, double accuracy, PlanetObject[] planets) {
-        for (int i = 0; i < smoothness; i += 1) {
-            for (int j = 1; j < planets.length; j++) {
-                planets[j].initializeAcceleration();
-                for (int k = 0; k < planets.length; k++) {
-                    if (k != j) {
-                        Solvers.explicitEuler(planets[j], planets[k], accuracy);
-                    }
-                }
+    public static double runnerForGUI(double time,int smoothness, double accuracy, List<PlanetObject> planetss, List<Probe> probes)
+    {
+        ArrayList<PlanetObject> allObjects = new ArrayList<>(planetss);
+        allObjects.addAll(probes);
+        PlanetObject[] planets = allObjects.toArray(new PlanetObject[allObjects.size()]);
+        boolean stopper = false;
+        // check if the boosts
+        for (Probe probe : probes)
+        {
+            boolean checker = probe.areBoostsValid(accuracy);
+            if (!checker)
+            {
+                stopper = true;
+                System.out.println("The probe " + probe.getProbeNumber() + " with wrong boost");
             }
         }
-    }
 
-    public static void runnerForFastEuler(int numberOfDays, double accuracy, PlanetObject[] planets) {
-        Probe probe = (Probe) planets[11];
-        for (int i = 0; i < (1 / accuracy) * 60 * 60 * 24 * numberOfDays; i += 1) {
-            if (i % ((1 / accuracy) * 60 * 60 * 24) == 0) {
-                double day = i / ((1 / accuracy) * 60 * 60 * 24);
-                System.out.println("Day " + day);
-                probe.BoosterMECH(day);
-            }
-            for (int j = 1; j < planets.length; j++) {
 
-                double[] acc = new double[3];
-                for (int k = 0; k < planets.length; k++) {
+        if (!stopper)
+        {
+            for (int i = 0; i < smoothness; i += 1)
+            {
 
-                    if (k != j) {
-                        acc = HelperFunctions.addition(acc, planets[j].accelerationBetween(planets[k]));
+                for (int j = 1; j < planets.length; j++)
+                {
+                    if (i % ((1 / accuracy) * 60 * 60 * 24) == 0)
+                    {
+
+                        double day = time / ((1 / accuracy) * 60 * 60 * 24);
+                        for (Probe probe : probes)
+                        {
+                            probe.BoosterMECH(day);
+                        }
                     }
+                    double[] acc = new double[3];
+                    for (int k = 0; k < planets.length; k++)
+                    {
+                        if (k != j)
+                        {
+                            acc = HelperFunctions.addition(acc, planets[j].accelerationBetween(planets[k]));
+                        }
+                    }
+                    Solvers.fastEuler(planets[j], acc, accuracy);
                 }
-                Solvers.fastEuler(planets[j], acc, accuracy);
+                time++;
             }
         }
+        return time;
     }
+
 
     public static void runnerForModel(int numberOfDays, double accuracy, PlanetObject[] planets) {
         for (int i = 0; i < (1 / accuracy) * 60 * 60 * 24 * numberOfDays; i += 1) {
@@ -72,7 +89,9 @@ public class ModelRunner {
         // check if the boosts
         for(Probe probe:probes)
         {
-            if(probe.areBoostsValid(accuracy))
+            boolean checker=probe.areBoostsValid(accuracy);
+            System.out.println(checker);
+            if(!checker)
             {
             stopper=true;
                 System.out.println("The probe "+probe.getProbeNumber() +" with wrong boost");
