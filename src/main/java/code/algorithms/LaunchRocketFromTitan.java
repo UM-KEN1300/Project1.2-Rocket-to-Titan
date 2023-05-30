@@ -28,6 +28,10 @@ public class LaunchRocketFromTitan {
     public LaunchRocketFromTitan(double[] bestCoordinates){
         this.bestProbeCoordinates = bestCoordinates;
     }
+    public Probe rocket;
+    public Probe passRocket(){
+        return rocket;
+    }
 
     public double[] launchSevenRocketsReturn(double[][] velocitiesOfRockets, double accuracySolvers) {
         System.out.println("Running...");
@@ -77,8 +81,9 @@ public class LaunchRocketFromTitan {
         Model.addProbe(yMinusRocket);
         Model.addProbe(zPlusRocket);
         Model.addProbe(zMinusRocket);
-        runnerForMultipleProbes(100, accuracySolvers, new ArrayList<>(Model.getPlanetObjects().values()), Model.getProbes());
-        System.out.println("Distances from Titan: " + initialRocket.getDistanceToEarth() + "   " +
+        System.out.println("Initial position of earth: " + Model.getPlanetObjects().get("Earth").getCoordinates()[0]);
+        runnerForMultipleProbes(365, accuracySolvers, Model.getPlanetObjectsArrayList(), Model.getProbes());
+        System.out.println("Distances from Earth: " + initialRocket.getDistanceToEarth() + "   " +
                 xPlusRocket.getDistanceToEarth() + "   " +
                 xMinusRocket.getDistanceToEarth() + "   " +
                 yPlusRocket.getDistanceToEarth() + "   " +
@@ -87,7 +92,7 @@ public class LaunchRocketFromTitan {
                 zMinusRocket.getDistanceToEarth());
 
         System.out.println("-------------------------------------------------------------------------------------------------------------");
-
+        this.rocket = initialRocket;
         return new double[]{
                 initialRocket.getDistanceToEarth(),
                 xPlusRocket.getDistanceToEarth(),

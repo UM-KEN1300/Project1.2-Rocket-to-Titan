@@ -69,7 +69,7 @@ public class LaunchRocketHC {
         Model.addProbe(zPlusRocket);
         Model.addProbe(zMinusRocket);
 
-        runnerForMultipleProbes(100, accuracySolvers, new ArrayList<>(Model.getPlanetObjects().values()), Model.getProbes());
+        runnerForMultipleProbes(365, accuracySolvers, Model.getPlanetObjectsArrayList(), Model.getProbes());
         if(initialRocket.getDistanceToTitan() > initialRocket.getShortestDistanceToTitan()){
             closestCoordinates = initialRocket.getCoordinatesOfShortestDistanceToTitan();
         }

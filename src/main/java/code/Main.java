@@ -3,6 +3,8 @@ package code;
 
 import code.algorithms.HillClimbingAlg;
 import code.algorithms.HillClimbingAlgReturn;
+import code.algorithms.LaunchRocketFromTitan;
+import code.model.Model;
 
 import java.util.Arrays;
 import java.util.Scanner;
@@ -12,12 +14,14 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         HillClimbingAlg hcInstance = new HillClimbingAlg();
-        double[] bestVelocitiesToTitan = hcInstance.hillClimbing(10,1,159.78470381490106, -97.12752946315422, -8.151758278466753);
+        double[] bestVelocitiesToTitan = hcInstance.hillClimbing(1,1,159.78470381490106, -97.12752946315422, -8.151758278466753);
         System.out.println("Best velocities to Titan: ");
         System.out.println("xVelocity = " + bestVelocitiesToTitan[0] + "; yVelocity = " + bestVelocitiesToTitan[1] + "; zVelocity = " + bestVelocitiesToTitan[2]);
 
         HillClimbingAlgReturn hcReturnInstance = new HillClimbingAlgReturn(hcInstance.getCoordinatesToMain());
-        double[] bestVelocitiesToEarth = hcReturnInstance.runHillClimbingAlg(10, 1, 0, 0 ,0);
+        System.out.println("Switch to Return Trip");
+
+        double[] bestVelocitiesToEarth = hcReturnInstance.runHillClimbingAlg(1, 1, 0, 0 ,0);
         System.out.println("Best velocities to Earth: ");
         System.out.println("xVelocity = " + bestVelocitiesToEarth[0] + "; yVelocity = " + bestVelocitiesToEarth[1] + "; zVelocity = " + bestVelocitiesToEarth[2]);
 

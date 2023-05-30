@@ -3,6 +3,7 @@ package code.algorithms;
 import java.util.Arrays;
 import java.util.Random;
 import code.algorithms.LaunchRocketHC;
+import code.model.Model;
 
 
 public class HillClimbingAlg {
@@ -76,7 +77,6 @@ public class HillClimbingAlg {
 
             switch (closestRocket) {
                 case INITIAL:
-                    //check if its in orbit distance
                     return new double[] { velocitiesOfRockets[INITIAL][X], velocitiesOfRockets[INITIAL][Y], velocitiesOfRockets[INITIAL][Z],  };
                 case XPLUS:
                     velocitiesOfRockets[INITIAL][X] = velocitiesOfRockets[XPLUS][X];
