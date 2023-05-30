@@ -14,6 +14,7 @@ public class Probe extends PlanetObject {
     private static int probeCounter = 0;
     private final Queue<Boost> listOfBoosts;
     private double fuelUsed;
+    private double[] coordinatesOfShortestDistanceToTitan;
 
 
     public Probe() {
@@ -24,6 +25,7 @@ public class Probe extends PlanetObject {
         setCoordinates(initialPosition());
         setMass(50_000);
         shortestDistanceToTitan = getDistanceToTitan();
+        coordinatesOfShortestDistanceToTitan = new double[3];
     }
 
 
@@ -38,8 +40,14 @@ public class Probe extends PlanetObject {
     public void setCoordinates(double[] coordinates) {
         super.setCoordinates(coordinates);
         double distanceToTitan = getDistanceToTitan();
-        if (distanceToTitan < shortestDistanceToTitan)
+        if (distanceToTitan < shortestDistanceToTitan) {
             shortestDistanceToTitan = distanceToTitan;
+            coordinatesOfShortestDistanceToTitan = coordinates;
+        }
+    }
+
+    public double[] getCoordinatesOfShortestDistanceToTitan() {
+        return coordinatesOfShortestDistanceToTitan;
     }
 
     private double[] initialPosition() {
@@ -57,6 +65,10 @@ public class Probe extends PlanetObject {
         return HelperFunctions.getDistanceBetween(this, Model.getPlanetObjects().get("Titan"));
     }
 
+    public double getDistanceToEarth() {
+        return HelperFunctions.getDistanceBetween(this, Model.getPlanetObjects().get("Earth"));
+    }
+
     public double getShortestDistanceToTitan() {
         return shortestDistanceToTitan;
     }
@@ -69,11 +81,12 @@ public class Probe extends PlanetObject {
                 System.out.println("Max is" + maxImpulse);
                 System.out.println("Boots is" + boost.getFuel());
                 return false;
-
             }
         }
         return true;
+
     }
+
 
     public void addBoost(Boost boost) {
         listOfBoosts.add(boost);
