@@ -1,6 +1,7 @@
 package code.utils;
 
 
+import code.model.Model;
 import code.model.objects.ModeledObject;
 import code.model.objects.PlanetObject;
 import code.model.objects.Probe;
@@ -125,7 +126,7 @@ public class HelperFunctions {
 //    }
     public boolean isInOrbitDistance(Probe myObj, PlanetObject planet){ //checks if myObj is in orbit distance of planet
         boolean result;
-        double radii = 2574.7; //supposed to be the sum of the radius of the 2 objects, but the probe is small and idk where to take the radius of titan from, will change later
+        double radii = Model.getPlanetObjects().get("Titan").getRadius(); //supposed to be the sum of the radius of the 2 objects, but the probe is small and idk where to take the radius of titan from, will change later
         double distance = getDistanceBetween(myObj, planet);
         return distance <= radii; //if the distance be
     }

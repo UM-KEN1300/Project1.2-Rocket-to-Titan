@@ -4,22 +4,31 @@ import java.util.Arrays;
 import java.util.Random;
 import code.algorithms.LaunchRocketHC;
 
-import static code.algorithms.LaunchRocketHC.launchSevenRockets;
 
 public class HillClimbingAlg {
 
-    static final int INITIAL = 0;
-    static final int XPLUS = 1;
-    static final int XMINUS = 2;
-    static final int YPLUS = 3;
-    static final int YMINUS = 4;
-    static final int ZPLUS = 5;
-    static final int ZMINUS = 6;
-    static final int X = 0;
-    static final int Y = 1;
-    static final int Z = 2;
+    private final int INITIAL = 0;
+    private final int XPLUS = 1;
+    private final int XMINUS = 2;
+    private final int YPLUS = 3;
+    private final int YMINUS = 4;
+    private final int ZPLUS = 5;
+    private final int ZMINUS = 6;
+    private final int X = 0;
+    private final int Y = 1;
+    private final int Z = 2;
 
-    public static double[] HillClimbingAlg(double VelocityChange,double accuracySolver, double initialX,double initialY,double initialZ) {
+    private double[] coordinatesToMain;
+
+    public HillClimbingAlg(){
+        //his one is called in main
+    }
+
+    public double[] getCoordinatesToMain() {
+        return coordinatesToMain;
+    }
+
+    public double[] hillClimbing(double VelocityChange, double accuracySolver, double initialX, double initialY, double initialZ) {
 
         System.out.println("Starting HC from Earth");
 
@@ -57,8 +66,9 @@ public class HillClimbingAlg {
 
 
             System.out.println("Current best velocities: " + Arrays.deepToString(velocitiesOfRockets));
-
-            double[] DistancesToTitan = launchSevenRockets(velocitiesOfRockets, accuracySolver);
+            LaunchRocketHC launcherHC = new LaunchRocketHC();
+            coordinatesToMain = launcherHC.getClosestCoordinates(); //passes coordinates
+            double[] DistancesToTitan = launcherHC.launchSevenRockets(velocitiesOfRockets, accuracySolver);
 
             closestRocket = findSmallest(DistancesToTitan);
             System.out.println("Current generation number: " + genCounter);
@@ -66,7 +76,8 @@ public class HillClimbingAlg {
 
             switch (closestRocket) {
                 case INITIAL:
-                    return new double[] { velocitiesOfRockets[INITIAL][X], velocitiesOfRockets[INITIAL][Y], velocitiesOfRockets[INITIAL][Z] };
+                    //check if its in orbit distance
+                    return new double[] { velocitiesOfRockets[INITIAL][X], velocitiesOfRockets[INITIAL][Y], velocitiesOfRockets[INITIAL][Z],  };
                 case XPLUS:
                     velocitiesOfRockets[INITIAL][X] = velocitiesOfRockets[XPLUS][X];
                     break;

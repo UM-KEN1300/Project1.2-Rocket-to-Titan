@@ -4,22 +4,26 @@ import java.util.Arrays;
 import java.util.Random;
 import code.algorithms.LaunchRocketFromTitan;
 
-import static code.algorithms.LaunchRocketFromTitan.launchSevenRocketsReturn;
 
 public class HillClimbingAlgReturn {
 
-    static final int INITIAL = 0;
-    static final int XPLUS = 1;
-    static final int XMINUS = 2;
-    static final int YPLUS = 3;
-    static final int YMINUS = 4;
-    static final int ZPLUS = 5;
-    static final int ZMINUS = 6;
-    static final int X = 0;
-    static final int Y = 1;
-    static final int Z = 2;
+    private final int INITIAL = 0;
+    private final int XPLUS = 1;
+    private final int XMINUS = 2;
+    private final int YPLUS = 3;
+    private final int YMINUS = 4;
+    private final int ZPLUS = 5;
+    private final int ZMINUS = 6;
+    private final int X = 0;
+    private final int Y = 1;
+    private final int Z = 2;
+    private double[] bestCoordinates;
 
-    public static double[] runHillClimbingAlg(double VelocityChange, double accuracySolver, double initialX, double initialY, double initialZ) {
+    public HillClimbingAlgReturn(double[] bestCoordinates) {
+        this.bestCoordinates = bestCoordinates;
+    }
+
+    public double[] runHillClimbingAlg(double VelocityChange, double accuracySolver, double initialX, double initialY, double initialZ) {
 
         System.out.println("Starting HC from Titan");
 
@@ -51,7 +55,8 @@ public class HillClimbingAlgReturn {
 
             System.out.println("Current best velocities: " + Arrays.deepToString(velocitiesOfRockets));
 
-            double[] DistancesToEarth = launchSevenRocketsReturn(velocitiesOfRockets, accuracySolver);
+            LaunchRocketFromTitan launchRocketFromTitan = new LaunchRocketFromTitan(bestCoordinates);
+            double[] DistancesToEarth = launchRocketFromTitan.launchSevenRocketsReturn(velocitiesOfRockets, accuracySolver);
 
             closestRocket = findSmallest(DistancesToEarth);
             System.out.println("Current generation number: " + genCounter);

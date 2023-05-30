@@ -63,6 +63,11 @@ public class Model {
         getInstance().probes.add(probe);
     }
 
+    public static void chooseProbe(Probe probe){
+        getInstance().probes = new ArrayList<>();
+        addProbe(probe);
+    }
+
     public void loadData(DataLoader dataLoader) {
         planetObjects = new HashMap<>();
         probes = new ArrayList<>();

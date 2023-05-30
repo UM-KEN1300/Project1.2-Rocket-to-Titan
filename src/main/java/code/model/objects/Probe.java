@@ -16,7 +16,7 @@ public class Probe extends PlanetObject {
     private static int probeCounter = 0;
     private final Queue<Boost> listOfBoosts;
     private double fuelUsed;
-
+    private double[] coordinatesOfShortestDistanceToTitan;
 
     public Probe() {
         super(new double[3], new double[]{0, 0, 0});
@@ -26,7 +26,9 @@ public class Probe extends PlanetObject {
         setCoordinates(initialPosition());
         setMass(50_000);
         shortestDistanceToTitan = getDistanceToTitan();
+        coordinatesOfShortestDistanceToTitan = new double[3];
     }
+
 
 
     @Override
@@ -34,8 +36,14 @@ public class Probe extends PlanetObject {
         super.setCoordinates(coordinates);
 
         double distanceToTitan = getDistanceToTitan();
-        if (distanceToTitan < shortestDistanceToTitan)
+        if (distanceToTitan < shortestDistanceToTitan) {
             shortestDistanceToTitan = distanceToTitan;
+            coordinatesOfShortestDistanceToTitan = coordinates;
+        }
+    }
+
+    public double[] getCoordinatesOfShortestDistanceToTitan(){
+        return coordinatesOfShortestDistanceToTitan;
     }
 
     private double[] initialPosition() {

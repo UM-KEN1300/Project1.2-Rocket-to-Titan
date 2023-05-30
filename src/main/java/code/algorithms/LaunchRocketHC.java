@@ -12,28 +12,54 @@ import static code.model.Model.addProbe;
 
 public class LaunchRocketHC {
 
-    static final int INITIAL = 0;
-    static final int XPLUS = 1;
-    static final int XMINUS = 2;
-    static final int YPLUS = 3;
-    static final int YMINUS = 4;
-    static final int ZPLUS = 5;
-    static final int ZMINUS = 6;
-    static final int X = 0;
-    static final int Y = 1;
-    static final int Z = 2;
+    private final int INITIAL = 0;
+    private final int XPLUS = 1;
+    private final int XMINUS = 2;
+    private final int YPLUS = 3;
+    private final int YMINUS = 4;
+    private final int ZPLUS = 5;
+    private final int ZMINUS = 6;
+    private final int X = 0;
+    private final int Y = 1;
+    private final int Z = 2;
+    private static double[] closestCoordinates;
+    public LaunchRocketHC() {
+        //this one is called in HillClimbingAlg
+    }
 
-    public static double[] launchSevenRockets(double[][] velocitiesOfRockets, double accuracySolvers) {
+    public double[] launchSevenRockets(double[][] velocitiesOfRockets, double accuracySolvers) {
+
         System.out.println("Running...");
+
         Model.getInstance().loadData(new FileDataLoader());
 
-        Probe initialRocket = new Probe(velocitiesOfRockets[INITIAL]);
-        Probe xPlusRocket = new Probe(velocitiesOfRockets[XPLUS]);
-        Probe xMinusRocket = new Probe(velocitiesOfRockets[XMINUS]);
-        Probe yPlusRocket = new Probe(velocitiesOfRockets[YPLUS]);
-        Probe yMinusRocket = new Probe(velocitiesOfRockets[YMINUS]);
-        Probe zPlusRocket = new Probe(velocitiesOfRockets[ZPLUS]);
-        Probe zMinusRocket = new Probe(velocitiesOfRockets[ZMINUS]);
+        Probe initialRocket = new Probe();
+        Probe.Boost boost1 = new Probe.Boost(0, velocitiesOfRockets[INITIAL]);
+        initialRocket.addBoost(boost1);
+
+        Probe xPlusRocket = new Probe();
+        Probe.Boost boost2 = new Probe.Boost(0, velocitiesOfRockets[XPLUS]);
+        xPlusRocket.addBoost(boost2);
+
+        Probe xMinusRocket = new Probe();
+        Probe.Boost boost3 = new Probe.Boost(0, velocitiesOfRockets[XMINUS]);
+        xMinusRocket.addBoost(boost3);
+
+        Probe yPlusRocket = new Probe();
+        Probe.Boost boost4= new Probe.Boost(0, velocitiesOfRockets[YPLUS]);
+        yPlusRocket.addBoost(boost4);
+
+        Probe yMinusRocket = new Probe();
+        Probe.Boost boost5= new Probe.Boost(0, velocitiesOfRockets[YMINUS]);
+        yMinusRocket.addBoost(boost5);
+
+        Probe zPlusRocket = new Probe();
+        Probe.Boost boost6= new Probe.Boost(0, velocitiesOfRockets[ZPLUS]);
+        zPlusRocket.addBoost(boost6);
+
+        Probe zMinusRocket = new Probe();
+        Probe.Boost boost7= new Probe.Boost(0, velocitiesOfRockets[ZMINUS]);
+        zMinusRocket.addBoost(boost7);
 
         Model.addProbe(initialRocket);
         Model.addProbe(xPlusRocket);
@@ -44,7 +70,10 @@ public class LaunchRocketHC {
         Model.addProbe(zMinusRocket);
 
         runnerForMultipleProbes(100, accuracySolvers, new ArrayList<>(Model.getPlanetObjects().values()), Model.getProbes());
-
+        if(initialRocket.getDistanceToTitan() > initialRocket.getShortestDistanceToTitan()){
+            closestCoordinates = initialRocket.getCoordinatesOfShortestDistanceToTitan();
+        }
+        System.out.println();
         System.out.println("Distances to Titan: "+ initialRocket.getShortestDistanceToTitan()+"   " +
                 xPlusRocket.getShortestDistanceToTitan()+ "   " +
                 xMinusRocket.getShortestDistanceToTitan()+"   " +
@@ -62,20 +91,9 @@ public class LaunchRocketHC {
                 yMinusRocket.getShortestDistanceToTitan(),
                 zPlusRocket.getShortestDistanceToTitan(),
                 zMinusRocket.getShortestDistanceToTitan()};
-
     }
 
-
-    public static void main(String[] args) {
-//
-//        double[][] testVelocities = {{50, 50, 50},
-//                {60, 50, 50},
-//                {40, 50, 50},
-//                {50, 60, 50},
-//                {50, 40, 50},
-//                {50, 50, 60},
-//                {50, 50, 40}};
-//
-//        System.out.println(Arrays.toString(launchSevenRockets(testVelocities)));
+    public  double[] getClosestCoordinates() {
+        return closestCoordinates;
     }
 }

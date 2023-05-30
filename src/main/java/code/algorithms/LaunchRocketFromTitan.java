@@ -13,46 +13,60 @@ import static code.model.Model.addProbe;
 
 public class LaunchRocketFromTitan {
 
-    static final int INITIAL = 0;
-    static final int XPLUS = 1;
-    static final int XMINUS = 2;
-    static final int YPLUS = 3;
-    static final int YMINUS = 4;
-    static final int ZPLUS = 5;
-    static final int ZMINUS = 6;
-    static final int X = 0;
-    static final int Y = 1;
-    static final int Z = 2;
+    private final int INITIAL = 0;
+    private final int XPLUS = 1;
+    private final int XMINUS = 2;
+    private final int YPLUS = 3;
+    private final int YMINUS = 4;
+    private final int ZPLUS = 5;
+    private final int ZMINUS = 6;
+    private final int X = 0;
+    private final int Y = 1;
+    private final int Z = 2;
+    private double[] bestProbeCoordinates;
+    
+    public LaunchRocketFromTitan(double[] bestCoordinates){
+        this.bestProbeCoordinates = bestCoordinates;
+    }
 
-    public static double[] launchSevenRocketsReturn(double[][] velocitiesOfRockets, double accuracySolvers) {
+    public double[] launchSevenRocketsReturn(double[][] velocitiesOfRockets, double accuracySolvers) {
         System.out.println("Running...");
-        Model.getInstance().loadData(new FileDataLoader());
+
+       
+//        double[] bestCoordinates = bestProbeCoordinates; //coordinates of best rocket
 
         Probe initialRocket = new Probe();
+        initialRocket.setCoordinates(bestProbeCoordinates);
         Probe.Boost boost1 = new Probe.Boost(0,velocitiesOfRockets[INITIAL]);
         initialRocket.addBoost(boost1);
 
         Probe xPlusRocket = new Probe();
+        xPlusRocket.setCoordinates(bestProbeCoordinates);
         Probe.Boost boost2 = new Probe.Boost(0,velocitiesOfRockets[XPLUS]);
         xPlusRocket.addBoost(boost2);
 
         Probe xMinusRocket = new Probe();
+        xMinusRocket.setCoordinates(bestProbeCoordinates);
         Probe.Boost boost3 = new Probe.Boost(0,velocitiesOfRockets[XMINUS]);
         xMinusRocket.addBoost(boost3);
 
         Probe yPlusRocket = new Probe();
+        yPlusRocket.setCoordinates(bestProbeCoordinates);
         Probe.Boost boost4 = new Probe.Boost(0,velocitiesOfRockets[YPLUS]);
         yPlusRocket.addBoost(boost4);
 
         Probe yMinusRocket = new Probe();
+        yMinusRocket.setCoordinates(bestProbeCoordinates);
         Probe.Boost boost5 = new Probe.Boost(0,velocitiesOfRockets[YMINUS]);
         yMinusRocket.addBoost(boost5);
 
         Probe zPlusRocket = new Probe();
+        zPlusRocket.setCoordinates(bestProbeCoordinates);
         Probe.Boost boost6 = new Probe.Boost(0,velocitiesOfRockets[ZPLUS]);
         zPlusRocket.addBoost(boost6);
 
         Probe zMinusRocket = new Probe();
+        zMinusRocket.setCoordinates(bestProbeCoordinates);
         Probe.Boost boost7 = new Probe.Boost(0,velocitiesOfRockets[ZMINUS]);
         zMinusRocket.addBoost(boost7);
 
@@ -64,7 +78,6 @@ public class LaunchRocketFromTitan {
         Model.addProbe(yMinusRocket);
         Model.addProbe(zPlusRocket);
         Model.addProbe(zMinusRocket);
-        //HAVE TO ADD SOMETHING TO RUN THE SIM FOR 365 DAYS BEFORE LAUNCHING THE ROCKETS
         runnerForMultipleProbes(100, accuracySolvers, new ArrayList<>(Model.getPlanetObjects().values()), Model.getProbes());
         System.out.println("Distances from Titan: " + initialRocket.getDistanceToEarth() + "   " +
                 xPlusRocket.getDistanceToEarth() + "   " +

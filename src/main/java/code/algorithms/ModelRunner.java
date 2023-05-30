@@ -80,7 +80,10 @@ public class ModelRunner {
 
                 if (i % ((1 / accuracy) * 60 * 60 * 24) == 0) {
                     double day = i / ((1 / accuracy) * 60 * 60 * 24);
-                    System.out.println("Day " + day);
+                    if(day % 33 == 0){
+                        System.out.print("Day " + day + "; ");
+                    }
+
                     for (Probe probe : probes) {
                         probe.BoosterMECH(day);
                     }
