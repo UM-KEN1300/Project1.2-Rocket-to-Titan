@@ -10,7 +10,7 @@ public class Main {
     public static void main(String[] args) {
         Model.loadData(new FileDataLoader());
         Probe probe = new Probe();
-        Boost boost = new Boost(0, new double[]{159.78470381490106, -97.12752946315422, -8.151758278466753});
+        Boost boost = new Boost(0, new double[]{67.73988800000001, -44.03988500000006, -4.258907});
         probe.addBoost(boost);
         Model.addProbe(probe);
 

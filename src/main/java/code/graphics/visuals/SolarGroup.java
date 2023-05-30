@@ -13,6 +13,9 @@ import java.util.*;
 
 import static code.graphics.Visualizer.SCALE;
 
+/**
+ * Class representing the group containing 3D representations of the objects in the model.
+ */
 public class SolarGroup extends Group {
     private final Map<String, PlanetSphere> PLANET_SPHERES;
     private final List<ProbeSphere> PROBE_SPHERES;
@@ -34,7 +37,8 @@ public class SolarGroup extends Group {
 
 
     /**
-     * Calls the updateCoordinates method of every PlanetSphere object in the Group to set its coordinates the ones determined by the associated PlanetObject.
+     * Calls the updateCoordinates method of every PlanetSphere object in the Group to set its coordinates
+     * to ones determined by the associated PlanetObject.
      */
     public void updateGroup() {
         for (PlanetSphere planetSphere : PLANET_SPHERES.values())
@@ -98,9 +102,12 @@ public class SolarGroup extends Group {
         }
     }
 
-    public void addTrail(){
+    public void addTrail() {
         PROBE_SPHERES.get(0).moveTrail();
     }
+
+
+    // GETTERS AND SETTERS
 
     /**
      * Sets the maximal radius for the PlanetSphere objects in the visualization for the purpose of maintaining a balance between scale and visibility when zooming

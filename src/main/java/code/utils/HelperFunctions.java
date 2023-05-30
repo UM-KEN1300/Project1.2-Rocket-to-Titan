@@ -1,10 +1,7 @@
 package code.utils;
 
 
-import code.model.Model;
-import code.model.objects.ModeledObject;
 import code.model.objects.PlanetObject;
-import code.model.objects.Probe;
 
 /**
  * HelperFunctions class contains utility methods for operations on vectors.
@@ -21,7 +18,7 @@ public class HelperFunctions {
      * @param object2 The second PlanetObject.
      * @return The distance between the two PlanetObjects.
      */
-    public static double getDistanceBetween(ModeledObject object1, ModeledObject object2) {
+    public static double getDistanceBetween(PlanetObject object1, PlanetObject object2) {
         return Math.sqrt(
                 Math.pow((object2.getCoordinates()[0] - object1.getCoordinates()[0]), 2)
                         + Math.pow((object2.getCoordinates()[1] - object1.getCoordinates()[1]), 2)
@@ -124,10 +121,10 @@ public class HelperFunctions {
 //        double e = 0.001; // A small tolerance to account for rounding errors
 //        return Math.abs(centripetalForce - gravitationalForce) < e;
 //    }
-    public boolean isInOrbitDistance(Probe myObj, PlanetObject planet){ //checks if myObj is in orbit distance of planet
-        boolean result;
-        double radii = Model.getPlanetObjects().get("Titan").getRadius(); //supposed to be the sum of the radius of the 2 objects, but the probe is small and idk where to take the radius of titan from, will change later
-        double distance = getDistanceBetween(myObj, planet);
-        return distance <= radii; //if the distance be
-    }
+//    public boolean isInOrbitDistance(Probe myObj, PlanetObject planet){ //checks if myObj is in orbit distance of planet
+//        boolean result;
+//        double radii = Model.getPlanetObjects().get("Titan").getRadius(); //supposed to be the sum of the radius of the 2 objects, but the probe is small and idk where to take the radius of titan from, will change later
+//        double distance = getDistanceBetween(myObj, planet);
+//        return distance <= radii; //if the distance be
+//    }
 }

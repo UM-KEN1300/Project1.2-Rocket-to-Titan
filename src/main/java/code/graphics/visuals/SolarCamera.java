@@ -2,8 +2,17 @@ package code.graphics.visuals;
 
 import javafx.scene.PerspectiveCamera;
 
+/**
+ * Class representing the PerspectiveCamera for the SolarSubScene.
+ */
 public class SolarCamera extends PerspectiveCamera {
+    /**
+     * Double representing how close the camera can go while zooming.
+     */
     private double minZoom;
+    /**
+     * Double representing how far the camera can go while zooming.
+     */
     private final double MAX_ZOOM;
 
 

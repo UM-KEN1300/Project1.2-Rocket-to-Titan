@@ -5,6 +5,9 @@ import javafx.scene.shape.Sphere;
 
 import static code.graphics.Visualizer.SCALE;
 
+/**
+ *
+ */
 public class PlanetSphere extends Sphere {
     private final PlanetObject PLANET_OBJECT;
     private double minRadius;
@@ -30,7 +33,7 @@ public class PlanetSphere extends Sphere {
     }
 
 
-    // getters and setters
+    // GETTERS AND SETTERS
 
     public void setMinRadius(double minRadius) {
         this.minRadius = minRadius;

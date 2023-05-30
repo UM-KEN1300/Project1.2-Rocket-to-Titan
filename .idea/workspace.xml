@@ -5,11 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="befef468-85dd-4357-a019-7cd94d9197bf" name="Changes" comment=".">
-      <change afterPath="$PROJECT_DIR$/src/main/java/code/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/ModelRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/ModelRunner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/code/graphics/Visualizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/graphics/Visualizer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/code/graphics/overlay/OverlayPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/graphics/overlay/OverlayPane.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/graphics/visuals/SolarCamera.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/graphics/visuals/SolarCamera.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/graphics/visuals/SolarGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/graphics/visuals/SolarGroup.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/graphics/visuals/SolarSubScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/graphics/visuals/SolarSubScene.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/graphics/visuals/objects/PlanetSphere.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/graphics/visuals/objects/PlanetSphere.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/model/objects/ModeledObject.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/model/objects/PlanetObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/model/objects/PlanetObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/model/objects/Probe.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/model/objects/Probe.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/utils/HelperFunctions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/utils/HelperFunctions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/HelperFunctionsTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/HelperFunctionsTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -210,7 +217,7 @@
       <workItem from="1684255315975" duration="1579000" />
       <workItem from="1684271461931" duration="2763000" />
       <workItem from="1684286667400" duration="9645000" />
-      <workItem from="1685475925086" duration="1684000" />
+      <workItem from="1685475925086" duration="3754000" />
     </task>
     <task id="LOCAL-00001" summary="WORKING HOW THIS SHIT WORKS">
       <created>1679319564168</created>
@@ -408,7 +415,14 @@
       <option name="project" value="LOCAL" />
       <updated>1685477053492</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary=".">
+      <created>1685478091832</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1685478091832</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

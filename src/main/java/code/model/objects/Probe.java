@@ -30,6 +30,84 @@ public class Probe extends PlanetObject {
 
 
     /**
+     * Determines where the Probe should be launched from.
+     *
+     * @return the double array representing initial coordinates.
+     */
+    private double[] initialPosition() {
+        double[] coordinates = HelperFunctions.subtract(Model.getPlanetObjects().get("Earth").getCoordinates(),
+                Model.getPlanetObjects().get("Titan").getCoordinates());
+
+        double magnitude = HelperFunctions.getVectorMagnitude(coordinates);
+        for (int i = 0; i <= 2; i++)
+            coordinates[i] = coordinates[i] * 6370 / magnitude;
+
+        return HelperFunctions.addition(coordinates, Model.getPlanetObjects().get("Earth").getCoordinates());
+    }
+
+
+    public boolean areBoostsValid(double step) {
+        double maxImpulse = 3 * (Math.pow(10, 7)) * step;
+        ArrayList<Boost> list = new ArrayList<>(listOfBoosts);
+        for (Boost boost : list) {
+            if (boost.getFuel() > maxImpulse) {
+                System.out.println("Max is" + maxImpulse);
+                System.out.println("Boots is" + boost.getFuel());
+                return false;
+            }
+        }
+        return true;
+
+    }
+
+    public void addBoost(Boost boost) {
+        listOfBoosts.add(boost);
+        fuelUsed += boost.getFuel();
+    }
+
+    public void BoosterMECH(double time) {
+        if (listOfBoosts.peek() != null) {
+            if (time == listOfBoosts.peek().getTimeOfBoost()) {
+                System.out.println("boosted");
+                double[] probeVelocity = getVelocity();
+                double[] boostVelocity = listOfBoosts.poll().getVelocityOfBoost();
+                setVelocity(HelperFunctions.addition(probeVelocity, boostVelocity));
+            }
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Probe{" +
+                "shortestDistanceToTitan=" + shortestDistanceToTitan +
+                ", listOfBoosts=" + listOfBoosts +
+                ", fuelUsed=" + fuelUsed +
+                '}';
+    }
+
+    // GETTERS AND SETTERS
+
+    public double getDistanceToTitan() {
+        return HelperFunctions.getDistanceBetween(this, Model.getPlanetObjects().get("Titan")) - Model.getPlanetObjects().get("Titan").getRadius();
+    }
+
+    public double getDistanceToEarth() {
+        return HelperFunctions.getDistanceBetween(this, Model.getPlanetObjects().get("Earth"));
+    }
+
+    public double getShortestDistanceToTitan() {
+        return shortestDistanceToTitan;
+    }
+
+    public int getProbeNumber() {
+        return PROBE_NUMBER;
+    }
+
+    public double getFuelUsed() {
+        return fuelUsed;
+    }
+
+    /**
      * Overrides the PlanetObject class's method. Apart from assigning the new coordinates
      * also checks the Probe's distance to Titan. If this distance is the lowest noted distance,
      * assigns it to the shortestDistanceToTitan field.
@@ -48,76 +126,5 @@ public class Probe extends PlanetObject {
 
     public double[] getCoordinatesOfShortestDistanceToTitan() {
         return coordinatesOfShortestDistanceToTitan;
-    }
-
-    private double[] initialPosition() {
-        double[] coordinates = HelperFunctions.subtract(Model.getPlanetObjects().get("Earth").getCoordinates(),
-                Model.getPlanetObjects().get("Titan").getCoordinates());
-
-        double magnitude = HelperFunctions.getVectorMagnitude(coordinates);
-        for (int i = 0; i <= 2; i++)
-            coordinates[i] = coordinates[i] * 6370 / magnitude;
-
-        return HelperFunctions.addition(coordinates, Model.getPlanetObjects().get("Earth").getCoordinates());
-    }
-
-    public double getDistanceToTitan() {
-        return HelperFunctions.getDistanceBetween(this, Model.getPlanetObjects().get("Titan")) - Model.getPlanetObjects().get("Titan").getRadius();
-    }
-
-    public double getDistanceToEarth() {
-        return HelperFunctions.getDistanceBetween(this, Model.getPlanetObjects().get("Earth"));
-    }
-
-    public double getShortestDistanceToTitan() {
-        return shortestDistanceToTitan;
-    }
-
-    public boolean areBoostsValid(double step) {
-        double maxImpulse = 3 * (Math.pow(10, 7)) * step;
-        ArrayList<Boost> list = new ArrayList<>(listOfBoosts);
-        for (Boost boost : list) {
-            if (boost.getFuel() > maxImpulse) {
-                System.out.println("Max is" + maxImpulse);
-                System.out.println("Boots is" + boost.getFuel());
-                return false;
-            }
-        }
-        return true;
-
-    }
-
-
-    public void addBoost(Boost boost) {
-        listOfBoosts.add(boost);
-        fuelUsed += boost.getFuel();
-    }
-
-    public void BoosterMECH(double time) {
-        if (listOfBoosts.peek() != null) {
-            if (time == listOfBoosts.peek().getTimeOfBoost()) {
-                System.out.println("boosted");
-                double[] probeVelocity = getVelocity();
-                double[] boostVelocity = listOfBoosts.poll().getVelocityOfBoost();
-                setVelocity(HelperFunctions.addition(probeVelocity, boostVelocity));
-            }
-        }
-    }
-
-    public int getProbeNumber() {
-        return PROBE_NUMBER;
-    }
-
-    public double getFuelUsed() {
-        return fuelUsed;
-    }
-
-    @Override
-    public String toString() {
-        return "Probe{" +
-                "shortestDistanceToTitan=" + shortestDistanceToTitan +
-                ", listOfBoosts=" + listOfBoosts +
-                ", fuelUsed=" + fuelUsed +
-                '}';
     }
 }

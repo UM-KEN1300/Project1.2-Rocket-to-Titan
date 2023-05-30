@@ -70,6 +70,9 @@ public class OverlayPane extends AnchorPane {
         }
     }
 
+    /**
+     * Subclass representing the label displaying distance to Titan and fuel used by the probe.
+     */
     private class ProbeStatsLabel extends Label {
         ProbeStatsLabel() {
             super();
@@ -81,6 +84,9 @@ public class OverlayPane extends AnchorPane {
         }
     }
 
+    /**
+     * Subclass representing the label displaying the number of days from launch.
+     */
     private class DateLabel extends Label {
         DateLabel() {
             super("Day of Simulation: ");

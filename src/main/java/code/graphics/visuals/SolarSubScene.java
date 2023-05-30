@@ -60,11 +60,19 @@ public class SolarSubScene extends SubScene {
         SOLAR_GROUP.resizeObjects(zoomRatio);
     }
 
+    /**
+     * Makes the passed object stay in the middle of the screen.
+     *
+     * @param planetName name of the object
+     */
     public void setCurrentFocus(String planetName) {
         SOLAR_GROUP.setCurrentFocus(planetName);
         CAMERA.setMinZoom(-SOLAR_GROUP.getPlanetSphereByName(planetName).getMinRadius());
     }
 
+    /**
+     * Adds one piece of the trail at the coordinates of the Probe when run.
+     */
     public void addTrail(){
         SOLAR_GROUP.addTrail();
     }

@@ -1,5 +1,4 @@
 import code.model.objects.PlanetObject;
-import code.model.objects.ModeledObject;
 import code.utils.HelperFunctions;
 import org.junit.jupiter.api.Test;
 
@@ -12,8 +11,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class HelperFunctionsTest {
     @Test
     public void testGetDistanceBetween() {
-        ModeledObject one = new PlanetObject(new double[]{0, 0, 5}, new double[]{0, 0, 0});
-        ModeledObject two = new PlanetObject(new double[]{0, 0, 0}, new double[]{0, 0, 0});
+        PlanetObject one = new PlanetObject(new double[]{0, 0, 5}, new double[]{0, 0, 0});
+        PlanetObject two = new PlanetObject(new double[]{0, 0, 0}, new double[]{0, 0, 0});
         double expected = 5;
         double actual = HelperFunctions.getDistanceBetween(one, two);
         assertEquals(expected, actual);
