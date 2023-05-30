@@ -5,11 +5,6 @@ import code.utils.HelperFunctions;
 
 import java.util.*;
 
-//TODO boost velocity to fuel
-//TODO fix the queue
-//TODO add the limits to the boost from the req in manual
-
-
 public class Probe extends PlanetObject {
     private double shortestDistanceToTitan;
     private int probeNumber;
@@ -85,6 +80,7 @@ public class Probe extends PlanetObject {
         {
             if (time ==listOfBoosts.peek().getTimeOfBoost())
             {
+                System.out.println("boosted");
                 double[] probeVelocity=getVelocity();
                 double[] boostVelocity=listOfBoosts.poll().getVelocityOfBoost();
                 setVelocity(HelperFunctions.addition(probeVelocity,boostVelocity));

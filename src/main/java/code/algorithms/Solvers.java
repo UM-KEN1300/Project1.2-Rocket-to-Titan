@@ -7,8 +7,7 @@ public class Solvers {
     final static double G = PlanetObject.G;
 
 
-    private Solvers() {
-    }
+
 
 
     private static double accelerationFunction(double position1D, PlanetObject planetObject, PlanetObject otherObject, int i) {

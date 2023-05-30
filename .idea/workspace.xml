@@ -4,13 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="13cb742e-4cc8-4686-864c-bc5cb4fb0b5a" name="Changes" comment=".">
+    <list default="true" id="13cb742e-4cc8-4686-864c-bc5cb4fb0b5a" name="Changes" comment="fixed time in Visul">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/code/ProbeLauncher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/ProbeLauncher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/HillClimbingAlg.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/HillClimbingAlg.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/ModelRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/ModelRunner.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/Solvers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/Solvers.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/code/model/Model.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/model/Model.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/graphics/Visualizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/graphics/Visualizer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/code/model/objects/Probe.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/model/objects/Probe.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -49,25 +48,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "deletionFromPopupRequiresConfirmation": "false",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/Users/marcell/Documents/*School/Year 1/Semester 2/Project 1-2/Phase 2/Project1.2-Rocket-to-Titan",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "MavenSettings",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;deletionFromPopupRequiresConfirmation&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/marcell/Documents/*School/Year 1/Semester 2/Project 1-2/Phase 2/Project1.2-Rocket-to-Titan&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;MavenSettings&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
