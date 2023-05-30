@@ -12,7 +12,6 @@ public class HillClimbingAlg {
     final int ZMINUS = 6;
 
     public int[] HillClimbingAlg() {
-
         Random rn = new Random();
 
         int VelocityChange = 10;

@@ -164,25 +164,6 @@ public class Solvers {
 
     }
 
-    public static double [][] rungeKutta4Generic(double[][] y, int dimY, int dimVariables, double h, PlanetObject planetObject, PlanetObject otherObject, double[] var){
-        double[][] k1 = new double[dimY][dimVariables];
-        double[][] k2 = new double[dimY][dimVariables];
-        double[][] k3 = new double[dimY][dimVariables];
-        double[][] k4 = new double[dimY][dimVariables];
-
-        for (int i = 0; i < dimY; i++){
-            for (int j = 0; j < dimVariables; j++){
-                k1[i][j] = var[j] + accelerationFunction(y[i][j], planetObject, otherObject, j);
-                k2[i][j] = var[j] + accelerationFunction(y[i][j]+(k1[i][j]/2), planetObject, otherObject, j);
-                k3[i][j] = var[j] + accelerationFunction(y[i][j]+(k2[i][j]/2), planetObject, otherObject, j);
-                k4[i][j] = var[j] + accelerationFunction(y[i][j]+k3[i][j]*h, planetObject, otherObject, j);
-
-                y[i][j] = y[i][j] + (1/6)*(k1[i][j] + 2*k2[i][j] + 2*k3[i][j] + k4[i][j]);
-            }
-        }
-        return y;
-    }
-
     public static void heun3(PlanetObject planetObject, PlanetObject otherObject, double h){
         double [] velocityVector = planetObject.getVelocity();
         double [] positionalVector = planetObject.getCoordinates();
