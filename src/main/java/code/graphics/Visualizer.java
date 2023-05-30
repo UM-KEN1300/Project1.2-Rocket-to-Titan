@@ -83,9 +83,6 @@ public class Visualizer extends Application {
                     public void run() {
                         if (Model.getProbes().get(0).getDistanceToTitan() > Model.getProbes().get(0).getShortestDistanceToTitan()) {
                             Model.getProbes().get(0).setVelocity(new double[]{-128.99164151418873, 46.449291805183115, 3.3594162321263057});
-                            if (Model.getProbes().get(0).getDistanceToEarth() > Model.getProbes().get(0).getDistanceToEarth()) {
-
-                            }
                         }
                         for (int i = 0; i < 10; i++) {
                             double day = time / (60 * 60 * 24);

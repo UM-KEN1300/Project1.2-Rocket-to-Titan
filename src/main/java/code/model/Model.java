@@ -79,6 +79,13 @@ public class Model {
         return planets;
     }
 
+    public static void freezeModel(){
+        for(PlanetObject planet:getPlanetObjectsArrayList())
+            planet.setVelocity(new double[]{0, 0, 0});
+        for (Probe probe:getProbes())
+            probe.setVelocity(new double[]{0, 0, 0});
+    }
+
     /**
      * @return a List of Probe objects in the model
      */
