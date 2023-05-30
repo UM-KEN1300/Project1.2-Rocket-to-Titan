@@ -8,6 +8,7 @@ import java.util.*;
 
 public class Probe extends PlanetObject {
     private double shortestDistanceToTitan;
+    private double[] coordinatesOfShortestDistanceToTitan;
     private int probeNumber;
     private static int probeCounter = 0;
     private final Queue<Boost> listOfBoosts;
@@ -22,6 +23,7 @@ public class Probe extends PlanetObject {
         setCoordinates(initialPosition());
         setMass(50_000);
         shortestDistanceToTitan = getDistanceToTitan();
+        coordinatesOfShortestDistanceToTitan = new double[3];
     }
 
 
@@ -30,8 +32,11 @@ public class Probe extends PlanetObject {
         super.setCoordinates(coordinates);
 
         double distanceToTitan = getDistanceToTitan();
-        if (distanceToTitan < shortestDistanceToTitan)
+        if (distanceToTitan < shortestDistanceToTitan){
             shortestDistanceToTitan = distanceToTitan;
+            coordinatesOfShortestDistanceToTitan = coordinates;
+        }
+
     }
 
     private double[] initialPosition() {
@@ -51,6 +56,10 @@ public class Probe extends PlanetObject {
 
     public double getShortestDistanceToTitan() {
         return shortestDistanceToTitan;
+    }
+
+    public double[] getCoordinatesOfShortestDistanceToTitan(){
+        return coordinatesOfShortestDistanceToTitan;
     }
 
     public boolean areBoostsValid(double step) {
