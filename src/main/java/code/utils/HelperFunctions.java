@@ -3,6 +3,7 @@ package code.utils;
 
 import code.model.objects.ModeledObject;
 import code.model.objects.PlanetObject;
+import code.model.objects.Probe;
 
 /**
  * HelperFunctions class contains utility methods for operations on vectors.
@@ -122,7 +123,7 @@ public class HelperFunctions {
 //        double e = 0.001; // A small tolerance to account for rounding errors
 //        return Math.abs(centripetalForce - gravitationalForce) < e;
 //    }
-    public boolean isInOrbitDistance(PlanetObject myObj, PlanetObject planet){ //checks if myObj is in orbit distance of planet
+    public boolean isInOrbitDistance(Probe myObj, PlanetObject planet){ //checks if myObj is in orbit distance of planet
         boolean result;
         double radii = 2574.7; //supposed to be the sum of the radius of the 2 objects, but the probe is small and idk where to take the radius of titan from, will change later
         double distance = getDistanceBetween(myObj, planet);

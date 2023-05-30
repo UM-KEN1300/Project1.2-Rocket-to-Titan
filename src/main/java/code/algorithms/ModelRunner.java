@@ -100,20 +100,20 @@ public class ModelRunner {
         }
     }
 
-    public static void runnerForMultipleProbes(int numberOfDays, double accuracy, List<PlanetObject> planets, List<Probe> probes) {
-        ArrayList<PlanetObject> allObjects = new ArrayList<>(planets);
-        allObjects.addAll(probes);
-
-        for (int i = 0; i < (1 / accuracy) * 60 * 60 * 24 * numberOfDays; i += 1) {
-            for (PlanetObject evaluatedObject : allObjects.subList(1, allObjects.size())) {
-                evaluatedObject.initializeAcceleration();
-                for (PlanetObject otherPlanet : planets) {
-                    if (!evaluatedObject.equals(otherPlanet))
-                        Solvers.explicitEuler(evaluatedObject, otherPlanet, accuracy);
-                }
-            }
-        }
-    }
+//    public static void runnerForMultipleProbes(int numberOfDays, double accuracy, List<PlanetObject> planets, List<Probe> probes) {
+//        ArrayList<PlanetObject> allObjects = new ArrayList<>(planets);
+//        allObjects.addAll(probes);
+//
+//        for (int i = 0; i < (1 / accuracy) * 60 * 60 * 24 * numberOfDays; i += 1) {
+//            for (PlanetObject evaluatedObject : allObjects.subList(1, allObjects.size())) {
+//                evaluatedObject.initializeAcceleration();
+//                for (PlanetObject otherPlanet : planets) {
+//                    if (!evaluatedObject.equals(otherPlanet))
+//                        Solvers.explicitEuler(evaluatedObject, otherPlanet, accuracy);
+//                }
+//            }
+//        }
+//    }
 
 
 }
