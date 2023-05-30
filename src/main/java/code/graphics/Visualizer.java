@@ -26,6 +26,7 @@ public class Visualizer extends Application {
     private final double HEIGHT = Screen.getPrimary().getBounds().getHeight();
     private SolarSubScene solarSubScene;
     private OverlayPane overlayPane;
+    private double time=0;
     private final PlanetObject[] planets = new PlanetObject[]{
             Model.getPlanetObjects().get("Sun"),
             Model.getPlanetObjects().get("Mercury"),
@@ -86,13 +87,13 @@ public class Visualizer extends Application {
 
 
     private void calculation() {
-        double time=0;
+
         timer.schedule(
                 new java.util.TimerTask() {
                     @Override
                     public void run() {
                         for (int i = 0; i < 10; i++) {
-                            ModelRunner.runnerForGUI(time,10, 1, Model.getPlanetObjectsArrayList(),Model.getProbes());
+                           time= ModelRunner.runnerForGUI(time,10, 1, Model.getPlanetObjectsArrayList(),Model.getProbes());
                             Platform.runLater(() -> {
                                 solarSubScene.updateObjects();
                                 overlayPane.update();
