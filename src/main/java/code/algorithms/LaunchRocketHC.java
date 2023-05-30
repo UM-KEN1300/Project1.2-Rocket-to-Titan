@@ -7,6 +7,7 @@ import code.model.objects.Probe;
 import java.util.ArrayList;
 
 import static code.algorithms.ModelRunner.runnerForMultipleProbes;
+import static code.algorithms.ModelRunner.runnerForMultipleProbesChanged;
 import static code.model.Model.addProbe;
 
 public class LaunchRocketHC {

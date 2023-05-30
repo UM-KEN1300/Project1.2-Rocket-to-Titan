@@ -6,8 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="befef468-85dd-4357-a019-7cd94d9197bf" name="Changes" comment="Merge StamaMathjis into Main">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/code/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/code/ProbeLauncher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/ProbeLauncher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/HillClimbingAlgReturn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/HillClimbingAlgReturn.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/LaunchRocketHC.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/LaunchRocketHC.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/ModelRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/ModelRunner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/model/objects/PlanetObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/model/objects/PlanetObject.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,7 +28,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="boosterImplementation" />
+        <entry key="$PROJECT_DIR$" value="StamaMathijs" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -69,9 +72,22 @@
       <recent name="group1.project12group1" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.ProbeLauncher">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="code.Main" />
+      <module name="Project1-2-Group-1" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="code.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ProbeLauncher" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="code.ProbeLauncher" />
       <module name="Project1-2-Group-1" />
       <extension name="coverage">
         <pattern>
@@ -115,12 +131,14 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="Application.ProbeLauncher" />
       <item itemvalue="Application.Main" />
       <item itemvalue="JUnit.HelperFunctionsTest" />
       <item itemvalue="JUnit.PlanetObjectTest" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.ProbeLauncher" />
         <item itemvalue="Application.Main" />
         <item itemvalue="JUnit.PlanetObjectTest" />
         <item itemvalue="JUnit.HelperFunctionsTest" />

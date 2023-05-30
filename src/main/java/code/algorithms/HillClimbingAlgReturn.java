@@ -68,31 +68,37 @@ public class HillClimbingAlgReturn {
                     velocitiesOfRockets[INITIAL][X] = velocitiesOfRockets[XPLUS][X];
                     velocitiesOfRockets[INITIAL][Y] = velocitiesOfRockets[XPLUS][Y];
                     velocitiesOfRockets[INITIAL][Z] = velocitiesOfRockets[XPLUS][Z];
+                    bestCoordinates[X] = bestCoordinates[X] + VelocityChange;
                     break;
                 case XMINUS:
                     velocitiesOfRockets[INITIAL][X] = velocitiesOfRockets[XMINUS][X];
                     velocitiesOfRockets[INITIAL][Y] = velocitiesOfRockets[XMINUS][Y];
                     velocitiesOfRockets[INITIAL][Z] = velocitiesOfRockets[XMINUS][Z];
+                    bestCoordinates[X] = bestCoordinates[X] - VelocityChange;
                     break;
                 case YPLUS:
                     velocitiesOfRockets[INITIAL][X] = velocitiesOfRockets[YPLUS][X];
                     velocitiesOfRockets[INITIAL][Y] = velocitiesOfRockets[YPLUS][Y];
                     velocitiesOfRockets[INITIAL][Z] = velocitiesOfRockets[YPLUS][Z];
+                    bestCoordinates[Y] = bestCoordinates[Y] + VelocityChange;
                     break;
                 case YMINUS:
                     velocitiesOfRockets[INITIAL][X] = velocitiesOfRockets[YMINUS][X];
                     velocitiesOfRockets[INITIAL][Y] = velocitiesOfRockets[YMINUS][Y];
                     velocitiesOfRockets[INITIAL][Z] = velocitiesOfRockets[YMINUS][Z];
+                    bestCoordinates[Y] = bestCoordinates[Y] - VelocityChange;
                     break;
                 case ZPLUS:
                     velocitiesOfRockets[INITIAL][X] = velocitiesOfRockets[ZPLUS][X];
                     velocitiesOfRockets[INITIAL][Y] = velocitiesOfRockets[ZPLUS][Y];
                     velocitiesOfRockets[INITIAL][Z] = velocitiesOfRockets[ZPLUS][Z];
+                    bestCoordinates[Z] = bestCoordinates[Z] + VelocityChange;
                     break;
                 case ZMINUS:
                     velocitiesOfRockets[INITIAL][X] = velocitiesOfRockets[ZMINUS][X];
                     velocitiesOfRockets[INITIAL][Y] = velocitiesOfRockets[ZMINUS][Y];
                     velocitiesOfRockets[INITIAL][Z] = velocitiesOfRockets[ZMINUS][Z];
+                    bestCoordinates[Z] = bestCoordinates[Z] - VelocityChange;
                     break;
             }
             genCounter++;
