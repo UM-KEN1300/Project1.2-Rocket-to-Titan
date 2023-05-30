@@ -4,18 +4,25 @@ import code.model.objects.PlanetObject;
 import code.utils.HelperFunctions;
 
 public class Solvers {
-    final static double G = PlanetObject.G;
+    private final static double G = PlanetObject.G;
 
 
 
-
+    /**
+     * Approximates the acceleration between two PlanetObject objects using the formula for acceleration between two celestial bodies
+     *
+     * @param position1D   individual vector component of position
+     * @param planetObject the PlanetObject for which the acceleration is being calculated
+     * @param otherObject  the PlanetObject to which the current planet is being compared to
+     * @param i            int representing which component of the coordinates is being evaluated
+     * @return acceleration
+     */
 
     private static double accelerationFunction(double position1D, PlanetObject planetObject, PlanetObject otherObject, int i) {
-        double force = 0;
-        double acceleration = 0;
+        double force, acceleration, positionalDifference;
         double M1 = planetObject.getMass();
         double M2 = otherObject.getMass();
-        double positionalDifference = 0;
+
         double[] coordinates = planetObject.getCoordinates();
         double[] otherCoordinates = otherObject.getCoordinates();
 
@@ -29,208 +36,199 @@ public class Solvers {
         return acceleration;
     }
 
-
     /**
-     * @param acceleration is the all the accelerations that affect a planet
-     * @param step is amount of time we move the planet 1 second is 1
+     * The first order explicit Euler solver that approximates the new position and new velocity vectors
+     * with the help of the accelerationFunction() method
      *
-     * This is the Euler's solver that updates the planet position with step in time
+     * @param planetObject the PlanetObject for which the acceleration is being calculated
+     * @param otherObject  the PlanetObject with respect to which the changes are being calculated
+     * @param timeStep     double representing the time step
      */
-    public static void implicitEuler(PlanetObject planetObject, double[] acceleration, double step){
-        double[] velocityVector = planetObject.getVelocity();
-        double[] positionalVector = planetObject.getCoordinates();
-        for(int i = 0; i < 3; i++)
-        {
-            velocityVector[i] += acceleration[i] * step;
-            positionalVector[i] += velocityVector[i] * step;
-        }
-        planetObject.setVelocity(velocityVector);
-        planetObject.setCoordinates(positionalVector);
-    }
-
-    public static void rungeKutta4(PlanetObject planetObject, PlanetObject otherObject, double h) {
-        double[] velocityVector = planetObject.getVelocity();
-        double[] positionalVector = planetObject.getCoordinates();
-        double[] acceleration = planetObject.getAcceleration();
-        double[][] y = {positionalVector, velocityVector};
-
-        double[] kr1 = new double[3];
-        double[] kr2 = new double[3];
-        double[] kr3 = new double[3];
-        double[] kr4 = new double[3];
-        double[] kv1 = new double[3];
-        double[] kv2 = new double[3];
-        double[] kv3 = new double[3];
-        double[] kv4 = new double[3];
-
-        for (int i = 0; i < 3; i++) {
-            kv1[i] = acceleration[i] + accelerationFunction(positionalVector[i], planetObject, otherObject, i);
-            kr1[i] = velocityVector[i] * h;
-            kv2[i] = acceleration[i] + accelerationFunction(positionalVector[i] + (kr1[i] * (h / 2)), planetObject, otherObject, i);
-            kr2[i] = velocityVector[i] * (kv1[i] * (h / 2));
-            kv3[i] = acceleration[i] + accelerationFunction(positionalVector[i] + (kr2[i] * (h / 2)), planetObject, otherObject, i);
-            kr3[i] = velocityVector[i] * (kv2[i] * (h / 2));
-            kv4[i] = acceleration[i] + accelerationFunction(positionalVector[i] + (kr3[i] * (h / 2)), planetObject, otherObject, i);
-            kr4[i] = velocityVector[i] * (kv3[i] * h);
-
-            velocityVector[i] = velocityVector[i] + (h / 6) * (kv1[i] + 2 * kv2[i] + 2 * kv3[i] + kv4[i]);
-            positionalVector[i] = positionalVector[i] + (h / 6) * (kr1[i] + 2 * kr2[i] + 2 * kr3[i] + kr4[i]);
-        }
-
-        double newAcceleration[] = new double[3];
-        newAcceleration = HelperFunctions.addition(newAcceleration, planetObject.accelerationBetween(otherObject));
-
-        planetObject.setVelocity(velocityVector);
-        planetObject.setCoordinates(positionalVector);
-        planetObject.setAcceleration(newAcceleration);
-    }
-
-
-    public static void kutta3(PlanetObject planetObject, PlanetObject otherObject, double h){
-        double[] velocityVector = planetObject.getVelocity();
-        double[] positionalVector = planetObject.getCoordinates();
-        double[] acceleration = planetObject.getAcceleration();
-        double[] kv1 = new double[3];
-        double[] kv2 = new double[3];
-        double[] kv3 = new double[3];
-        double[] kr1 = new double[3];
-        double[] kr2 = new double[3];
-        double[] kr3 = new double[3];
-
-        for (int i = 0; i < 3; i++){
-            kr1[i] = h * velocityVector[i];
-            kv1[i] = acceleration[i] + accelerationFunction(positionalVector[i], planetObject, otherObject, i);
-            kr2[i] = h * (velocityVector[i] + kv1[i]/2);
-            kv2[i] = acceleration[i] + accelerationFunction(kr1[i]/2, planetObject, otherObject, i);
-            kr3[i] = h * (velocityVector[i] - kv1[i] + 2*kv2[i]);
-            kv3[i] = acceleration[i] + accelerationFunction(positionalVector[i] - kv1[i] + 2*kv2[i], planetObject, otherObject, i);
-
-            positionalVector[i] += (h/6)*(kr1[i] + 4*kr2[i] + kr3[i]);
-            velocityVector[i] += (h/6)*(kv1[i] + 4*kv2[i] + kv3[i]);
-        }
-
-        double[] newAcceleration = new double[3];
-        newAcceleration = HelperFunctions.addition(newAcceleration, planetObject.accelerationBetween(otherObject));
-        planetObject.setCoordinates(positionalVector);
-        planetObject.setVelocity(velocityVector);
-        planetObject.setAcceleration(newAcceleration);
-
-    }
-
-
-    public static void explicitEuler(PlanetObject planetObject, PlanetObject otherObject, double h){
+    public static void explicitEuler(PlanetObject planetObject, PlanetObject otherObject, double timeStep) {
+        //Initialize values
         double[] velocityVector = planetObject.getVelocity();
         double[] positionalVector = planetObject.getCoordinates();
         double[] acceleration = planetObject.getAcceleration();
 
         for (int i = 0; i < 3; i++) {
+            //Approximate the new values of acceleration, position and velocity
             acceleration[i] += accelerationFunction(positionalVector[i], planetObject, otherObject, i);
-            positionalVector[i] += velocityVector[i] * h;
-            velocityVector[i] += acceleration[i] * h;
+            positionalVector[i] += velocityVector[i] * timeStep;
+            velocityVector[i] += acceleration[i] * timeStep;
         }
 
+        //Update the new values
         planetObject.setVelocity(velocityVector);
         planetObject.setCoordinates(positionalVector);
         planetObject.setAcceleration(acceleration);
     }
 
 
-    public static void ralston2(PlanetObject planetObject, PlanetObject otherObject, double h){
+    /**
+     * Euler's solver that updates the planet position with step in time
+     *
+     * @param planetObject the PlanetObject for which the acceleration is being calculated
+     * @param acceleration all the accelerations that affect the body combined to one vector
+     * @param timeStep     double representing the time step (1 second is 1)
+     */
+    public static void implicitEuler(PlanetObject planetObject, double[] acceleration, double timeStep) {
+        double[] velocityVector = planetObject.getVelocity();
+        double[] positionalVector = planetObject.getCoordinates();
+        for (int i = 0; i < 3; i++) {
+            velocityVector[i] += acceleration[i] * timeStep;
+            positionalVector[i] += velocityVector[i] * timeStep;
+        }
+        planetObject.setVelocity(velocityVector);
+        planetObject.setCoordinates(positionalVector);
+    }
+
+    /**
+     * The fourth order Runge-Kutta solver that approximates the new position and new velocity vectors
+     * by calculating the acceleration via the accelerationFunction() method
+     *
+     * <p>It uses four intermediate values of k
+     * kvi being intermediate values for the velocity vector and kxi being the intermediate values for the positional
+     * vector
+     * </p>
+     *
+     * @param planetObject the PlanetObject for which the acceleration is being calculated
+     * @param otherObject  the PlanetObject with respect to which the changes are being calculated
+     * @param timeStep            double representing time step
+     */
+    public static void rungeKutta4(PlanetObject planetObject, PlanetObject otherObject, double timeStep) {
+        // Initialize values
+        double[] velocityVector = planetObject.getVelocity();
+        double[] positionalVector = planetObject.getCoordinates();
+        double[] acceleration = planetObject.getAcceleration();
+
+        double[] kx1 = new double[3];
+        double[] kx2 = new double[3];
+        double[] kx3 = new double[3];
+        double[] kx4 = new double[3];
+        double[] kv1 = new double[3];
+        double[] kv2 = new double[3];
+        double[] kv3 = new double[3];
+        double[] kv4 = new double[3];
+
+        for (int i = 0; i < 3; i++) {
+            //Calculate intermediate values k as vectors
+            kv1[i] = acceleration[i] + accelerationFunction(positionalVector[i], planetObject, otherObject, i);
+            kx1[i] = velocityVector[i] * timeStep;
+            kv2[i] = acceleration[i] + accelerationFunction(positionalVector[i] + (kx1[i] * (timeStep / 2)), planetObject, otherObject, i);
+            kx2[i] = velocityVector[i] * (kv1[i] * (timeStep / 2));
+            kv3[i] = acceleration[i] + accelerationFunction(positionalVector[i] + (kx2[i] * (timeStep / 2)), planetObject, otherObject, i);
+            kx3[i] = velocityVector[i] * (kv2[i] * (timeStep / 2));
+            kv4[i] = acceleration[i] + accelerationFunction(positionalVector[i] + (kx3[i] * (timeStep / 2)), planetObject, otherObject, i);
+            kx4[i] = velocityVector[i] * (kv3[i] * timeStep);
+
+            //Use intermediate values k to estimate new position and velocity
+            velocityVector[i] = velocityVector[i] + (timeStep / 6) * (kv1[i] + 2 * kv2[i] + 2 * kv3[i] + kv4[i]);
+            positionalVector[i] = positionalVector[i] + (timeStep / 6) * (kx1[i] + 2 * kx2[i] + 2 * kx3[i] + kx4[i]);
+        }
+        //Approximate the new value of acceleration
+        double newAcceleration[] = new double[3];
+        newAcceleration = HelperFunctions.addition(newAcceleration, planetObject.accelerationBetween(otherObject));
+
+        //Update the new values
+        planetObject.setVelocity(velocityVector);
+        planetObject.setCoordinates(positionalVector);
+        planetObject.setAcceleration(newAcceleration);
+    }
+
+
+    /**
+     * This is the second order Ralston's solver that approximates the new position and new velocity vectors
+     * by calculating the acceleration via the accelerationFunction() method.
+     *
+     * <p>
+     * It uses four intermediate values of k kvi being intermediate values for the velocity vector and
+     * kxi being the intermediate values for the positional vector
+     * </p>
+     *
+     * @param planetObject the PlanetObject for which the acceleration is being calculated
+     * @param otherObject  the PlanetObject with respect to which the changes are being calculated
+     * @param timeStep     double representing the time step
+     */
+    public static void ralston2(PlanetObject planetObject, PlanetObject otherObject, double timeStep) {
+        //Initialize the values
         double[] velocityVector = planetObject.getVelocity();
         double[] positionalVector = planetObject.getCoordinates();
         double[] acceleration = planetObject.getAcceleration();
         double kv1[] = new double[3];
         double kv2[] = new double[3];
-        double kr1[] = new double[3];
-        double kr2[] = new double[3];
+        double kx1[] = new double[3];
+        double kx2[] = new double[3];
 
-        for (int i = 0; i < 3; i++){
+        for (int i = 0; i < 3; i++) {
+            //Calculate the intermediate values of k as vectors
             kv1[i] = acceleration[i] + accelerationFunction(positionalVector[i], planetObject, otherObject, i);
-            kr1[i] = velocityVector[i] * h;
-            kv2[i] = acceleration[i] + accelerationFunction(positionalVector[i] + (kr1[i] * (2*h/3)), planetObject, otherObject, i);
-            kr2[i] = velocityVector[i] * (kv1[i] * (2*h/3));
+            kx1[i] = velocityVector[i] * timeStep;
+            kv2[i] = acceleration[i] + accelerationFunction(positionalVector[i] + (kx1[i] * (2 * timeStep / 3)), planetObject, otherObject, i);
+            kx2[i] = velocityVector[i] * (kv1[i] * (2 * timeStep / 3));
 
-            velocityVector[i] = velocityVector[i] + (h/4) * (kv1[i] + 3*kv2[i]);
-            positionalVector[i] = positionalVector[i] + (h/4) * (kr1[i] + 3*kr2[i]);
+            //Approximate the new values of position and velocity
+            velocityVector[i] = velocityVector[i] + (timeStep / 4) * (kv1[i] + 3 * kv2[i]);
+            positionalVector[i] = positionalVector[i] + (timeStep / 4) * (kx1[i] + 3 * kx2[i]);
         }
-
+        //Approximate the new value of acceleration
         double newAcceleration[] = new double[3];
         newAcceleration = HelperFunctions.addition(newAcceleration, planetObject.accelerationBetween(otherObject));
 
+        //Update the new values
         planetObject.setVelocity(velocityVector);
         planetObject.setCoordinates(positionalVector);
         planetObject.setAcceleration(newAcceleration);
 
     }
 
-    public static void heun3(PlanetObject planetObject, PlanetObject otherObject, double h){
-        double [] velocityVector = planetObject.getVelocity();
-        double [] positionalVector = planetObject.getCoordinates();
-        double [] acceleration = planetObject.getAcceleration();
-        double [] kr1 = new double [3];
-        double [] kr2 = new double [3];
-        double [] kr3 = new double [3];
-        double [] kv1 = new double [3];
-        double [] kv2 = new double [3];
-        double [] kv3 = new double [3];
 
-        for (int i = 0; i < 3; i++){
-            kr1[i] = h * velocityVector[i];
-            kv1[i] = acceleration[i] + accelerationFunction(positionalVector[i], planetObject, otherObject, i);
-            kr2[i] = h * (velocityVector[i] * (1/3)*kv1[i]);
-            kv2[i] = acceleration[i] + accelerationFunction(positionalVector[i] + (kr1[i]/3), planetObject, otherObject, i);
-            kr3[i] = h * (velocityVector[i] * (2/3)*kv2[i]);
-            kv3[i] = acceleration[i] + accelerationFunction(positionalVector[i] + (2/3)*kr2[i], planetObject, otherObject, i);
-
-            velocityVector[i] = velocityVector[i] + (h/4) * (kv1[i] + 3*kv3[i]);
-            positionalVector[i] = positionalVector[i] + (h/4) * (kr1[i] + 3*kr3[i]);
-        }
-
-        double newAcceleration[] = new double[3];
-        newAcceleration = HelperFunctions.addition(newAcceleration, planetObject.accelerationBetween(otherObject));
-
-        planetObject.setVelocity(velocityVector);
-        planetObject.setCoordinates(positionalVector);
-        planetObject.setAcceleration(newAcceleration);
-    }
-
-
-    public static void midPoint(PlanetObject planetObject, PlanetObject otherObject, double h) {
+    /**
+     * The third order Heun's solver that approximates the new position and new velocity vectors
+     * by calculating the acceleration via the accelerationFunction() method.
+     *
+     * <p>
+     * Uses four intermediate values of k kvi being intermediate values for the velocity vector and
+     * kxi being the intermediate values for the positional vector
+     * </p>
+     *
+     * @param planetObject the PlanetObject for which the acceleration is being calculated
+     * @param otherObject  the PlanetObject with respect to which the changes are being calculated
+     * @param timeStep     double representing the time step
+     */
+    public static void heun3(PlanetObject planetObject, PlanetObject otherObject, double timeStep) {
+        //Initialize values
         double[] velocityVector = planetObject.getVelocity();
         double[] positionalVector = planetObject.getCoordinates();
-        double[] newPositionalVector = new double[3];
-        double[] newVelocityVector = new double[3];
         double[] acceleration = planetObject.getAcceleration();
-        double[] kv1 = new double [3];
-        double[] newAcceleration = new double[3];
-
+        double[] kx1 = new double[3];
+        double[] kx2 = new double[3];
+        double[] kx3 = new double[3];
+        double[] kv1 = new double[3];
+        double[] kv2 = new double[3];
+        double[] kv3 = new double[3];
 
         for (int i = 0; i < 3; i++) {
-            kv1[i] = acceleration[i] + (0.5 * accelerationFunction(positionalVector[i], planetObject, otherObject, i) * h);
-            newPositionalVector[i] = positionalVector[i] + (0.5 * velocityVector[i] * h);
-            newVelocityVector[i] = velocityVector[i] + kv1[i];
-        }
-        for (int i = 0; i < 3; i++) {
-            kv1[i] = acceleration[i] + (accelerationFunction(newPositionalVector[i], planetObject, otherObject, i) * h);
-            velocityVector[i] = velocityVector[i] + acceleration[i];
-            positionalVector[i] = positionalVector[i] + (newVelocityVector[i] * h);
-        }
+            //Calculate the intermediate values of k as vectors
+            kx1[i] = timeStep * velocityVector[i];
+            kv1[i] = acceleration[i] + accelerationFunction(positionalVector[i], planetObject, otherObject, i);
+            kx2[i] = timeStep * (velocityVector[i] * (1 / 3) * kv1[i]);
+            kv2[i] = acceleration[i] + accelerationFunction(positionalVector[i] + (kx1[i] / 3), planetObject, otherObject, i);
+            kx3[i] = timeStep * (velocityVector[i] * (2 / 3) * kv2[i]);
+            kv3[i] = acceleration[i] + accelerationFunction(positionalVector[i] + (2 / 3) * kx2[i], planetObject, otherObject, i);
 
+            //Approximate the new values of position and velocity
+            velocityVector[i] = velocityVector[i] + (timeStep / 4) * (kv1[i] + 3 * kv3[i]);
+            positionalVector[i] = positionalVector[i] + (timeStep / 4) * (kx1[i] + 3 * kx3[i]);
+        }
+        //Approximate the new acceleration
+        double newAcceleration[] = new double[3];
         newAcceleration = HelperFunctions.addition(newAcceleration, planetObject.accelerationBetween(otherObject));
 
+        //Update the new values
         planetObject.setVelocity(velocityVector);
         planetObject.setCoordinates(positionalVector);
         planetObject.setAcceleration(newAcceleration);
+
     }
 
-    public static void fastEuler(PlanetObject planetObject, double[] acceleration, double step) {
-        double[] velocityVector = planetObject.getVelocity();
-        double[] positionalVector = planetObject.getCoordinates();
-        for (int i = 0; i < 3; i++) {
-            velocityVector[i] += acceleration[i] * step;
-            positionalVector[i] += velocityVector[i] * step;
-        }
-        planetObject.setVelocity(velocityVector);
-        planetObject.setCoordinates(positionalVector);
-    }
 }

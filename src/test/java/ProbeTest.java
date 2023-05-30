@@ -1,7 +1,7 @@
 import code.model.Model;
 import code.model.data.loaders.FileDataLoader;
+import code.model.objects.Boost;
 import code.model.objects.Probe;
-import code.model.objects.Probe.Boost;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

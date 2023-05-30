@@ -31,16 +31,16 @@ public class Model {
     public static Map<String, PlanetObject> getPlanetObjects() {
         return getInstance().planetObjects;
     }
+
     public static PlanetObject[] getPlanetObjectsArray() {
-        Map<String, PlanetObject> planets=getInstance().planetObjects;
+        Map<String, PlanetObject> planets = getInstance().planetObjects;
 
         return planets.values().toArray(new PlanetObject[planets.size()]);
     }
 
-    public static ArrayList<PlanetObject> getPlanetObjectsArrayList()
-    {
+    public static ArrayList<PlanetObject> getPlanetObjectsArrayList() {
         ArrayList<PlanetObject> planets = new ArrayList<>();
-        planets.add( Model.getPlanetObjects().get("Sun"));
+        planets.add(Model.getPlanetObjects().get("Sun"));
         planets.add(Model.getPlanetObjects().get("Mercury"));
         planets.add(Model.getPlanetObjects().get("Venus"));
         planets.add(Model.getPlanetObjects().get("Earth"));
@@ -61,6 +61,11 @@ public class Model {
 
     public static void addProbe(Probe probe) {
         getInstance().probes.add(probe);
+    }
+
+    public static void chooseProbe(Probe probe){
+        getInstance().probes = new ArrayList<>();
+        addProbe(probe);
     }
 
     public void loadData(DataLoader dataLoader) {
@@ -89,7 +94,7 @@ public class Model {
         }
     }
 
-    private void loadMass(){
+    private void loadMass() {
         try (InputStream inputStream = getClass().getResourceAsStream("/model/mass.xlsx")) {
             assert inputStream != null;
             try (Workbook workbook = new XSSFWorkbook(inputStream)) {
