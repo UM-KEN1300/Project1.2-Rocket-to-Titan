@@ -32,7 +32,6 @@ public class LaunchRocketFromTitan {
     public double[] launchSevenRocketsReturn(double[][] velocitiesOfRockets, double accuracySolvers) {
         System.out.println("Running...");
 
-       
 //        double[] bestCoordinates = bestProbeCoordinates; //coordinates of best rocket
 
         Probe initialRocket = new Probe();
