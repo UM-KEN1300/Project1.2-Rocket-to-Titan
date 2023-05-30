@@ -5,7 +5,6 @@ import code.model.data.loaders.FileDataLoader;
 import code.model.objects.Probe;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import static code.algorithms.ModelRunner.runnerForMultipleProbes;
 import static code.model.Model.addProbe;

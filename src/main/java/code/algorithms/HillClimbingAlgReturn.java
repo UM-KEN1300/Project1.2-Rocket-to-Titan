@@ -2,7 +2,6 @@ package code.algorithms;
 
 import java.util.Arrays;
 import java.util.Random;
-import code.algorithms.LaunchRocketFromTitan;
 
 
 public class HillClimbingAlgReturn {
