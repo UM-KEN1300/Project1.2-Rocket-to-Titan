@@ -7,7 +7,6 @@ import code.graphics.visuals.controllers.SolarKeyController;
 import code.graphics.visuals.controllers.SolarMouseController;
 import code.graphics.visuals.controllers.SolarScrollController;
 import code.model.Model;
-import code.model.objects.PlanetObject;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -20,27 +19,17 @@ import javafx.stage.Stage;
 
 import java.util.Timer;
 
+/**
+ * Main graphic class which sets up the Scene and runs the engine which updates all 3D representations of
+ * objects in the model in real-time.
+ */
 public class Visualizer extends Application {
     public static final int SCALE = 50; // don't change this
     private final double WIDTH = Screen.getPrimary().getBounds().getWidth();
     private final double HEIGHT = Screen.getPrimary().getBounds().getHeight();
     private SolarSubScene solarSubScene;
     private OverlayPane overlayPane;
-    private double time=0;
-    private final PlanetObject[] planets = new PlanetObject[]{
-            Model.getPlanetObjects().get("Sun"),
-            Model.getPlanetObjects().get("Mercury"),
-            Model.getPlanetObjects().get("Venus"),
-            Model.getPlanetObjects().get("Earth"),
-            Model.getPlanetObjects().get("Moon"),
-            Model.getPlanetObjects().get("Mars"),
-            Model.getPlanetObjects().get("Jupiter"),
-            Model.getPlanetObjects().get("Saturn"),
-            Model.getPlanetObjects().get("Titan"),
-            Model.getPlanetObjects().get("Neptune"),
-            Model.getPlanetObjects().get("Uranus"),
-            Model.getProbes().get(0)
-    };
+    private double time = 0;
     private Timer timer;
     private int count;
 
@@ -92,10 +81,9 @@ public class Visualizer extends Application {
                     @Override
                     public void run() {
                         for (int i = 0; i < 10; i++) {
-                            time = ModelRunner.runnerForGUI(time, 180, 1, Model.getPlanetObjectsArrayList(), Model.getProbes());
-                            double day = time / (  60 * 60 * 24);
-                            //System.out.println(day);
-                            time= ModelRunner.runnerForGUI(time,20, 4, Model.getPlanetObjectsArrayList(),Model.getProbes());
+                            double day = time / (60 * 60 * 24);
+                            if (day < 20)
+                                time = ModelRunner.runnerForGUI(time, 20, 4, Model.getPlanetObjectsArrayList(), Model.getProbes());
                             Platform.runLater(() -> {
                                 solarSubScene.update();
                                 overlayPane.update();

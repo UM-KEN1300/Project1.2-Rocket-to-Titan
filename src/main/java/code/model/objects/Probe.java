@@ -5,25 +5,35 @@ import code.utils.HelperFunctions;
 
 import java.util.*;
 
+/**
+ * Class representing a spacecraft in the model. Extends the PlanetObject class.
+ */
 public class Probe extends PlanetObject {
     private double shortestDistanceToTitan;
-    private int probeNumber;
-    private static int probeCounter=0;
+    private final int PROBE_NUMBER;
+    private static int probeCounter = 0;
     private final Queue<Boost> listOfBoosts;
     private double fuelUsed;
 
+
     public Probe() {
-        super(new double[3], new double[]{0,0,0});
-        probeNumber=probeCounter;
+        super(new double[3], new double[]{0, 0, 0});
+        PROBE_NUMBER = probeCounter;
         probeCounter++;
-        listOfBoosts=new PriorityQueue<Boost>();
+        listOfBoosts = new PriorityQueue<>();
         setCoordinates(initialPosition());
         setMass(50_000);
         shortestDistanceToTitan = getDistanceToTitan();
     }
 
 
-
+    /**
+     * Overrides the PlanetObject class's method. Apart from assigning the new coordinates
+     * also checks the Probe's distance to Titan. If this distance is the lowest noted distance,
+     * assigns it to the shortestDistanceToTitan field.
+     *
+     * @param coordinates an array of doubles representing the new coordinates for the modeled object.
+     */
     @Override
     public void setCoordinates(double[] coordinates) {
         super.setCoordinates(coordinates);
@@ -51,16 +61,13 @@ public class Probe extends PlanetObject {
         return shortestDistanceToTitan;
     }
 
-    public boolean areBoostsValid(double step)
-    {
-        double maxImpulse=3*(Math.pow(10,7))*step;
-        ArrayList<Boost> list = new ArrayList<Boost>(listOfBoosts);
-        for(Boost boost:list)
-        {
-            if(boost.getFuel()>maxImpulse)
-            {
-                System.out.println("Max is"+maxImpulse);
-                System.out.println("Boots is"+boost.getFuel());
+    public boolean areBoostsValid(double step) {
+        double maxImpulse = 3 * (Math.pow(10, 7)) * step;
+        ArrayList<Boost> list = new ArrayList<>(listOfBoosts);
+        for (Boost boost : list) {
+            if (boost.getFuel() > maxImpulse) {
+                System.out.println("Max is" + maxImpulse);
+                System.out.println("Boots is" + boost.getFuel());
                 return false;
 
             }
@@ -68,39 +75,32 @@ public class Probe extends PlanetObject {
         return true;
     }
 
-    public void addBoost(Boost boost)
-    {
+    public void addBoost(Boost boost) {
         listOfBoosts.add(boost);
-        fuelUsed+=boost.getFuel();
+        fuelUsed += boost.getFuel();
     }
 
-    public void BoosterMECH(double time)
-    {
-        if(listOfBoosts.peek()!=null)
-        {
-            if (time ==listOfBoosts.peek().getTimeOfBoost())
-            {
+    public void BoosterMECH(double time) {
+        if (listOfBoosts.peek() != null) {
+            if (time == listOfBoosts.peek().getTimeOfBoost()) {
                 System.out.println("boosted");
-                double[] probeVelocity=getVelocity();
-                double[] boostVelocity=listOfBoosts.poll().getVelocityOfBoost();
-                setVelocity(HelperFunctions.addition(probeVelocity,boostVelocity));
+                double[] probeVelocity = getVelocity();
+                double[] boostVelocity = listOfBoosts.poll().getVelocityOfBoost();
+                setVelocity(HelperFunctions.addition(probeVelocity, boostVelocity));
             }
         }
     }
 
-    public int getProbeNumber()
-    {
-        return probeNumber;
+    public int getProbeNumber() {
+        return PROBE_NUMBER;
     }
 
-    public double getFuelUsed()
-    {
+    public double getFuelUsed() {
         return fuelUsed;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "Probe{" +
                 "shortestDistanceToTitan=" + shortestDistanceToTitan +
                 ", listOfBoosts=" + listOfBoosts +

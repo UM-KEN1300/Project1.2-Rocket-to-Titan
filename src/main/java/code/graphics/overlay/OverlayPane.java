@@ -29,7 +29,7 @@ public class OverlayPane extends AnchorPane {
         DISTANCE_LABEL = new ProbeStatsLabel();
         getChildren().add(new GuideLabel());
         getChildren().add(DISTANCE_LABEL);
-        getChildren().add(new DateLabel());
+//        getChildren().add(new DateLabel());
 
         DF = new DecimalFormat("#.###");
         DF.setRoundingMode(RoundingMode.HALF_UP);

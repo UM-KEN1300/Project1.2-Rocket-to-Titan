@@ -13,7 +13,7 @@ public class ProbeTest {
 
     @BeforeEach
     public void setUp() {
-        Model.getInstance().loadData(new FileDataLoader());
+        Model.loadData(new FileDataLoader());
         probe = new Probe();
     }
 
