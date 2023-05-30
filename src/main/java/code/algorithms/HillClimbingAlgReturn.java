@@ -100,7 +100,7 @@ public class HillClimbingAlgReturn {
         }
     }
 
-    public static int findSmallest(double[] distances) {
+    public static int findSmallest(double[] distances) { //actual findSmallest
         int smallestIndex = 0;
         for (int i = 1; i < distances.length; i++) {
             if (distances[i] < distances[smallestIndex])

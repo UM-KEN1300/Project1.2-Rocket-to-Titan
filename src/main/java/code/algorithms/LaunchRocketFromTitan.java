@@ -81,8 +81,10 @@ public class LaunchRocketFromTitan {
         Model.addProbe(yMinusRocket);
         Model.addProbe(zPlusRocket);
         Model.addProbe(zMinusRocket);
+
         System.out.println("Initial position of earth: " + Model.getPlanetObjects().get("Earth").getCoordinates()[0]);
         runnerForMultipleProbes(365, accuracySolvers, Model.getPlanetObjectsArrayList(), Model.getProbes());
+        System.out.println("");
         System.out.println("Distances from Earth: " + initialRocket.getDistanceToEarth() + "   " +
                 xPlusRocket.getDistanceToEarth() + "   " +
                 xMinusRocket.getDistanceToEarth() + "   " +
