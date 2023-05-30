@@ -3,9 +3,15 @@ package code.algorithms;
 import code.model.objects.PlanetObject;
 import code.utils.HelperFunctions;
 
+/**
+ * Class containing methods with various solver implementations with methods
+ */
 public class Solvers {
     private final static double G = PlanetObject.G;
 
+
+    private Solvers() {
+    }
 
 
     /**

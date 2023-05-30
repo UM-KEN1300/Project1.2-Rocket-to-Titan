@@ -12,6 +12,10 @@ import javafx.scene.text.TextAlignment;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
+/**
+ * Defines an AnchorPane with some pre-defined labels which will display on top of the visualization and provide
+ * information about the model in real time.
+ */
 public class OverlayPane extends AnchorPane {
     private final ProbeStatsLabel DISTANCE_LABEL;
     private final DecimalFormat DF;
@@ -34,11 +38,17 @@ public class OverlayPane extends AnchorPane {
     }
 
 
+    /**
+     * Updates the labels
+     */
     public void update() {
         String labelText = "Distance to Titan: " + DF.format(PROBE.getDistanceToTitan()) + " km\nFuel used: " + DF.format(PROBE.getFuelUsed());
         DISTANCE_LABEL.setText(labelText);
     }
 
+    /**
+     * Subclass defining the Label object displaying a guide to which key
+     */
     private class GuideLabel extends Label {
         GuideLabel() {
             super("""

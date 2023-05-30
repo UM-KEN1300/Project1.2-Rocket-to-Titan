@@ -71,7 +71,7 @@ public class Probe extends PlanetObject {
     public void addBoost(Boost boost)
     {
         listOfBoosts.add(boost);
-        fuelUsed+=boost.fuel;
+        fuelUsed+=boost.getFuel();
     }
 
     public void BoosterMECH(double time)
@@ -106,35 +106,5 @@ public class Probe extends PlanetObject {
                 ", listOfBoosts=" + listOfBoosts +
                 ", fuelUsed=" + fuelUsed +
                 '}';
-    }
-
-    public static class Boost implements Comparable
-    {
-        private double timeOfBoost;
-        private double[] velocityOfBoost;
-        private double fuel;
-        public Boost(double time,double[] velocityOfBoost)
-        {
-            this.timeOfBoost=time;
-            this.velocityOfBoost=velocityOfBoost;
-            //calculate the fuel used by the boost
-            fuel=HelperFunctions.getVectorMagnitude(velocityOfBoost)*50_000;
-        }
-
-
-        public double getTimeOfBoost() {return timeOfBoost;}
-
-        public double[] getVelocityOfBoost() {return velocityOfBoost;}
-
-        public double getFuel()
-        {
-            return fuel;
-        }
-
-        @Override
-        public int compareTo(Object o)
-        {
-            return 0;
-        }
     }
 }
