@@ -7,6 +7,7 @@ import code.graphics.visuals.controllers.SolarKeyController;
 import code.graphics.visuals.controllers.SolarMouseController;
 import code.graphics.visuals.controllers.SolarScrollController;
 import code.model.Model;
+import code.model.objects.Boost;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -80,9 +81,15 @@ public class Visualizer extends Application {
                 new java.util.TimerTask() {
                     @Override
                     public void run() {
+                        if (Model.getProbes().get(0).getDistanceToTitan() > Model.getProbes().get(0).getShortestDistanceToTitan()) {
+                            Model.getProbes().get(0).setVelocity(new double[]{-128.99164151418873, 46.449291805183115, 3.3594162321263057});
+                            if (Model.getProbes().get(0).getDistanceToEarth() > Model.getProbes().get(0).getDistanceToEarth()) {
+
+                            }
+                        }
                         for (int i = 0; i < 10; i++) {
                             double day = time / (60 * 60 * 24);
-                            time = ModelRunner.runnerForGUI(time, 20, 4, Model.getPlanetObjectsArrayList(), Model.getProbes());
+                            time = ModelRunner.runnerForGUI(time, 180, 4, Model.getPlanetObjectsArrayList(), Model.getProbes());
                             Platform.runLater(() -> {
                                 solarSubScene.update();
                                 overlayPane.update(day);
@@ -90,7 +97,7 @@ public class Visualizer extends Application {
                         }
 
                         count++;
-                        if (count % 100 == 0)
+                        if (count % 25 == 0)
                             Platform.runLater(() -> solarSubScene.addTrail());
                     }
                 }, 0, 1);
