@@ -2,6 +2,7 @@ package code.algorithms;
 
 import code.model.Model;
 import code.model.data.loaders.FileDataLoader;
+import code.model.objects.Boost;
 import code.model.objects.Probe;
 import code.utils.HelperFunctions;
 
@@ -40,37 +41,37 @@ public class LaunchRocketFromTitan {
 
         Probe initialRocket = new Probe();
         initialRocket.setCoordinates(bestProbeCoordinates);
-        Probe.Boost boost1 = new Probe.Boost(0,velocitiesOfRockets[INITIAL]);
+        Boost boost1 = new Boost(0,velocitiesOfRockets[INITIAL]);
         initialRocket.addBoost(boost1);
 
         Probe xPlusRocket = new Probe();
         xPlusRocket.setCoordinates(bestProbeCoordinates);
-        Probe.Boost boost2 = new Probe.Boost(0,velocitiesOfRockets[XPLUS]);
+        Boost boost2 = new Boost(0,velocitiesOfRockets[XPLUS]);
         xPlusRocket.addBoost(boost2);
 
         Probe xMinusRocket = new Probe();
         xMinusRocket.setCoordinates(bestProbeCoordinates);
-        Probe.Boost boost3 = new Probe.Boost(0,velocitiesOfRockets[XMINUS]);
+        Boost boost3 = new Boost(0,velocitiesOfRockets[XMINUS]);
         xMinusRocket.addBoost(boost3);
 
         Probe yPlusRocket = new Probe();
         yPlusRocket.setCoordinates(bestProbeCoordinates);
-        Probe.Boost boost4 = new Probe.Boost(0,velocitiesOfRockets[YPLUS]);
+        Boost boost4 = new Boost(0,velocitiesOfRockets[YPLUS]);
         yPlusRocket.addBoost(boost4);
 
         Probe yMinusRocket = new Probe();
         yMinusRocket.setCoordinates(bestProbeCoordinates);
-        Probe.Boost boost5 = new Probe.Boost(0,velocitiesOfRockets[YMINUS]);
+        Boost boost5 = new Boost(0,velocitiesOfRockets[YMINUS]);
         yMinusRocket.addBoost(boost5);
 
         Probe zPlusRocket = new Probe();
         zPlusRocket.setCoordinates(bestProbeCoordinates);
-        Probe.Boost boost6 = new Probe.Boost(0,velocitiesOfRockets[ZPLUS]);
+        Boost boost6 = new Boost(0,velocitiesOfRockets[ZPLUS]);
         zPlusRocket.addBoost(boost6);
 
         Probe zMinusRocket = new Probe();
         zMinusRocket.setCoordinates(bestProbeCoordinates);
-        Probe.Boost boost7 = new Probe.Boost(0,velocitiesOfRockets[ZMINUS]);
+        Boost boost7 = new Boost(0,velocitiesOfRockets[ZMINUS]);
         zMinusRocket.addBoost(boost7);
 
 
