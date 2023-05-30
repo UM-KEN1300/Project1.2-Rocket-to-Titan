@@ -40,7 +40,7 @@ public class SolarSubScene extends SubScene {
     /**
      * Updates the positions of all 3D objects representations.
      */
-    public void updateObjects() {
+    public void update() {
         SOLAR_GROUP.updateGroup();
     }
 

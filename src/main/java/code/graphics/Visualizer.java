@@ -87,21 +87,20 @@ public class Visualizer extends Application {
 
 
     private void calculation() {
-
         timer.schedule(
                 new java.util.TimerTask() {
                     @Override
                     public void run() {
                         for (int i = 0; i < 10; i++) {
-                           time= ModelRunner.runnerForGUI(time,10, 1, Model.getPlanetObjectsArrayList(),Model.getProbes());
+                           time= ModelRunner.runnerForGUI(time,180, 1, Model.getPlanetObjectsArrayList(),Model.getProbes());
                             Platform.runLater(() -> {
-                                solarSubScene.updateObjects();
+                                solarSubScene.update();
                                 overlayPane.update();
                             });
                         }
 
                         count++;
-                        if (count % 5 == 0)
+                        if (count % 100 == 0)
                             Platform.runLater(() -> solarSubScene.addTrail());
                     }
                 }, 0, 1);
