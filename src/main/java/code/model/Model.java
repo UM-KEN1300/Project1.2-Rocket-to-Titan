@@ -24,9 +24,11 @@ import java.util.*;
  * It loads the initial coordinates and velocities depending on the data loader.
  * </p>
  */
-public class Model {
+public class Model
+    {
     private Map<String, PlanetObject> planetObjects;
     private List<Probe> probes;
+
 
 
     private Model() {

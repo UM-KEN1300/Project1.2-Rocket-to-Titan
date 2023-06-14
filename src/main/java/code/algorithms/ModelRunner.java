@@ -1,10 +1,9 @@
 package code.algorithms;
 
-import code.algorithms.solvers.AccelerationFunction;
-import code.algorithms.solvers.Solvers;
-import code.algorithms.solvers.Vector;
 import code.model.objects.PlanetObject;
 import code.model.objects.Probe;
+import code.utils.HelperFunctions;
+import code.utils.Time;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +21,15 @@ public class ModelRunner {
      * @param planetss     list of planets that are going to be run
      * @param probes       list of probes that are going to be run
      */
-    public static void runnerForMultipleProbes(int numberOfDays, double accuracy, List<PlanetObject> planetss, List<Probe> probes) {
+    private static Time time;
+
+    public ModelRunner(Time time)
+    {
+        //start time of the model
+        ModelRunner.time =time;
+    }
+
+    public  void runnerForMultipleProbes(int numberOfDays, double accuracy, List<PlanetObject> planetss, List<Probe> probes) {
         ArrayList<PlanetObject> allObjects = new ArrayList<>(planetss);
         allObjects.addAll(probes);
         PlanetObject[] planets = allObjects.toArray(new PlanetObject[allObjects.size()]);
@@ -36,41 +43,34 @@ public class ModelRunner {
                 System.out.println("The probe " + probe.getProbeNumber() + " with wrong boost");
             }
         }
-
+        System.out.println((1 / accuracy) * 60 * 60 * 24 * numberOfDays);
         if (!stopper) {
             for (int i = 0; i < (1 / accuracy) * 60 * 60 * 24 * numberOfDays; i += 1) {
-                if (i % ((1 / accuracy) * 60 * 60 * 24) == 0) {
+                //TODO under 1 second fix
+                time.addSeconds((int) accuracy);
+                if (i % ((1 / accuracy) * 60 * 60 * 24) == 0)
+                {
+
                     double day = i / ((1 / accuracy) * 60 * 60 * 24);
-//                    System.out.println("Day " + day);
+                   System.out.println("Day " + day);
                     for (Probe probe : probes) {
-                        probe.BoosterMECH(day);
+                        probe.BoosterMECH(time);
                     }
                 }
                 for (int j = 1; j < planets.length; j++) {
-                    for (int k = 0; k < planets.length - probes.size(); k++) {
-                        if (k != j) {
-                            double[] newVelocity = new double[3];
-                            double[] newCoordinates = new double[3];
-                            for (int l = 0; l < 3; l++) {
-                                AccelerationFunction acceleration = new AccelerationFunction(planets[j], planets[k], planets[j].getCoordinates()[l]);
-                                Vector y = new Vector();
-                                y.addFunction(acceleration);
-                                double[] y0 = {planets[k].getCoordinates()[l], planets[k].getVelocity()[l]};
-                                double[] solution = Solvers.eulerStep(y, y0, accuracy, 0);
-                                newVelocity[l] = solution[0];
-                                newCoordinates[l] = solution[1];
-                            }
-                            planets[j].setVelocity(newVelocity);
-                            planets[j].setCoordinates(newCoordinates);
-                        }
 
+                    double[] acc = new double[3];
+                    for (int k = 0; k < planets.length - probes.size(); k++) {
+
+                        if (k != j) {
+                            acc = HelperFunctions.addition(acc, planets[j].accelerationBetween(planets[k]));
+                        }
                     }
-//                    Solvers.implicitEuler(planets[j], acc, accuracy);
+                    Solvers.implicitEuler(planets[j], acc, accuracy);
                 }
             }
         }
     }
-
 
     /**
      * Runs the model forward with step updates the position of the Objects in the Model using Euler Solver
@@ -81,14 +81,13 @@ public class ModelRunner {
      * Boosts are checked inside as well, because the max F depends on the step size
      * </p>
      *
-     * @param time        keep track how long the model has been run in total
-     * @param smoothness  how smooth the planets are going to move in GUI
-     * @param accuracy    or step size for the Solver
-     * @param planetsList list of planets that are going to be run
-     * @param probes      list of probes that are going to be run
+     * @param smoothness how smooth the planets are going to move in GUI
+     * @param accuracy   or step size for the Solver
+     * @param planetsList   list of planets that are going to be run
+     * @param probes     list of probes that are going to be run
      * @return the amount of times runs and will update the amount of time the model was run for
      */
-    public static double runnerForGUI(double time, int smoothness, double accuracy, List<PlanetObject> planetsList, List<Probe> probes) {
+    public void runnerForGUI( int smoothness, double accuracy, List<PlanetObject> planetsList, List<Probe> probes) {
         ArrayList<PlanetObject> allObjects = new ArrayList<>(planetsList);
         allObjects.addAll(probes);
         PlanetObject[] planets = allObjects.toArray(new PlanetObject[allObjects.size()]);
@@ -102,53 +101,34 @@ public class ModelRunner {
             }
         }
 
-//        if (!stopper) {
-//            for (int i = 0; i < smoothness; i += 1) {
-//
-//                for (int j = 1; j < planets.length; j++) {
-//                    if (i % ((1 / accuracy) * 60 * 60 * 24) == 0) {
-//
-//                        double day = time / ((1 / accuracy) * 60 * 60 * 24);
-//                        for (Probe probe : probes) {
-//                            probe.BoosterMECH(day);
-//                        }
-//                    }
-//                    double[] acc = new double[3];
-//                    for (int k = 0; k < planets.length; k++) {
-//                        if (k != j) {
-//                            acc = HelperFunctions.addition(acc, planets[j].accelerationBetween(planets[k]));
-//                        }
-//                    }
-//                    Solvers.implicitEuler(planets[j], acc, accuracy);
-//                }
-//                time++;
-//            }
-//        }
         if (!stopper) {
             for (int i = 0; i < smoothness; i += 1) {
-                for (int j = 1; j < planets.length; j++) {
-                    for (int k = 0; k < planets.length - probes.size(); k++) {
-                        if (k != j) {
-                            double[] newVelocity = new double[3];
-                            double[] newCoordinates = new double[3];
-                            for (int l = 0; l < 3; l++) {
-                                AccelerationFunction acceleration = new AccelerationFunction(planets[j], planets[k], planets[j].getCoordinates()[l]);
-                                Vector y = new Vector();
-                                y.addFunction(acceleration);
-                                double[] y0 = {planets[k].getCoordinates()[l], planets[k].getVelocity()[l]};
-                                double[] solution = Solvers.eulerStep(y, y0, accuracy, 0);
-                                newVelocity[l] = solution[0];
-                                newCoordinates[l] = solution[1];
-                            }
-                            planets[j].setVelocity(newCoordinates);
-                            planets[j].setCoordinates(newVelocity);
-                        }
 
+                for (int j = 1; j < planets.length; j++) {
+                    if (i % ((1 / accuracy) * 60 * 60 * 24) == 0) {
+
+
+                        for (Probe probe : probes) {
+                            probe.BoosterMECH(time);
+
+
+                        }
                     }
-//                    Solvers.implicitEuler(planets[j], acc, accuracy);
+                    double[] acc = new double[3];
+                    for (int k = 0; k < planets.length; k++) {
+                        if (k != j) {
+                            acc = HelperFunctions.addition(acc, planets[j].accelerationBetween(planets[k]));
+                        }
+                    }
+                    Solvers.implicitEuler(planets[j], acc, accuracy);
                 }
+                time.addSeconds((int) accuracy);
             }
         }
+    }
+
+    public static Time getTime()
+    {
         return time;
     }
 }
