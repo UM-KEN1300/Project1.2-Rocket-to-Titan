@@ -2,11 +2,9 @@ package code.algorithms;
 
 import java.util.Arrays;
 import java.util.Random;
-import code.algorithms.LaunchRocketFromTitan;
 
 
 public class HillClimbingAlgReturn {
-
     private final int INITIAL = 0;
     private final int XPLUS = 1;
     private final int XMINUS = 2;

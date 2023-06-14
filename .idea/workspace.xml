@@ -5,12 +5,42 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="befef468-85dd-4357-a019-7cd94d9197bf" name="Changes" comment=".">
-      <change beforePath="$PROJECT_DIR$/src/main/java/code/TrajectorySimulation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/TrajectorySimulation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/solvers/AccelerationFunction.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/solvers/AnotherFunction.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/solvers/Function.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/solvers/MyFunction.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/solvers/SolverTester.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/solvers/Vector.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/solvers/VelocityFunction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2023-05-24,_15_09_[Changes]1/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2023-05-24__15_09__Changes_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2023-05-29,_11_28_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2023-05-29,_11_32_[Changes]1/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2023-05-29,_11_34_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2023-05-29__11_28__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2023-05-29__11_32__Changes_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2023-05-29__11_34__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2023-05-30,_16_29_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2023-05-30__16_29__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-05-30,_13_15_[Changes]1/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-05-30,_15_49_[Changes]1/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-05-30__13_15__Changes_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-05-30__15_49__Changes_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_29_05_2023,_22_12_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_29_05_2023__22_12__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/HillClimbingAlgReturn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/HillClimbingAlgReturn.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/ModelRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/ModelRunner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/Solvers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/solvers/Solvers.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/trajectory/Trajectory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/trajectory/Trajectory.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeInsightWorkspaceSettings">
+    <option name="optimizeImportsOnTheFly" value="true" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -50,7 +80,7 @@
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.ide.settings.new.ui&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -61,6 +91,7 @@
       <recent name="$PROJECT_DIR$/src/main/java" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/java/code/algorithms/solvers" />
       <recent name="$PROJECT_DIR$/src/test/java" />
       <recent name="$PROJECT_DIR$/src/main/resources/model" />
     </key>
@@ -207,6 +238,7 @@
       <workItem from="1684271461931" duration="2763000" />
       <workItem from="1684286667400" duration="9645000" />
       <workItem from="1685475925086" duration="5553000" />
+      <workItem from="1686751676334" duration="489000" />
     </task>
     <task id="LOCAL-00001" summary="WORKING HOW THIS SHIT WORKS">
       <created>1679319564168</created>
@@ -425,7 +457,14 @@
       <option name="project" value="LOCAL" />
       <updated>1685481581026</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary=".">
+      <created>1686700983144</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1686700983144</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

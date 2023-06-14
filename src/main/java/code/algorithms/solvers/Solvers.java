@@ -1,4 +1,4 @@
-package code.algorithms;
+package code.algorithms.solvers;
 
 import code.model.objects.PlanetObject;
 import code.utils.HelperFunctions;
@@ -87,6 +87,17 @@ public class Solvers {
         planetObject.setCoordinates(positionalVector);
     }
 
+    public static double[] eulerStep(Vector y, double[] y0, double h, double t) {
+        int vectorLength = y.getLength();
+        double[] w = y0;
+        for (int i = 0; i < vectorLength; i++) {
+            w[i] += h * (y.getFunction(i, y0[i], t));
+//            System.out.println("Function " + i + ": " + w[i]);
+        }
+        return w;
+    }
+
+
     /**
      * The fourth order Runge-Kutta solver that approximates the new position and new velocity vectors
      * by calculating the acceleration via the accelerationFunction() method
@@ -98,7 +109,7 @@ public class Solvers {
      *
      * @param planetObject the PlanetObject for which the acceleration is being calculated
      * @param otherObject  the PlanetObject with respect to which the changes are being calculated
-     * @param timeStep            double representing time step
+     * @param timeStep     double representing time step
      */
     public static void rungeKutta4(PlanetObject planetObject, PlanetObject otherObject, double timeStep) {
         // Initialize values
