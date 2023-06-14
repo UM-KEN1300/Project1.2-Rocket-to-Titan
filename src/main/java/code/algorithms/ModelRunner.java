@@ -3,6 +3,7 @@ package code.algorithms;
 import code.model.objects.PlanetObject;
 import code.model.objects.Probe;
 import code.utils.HelperFunctions;
+import code.utils.Time;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,15 @@ public class ModelRunner {
      * @param planetss     list of planets that are going to be run
      * @param probes       list of probes that are going to be run
      */
-    public static void runnerForMultipleProbes(int numberOfDays, double accuracy, List<PlanetObject> planetss, List<Probe> probes) {
+    private static Time time;
+
+    public ModelRunner(Time time)
+    {
+        //start time of the model
+        ModelRunner.time =time;
+    }
+
+    public  void runnerForMultipleProbes(int numberOfDays, double accuracy, List<PlanetObject> planetss, List<Probe> probes) {
         ArrayList<PlanetObject> allObjects = new ArrayList<>(planetss);
         allObjects.addAll(probes);
         PlanetObject[] planets = allObjects.toArray(new PlanetObject[allObjects.size()]);
@@ -34,15 +43,18 @@ public class ModelRunner {
                 System.out.println("The probe " + probe.getProbeNumber() + " with wrong boost");
             }
         }
-
+        System.out.println((1 / accuracy) * 60 * 60 * 24 * numberOfDays);
         if (!stopper) {
             for (int i = 0; i < (1 / accuracy) * 60 * 60 * 24 * numberOfDays; i += 1) {
+                //TODO under 1 second fix
+                time.addSeconds((int) accuracy);
+                if (i % ((1 / accuracy) * 60 * 60 * 24) == 0)
+                {
 
-                if (i % ((1 / accuracy) * 60 * 60 * 24) == 0) {
                     double day = i / ((1 / accuracy) * 60 * 60 * 24);
-//                    System.out.println("Day " + day);
+                   System.out.println("Day " + day);
                     for (Probe probe : probes) {
-                        probe.BoosterMECH(day);
+                        probe.BoosterMECH(time);
                     }
                 }
                 for (int j = 1; j < planets.length; j++) {
@@ -69,14 +81,13 @@ public class ModelRunner {
      * Boosts are checked inside as well, because the max F depends on the step size
      * </p>
      *
-     * @param time       keep track how long the model has been run in total
      * @param smoothness how smooth the planets are going to move in GUI
      * @param accuracy   or step size for the Solver
      * @param planetsList   list of planets that are going to be run
      * @param probes     list of probes that are going to be run
      * @return the amount of times runs and will update the amount of time the model was run for
      */
-    public static double runnerForGUI(double time, int smoothness, double accuracy, List<PlanetObject> planetsList, List<Probe> probes) {
+    public void runnerForGUI( int smoothness, double accuracy, List<PlanetObject> planetsList, List<Probe> probes) {
         ArrayList<PlanetObject> allObjects = new ArrayList<>(planetsList);
         allObjects.addAll(probes);
         PlanetObject[] planets = allObjects.toArray(new PlanetObject[allObjects.size()]);
@@ -96,9 +107,11 @@ public class ModelRunner {
                 for (int j = 1; j < planets.length; j++) {
                     if (i % ((1 / accuracy) * 60 * 60 * 24) == 0) {
 
-                        double day = time / ((1 / accuracy) * 60 * 60 * 24);
+
                         for (Probe probe : probes) {
-                            probe.BoosterMECH(day);
+                            probe.BoosterMECH(time);
+
+
                         }
                     }
                     double[] acc = new double[3];
@@ -109,9 +122,13 @@ public class ModelRunner {
                     }
                     Solvers.implicitEuler(planets[j], acc, accuracy);
                 }
-                time++;
+                time.addSeconds((int) accuracy);
             }
         }
+    }
+
+    public static Time getTime()
+    {
         return time;
     }
 }

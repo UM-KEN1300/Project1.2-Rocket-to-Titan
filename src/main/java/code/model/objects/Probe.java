@@ -2,6 +2,7 @@ package code.model.objects;
 
 import code.model.Model;
 import code.utils.HelperFunctions;
+import code.utils.Time;
 
 import java.util.*;
 
@@ -65,9 +66,9 @@ public class Probe extends PlanetObject {
         fuelUsed += boost.getFuel();
     }
 
-    public void BoosterMECH(double time) {
+    public void BoosterMECH(Time time) {
         if (listOfBoosts.peek() != null) {
-            if (time == listOfBoosts.peek().getTimeOfBoost()) {
+            if (time.equals( listOfBoosts.peek().getTimeOfBoost())) {
                 System.out.println("boosted");
                 double[] probeVelocity = getVelocity();
                 double[] boostVelocity = listOfBoosts.poll().getVelocityOfBoost();

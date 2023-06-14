@@ -5,7 +5,32 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="befef468-85dd-4357-a019-7cd94d9197bf" name="Changes" comment=".">
-      <change beforePath="$PROJECT_DIR$/src/main/java/code/TrajectorySimulation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/TrajectorySimulation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/code/utils/Time.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2023-05-24,_15_09_[Changes]1/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2023-05-24__15_09__Changes_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2023-05-29,_11_28_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2023-05-29,_11_32_[Changes]1/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2023-05-29,_11_34_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2023-05-29__11_28__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2023-05-29__11_32__Changes_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2023-05-29__11_34__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2023-05-30,_16_29_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2023-05-30__16_29__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-05-30,_13_15_[Changes]1/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-05-30,_15_49_[Changes]1/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-05-30__13_15__Changes_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-05-30__15_49__Changes_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_29_05_2023,_22_12_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_29_05_2023__22_12__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/LaunchRocketFromTitan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/LaunchRocketFromTitan.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/LaunchRocketHC.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/LaunchRocketHC.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/ModelRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/ModelRunner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/graphics/Visualizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/graphics/Visualizer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/model/Model.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/model/Model.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/model/objects/Boost.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/model/objects/Boost.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/model/objects/Probe.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/model/objects/Probe.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -207,6 +232,8 @@
       <workItem from="1684271461931" duration="2763000" />
       <workItem from="1684286667400" duration="9645000" />
       <workItem from="1685475925086" duration="5553000" />
+      <workItem from="1686678401081" duration="5748000" />
+      <workItem from="1686742608986" duration="7077000" />
     </task>
     <task id="LOCAL-00001" summary="WORKING HOW THIS SHIT WORKS">
       <created>1679319564168</created>

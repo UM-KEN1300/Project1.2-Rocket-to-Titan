@@ -8,6 +8,7 @@ import code.graphics.visuals.controllers.SolarMouseController;
 import code.graphics.visuals.controllers.SolarScrollController;
 import code.model.Model;
 import code.model.objects.Boost;
+import code.utils.Time;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -30,10 +31,10 @@ public class Visualizer extends Application {
     private final double HEIGHT = Screen.getPrimary().getBounds().getHeight();
     private SolarSubScene solarSubScene;
     private OverlayPane overlayPane;
-    private double time = 0;
+    private Time time;
     private Timer timer;
     private int count;
-
+    ModelRunner modelRunner;
 
     @Override
     public void start(Stage stage) {
@@ -77,16 +78,18 @@ public class Visualizer extends Application {
 
 
     private void calculation() {
+        Time startTime=new Time(2023,4,1);
+        modelRunner=new ModelRunner(startTime);
         timer.schedule(
                 new java.util.TimerTask() {
                     @Override
                     public void run() {
-                        if (Model.getProbes().get(0).getDistanceToTitan() > Model.getProbes().get(0).getShortestDistanceToTitan()) {
-                            Model.getProbes().get(0).setVelocity(new double[]{-128.99164151418873, 46.449291805183115, 3.3594162321263057});
-                        }
+
                         for (int i = 0; i < 10; i++) {
-                            double day = time / (60 * 60 * 24);
-                            time = ModelRunner.runnerForGUI(time, 180, 4, Model.getPlanetObjectsArrayList(), Model.getProbes());
+                            time =ModelRunner.getTime();
+                            double day = time.getTimeArr()[2];
+                            time =ModelRunner.getTime();
+                            modelRunner.runnerForGUI( 180, 1, Model.getPlanetObjectsArrayList(), Model.getProbes());
                             Platform.runLater(() -> {
                                 solarSubScene.update();
                                 overlayPane.update(day);

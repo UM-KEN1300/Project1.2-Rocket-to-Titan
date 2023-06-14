@@ -9,7 +9,9 @@ import code.utils.HelperFunctions;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static code.algorithms.ModelRunner.runnerForMultipleProbes;
+import  code.algorithms.ModelRunner;
+import code.utils.Time;
+
 import static code.model.Model.addProbe;
 
 public class LaunchRocketFromTitan {
@@ -36,42 +38,43 @@ public class LaunchRocketFromTitan {
 
     public double[] launchSevenRocketsReturn(double[][] velocitiesOfRockets, double accuracySolvers) {
         System.out.println("Running...");
-
+        Time startTime=new Time(2023,4,1);
+        ModelRunner modelRunner=new ModelRunner(startTime);
 //        double[] bestCoordinates = bestProbeCoordinates; //coordinates of best rocket
 
         Probe initialRocket = new Probe();
         initialRocket.setCoordinates(bestProbeCoordinates);
-        Boost boost1 = new Boost(0,velocitiesOfRockets[INITIAL]);
+        Boost boost1 = new Boost(startTime,velocitiesOfRockets[INITIAL]);
         initialRocket.addBoost(boost1);
 
         Probe xPlusRocket = new Probe();
         xPlusRocket.setCoordinates(bestProbeCoordinates);
-        Boost boost2 = new Boost(0,velocitiesOfRockets[XPLUS]);
+        Boost boost2 = new Boost(startTime,velocitiesOfRockets[XPLUS]);
         xPlusRocket.addBoost(boost2);
 
         Probe xMinusRocket = new Probe();
         xMinusRocket.setCoordinates(bestProbeCoordinates);
-        Boost boost3 = new Boost(0,velocitiesOfRockets[XMINUS]);
+        Boost boost3 = new Boost(startTime,velocitiesOfRockets[XMINUS]);
         xMinusRocket.addBoost(boost3);
 
         Probe yPlusRocket = new Probe();
         yPlusRocket.setCoordinates(bestProbeCoordinates);
-        Boost boost4 = new Boost(0,velocitiesOfRockets[YPLUS]);
+        Boost boost4 = new Boost(startTime,velocitiesOfRockets[YPLUS]);
         yPlusRocket.addBoost(boost4);
 
         Probe yMinusRocket = new Probe();
         yMinusRocket.setCoordinates(bestProbeCoordinates);
-        Boost boost5 = new Boost(0,velocitiesOfRockets[YMINUS]);
+        Boost boost5 = new Boost(startTime,velocitiesOfRockets[YMINUS]);
         yMinusRocket.addBoost(boost5);
 
         Probe zPlusRocket = new Probe();
         zPlusRocket.setCoordinates(bestProbeCoordinates);
-        Boost boost6 = new Boost(0,velocitiesOfRockets[ZPLUS]);
+        Boost boost6 = new Boost(startTime,velocitiesOfRockets[ZPLUS]);
         zPlusRocket.addBoost(boost6);
 
         Probe zMinusRocket = new Probe();
         zMinusRocket.setCoordinates(bestProbeCoordinates);
-        Boost boost7 = new Boost(0,velocitiesOfRockets[ZMINUS]);
+        Boost boost7 = new Boost(startTime,velocitiesOfRockets[ZMINUS]);
         zMinusRocket.addBoost(boost7);
 
 
@@ -84,7 +87,7 @@ public class LaunchRocketFromTitan {
         Model.addProbe(zMinusRocket);
 
         System.out.println("Initial position of earth: " + Model.getPlanetObjects().get("Earth").getCoordinates()[0]);
-        runnerForMultipleProbes(365, accuracySolvers, Model.getPlanetObjectsArrayList(), Model.getProbes());
+        modelRunner.runnerForMultipleProbes(365, accuracySolvers, Model.getPlanetObjectsArrayList(), Model.getProbes());
         System.out.println("");
         System.out.println("Distances from Earth: " + initialRocket.getDistanceToEarth() + "   " +
                 xPlusRocket.getDistanceToEarth() + "   " +

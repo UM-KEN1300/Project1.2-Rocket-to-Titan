@@ -1,6 +1,7 @@
 package code.model.objects;
 
 import code.utils.HelperFunctions;
+import code.utils.Time;
 
 /**
  * Class whose objects contain information about a single boost added to the spacecraft (Probe object).
@@ -10,7 +11,7 @@ import code.utils.HelperFunctions;
  * </p>
  */
 public class Boost implements Comparable<Boost> {
-    private final double timeOfBoost;
+    private final Time timeOfBoost;
     private final double[] velocityOfBoost;
     private final double fuel;
 
@@ -20,14 +21,14 @@ public class Boost implements Comparable<Boost> {
      * @param velocityOfBoost double array representing a vector containing values of
      *                        the boost's velocity in three dimensions
      */
-    public Boost(double time, double[] velocityOfBoost) {
+    public Boost(Time time, double[] velocityOfBoost) {
         this.timeOfBoost = time;
         this.velocityOfBoost = velocityOfBoost;
         fuel = HelperFunctions.getVectorMagnitude(velocityOfBoost) * 50_000;
     }
 
 
-    public double getTimeOfBoost() {
+    public Time getTimeOfBoost() {
         return timeOfBoost;
     }
 
@@ -41,6 +42,6 @@ public class Boost implements Comparable<Boost> {
 
     @Override
     public int compareTo(Boost other) {
-        return Double.compare(this.timeOfBoost, other.timeOfBoost);
+        return 1;
     }
 }
