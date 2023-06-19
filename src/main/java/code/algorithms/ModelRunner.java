@@ -1,5 +1,6 @@
 package code.algorithms;
 
+import code.algorithms.solvers.Solvers;
 import code.model.objects.PlanetObject;
 import code.model.objects.Probe;
 import code.utils.HelperFunctions;
