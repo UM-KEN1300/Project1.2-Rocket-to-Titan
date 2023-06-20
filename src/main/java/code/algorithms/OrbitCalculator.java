@@ -4,32 +4,37 @@ import code.model.objects.PlanetObject;
 import code.utils.HelperFunctions;
 
 public class OrbitCalculator {
-    private static final double GRAVITATIONAL_CONSTANT = PlanetObject.G;
+    private OrbitCalculator() {
+    }
 
-    public static void enterTitanOrbit(PlanetObject rocket, PlanetObject titan, double desiredAltitude) {
-        // Step 1: Determine Titan's current position and velocity
+    private static final double G = PlanetObject.G;
+
+    public static double[] enterTitanOrbit(PlanetObject rocket, PlanetObject titan, double desiredAltitude) {
+        //determine Titan's current position and velocity
         double[] titanPosition = titan.getCoordinates();
         double[] titanVelocity = titan.getVelocity();
 
-        // Step 2: Calculate the desired orbit parameters
+        //calculate the desired orbit parameters
         double orbitalRadius = titan.getRadius() + desiredAltitude;
-        double desiredVelocity = Math.sqrt(GRAVITATIONAL_CONSTANT * titan.getMass() / orbitalRadius);
+        double desiredVelocity = Math.sqrt(G * titan.getMass() / orbitalRadius);
 
-        // Step 3: Adjust the rocket's velocity to enter Titan's orbit
+        //adjust the rocket's velocity to enter Titan's orbit
         double[] rocketPosition = rocket.getCoordinates();
         double[] rocketVelocity = rocket.getVelocity();
 
         double[] relativePosition = HelperFunctions.subtract(rocketPosition, titanPosition);
         double distance = vectorMagnitude(relativePosition);
-        double deltaV = Math.sqrt(2 * GRAVITATIONAL_CONSTANT * (1 / distance - 1 / (2 * orbitalRadius)));
+        double deltaV = Math.sqrt(2 * G * (1 / distance - 1 / (2 * orbitalRadius)));
 
         double[] deltaVelocity = scalarMultiply(vectorNormalize(relativePosition), deltaV);
-        rocket.setVelocity(HelperFunctions.addition(rocketVelocity, deltaVelocity));
+        double[] updatedVelocity = HelperFunctions.addition(rocketVelocity, deltaVelocity);
 
-        // Step 4: Adjust the rocket's velocity to achieve a circular orbit
+        //adjust the rocket's velocity to achieve a circular orbit
         double[] desiredVelocityVector = scalarMultiply(vectorNormalize(relativePosition), desiredVelocity);
-        double[] velocityCorrection = HelperFunctions.subtract(desiredVelocityVector, rocketVelocity);
-        rocket.setVelocity(HelperFunctions.addition(rocketVelocity, velocityCorrection));
+        double[] velocityCorrection = HelperFunctions.subtract(desiredVelocityVector, updatedVelocity);
+        double[] requiredVelocity = HelperFunctions.addition(updatedVelocity, velocityCorrection);
+
+        return requiredVelocity;
     }
 
 
