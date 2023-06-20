@@ -1,6 +1,7 @@
 package code.utils;
 
 
+import code.model.Model;
 import code.model.objects.PlanetObject;
 
 /**
@@ -25,6 +26,20 @@ public class HelperFunctions {
                         + Math.pow((object2.getCoordinates()[2] - object1.getCoordinates()[2]), 2)
         );
     }
+
+//    public static double calculateDistance(PlanetObject rocket, PlanetObject titan) {
+//        double[] rocketPosition = rocket.getCoordinates();
+//        double[] titanPosition = titan.getCoordinates();
+//
+//        double sumOfSquares = 0;
+//        for (int i = 0; i < 3; i++) {
+//            double difference = rocketPosition[i] - titanPosition[i];
+//            sumOfSquares += difference * difference;
+//        }
+//
+//        double distance = Math.sqrt(sumOfSquares);
+//        return distance;
+//    }
 
     /**
      * Calculate the distance between two positional vectors.
@@ -101,6 +116,9 @@ public class HelperFunctions {
         }
 
         return returnable;
+    }
+    public static void main(String[] args) {
+
     }
 
 //    public boolean isOrbiting(PlanetObject myObj, PlanetObject planet) { //checks if myObj is orbiting planet

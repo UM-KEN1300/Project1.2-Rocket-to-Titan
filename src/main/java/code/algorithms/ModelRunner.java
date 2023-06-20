@@ -1,6 +1,8 @@
 package code.algorithms;
 
 import code.algorithms.solvers.Solvers;
+import code.model.Model;
+import code.model.objects.Boost;
 import code.model.objects.PlanetObject;
 import code.model.objects.Probe;
 import code.utils.HelperFunctions;
@@ -104,6 +106,11 @@ public class ModelRunner {
 
         if (!stopper) {
             for (int i = 0; i < smoothness; i += 1) {
+                if(probes.get(0).getDistanceToTitan()<30_000_000){
+                    System.out.println("boosting to orbit");
+                    Boost obritalBoost = new Boost(time, OrbitCalculator.enterTitanOrbit(probes.get(0), Model.getPlanetObjects().get("Titan"), 200));
+                    probes.get(0).addBoost(obritalBoost);
+                }
 
                 for (int j = 1; j < planets.length; j++) {
                     if (i % ((1 / accuracy) * 60 * 60 * 24) == 0) {
@@ -111,8 +118,6 @@ public class ModelRunner {
 
                         for (Probe probe : probes) {
                             probe.BoosterMECH(time);
-
-
                         }
                     }
                     double[] acc = new double[3];

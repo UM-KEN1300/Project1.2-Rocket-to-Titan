@@ -1,15 +1,16 @@
 package code.algorithms;
 
 import code.model.objects.PlanetObject;
+import code.model.objects.Probe;
 import code.utils.HelperFunctions;
 
 public class OrbitCalculator {
     private OrbitCalculator() {
     }
 
-    private static final double G = PlanetObject.G;
+    private static final double G = 6.6743e-20; // PlanetObject.G
 
-    public static double[] enterTitanOrbit(PlanetObject rocket, PlanetObject titan, double desiredAltitude) {
+    public static double[] enterTitanOrbit(Probe rocket, PlanetObject titan, double desiredAltitude) {
         //determine Titan's current position and velocity
         double[] titanPosition = titan.getCoordinates();
         double[] titanVelocity = titan.getVelocity();
@@ -24,7 +25,7 @@ public class OrbitCalculator {
 
         double[] relativePosition = HelperFunctions.subtract(rocketPosition, titanPosition);
         double distance = vectorMagnitude(relativePosition);
-        double deltaV = Math.sqrt(2 * G * (1 / distance - 1 / (2 * orbitalRadius)));
+        double deltaV = calculateDeltaV(rocket, titan);
 
         double[] deltaVelocity = scalarMultiply(vectorNormalize(relativePosition), deltaV);
         double[] updatedVelocity = HelperFunctions.addition(rocketVelocity, deltaVelocity);
@@ -37,6 +38,18 @@ public class OrbitCalculator {
         return requiredVelocity;
     }
 
+    private static double calculateDeltaV(Probe rocket, PlanetObject Titan){
+        double distance = HelperFunctions.getDistanceBetween(rocket, Titan);
+        double centralBodyMass = Titan.getMass();
+        double orbitalRadius = Titan.getRadius();
+
+        double mu = G * centralBodyMass;
+        double a = orbitalRadius;
+
+
+        double deltaV = Math.sqrt(Math.abs(mu * (2d / distance - 1d / a)));
+        return deltaV;
+    }
 
     private static double vectorMagnitude(double[] vector) {
         double sumOfSquares = 0;
@@ -62,4 +75,5 @@ public class OrbitCalculator {
         }
         return result;
     }
+
 }
