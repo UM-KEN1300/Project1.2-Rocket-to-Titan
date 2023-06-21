@@ -130,7 +130,7 @@ public class SpaceCraft
         XVelocity+=XAcceleration*stepSize;
         XPosition+=XVelocity*stepSize;
         //Y value update
-        double YAcceleration=u*Math.sin(rotationAngle);
+        double YAcceleration=u*Math.sin(rotationAngle)-1.352*Math.pow(10,-3);
         YVelocity+=YAcceleration*stepSize;
         YPosition+=YVelocity*stepSize;
         //rotation angle update

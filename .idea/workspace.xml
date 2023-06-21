@@ -4,13 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="befef468-85dd-4357-a019-7cd94d9197bf" name="Changes" comment="Added time class for boost and probe">
-      <change afterPath="$PROJECT_DIR$/src/main/java/code/landing/module/Runner.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/code/landing/module/SpaceCraft.java" afterDir="false" />
+    <list default="true" id="befef468-85dd-4357-a019-7cd94d9197bf" name="Changes" comment="Start of landing module">
+      <change afterPath="$PROJECT_DIR$/src/main/java/code/landing/module/HardcodedValues.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/code/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/ModelRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/ModelRunner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/code/utils/HelperFunctions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/utils/HelperFunctions.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -221,7 +217,7 @@
       <workItem from="1687106769487" duration="4185000" />
       <workItem from="1687210408682" duration="3435000" />
       <workItem from="1687221399186" duration="11354000" />
-      <workItem from="1687305627699" duration="1148000" />
+      <workItem from="1687305627699" duration="3194000" />
     </task>
     <task id="LOCAL-00001" summary="WORKING HOW THIS SHIT WORKS">
       <created>1679319564168</created>
@@ -440,7 +436,14 @@
       <option name="project" value="LOCAL" />
       <updated>1685481581026</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="Start of landing module">
+      <created>1687349141311</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1687349141311</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -473,7 +476,8 @@
     <MESSAGE value="new new structure" />
     <MESSAGE value="Updated HillClimbingAlg" />
     <MESSAGE value="." />
-    <option name="LAST_COMMIT_MESSAGE" value="." />
+    <MESSAGE value="Start of landing module" />
+    <option name="LAST_COMMIT_MESSAGE" value="Start of landing module" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
