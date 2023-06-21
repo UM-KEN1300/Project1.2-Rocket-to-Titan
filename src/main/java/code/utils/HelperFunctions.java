@@ -34,11 +34,11 @@ public class HelperFunctions {
      * @return The distance between the two vectors.
      */
     public static double getDistanceBetweenWithVectors(double[] one, double[] two) {
-        return Math.sqrt(
-                Math.pow((two[0] - one[0]), 2)
-                        + Math.pow((two[1] - one[1]), 2)
-                        + Math.pow((two[2] - one[2]), 2)
-        );
+        double value=0;
+        for (int i = 0; i < one.length; i++) {
+          value+=  Math.pow((two[i] - one[i]), 2);
+        }
+        return Math.sqrt(value);
     }
 
     /**

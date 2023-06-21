@@ -66,7 +66,7 @@ public class ModelRunner {
                             acc = HelperFunctions.addition(acc, planets[j].accelerationBetween(planets[k]));
                         }
                     }
-                    Solvers.implicitEuler(planets[j], acc, accuracy);
+                   //TODO Solvers.implicitEuler(planets[j], acc, accuracy);
                 }
             }
         }
@@ -120,7 +120,7 @@ public class ModelRunner {
                             acc = HelperFunctions.addition(acc, planets[j].accelerationBetween(planets[k]));
                         }
                     }
-                    Solvers.implicitEuler(planets[j], acc, accuracy);
+                   //TODO Solvers.implicitEuler(planets[j], acc, accuracy);
                 }
                 time.addSeconds((int) accuracy);
             }

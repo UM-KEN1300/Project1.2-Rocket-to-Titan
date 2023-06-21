@@ -22,7 +22,7 @@ public class Main {
         probe.addBoost(boost);
       //  probe.addBoost(boost1);
         Model.addProbe(probe);
-        //ModelRunner modelRunner=new ModelRunner(startTime);
+        ModelRunner modelRunner=new ModelRunner(startTime);
        // modelRunner.runnerForMultipleProbes(365,1,Model.getPlanetObjectsArrayList(),Model.getProbes());
       //  System.out.println(probe.getShortestDistanceToTitan());
         Visualizer.main(args);
