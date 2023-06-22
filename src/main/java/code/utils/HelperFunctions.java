@@ -27,19 +27,6 @@ public class HelperFunctions {
         );
     }
 
-//    public static double calculateDistance(PlanetObject rocket, PlanetObject titan) {
-//        double[] rocketPosition = rocket.getCoordinates();
-//        double[] titanPosition = titan.getCoordinates();
-//
-//        double sumOfSquares = 0;
-//        for (int i = 0; i < 3; i++) {
-//            double difference = rocketPosition[i] - titanPosition[i];
-//            sumOfSquares += difference * difference;
-//        }
-//
-//        double distance = Math.sqrt(sumOfSquares);
-//        return distance;
-//    }
 
     /**
      * Calculate the distance between two positional vectors.
@@ -116,6 +103,55 @@ public class HelperFunctions {
         }
 
         return returnable;
+    }
+
+    /**
+     * Multiplies the vector's components with the scalar
+     *
+     * @param vector  The vector to be multiplied.
+     *                It should be a double array of length 3 representing a 3D vector.
+     * @param scalar  Scalar value used to multiply the vector's components.
+     * @return        A new double array representing the result of the scalar multiplication.
+     *                The resulting array will also have length 3.
+     */
+    public static double[] scalarMultiply(double[] vector, double scalar) {
+        double[] result = new double[3];
+        for (int i = 0; i < 3; i++) {
+            result[i] = vector[i] * scalar;
+        }
+        return result;
+    }
+
+    /**
+     * Calculates the magnitude or length of a 3D vector.
+     *
+     * @param vector  The input vector for which the magnitude is to be calculated.
+     *                It should be a double array of length 3 representing a 3D vector.
+     * @return        The magnitude or length of the input vector.
+     */
+    public static double vectorMagnitude(double[] vector) {
+        double sumOfSquares = 0;
+        for (double component : vector) {
+            sumOfSquares += component * component;
+        }
+        return Math.sqrt(sumOfSquares);
+    }
+
+    /**
+     * Normalizes a 3D vector by scaling it to have a magnitude of 1.
+     *
+     * @param vector  The input vector to be normalized.
+     *                It should be a double array of length 3 representing a 3D vector.
+     * @return        A new double array representing the normalized vector.
+     *                The resulting array will also have length 3.
+     */
+    public static double[] vectorNormalize(double[] vector) {
+        double magnitude = vectorMagnitude(vector);
+        double[] normalizedVector = new double[3];
+        for (int i = 0; i < 3; i++) {
+            normalizedVector[i] = vector[i] / magnitude;
+        }
+        return normalizedVector;
     }
     public static void main(String[] args) {
 

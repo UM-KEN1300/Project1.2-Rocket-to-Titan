@@ -106,7 +106,7 @@ public class ModelRunner {
 
         if (!stopper) {
             for (int i = 0; i < smoothness; i += 1) {
-                if(probes.get(0).getDistanceToTitan()<30_000_000){
+                if(probes.get(0).getDistanceToTitan()<1000){ //HERE
                     System.out.println("boosting to orbit");
                     Boost obritalBoost = new Boost(time, OrbitCalculator.enterTitanOrbit(probes.get(0), Model.getPlanetObjects().get("Titan"), 200));
                     probes.get(0).addBoost(obritalBoost);

@@ -89,7 +89,7 @@ public class Visualizer extends Application {
                             time =ModelRunner.getTime();
                             double day = time.getTimeArr()[2];
                             time =ModelRunner.getTime();
-                            modelRunner.runnerForGUI( 180, 1, Model.getPlanetObjectsArrayList(), Model.getProbes());
+                            modelRunner.runnerForGUI( 180, 10, Model.getPlanetObjectsArrayList(), Model.getProbes());
                             Platform.runLater(() -> {
                                 solarSubScene.update();
                                 overlayPane.update(day);
