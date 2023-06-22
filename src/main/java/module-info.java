@@ -10,4 +10,5 @@ module code {
     exports code.model.data.loaders;
     exports code.utils;
     exports code.algorithms;
+    exports code.algorithms.solvers;
 }

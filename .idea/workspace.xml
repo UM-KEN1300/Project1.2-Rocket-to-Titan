@@ -4,14 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="befef468-85dd-4357-a019-7cd94d9197bf" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/TrajectoryCorrection.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/testerRungeKutta.java" afterDir="false" />
+    <list default="true" id="befef468-85dd-4357-a019-7cd94d9197bf" name="Changes" comment=".">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/ModelRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/ModelRunner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/OrbitCalculator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/OrbitCalculator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/code/graphics/Visualizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/graphics/Visualizer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/code/utils/HelperFunctions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/utils/HelperFunctions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/testerRungeKutta.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/solvers/testerRungeKutta.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,7 +79,7 @@
       <recent name="group1.project12group1" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="code.Main" />
       <module name="Project1-2-Group-1" />
@@ -226,7 +222,7 @@
       <workItem from="1686742608986" duration="7077000" />
       <workItem from="1687200266334" duration="261000" />
       <workItem from="1687264100086" duration="14580000" />
-      <workItem from="1687349057168" duration="4382000" />
+      <workItem from="1687349057168" duration="10202000" />
     </task>
     <task id="LOCAL-00001" summary="WORKING HOW THIS SHIT WORKS">
       <created>1679319564168</created>
@@ -459,7 +455,14 @@
       <option name="project" value="LOCAL" />
       <updated>1687268767486</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary=".">
+      <created>1687429228092</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1687429228092</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
