@@ -7,7 +7,6 @@ import code.graphics.visuals.controllers.SolarKeyController;
 import code.graphics.visuals.controllers.SolarMouseController;
 import code.graphics.visuals.controllers.SolarScrollController;
 import code.model.Model;
-import code.model.objects.Boost;
 import code.utils.Time;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -78,23 +77,21 @@ public class Visualizer extends Application {
 
 
     private void calculation() {
-        Time startTime=new Time(2023,4,1);
-        modelRunner=new ModelRunner(startTime);
+        Time startTime = new Time(2023, 4, 1);
+        modelRunner = new ModelRunner(startTime);
         timer.schedule(
                 new java.util.TimerTask() {
                     @Override
                     public void run() {
-
-                        for (int i = 0; i < 10; i++) {
-                            time =ModelRunner.getTime();
-                            double day = time.getTimeArr()[2];
-                            time =ModelRunner.getTime();
-                            modelRunner.runnerForGUI( 180, 1, Model.getPlanetObjectsArrayList(), Model.getProbes());
-                            Platform.runLater(() -> {
-                                solarSubScene.update();
-                                overlayPane.update(day);
-                            });
+                        for (int i = 0; i < 200; i++) {
+                            Model.step(20);
+                            Model.getProbes().get(0).BoosterMECH(Model.getTime());
                         }
+
+                        Platform.runLater(() -> {
+                            solarSubScene.update();
+                            overlayPane.update(0);
+                        });
 
                         count++;
                         if (count % 25 == 0)
