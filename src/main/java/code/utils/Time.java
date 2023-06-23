@@ -1,7 +1,8 @@
 package code.utils;
 
-public class Time
-{
+import org.apache.poi.ss.formula.functions.T;
+
+public class Time {
     double year;
     double months;
     double days;
@@ -9,93 +10,82 @@ public class Time
     double minutes;
     double seconds;
 
-    public Time(double year, double months, double days, double hours, double minutes, double seconds)
-    {
+
+    public Time(double year, double months, double days, double hours, double minutes, double seconds) {
+        this(year, months, days, hours, minutes);
+        this.seconds = seconds;
+        if (isNotValidDate()) System.out.println("The date is wrong");
+    }
+
+
+    public Time(double year, double months, double days, double hours, double minutes) {
+        this(year, months, days, hours);
+        this.minutes = minutes;
+        this.seconds = 0;
+        if (isNotValidDate()) System.out.println("The date is wrong");
+    }
+
+    public Time(double year, double months, double days, double hours) {
+        this(year, months, days);
+        this.hours = hours;
+        this.minutes = 0;
+        this.seconds = 0;
+        if (isNotValidDate()) System.out.println("The date is wrong");
+    }
+
+    public Time(double year, double months, double days) {
         this.year = year;
         this.months = months;
         this.days = days;
-        this.hours = hours;
-        this.minutes = minutes;
-        this.seconds = seconds;
-        if(!isNotValidDate()) System.out.println("The date is wrong");
+        this.hours = 0;
+        this.minutes = 0;
+        this.seconds = 0;
+        if (isNotValidDate()) System.out.println("The date is wrong");
     }
-    public Time(double[] time)
-    {
+
+    public Time(double[] time) {
         this.year = time[0];
         this.months = time[1];
         this.days = time[2];
         this.hours = time[3];
         this.minutes = time[4];
         this.seconds = time[5];
-        if(!isNotValidDate()) System.out.println("The date is wrong");
-    }
-    public Time(double year, double months, double days, double hours, double minutes)
-    {
-        this.year = year;
-        this.months = months;
-        this.days = days;
-        this.hours = hours;
-        this.minutes = minutes;
-        this.seconds = 0;
-        if(isNotValidDate()) System.out.println("The date is wrong");
-    }
-    public Time(double year, double months, double days, double hours)
-    {
-        this.year = year;
-        this.months = months;
-        this.days = days;
-        this.hours = hours;
-        this.minutes = 0;
-        this.seconds = 0;
-        if(isNotValidDate()) System.out.println("The date is wrong");
-    }
-    public Time(double year, double months, double days)
-    {
-        this.year = year;
-        this.months = months;
-        this.days = days;
-        this.hours =0;
-        this.minutes = 0;
-        this.seconds = 0;
-        if(isNotValidDate()) System.out.println("The date is wrong");
+        if (isNotValidDate()) System.out.println("The date is wrong");
     }
 
+    public boolean sameHour(Time other) {
+        return year == other.year &&
+                months == other.months &&
+                days == other.days &&
+                hours == other.hours;
+    }
 
-    public void addSeconds(int additionalSeconds)
-    {
+    public void addSeconds(int additionalSeconds) {
         seconds += additionalSeconds;
 
-        while (seconds >= 60)
-        {
+        while (seconds >= 60) {
             seconds -= 60;
             minutes++;
         }
 
-        while (minutes >= 60)
-        {
+        while (minutes >= 60) {
             minutes -= 60;
             hours++;
         }
 
-        while (hours >= 24)
-        {
+        while (hours >= 24) {
             hours -= 24;
             days++;
-            if (days > getDaysInMonth(months, year))
-            {
+            if (days > getDaysInMonth(months, year)) {
                 days = 1;
                 months++;
-                if (months > 12)
-                {
+                if (months > 12) {
                     months = 1;
                     year++;
                 }
             }
         }
     }
-
-
-
 
     public boolean isNotValidDate() {
         // Check if the year is within a valid range
@@ -121,6 +111,7 @@ public class Time
         // All checks passed, the date is valid
         return false;
     }
+
     private int getDaysInMonth(double month, double year) {
         if (month == 2) {
             return isLeapYear(year) ? 29 : 28;
@@ -130,14 +121,19 @@ public class Time
             return 31;
         }
     }
+
     private boolean isLeapYear(double year) {
         return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
     }
 
-    public double[] getTimeArr()
-    {
-        return new double[]{year,months,days,hours,minutes,seconds};
+    public double[] getTimeArr() {
+        return new double[]{year, months, days, hours, minutes, seconds};
     }
+
+    public Time timeCopy() {
+        return new Time(year, months, days, hours, minutes, seconds);
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -154,6 +150,4 @@ public class Time
                 minutes == other.minutes &&
                 seconds == other.seconds;
     }
-
-
 }
