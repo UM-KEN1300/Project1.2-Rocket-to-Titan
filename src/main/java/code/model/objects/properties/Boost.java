@@ -1,4 +1,4 @@
-package code.model.objects;
+package code.model.objects.properties;
 
 import code.utils.HelperFunctions;
 import code.utils.Time;

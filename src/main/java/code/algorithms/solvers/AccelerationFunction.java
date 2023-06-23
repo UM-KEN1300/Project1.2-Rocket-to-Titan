@@ -1,32 +1,43 @@
 package code.algorithms.solvers;
 
+import code.model.Model;
 import code.model.objects.PlanetObject;
-import code.utils.HelperFunctions;
 
-import static code.model.objects.PlanetObject.G;
+import java.util.List;
 
-public class AccelerationFunction implements Function {
-    PlanetObject planetObject;
-    PlanetObject otherObject;
-    double distance;
-    double otherPosition1D;
+public class AccelerationFunction {
+    private final double G = 6.67430e-11;
 
+//    public double[] calculate(int index) {
+//        List<PlanetObject> allObjects = Model.getAllObjects();
+//        PlanetObject target = allObjects.get(index);
+//        double[] acceleration = new double[3];
+//
+//        for (PlanetObject other : allObjects) {
+//            if (target == other || !other.affectsOthers()) continue;
+//
+//            double[] difference = HelperFunctions.subtract(target.getCoordinates(), other.getCoordinates());
+//            double distanceCubed = Math.pow(HelperFunctions.getVectorMagnitude(difference), 3);
+//
+//            double scale = G * other.getMass() / distanceCubed;
+//            for (int j = 0; j < 3; j++)
+//                acceleration[j] -= scale * difference[j];
+//        }
+//
+//        return acceleration;
+//    }
 
-    public AccelerationFunction(PlanetObject planetObject, PlanetObject otherObject, double otherPosition1D) {
-        this.planetObject = planetObject;
-        this.otherObject = otherObject;
-        this.distance = 1 / HelperFunctions.getDistanceBetweenWithVectors(planetObject.getCoordinates(), otherObject.getCoordinates());
-        this.otherPosition1D = otherPosition1D;
-    }
+    public double[] calculate(int index) {
+        List<PlanetObject> allObjects = Model.getAllObjects();
+        double[] acceleration = new double[]{0, 0, 0};
+        PlanetObject evaluatedObject = allObjects.get(index);
 
+        for (PlanetObject other : allObjects) {
+            if (evaluatedObject == other || !other.affectsOthers()) continue;
+            for (int i = 0; i < 3; i++)
+                acceleration[i] += evaluatedObject.accelerationBetween(other)[i];
+        }
 
-    public double evaluation(double y0, double t) {
-        double acceleration, positionalDifference;
-        double M2 = otherObject.getMass();
-
-        positionalDifference = y0 - otherPosition1D;
-
-        acceleration = -G * M2 * (Math.pow(distance, 3) * positionalDifference);
         return acceleration;
     }
 }

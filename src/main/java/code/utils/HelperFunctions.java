@@ -103,28 +103,9 @@ public class HelperFunctions {
         return returnable;
     }
 
-//    public boolean isOrbiting(PlanetObject myObj, PlanetObject planet) { //checks if myObj is orbiting planet
-//        double[] velVect = new double[3];
-//        velVect = myObj.getVelocity(); //could add getters in the planet object class to replace velX, velY and velZ
-//        double velX = velVect[0];
-//        double velY = velVect[1];
-//        double velZ = velVect[2];
-//        double velocityMagnitude = getVectorMagnitude(velVect);//speed at which an object is moving in a specific direction
-//        double distance = getDistanceBetween(myObj, planet);   //distance between myObj and planet
-//        double gravitationalForce = PlanetObject.G * myObj.getMass() * planet.getMass() / Math.pow(distance, 2);//gravitational force between myObj and planet
-//        double centripetalForce = myObj.getMass() * Math.pow(velocityMagnitude, 2) / distance;//calculate the centripetal force required to keep myObj in orbit
-//        double dotProduct = velX * (myObj.getX() - planet.getX()) + velY * (myObj.getY() - planet.getY()) + velZ * (myObj.getZ() - planet.getZ());
-//        if (dotProduct != 0) {       //check if the velocity vector of myObj is perpendicular to the position vector of myObj relative to planet
-//            return false;
-//        }
-//        //check if the centripetal force required to keep myObj in orbit is equal to the gravitational force between myObj and planet
-//        double e = 0.001; // A small tolerance to account for rounding errors
-//        return Math.abs(centripetalForce - gravitationalForce) < e;
-//    }
-//    public boolean isInOrbitDistance(Probe myObj, PlanetObject planet){ //checks if myObj is in orbit distance of planet
-//        boolean result;
-//        double radii = Model.getPlanetObjects().get("Titan").getRadius(); //supposed to be the sum of the radius of the 2 objects, but the probe is small and idk where to take the radius of titan from, will change later
-//        double distance = getDistanceBetween(myObj, planet);
-//        return distance <= radii; //if the distance be
-//    }
+    public static double[] copyDoubleArray(double[] arrayToCopy) {
+        double[] result = new double[arrayToCopy.length];
+        System.arraycopy(arrayToCopy, 0, result, 0, arrayToCopy.length);
+        return result;
+    }
 }

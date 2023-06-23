@@ -51,7 +51,7 @@ public class PlanetObject {
 
         positionalVector = HelperFunctions.subtract(COORDINATES, planetObject.getCoordinates());
 
-        double distance = 1 / HelperFunctions.getDistanceBetweenWithVectors(COORDINATES, planetObject.getCoordinates());
+        double distance = 1d / HelperFunctions.getDistanceBetweenWithVectors(COORDINATES, planetObject.getCoordinates());
         if (distance == Double.POSITIVE_INFINITY)
             throw new IllegalArgumentException("The two celestial bodies are at the same location");
 
@@ -116,6 +116,10 @@ public class PlanetObject {
      */
     public double getMass() {
         return mass;
+    }
+
+    public boolean affectsOthers() {
+        return true;
     }
 
     public double[] getAcceleration() {

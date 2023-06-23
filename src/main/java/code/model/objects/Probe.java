@@ -1,6 +1,7 @@
 package code.model.objects;
 
 import code.model.Model;
+import code.model.objects.properties.Boost;
 import code.utils.HelperFunctions;
 import code.utils.Time;
 
@@ -46,6 +47,11 @@ public class Probe extends PlanetObject {
         return HelperFunctions.addition(coordinates, Model.getPlanetObjects().get("Earth").getCoordinates());
     }
 
+    @Override
+    public boolean affectsOthers() {
+        return false;
+    }
+
 
     public boolean areBoostsValid(double step) {
         double maxImpulse = 3 * (Math.pow(10, 7)) * step;
@@ -68,7 +74,7 @@ public class Probe extends PlanetObject {
 
     public void BoosterMECH(Time time) {
         if (listOfBoosts.peek() != null) {
-            if (time.equals( listOfBoosts.peek().getTimeOfBoost())) {
+            if (time.equals(listOfBoosts.peek().getTimeOfBoost())) {
                 System.out.println("boosted");
                 double[] probeVelocity = getVelocity();
                 double[] boostVelocity = listOfBoosts.poll().getVelocityOfBoost();
