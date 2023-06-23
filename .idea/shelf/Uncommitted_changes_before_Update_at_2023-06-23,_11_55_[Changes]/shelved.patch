@@ -1,0 +1,1904 @@
+Index: src/main/java/code/utils/HelperFunctions.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package code.utils;\n\n\nimport code.model.objects.PlanetObject;\n\n/**\n * HelperFunctions class contains utility methods for operations on vectors.\n */\npublic class HelperFunctions {\n    private HelperFunctions() {\n    }\n\n\n    /**\n     * Calculate the distance between two PlanetObjects.\n     *\n     * @param object1 The first PlanetObject.\n     * @param object2 The second PlanetObject.\n     * @return The distance between the two PlanetObjects.\n     */\n    public static double getDistanceBetween(PlanetObject object1, PlanetObject object2) {\n        return Math.sqrt(\n                Math.pow((object2.getCoordinates()[0] - object1.getCoordinates()[0]), 2)\n                        + Math.pow((object2.getCoordinates()[1] - object1.getCoordinates()[1]), 2)\n                        + Math.pow((object2.getCoordinates()[2] - object1.getCoordinates()[2]), 2)\n        );\n    }\n\n    /**\n     * Calculate the distance between two positional vectors.\n     *\n     * @param one The first positional vector.\n     * @param two The second positional vector.\n     * @return The distance between the two vectors.\n     */\n    public static double getDistanceBetweenWithVectors(double[] one, double[] two) {\n        return Math.sqrt(\n                Math.pow((two[0] - one[0]), 2)\n                        + Math.pow((two[1] - one[1]), 2)\n                        + Math.pow((two[2] - one[2]), 2)\n        );\n    }\n\n    /**\n     * Subtract two vectors.\n     *\n     * @param vectorOne The first vector.\n     * @param vectorTwo The second vector.\n     * @return The resulting vector after subtraction.\n     */\n    public static double[] subtract(double[] vectorOne, double[] vectorTwo) {\n        double[] returnable = new double[3];\n        returnable[0] = vectorOne[0] - vectorTwo[0];\n        returnable[1] = vectorOne[1] - vectorTwo[1];\n        returnable[2] = vectorOne[2] - vectorTwo[2];\n        return returnable;\n    }\n\n    /**\n     * Add two vectors.\n     *\n     * @param vectorOne The first vector.\n     * @param vectorTwo The second vector.\n     * @return The resulting vector after addition.\n     */\n    public static double[] addition(double[] vectorOne, double[] vectorTwo) {\n        double[] returnable = new double[3];\n        returnable[0] = vectorOne[0] + vectorTwo[0];\n        returnable[1] = vectorOne[1] + vectorTwo[1];\n        returnable[2] = vectorOne[2] + vectorTwo[2];\n        return returnable;\n    }\n\n    /**\n     * Calculate the magnitude of a vector.\n     *\n     * @param vector The input vector.\n     * @return The magnitude of the vector.\n     */\n    public static double getVectorMagnitude(double[] vector) {\n        return Math.sqrt(vector[0] * vector[0] + vector[1] * vector[1] + vector[2] * vector[2]);\n    }\n\n    /**\n     * Convert a string representation of a vector to a double array.\n     *\n     * @param input The input string.\n     * @return The vector as a double array.\n     */\n    public static double[] stringToVector(String input) {\n        input = input.replaceAll(\"[XVYZ=]\", \"\");\n        String[] str = input.trim().split(\"\\\\s+\");\n\n        double[] returnable = new double[3];\n        int counter = 0;\n        for (String s : str) {\n            if (!s.isEmpty()) {\n                returnable[counter] = Double.parseDouble(s);\n                counter++;\n            }\n        }\n\n        return returnable;\n    }\n\n//    public boolean isOrbiting(PlanetObject myObj, PlanetObject planet) { //checks if myObj is orbiting planet\n//        double[] velVect = new double[3];\n//        velVect = myObj.getVelocity(); //could add getters in the planet object class to replace velX, velY and velZ\n//        double velX = velVect[0];\n//        double velY = velVect[1];\n//        double velZ = velVect[2];\n//        double velocityMagnitude = getVectorMagnitude(velVect);//speed at which an object is moving in a specific direction\n//        double distance = getDistanceBetween(myObj, planet);   //distance between myObj and planet\n//        double gravitationalForce = PlanetObject.G * myObj.getMass() * planet.getMass() / Math.pow(distance, 2);//gravitational force between myObj and planet\n//        double centripetalForce = myObj.getMass() * Math.pow(velocityMagnitude, 2) / distance;//calculate the centripetal force required to keep myObj in orbit\n//        double dotProduct = velX * (myObj.getX() - planet.getX()) + velY * (myObj.getY() - planet.getY()) + velZ * (myObj.getZ() - planet.getZ());\n//        if (dotProduct != 0) {       //check if the velocity vector of myObj is perpendicular to the position vector of myObj relative to planet\n//            return false;\n//        }\n//        //check if the centripetal force required to keep myObj in orbit is equal to the gravitational force between myObj and planet\n//        double e = 0.001; // A small tolerance to account for rounding errors\n//        return Math.abs(centripetalForce - gravitationalForce) < e;\n//    }\n//    public boolean isInOrbitDistance(Probe myObj, PlanetObject planet){ //checks if myObj is in orbit distance of planet\n//        boolean result;\n//        double radii = Model.getPlanetObjects().get(\"Titan\").getRadius(); //supposed to be the sum of the radius of the 2 objects, but the probe is small and idk where to take the radius of titan from, will change later\n//        double distance = getDistanceBetween(myObj, planet);\n//        return distance <= radii; //if the distance be\n//    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/code/utils/HelperFunctions.java b/src/main/java/code/utils/HelperFunctions.java
+--- a/src/main/java/code/utils/HelperFunctions.java	(revision 18c6801369b883ec993d0e875f18ef3d64d89179)
++++ b/src/main/java/code/utils/HelperFunctions.java	(date 1687503502445)
+@@ -103,28 +103,9 @@
+         return returnable;
+     }
+ 
+-//    public boolean isOrbiting(PlanetObject myObj, PlanetObject planet) { //checks if myObj is orbiting planet
+-//        double[] velVect = new double[3];
+-//        velVect = myObj.getVelocity(); //could add getters in the planet object class to replace velX, velY and velZ
+-//        double velX = velVect[0];
+-//        double velY = velVect[1];
+-//        double velZ = velVect[2];
+-//        double velocityMagnitude = getVectorMagnitude(velVect);//speed at which an object is moving in a specific direction
+-//        double distance = getDistanceBetween(myObj, planet);   //distance between myObj and planet
+-//        double gravitationalForce = PlanetObject.G * myObj.getMass() * planet.getMass() / Math.pow(distance, 2);//gravitational force between myObj and planet
+-//        double centripetalForce = myObj.getMass() * Math.pow(velocityMagnitude, 2) / distance;//calculate the centripetal force required to keep myObj in orbit
+-//        double dotProduct = velX * (myObj.getX() - planet.getX()) + velY * (myObj.getY() - planet.getY()) + velZ * (myObj.getZ() - planet.getZ());
+-//        if (dotProduct != 0) {       //check if the velocity vector of myObj is perpendicular to the position vector of myObj relative to planet
+-//            return false;
+-//        }
+-//        //check if the centripetal force required to keep myObj in orbit is equal to the gravitational force between myObj and planet
+-//        double e = 0.001; // A small tolerance to account for rounding errors
+-//        return Math.abs(centripetalForce - gravitationalForce) < e;
+-//    }
+-//    public boolean isInOrbitDistance(Probe myObj, PlanetObject planet){ //checks if myObj is in orbit distance of planet
+-//        boolean result;
+-//        double radii = Model.getPlanetObjects().get("Titan").getRadius(); //supposed to be the sum of the radius of the 2 objects, but the probe is small and idk where to take the radius of titan from, will change later
+-//        double distance = getDistanceBetween(myObj, planet);
+-//        return distance <= radii; //if the distance be
+-//    }
++    public static double[] copyDoubleArray(double[] arrayToCopy) {
++        double[] result = new double[arrayToCopy.length];
++        System.arraycopy(arrayToCopy, 0, result, 0, arrayToCopy.length);
++        return result;
++    }
+ }
+Index: src/main/java/code/graphics/Visualizer.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package code.graphics;\n\nimport code.algorithms.ModelRunner;\nimport code.graphics.overlay.OverlayPane;\nimport code.graphics.visuals.SolarSubScene;\nimport code.graphics.visuals.controllers.SolarKeyController;\nimport code.graphics.visuals.controllers.SolarMouseController;\nimport code.graphics.visuals.controllers.SolarScrollController;\nimport code.model.Model;\nimport code.model.objects.Boost;\nimport code.utils.Time;\nimport javafx.application.Application;\nimport javafx.application.Platform;\nimport javafx.concurrent.Task;\nimport javafx.scene.Group;\nimport javafx.scene.Scene;\nimport javafx.scene.input.KeyEvent;\nimport javafx.scene.layout.StackPane;\nimport javafx.stage.Screen;\nimport javafx.stage.Stage;\n\nimport java.util.Timer;\n\n/**\n * code.Main graphic class which sets up the Scene and runs the engine which updates all 3D representations of\n * objects in the model in real-time.\n */\npublic class Visualizer extends Application {\n    public static final int SCALE = 50; // don't change this\n    private final double WIDTH = Screen.getPrimary().getBounds().getWidth();\n    private final double HEIGHT = Screen.getPrimary().getBounds().getHeight();\n    private SolarSubScene solarSubScene;\n    private OverlayPane overlayPane;\n    private Time time;\n    private Timer timer;\n    private int count;\n    ModelRunner modelRunner;\n\n    @Override\n    public void start(Stage stage) {\n        stage.setTitle(\"Mission to Titan\");\n        stage.show();\n\n        StackPane stackPane = new StackPane();\n        Scene scene = new Scene(stackPane, WIDTH, HEIGHT, true);\n\n        solarSubScene = new SolarSubScene(new Group(), WIDTH, HEIGHT);\n        new SolarMouseController(scene, solarSubScene);\n        new SolarScrollController(scene, solarSubScene);\n        scene.addEventFilter(KeyEvent.KEY_PRESSED, new SolarKeyController(solarSubScene));\n        stackPane.getChildren().add(solarSubScene);\n\n        overlayPane = new OverlayPane();\n        stackPane.getChildren().add(overlayPane);\n\n        stage.setScene(scene);\n\n        timer = new Timer();\n        count = 0;\n        stage.setOnCloseRequest(e -> {\n            timer.cancel();\n            Platform.exit();\n            System.exit(0);\n        });\n        Task<Void> sleeper = new Task<>() {\n            @Override\n            protected Void call() {\n                try {\n                    Thread.sleep(1000);\n                } catch (InterruptedException ignored) {\n                }\n                return null;\n            }\n        };\n        sleeper.setOnSucceeded(event -> calculation());\n        new Thread(sleeper).start();\n    }\n\n\n    private void calculation() {\n        Time startTime=new Time(2023,4,1);\n        modelRunner=new ModelRunner(startTime);\n        timer.schedule(\n                new java.util.TimerTask() {\n                    @Override\n                    public void run() {\n\n                        for (int i = 0; i < 10; i++) {\n                            time =ModelRunner.getTime();\n                            double day = time.getTimeArr()[2];\n                            time =ModelRunner.getTime();\n                            modelRunner.runnerForGUI( 180, 1, Model.getPlanetObjectsArrayList(), Model.getProbes());\n                            Platform.runLater(() -> {\n                                solarSubScene.update();\n                                overlayPane.update(day);\n                            });\n                        }\n\n                        count++;\n                        if (count % 25 == 0)\n                            Platform.runLater(() -> solarSubScene.addTrail());\n                    }\n                }, 0, 1);\n    }\n\n    public static void main(String[] args) {\n        launch();\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/code/graphics/Visualizer.java b/src/main/java/code/graphics/Visualizer.java
+--- a/src/main/java/code/graphics/Visualizer.java	(revision 18c6801369b883ec993d0e875f18ef3d64d89179)
++++ b/src/main/java/code/graphics/Visualizer.java	(date 1687506347164)
+@@ -7,7 +7,6 @@
+ import code.graphics.visuals.controllers.SolarMouseController;
+ import code.graphics.visuals.controllers.SolarScrollController;
+ import code.model.Model;
+-import code.model.objects.Boost;
+ import code.utils.Time;
+ import javafx.application.Application;
+ import javafx.application.Platform;
+@@ -86,13 +85,14 @@
+                     public void run() {
+ 
+                         for (int i = 0; i < 10; i++) {
+-                            time =ModelRunner.getTime();
+-                            double day = time.getTimeArr()[2];
+-                            time =ModelRunner.getTime();
+-                            modelRunner.runnerForGUI( 180, 1, Model.getPlanetObjectsArrayList(), Model.getProbes());
++//                            time =ModelRunner.getTime();
++//                            double day = time.getTimeArr()[2];
++//                            time =ModelRunner.getTime();
++//                            modelRunner.runnerForGUI( 180, 1, Model.getPlanetObjectsArrayList(), Model.getProbes());
++                            Model.step(80);
+                             Platform.runLater(() -> {
+                                 solarSubScene.update();
+-                                overlayPane.update(day);
++                                overlayPane.update(0);
+                             });
+                         }
+ 
+Index: src/main/java/code/algorithms/ModelRunner.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package code.algorithms;\n\nimport code.model.objects.PlanetObject;\nimport code.model.objects.Probe;\nimport code.utils.HelperFunctions;\nimport code.utils.Time;\n\nimport java.util.ArrayList;\nimport java.util.List;\n\npublic class ModelRunner {\n    /**\n     * Runs the model forward with step updates the position of the Objects in the Model using Euler Solver\n     * <p>\n     * The runner is made to work with multiple probes also it is optimized to work fast with Euler solver\n     * Boosts are checked inside as well, because the max F depends on the step size\n     * </p>\n     *\n     * @param numberOfDays how many days is the model going to get run for\n     * @param accuracy     or step size for the Solver\n     * @param planetss     list of planets that are going to be run\n     * @param probes       list of probes that are going to be run\n     */\n    private static Time time;\n\n    public ModelRunner(Time time)\n    {\n        //start time of the model\n        ModelRunner.time =time;\n    }\n\n    public  void runnerForMultipleProbes(int numberOfDays, double accuracy, List<PlanetObject> planetss, List<Probe> probes) {\n        ArrayList<PlanetObject> allObjects = new ArrayList<>(planetss);\n        allObjects.addAll(probes);\n        PlanetObject[] planets = allObjects.toArray(new PlanetObject[allObjects.size()]);\n        boolean stopper = false;\n        // check if the boosts\n        for (Probe probe : probes) {\n            boolean checker = probe.areBoostsValid(accuracy);\n//            System.out.println(checker);\n            if (!checker) {\n                stopper = true;\n                System.out.println(\"The probe \" + probe.getProbeNumber() + \" with wrong boost\");\n            }\n        }\n        System.out.println((1 / accuracy) * 60 * 60 * 24 * numberOfDays);\n        if (!stopper) {\n            for (int i = 0; i < (1 / accuracy) * 60 * 60 * 24 * numberOfDays; i += 1) {\n                //TODO under 1 second fix\n                time.addSeconds((int) accuracy);\n                if (i % ((1 / accuracy) * 60 * 60 * 24) == 0)\n                {\n\n                    double day = i / ((1 / accuracy) * 60 * 60 * 24);\n                   System.out.println(\"Day \" + day);\n                    for (Probe probe : probes) {\n                        probe.BoosterMECH(time);\n                    }\n                }\n                for (int j = 1; j < planets.length; j++) {\n\n                    double[] acc = new double[3];\n                    for (int k = 0; k < planets.length - probes.size(); k++) {\n\n                        if (k != j) {\n                            acc = HelperFunctions.addition(acc, planets[j].accelerationBetween(planets[k]));\n                        }\n                    }\n                    Solvers.implicitEuler(planets[j], acc, accuracy);\n                }\n            }\n        }\n    }\n\n    /**\n     * Runs the model forward with step updates the position of the Objects in the Model using Euler Solver\n     * This runner is used for GUI and is called in a loop, so it runs the model not for days but seconds usually\n     * small values. It keeps track of how long the model has been run.\n     * <p>\n     * The runner is made to work with multiple probes also it is optimized to work fast with Euler solver\n     * Boosts are checked inside as well, because the max F depends on the step size\n     * </p>\n     *\n     * @param smoothness how smooth the planets are going to move in GUI\n     * @param accuracy   or step size for the Solver\n     * @param planetsList   list of planets that are going to be run\n     * @param probes     list of probes that are going to be run\n     * @return the amount of times runs and will update the amount of time the model was run for\n     */\n    public void runnerForGUI( int smoothness, double accuracy, List<PlanetObject> planetsList, List<Probe> probes) {\n        ArrayList<PlanetObject> allObjects = new ArrayList<>(planetsList);\n        allObjects.addAll(probes);\n        PlanetObject[] planets = allObjects.toArray(new PlanetObject[allObjects.size()]);\n        boolean stopper = false;\n        // check if the boosts\n        for (Probe probe : probes) {\n            boolean checker = probe.areBoostsValid(accuracy);\n            if (!checker) {\n                stopper = true;\n                System.out.println(\"The probe \" + probe.getProbeNumber() + \" with wrong boost\");\n            }\n        }\n\n        if (!stopper) {\n            for (int i = 0; i < smoothness; i += 1) {\n\n                for (int j = 1; j < planets.length; j++) {\n                    if (i % ((1 / accuracy) * 60 * 60 * 24) == 0) {\n\n\n                        for (Probe probe : probes) {\n                            probe.BoosterMECH(time);\n\n\n                        }\n                    }\n                    double[] acc = new double[3];\n                    for (int k = 0; k < planets.length; k++) {\n                        if (k != j) {\n                            acc = HelperFunctions.addition(acc, planets[j].accelerationBetween(planets[k]));\n                        }\n                    }\n                    Solvers.implicitEuler(planets[j], acc, accuracy);\n                }\n                time.addSeconds((int) accuracy);\n            }\n        }\n    }\n\n    public static Time getTime()\n    {\n        return time;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/code/algorithms/ModelRunner.java b/src/main/java/code/algorithms/ModelRunner.java
+--- a/src/main/java/code/algorithms/ModelRunner.java	(revision 18c6801369b883ec993d0e875f18ef3d64d89179)
++++ b/src/main/java/code/algorithms/ModelRunner.java	(date 1687156963222)
+@@ -9,6 +9,13 @@
+ import java.util.List;
+ 
+ public class ModelRunner {
++    private static Time time;
++
++    public ModelRunner(Time time) {
++        //start time of the model
++        ModelRunner.time = time;
++    }
++
+     /**
+      * Runs the model forward with step updates the position of the Objects in the Model using Euler Solver
+      * <p>
+@@ -21,15 +28,7 @@
+      * @param planetss     list of planets that are going to be run
+      * @param probes       list of probes that are going to be run
+      */
+-    private static Time time;
+-
+-    public ModelRunner(Time time)
+-    {
+-        //start time of the model
+-        ModelRunner.time =time;
+-    }
+-
+-    public  void runnerForMultipleProbes(int numberOfDays, double accuracy, List<PlanetObject> planetss, List<Probe> probes) {
++    public void runnerForMultipleProbes(int numberOfDays, double accuracy, List<PlanetObject> planetss, List<Probe> probes) {
+         ArrayList<PlanetObject> allObjects = new ArrayList<>(planetss);
+         allObjects.addAll(probes);
+         PlanetObject[] planets = allObjects.toArray(new PlanetObject[allObjects.size()]);
+@@ -48,11 +47,10 @@
+             for (int i = 0; i < (1 / accuracy) * 60 * 60 * 24 * numberOfDays; i += 1) {
+                 //TODO under 1 second fix
+                 time.addSeconds((int) accuracy);
+-                if (i % ((1 / accuracy) * 60 * 60 * 24) == 0)
+-                {
++                if (i % ((1 / accuracy) * 60 * 60 * 24) == 0) {
+ 
+                     double day = i / ((1 / accuracy) * 60 * 60 * 24);
+-                   System.out.println("Day " + day);
++                    System.out.println("Day " + day);
+                     for (Probe probe : probes) {
+                         probe.BoosterMECH(time);
+                     }
+@@ -66,7 +64,7 @@
+                             acc = HelperFunctions.addition(acc, planets[j].accelerationBetween(planets[k]));
+                         }
+                     }
+-                    Solvers.implicitEuler(planets[j], acc, accuracy);
++//                    Solvers.implicitEuler(planets[j], acc, accuracy);
+                 }
+             }
+         }
+@@ -81,13 +79,13 @@
+      * Boosts are checked inside as well, because the max F depends on the step size
+      * </p>
+      *
+-     * @param smoothness how smooth the planets are going to move in GUI
+-     * @param accuracy   or step size for the Solver
+-     * @param planetsList   list of planets that are going to be run
+-     * @param probes     list of probes that are going to be run
++     * @param smoothness  how smooth the planets are going to move in GUI
++     * @param accuracy    or step size for the Solver
++     * @param planetsList list of planets that are going to be run
++     * @param probes      list of probes that are going to be run
+      * @return the amount of times runs and will update the amount of time the model was run for
+      */
+-    public void runnerForGUI( int smoothness, double accuracy, List<PlanetObject> planetsList, List<Probe> probes) {
++    public void runnerForGUI(int smoothness, double accuracy, List<PlanetObject> planetsList, List<Probe> probes) {
+         ArrayList<PlanetObject> allObjects = new ArrayList<>(planetsList);
+         allObjects.addAll(probes);
+         PlanetObject[] planets = allObjects.toArray(new PlanetObject[allObjects.size()]);
+@@ -120,15 +118,14 @@
+                             acc = HelperFunctions.addition(acc, planets[j].accelerationBetween(planets[k]));
+                         }
+                     }
+-                    Solvers.implicitEuler(planets[j], acc, accuracy);
++//                    Solvers.implicitEuler(planets[j], acc, accuracy);
+                 }
+                 time.addSeconds((int) accuracy);
+             }
+         }
+     }
+ 
+-    public static Time getTime()
+-    {
++    public static Time getTime() {
+         return time;
+     }
+ }
+Index: src/main/java/code/algorithms/trajectory/Trajectory.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package code.algorithms.trajectory;\n\n/**\n * Class used for planning the mission. It calculates the velocities of boosts at time intervals which allow\n * for reaching the target celestial body in a sufficiently short path, taking into consideration\n * the amount of used fuel and the speed at which the spacecraft needs to travel in order to reach its\n * destination at a given point in time.\n */\npublic class Trajectory {\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/code/algorithms/trajectory/Trajectory.java b/src/main/java/code/algorithms/trajectory/Trajectory.java
+--- a/src/main/java/code/algorithms/trajectory/Trajectory.java	(revision 18c6801369b883ec993d0e875f18ef3d64d89179)
++++ b/src/main/java/code/algorithms/trajectory/Trajectory.java	(date 1687514108998)
+@@ -1,5 +1,14 @@
+ package code.algorithms.trajectory;
+ 
++import code.model.Model;
++import code.model.ModelCopy;
++import code.model.objects.PlanetObject;
++import code.model.objects.Probe;
++import code.model.objects.properties.Boost;
++import code.utils.HelperFunctions;
++
++import java.util.Arrays;
++
+ /**
+  * Class used for planning the mission. It calculates the velocities of boosts at time intervals which allow
+  * for reaching the target celestial body in a sufficiently short path, taking into consideration
+@@ -7,5 +16,144 @@
+  * destination at a given point in time.
+  */
+ public class Trajectory {
++    private ModelCopy modelCopy;
++    private final int TRAJECTORY_ACCURACY = 3;
++    private final int SIMULATION_LENGTH = 5;
++    private final double[] DESTINATION;
++    private double[] best;
++    double bestVelocity, secondBestVelocity;
++    double bestEvaluation, secondBestEvaluation;
++    private double multiplier, step;
++
++
++    public Trajectory(double[] destination) {
++        DESTINATION = destination;
++        modelCopy = new ModelCopy();
++    }
++
+ 
++    public Boost findBestBoost() {
++        best = new double[]{0, 0, 0};
++        for (int index = 0; index < 3; index++) {
++            bestVelocity(index);
++            best[index] = bestVelocity;
++        }
++
++        return new Boost(Model.getTime(), best);
++    }
++
++    /**
++     * The function that helps evaluate how 'good' the current trajectory is taking into account the distance from Titan
++     * and fuel consumed so far. The closer to earth or titan the probe gets the less the fuel optimization matters.
++     *
++     * @param probe The considered probe
++     * @return The value of the objective function
++     */
++    private double objectiveFunction(Probe probe) {
++        double distance = Math.min(probe.getDistanceToTitan(), probe.getDistanceToEarth());
++        return distance * probe.getFuelUsed() * 0.0001 + HelperFunctions.getDistanceBetweenWithVectors(probe.getCoordinates(), DESTINATION);
++    }
++
++    private void bestVelocity(int index) {
++        initialEvaluation(index);
++        bestTwoValues(index);
++        evaluationBetween(index);
++    }
++
++    private void initialEvaluation(int index) {
++        double negativeOneEvaluation = evaluateBoost(-1, index);
++        double zeroEvaluation = evaluateBoost(0, index);
++        double oneEvaluation = evaluateBoost(1, index);
++        if (zeroEvaluation > negativeOneEvaluation) {
++            bestVelocity = -1;
++            bestEvaluation = negativeOneEvaluation;
++            secondBestVelocity = 0;
++            secondBestEvaluation = zeroEvaluation;
++            multiplier = -1;
++        } else if (zeroEvaluation > oneEvaluation) {
++            bestVelocity = 1;
++            bestEvaluation = negativeOneEvaluation;
++            secondBestVelocity = 0;
++            secondBestEvaluation = zeroEvaluation;
++            multiplier = 1;
++        } else {
++            bestVelocity = 0;
++            bestEvaluation = zeroEvaluation;
++            if (oneEvaluation > negativeOneEvaluation) {
++                secondBestVelocity = -1;
++                secondBestEvaluation = negativeOneEvaluation;
++                multiplier = -1;
++            } else {
++                secondBestVelocity = 1;
++                secondBestEvaluation = oneEvaluation;
++                multiplier = 1;
++            }
++        }
++    }
++
++    private void bestTwoValues(int index) {
++        while (true) {
++            double newVelocity = bestVelocity + multiplier;
++            double newEvaluation = evaluateBoost(newVelocity, index);
++            if (newEvaluation < bestEvaluation) {
++                secondBestVelocity = bestVelocity;
++                secondBestEvaluation = bestEvaluation;
++                bestVelocity = newVelocity;
++                bestEvaluation = newEvaluation;
++            } else {
++                if (newEvaluation < secondBestEvaluation) {
++                    secondBestVelocity = newVelocity;
++                    secondBestEvaluation = newEvaluation;
++                }
++                break;
++            }
++        }
++    }
++
++    private void evaluationBetween(int index) {
++        while (decimalPlaces(bestVelocity) <= TRAJECTORY_ACCURACY) {
++            double newVelocity = (bestVelocity + secondBestVelocity) / 2d;
++            double newEvaluation = evaluateBoost(newVelocity, index);
++            if (newEvaluation < bestEvaluation) {
++                secondBestVelocity = bestVelocity;
++                secondBestEvaluation = bestEvaluation;
++                bestVelocity = newVelocity;
++                bestEvaluation = newEvaluation;
++            } else {
++                if (newEvaluation < secondBestEvaluation) {
++                    secondBestVelocity = newVelocity;
++                    secondBestEvaluation = newEvaluation;
++                }
++                break;
++            }
++        }
++    }
++
++    private double evaluateBoost(double velocity, int index) {
++        double timeStep = 50;
++        Probe probeCopy = new Probe();
++        double[] velocities = Arrays.copyOf(best, best.length);
++        velocities[index] = velocity;
++        probeCopy.addBoost(new Boost(Model.getTime(), velocities));
++        if (!probeCopy.areBoostsValid(timeStep))
++            return -1;
++
++        modelCopy.addProbe(probeCopy);
++        double simulatedSeconds = 0;
++        while (SIMULATION_LENGTH * 24 * 60 * 60 > simulatedSeconds) {
++            modelCopy.step(timeStep);
++            simulatedSeconds += timeStep;
++        }
++
++        return objectiveFunction(probeCopy);
++    }
++
++    public static int decimalPlaces(double d) {
++        String s = Double.toString(d);
++        int decimalIndex = s.indexOf(".");
++        if (decimalIndex == -1)
++            return 0;
++        else
++            return s.length() - decimalIndex - 1;
++    }
+ }
+Index: src/main/java/code/model/objects/Probe.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package code.model.objects;\n\nimport code.model.Model;\nimport code.utils.HelperFunctions;\nimport code.utils.Time;\n\nimport java.util.*;\n\n/**\n * Class representing a spacecraft in the model. Extends the PlanetObject class.\n */\npublic class Probe extends PlanetObject {\n    private double shortestDistanceToTitan;\n    private final int PROBE_NUMBER;\n    private static int probeCounter = 0;\n    private final Queue<Boost> listOfBoosts;\n    private double fuelUsed;\n    private double[] coordinatesOfShortestDistanceToTitan;\n\n\n    public Probe() {\n        super(new double[3], new double[]{0, 0, 0});\n        PROBE_NUMBER = probeCounter;\n        probeCounter++;\n        listOfBoosts = new PriorityQueue<>();\n        setCoordinates(initialPosition());\n        setMass(50_000);\n        shortestDistanceToTitan = getDistanceToTitan();\n        coordinatesOfShortestDistanceToTitan = new double[3];\n    }\n\n\n    /**\n     * Determines where the Probe should be launched from.\n     *\n     * @return the double array representing initial coordinates.\n     */\n    private double[] initialPosition() {\n        double[] coordinates = HelperFunctions.subtract(Model.getPlanetObjects().get(\"Earth\").getCoordinates(),\n                Model.getPlanetObjects().get(\"Titan\").getCoordinates());\n\n        double magnitude = HelperFunctions.getVectorMagnitude(coordinates);\n        for (int i = 0; i <= 2; i++)\n            coordinates[i] = coordinates[i] * 6370 / magnitude;\n\n        return HelperFunctions.addition(coordinates, Model.getPlanetObjects().get(\"Earth\").getCoordinates());\n    }\n\n\n    public boolean areBoostsValid(double step) {\n        double maxImpulse = 3 * (Math.pow(10, 7)) * step;\n        ArrayList<Boost> list = new ArrayList<>(listOfBoosts);\n        for (Boost boost : list) {\n            if (boost.getFuel() > maxImpulse) {\n                System.out.println(\"Max is\" + maxImpulse);\n                System.out.println(\"Boots is\" + boost.getFuel());\n                return false;\n            }\n        }\n        return true;\n\n    }\n\n    public void addBoost(Boost boost) {\n        listOfBoosts.add(boost);\n        fuelUsed += boost.getFuel();\n    }\n\n    public void BoosterMECH(Time time) {\n        if (listOfBoosts.peek() != null) {\n            if (time.equals( listOfBoosts.peek().getTimeOfBoost())) {\n                System.out.println(\"boosted\");\n                double[] probeVelocity = getVelocity();\n                double[] boostVelocity = listOfBoosts.poll().getVelocityOfBoost();\n                setVelocity(HelperFunctions.addition(probeVelocity, boostVelocity));\n            }\n        }\n    }\n\n    @Override\n    public String toString() {\n        return \"Probe{\" +\n                \"shortestDistanceToTitan=\" + shortestDistanceToTitan +\n                \", listOfBoosts=\" + listOfBoosts +\n                \", fuelUsed=\" + fuelUsed +\n                '}';\n    }\n\n    // GETTERS AND SETTERS\n\n    public double getDistanceToTitan() {\n        return HelperFunctions.getDistanceBetween(this, Model.getPlanetObjects().get(\"Titan\")) - Model.getPlanetObjects().get(\"Titan\").getRadius();\n    }\n\n    public double getDistanceToEarth() {\n        return HelperFunctions.getDistanceBetween(this, Model.getPlanetObjects().get(\"Earth\")) - Model.getPlanetObjects().get(\"Earth\").getRadius();\n    }\n\n    public double getShortestDistanceToTitan() {\n        return shortestDistanceToTitan;\n    }\n\n    public int getProbeNumber() {\n        return PROBE_NUMBER;\n    }\n\n    public double getFuelUsed() {\n        return fuelUsed;\n    }\n\n    /**\n     * Overrides the PlanetObject class's method. Apart from assigning the new coordinates\n     * also checks the Probe's distance to Titan. If this distance is the lowest noted distance,\n     * assigns it to the shortestDistanceToTitan field.\n     *\n     * @param coordinates an array of doubles representing the new coordinates for the modeled object.\n     */\n    @Override\n    public void setCoordinates(double[] coordinates) {\n        super.setCoordinates(coordinates);\n        double distanceToTitan = getDistanceToTitan();\n        if (distanceToTitan < shortestDistanceToTitan) {\n            shortestDistanceToTitan = distanceToTitan;\n            coordinatesOfShortestDistanceToTitan = coordinates;\n        }\n    }\n\n    public double[] getCoordinatesOfShortestDistanceToTitan() {\n        return coordinatesOfShortestDistanceToTitan;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/code/model/objects/Probe.java b/src/main/java/code/model/objects/Probe.java
+--- a/src/main/java/code/model/objects/Probe.java	(revision 18c6801369b883ec993d0e875f18ef3d64d89179)
++++ b/src/main/java/code/model/objects/Probe.java	(date 1687347847446)
+@@ -1,6 +1,7 @@
+ package code.model.objects;
+ 
+ import code.model.Model;
++import code.model.objects.properties.Boost;
+ import code.utils.HelperFunctions;
+ import code.utils.Time;
+ 
+@@ -46,6 +47,11 @@
+         return HelperFunctions.addition(coordinates, Model.getPlanetObjects().get("Earth").getCoordinates());
+     }
+ 
++    @Override
++    public boolean affectsOthers() {
++        return false;
++    }
++
+ 
+     public boolean areBoostsValid(double step) {
+         double maxImpulse = 3 * (Math.pow(10, 7)) * step;
+@@ -68,7 +74,7 @@
+ 
+     public void BoosterMECH(Time time) {
+         if (listOfBoosts.peek() != null) {
+-            if (time.equals( listOfBoosts.peek().getTimeOfBoost())) {
++            if (time.equals(listOfBoosts.peek().getTimeOfBoost())) {
+                 System.out.println("boosted");
+                 double[] probeVelocity = getVelocity();
+                 double[] boostVelocity = listOfBoosts.poll().getVelocityOfBoost();
+Index: src/main/java/code/model/Model.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package code.model;\n\nimport code.model.data.loaders.DataLoader;\nimport code.model.objects.PlanetObject;\nimport code.model.objects.Probe;\nimport org.apache.poi.ss.usermodel.Sheet;\nimport org.apache.poi.ss.usermodel.Workbook;\nimport org.apache.poi.xssf.usermodel.XSSFWorkbook;\n\nimport java.io.IOException;\nimport java.io.InputStream;\nimport java.util.*;\n\n/**\n * Class representing the objects in the simulation. It holds the PlanetObject objects and probes and\n * is responsible for loading their properties.\n *\n * <p>\n * It is a singleton to ensure that there is only one instance of every modeled object.\n * </p>\n *\n * <p>\n * It loads masses and radii of planets from xlsx files in resources.\n * It loads the initial coordinates and velocities depending on the data loader.\n * </p>\n */\npublic class Model\n    {\n    private Map<String, PlanetObject> planetObjects;\n    private List<Probe> probes;\n\n\n\n    private Model() {\n    }\n\n    /**\n     * Subclass holding the instance of the model.\n     * Allows use of the singleton design without calling the instance each time.\n     */\n    private static final class InstanceHolder {\n        private static final Model INSTANCE = new Model();\n    }\n\n    /**\n     * Used inside this class to refer to the instance holding the objects.\n     *\n     * @return the Model instance\n     */\n    public static Model getInstance() {\n        return InstanceHolder.INSTANCE;\n    }\n\n\n    /**\n     * @return a Map where the name of each celestial body starting with a capital letter is the key and\n     * the PlanetObject corresponding to it is the value\n     */\n    public static Map<String, PlanetObject> getPlanetObjects() {\n        return getInstance().planetObjects;\n    }\n\n    /**\n     * Returns an ArrayList of PlanetObjects for when they need to be accessed in this particular order.\n     *\n     * @return an ArrayList of PlanetObjects in the model\n     */\n    public static ArrayList<PlanetObject> getPlanetObjectsArrayList() {\n        ArrayList<PlanetObject> planets = new ArrayList<>();\n        planets.add(Model.getPlanetObjects().get(\"Sun\"));\n        planets.add(Model.getPlanetObjects().get(\"Mercury\"));\n        planets.add(Model.getPlanetObjects().get(\"Venus\"));\n        planets.add(Model.getPlanetObjects().get(\"Earth\"));\n        planets.add(Model.getPlanetObjects().get(\"Moon\"));\n        planets.add(Model.getPlanetObjects().get(\"Mars\"));\n        planets.add(Model.getPlanetObjects().get(\"Jupiter\"));\n        planets.add(Model.getPlanetObjects().get(\"Saturn\"));\n        planets.add(Model.getPlanetObjects().get(\"Titan\"));\n        planets.add(Model.getPlanetObjects().get(\"Neptune\"));\n        planets.add(Model.getPlanetObjects().get(\"Uranus\"));\n        return planets;\n    }\n\n    public static void freezeModel(){\n        for(PlanetObject planet:getPlanetObjectsArrayList())\n            planet.setVelocity(new double[]{0, 0, 0});\n        for (Probe probe:getProbes())\n            probe.setVelocity(new double[]{0, 0, 0});\n    }\n\n    /**\n     * @return a List of Probe objects in the model\n     */\n    public static List<Probe> getProbes() {\n        return getInstance().probes;\n    }\n\n    /**\n     * Adds a Probe object to the model\n     *\n     * @param probe the Probe object to be added to the model\n     */\n    public static void addProbe(Probe probe) {\n        getInstance().probes.add(probe);\n    }\n\n    /**\n     * For hill climbing algorithm. Removes all other probes from the model and keeps only the one passed in parameter.\n     *\n     * @param probe the Probe object to be kept in the model\n     */\n    public static void chooseProbe(Probe probe) {\n        getInstance().probes = new ArrayList<>();\n        addProbe(probe);\n    }\n\n    /**\n     * Loads the information about initial positions and velocities of the celestial bodies to the model.\n     *\n     * @param dataLoader depending on the implementation of the interface passed in this argument\n     *                   data from different sources can be chosen.\n     */\n    public static void loadData(DataLoader dataLoader) {\n        getInstance().planetObjects = new HashMap<>();\n        getInstance().probes = new ArrayList<>();\n        dataLoader.load(getInstance().planetObjects);\n        getInstance().loadRadii();\n        getInstance().loadMass();\n    }\n\n    /**\n     * Loads the radii of each celestial body from the xlsx file in resources and assigns it to the\n     * PlanetObjects in the model.\n     */\n    private void loadRadii() {\n        try (InputStream inputStream = getClass().getResourceAsStream(\"/model/radius.xlsx\")) {\n            assert inputStream != null;\n            try (Workbook workbook = new XSSFWorkbook(inputStream)) {\n                Sheet sheet = workbook.getSheetAt(0);\n\n                for (int index = 0; index <= 10; index++) {\n                    String name = sheet.getRow(index).getCell(0).getStringCellValue();\n                    double radius = sheet.getRow(index).getCell(1).getNumericCellValue();\n\n                    planetObjects.get(name).setRadius(radius);\n                }\n            }\n        } catch (IOException exception) {\n            exception.printStackTrace();\n        }\n    }\n\n    /**\n     * Loads the mass of each celestial body from the xlsx file in resources and assigns it to the\n     * PlanetObjects in the model.\n     */\n    private void loadMass() {\n        try (InputStream inputStream = getClass().getResourceAsStream(\"/model/mass.xlsx\")) {\n            assert inputStream != null;\n            try (Workbook workbook = new XSSFWorkbook(inputStream)) {\n                Sheet sheet = workbook.getSheetAt(0);\n\n                for (int index = 0; index <= 10; index++) {\n                    String name = sheet.getRow(index).getCell(0).getStringCellValue();\n                    double mass = sheet.getRow(index).getCell(1).getNumericCellValue();\n\n                    planetObjects.get(name).setMass(mass);\n                }\n            }\n        } catch (IOException exception) {\n            exception.printStackTrace();\n        }\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/code/model/Model.java b/src/main/java/code/model/Model.java
+--- a/src/main/java/code/model/Model.java	(revision 18c6801369b883ec993d0e875f18ef3d64d89179)
++++ b/src/main/java/code/model/Model.java	(date 1687510852776)
+@@ -1,8 +1,12 @@
+ package code.model;
+ 
++import code.algorithms.solvers.AccelerationFunction;
++import code.algorithms.solvers.RungeKutta;
++import code.algorithms.solvers.Solver;
+ import code.model.data.loaders.DataLoader;
+ import code.model.objects.PlanetObject;
+ import code.model.objects.Probe;
++import code.utils.Time;
+ import org.apache.poi.ss.usermodel.Sheet;
+ import org.apache.poi.ss.usermodel.Workbook;
+ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+@@ -10,6 +14,7 @@
+ import java.io.IOException;
+ import java.io.InputStream;
+ import java.util.*;
++import java.util.function.BiFunction;
+ 
+ /**
+  * Class representing the objects in the simulation. It holds the PlanetObject objects and probes and
+@@ -24,15 +29,20 @@
+  * It loads the initial coordinates and velocities depending on the data loader.
+  * </p>
+  */
+-public class Model
+-    {
++public class Model {
+     private Map<String, PlanetObject> planetObjects;
+     private List<Probe> probes;
+-
++    private final Time TIME;
++    private static final AccelerationFunction ACCELERATION_FUNCTION = new AccelerationFunction();
++    private final Solver solver;
++    private double[] stateArray;
+ 
+ 
+     private Model() {
++        TIME = new Time(2023, 4, 1);
++        solver = new RungeKutta();
+     }
++
+ 
+     /**
+      * Subclass holding the instance of the model.
+@@ -81,10 +91,16 @@
+         return planets;
+     }
+ 
+-    public static void freezeModel(){
+-        for(PlanetObject planet:getPlanetObjectsArrayList())
++    public static ArrayList<PlanetObject> getAllObjects() {
++        ArrayList<PlanetObject> allObjects = getPlanetObjectsArrayList();
++        allObjects.addAll(getProbes());
++        return allObjects;
++    }
++
++    public static void freezeModel() {
++        for (PlanetObject planet : getPlanetObjectsArrayList())
+             planet.setVelocity(new double[]{0, 0, 0});
+-        for (Probe probe:getProbes())
++        for (Probe probe : getProbes())
+             probe.setVelocity(new double[]{0, 0, 0});
+     }
+ 
+@@ -114,6 +130,64 @@
+         addProbe(probe);
+     }
+ 
++    public static void step(double timeStep) {
++        double[] currentState = flattenState(getAllObjects());
++        double[] nextState = getInstance().solver.solve(getDynamicsFunction(), currentState, 0, timeStep);
++        updateObjectsState(nextState);
++        // TODO: double seconds in time
++        getTime().addSeconds((int) timeStep);
++    }
++
++    public BiFunction<Double, double[], double[]> dynamicsFunction() {
++        return (time, systemState) -> {
++            int n = getAllObjects().size();
++            double[] dydt = new double[n * 6];
++            updateObjectsState(systemState);
++            for (int i = 0; i < n; i++) {
++                System.arraycopy(getAllObjects().get(i).getVelocity(), 0, dydt, i * 3, 3);
++                System.arraycopy(ACCELERATION_FUNCTION.calculate(i), 0, dydt, (n + i) * 3, 3);
++            }
++            return dydt;
++        };
++    }
++
++    public static BiFunction<Double, double[], double[]> getDynamicsFunction() {
++        return getInstance().dynamicsFunction();
++    }
++
++    public static double[] getStateArray() {
++        return getInstance().stateArray;
++    }
++
++    public static void setStateArray(double[] newArray) {
++        getInstance().stateArray = newArray;
++    }
++
++    public static void updateObjectsState(double[] systemState) {
++        ArrayList<PlanetObject> allObjects = getAllObjects();
++        if (systemState.length != allObjects.size() * 6) {
++            throw new IllegalArgumentException("Size of system state array does not match number of PlanetObjects.");
++        }
++        for (int i = 1; i < allObjects.size(); i++) {
++            double[] newPosition = Arrays.copyOfRange(systemState, i * 3, i * 3 + 3);
++            double[] newVelocity = Arrays.copyOfRange(systemState, (allObjects.size() + i) * 3, (allObjects.size() + i) * 3 + 3);
++            allObjects.get(i).setCoordinates(newPosition);
++            allObjects.get(i).setVelocity(newVelocity);
++        }
++    }
++
++    public static double[] flattenState(List<PlanetObject> allObjects) {
++        double[] systemState = new double[allObjects.size() * 6];
++        for (int i = 0; i < allObjects.size(); i++) {
++            double[] position = allObjects.get(i).getCoordinates();
++            double[] velocity = allObjects.get(i).getVelocity();
++
++            System.arraycopy(position, 0, systemState, i * 3, 3);
++            System.arraycopy(velocity, 0, systemState, (allObjects.size() + i) * 3, 3);
++        }
++        return systemState;
++    }
++
+     /**
+      * Loads the information about initial positions and velocities of the celestial bodies to the model.
+      *
+@@ -171,4 +245,12 @@
+             exception.printStackTrace();
+         }
+     }
++
++    public static Time getTime() {
++        return getInstance().TIME;
++    }
++
++    public void incrementTime(int seconds) {
++        getInstance().TIME.addSeconds(seconds);
++    }
+ }
+Index: src/main/java/code/algorithms/solvers/MyFunction.java
+===================================================================
+diff --git a/src/main/java/code/algorithms/solvers/MyFunction.java b/src/main/java/code/algorithms/solvers/MyFunction.java
+deleted file mode 100644
+--- a/src/main/java/code/algorithms/solvers/MyFunction.java	(revision 18c6801369b883ec993d0e875f18ef3d64d89179)
++++ /dev/null	(revision 18c6801369b883ec993d0e875f18ef3d64d89179)
+@@ -1,13 +0,0 @@
+-package code.algorithms.solvers;
+-
+-public class MyFunction implements Function {
+-
+-    public MyFunction(){
+-    }
+-
+-    public double evaluation(double y0, double t){
+-        return y0 + t;
+-    }
+-
+-
+-}
+Index: src/main/java/code/algorithms/solvers/VelocityFunction.java
+===================================================================
+diff --git a/src/main/java/code/algorithms/solvers/VelocityFunction.java b/src/main/java/code/algorithms/solvers/VelocityFunction.java
+deleted file mode 100644
+--- a/src/main/java/code/algorithms/solvers/VelocityFunction.java	(revision 18c6801369b883ec993d0e875f18ef3d64d89179)
++++ /dev/null	(revision 18c6801369b883ec993d0e875f18ef3d64d89179)
+@@ -1,16 +0,0 @@
+-package code.algorithms.solvers;
+-
+-import code.model.objects.PlanetObject;
+-
+-public class VelocityFunction implements Function{
+-
+-    double velocity;
+-
+-    public VelocityFunction(PlanetObject planetObject, int l){
+-        this.velocity = planetObject.getVelocity()[l];
+-    }
+-
+-    public double evaluation(double y0, double t){
+-        return velocity;
+-    }
+-}
+Index: src/main/java/code/algorithms/solvers/AnotherFunction.java
+===================================================================
+diff --git a/src/main/java/code/algorithms/solvers/AnotherFunction.java b/src/main/java/code/algorithms/solvers/AnotherFunction.java
+deleted file mode 100644
+--- a/src/main/java/code/algorithms/solvers/AnotherFunction.java	(revision 18c6801369b883ec993d0e875f18ef3d64d89179)
++++ /dev/null	(revision 18c6801369b883ec993d0e875f18ef3d64d89179)
+@@ -1,8 +0,0 @@
+-package code.algorithms.solvers;
+-
+-public class AnotherFunction implements Function {
+-
+-    public double evaluation(double y0, double t){
+-        return y0 + Math.cos(t);
+-    }
+-}
+Index: src/main/java/code/algorithms/solvers/Function.java
+===================================================================
+diff --git a/src/main/java/code/algorithms/solvers/Function.java b/src/main/java/code/algorithms/solvers/Function.java
+deleted file mode 100644
+--- a/src/main/java/code/algorithms/solvers/Function.java	(revision 18c6801369b883ec993d0e875f18ef3d64d89179)
++++ /dev/null	(revision 18c6801369b883ec993d0e875f18ef3d64d89179)
+@@ -1,8 +0,0 @@
+-package code.algorithms.solvers;
+-
+-public interface Function {
+-
+-    double evaluation(double y0, double t);
+-
+-
+-}
+Index: HillClimbAlg.java
+===================================================================
+diff --git a/HillClimbAlg.java b/HillClimbAlg.java
+deleted file mode 100644
+--- a/HillClimbAlg.java	(revision 18c6801369b883ec993d0e875f18ef3d64d89179)
++++ /dev/null	(revision 18c6801369b883ec993d0e875f18ef3d64d89179)
+@@ -1,58 +0,0 @@
+-package helperFunction;
+-
+-import java.util.Random;
+-
+-public class HillClimbAlg {
+-
+-    public int HillClimb(){
+-        Random rn = new Random();
+-
+-        int newDistanceFromRocketToTitan;
+-
+-        int initialLaunchX = rn.nextInt();
+-        int newLaunchXPlus = initialLaunchX + 1;
+-        int newLaunchXMinus = initialLaunchX - 1;
+-        int finalLaunchX;
+-
+-        int initialLaunchY = rn.nextInt();
+-        int newLaunchYPlus = initialLaunchY + 1;
+-        int newLaunchYMinus = initialLaunchY - 1;
+-        int finalLaunchY;
+-
+-        int initialLaunchZ = rn.nextInt();
+-        int newLaunchZPlus = initialLaunchZ + 1;
+-        int newLaunchZMinus = initialLaunchZ - 1;
+-        int finalLaunchZ;
+-
+-        //launch rocket with initialLaunchX, initialLaunchY, initialLaunchZ
+-        //initialDistanceFromRocketToTitan =
+-        //int finalDistancePlus = rocket after 1 year
+-        //int finalDistanceMinus = finalDistancePlus;
+-
+-        //launch rocket with newLaunchXPlus, initialLaunchY, initialLaunchZ
+-        //newDistanceFromRocketToTitan = rocket after 1 year
+-        while(newDistanceFromRocketToTitan > finalDistancePlus){
+-            finalDistancePlus = newDistanceFromRocketToTitan;
+-            newLaunchXPlus++;
+-            //newDistanceFromRocketToTitan = rocket after 1 year
+-        }
+-
+-        //launch rocket with newLaunchXMinus
+-        //newDistanceFromRocketToTitan = rocket after 1 year
+-
+-        while(newDistanceFromRocketToTitan > finalDistanceMinus){
+-            finalDistanceMinus = newDistanceFromRocketToTitan;
+-            newLaunchXMinus--;
+-            //newDistanceFromRocketToTitan = rocket after 1 year
+-        }
+-
+-        if(finalDistancePlus > finalDistanceMinus){
+-            finalLaunchX =  newLaunchXPlus;
+-        }else{
+-            finalLaunchX = newLaunchXMinus;
+-        }
+-
+-        //repeat with y and z
+-
+-    }
+-}
+Index: src/main/java/code/algorithms/solvers/Vector.java
+===================================================================
+diff --git a/src/main/java/code/algorithms/solvers/Vector.java b/src/main/java/code/algorithms/solvers/Vector.java
+deleted file mode 100644
+--- a/src/main/java/code/algorithms/solvers/Vector.java	(revision 18c6801369b883ec993d0e875f18ef3d64d89179)
++++ /dev/null	(revision 18c6801369b883ec993d0e875f18ef3d64d89179)
+@@ -1,25 +0,0 @@
+-package code.algorithms.solvers;
+-
+-import java.util.ArrayList;
+-
+-public class Vector {
+-    private int length;
+-    private ArrayList<Function> y = new ArrayList<>();
+-
+-    public Vector(){
+-
+-    }
+-
+-    public int getLength(){
+-        return y.size();
+-    }
+-
+-    public void addFunction(Function function){
+-        y.add(function);
+-    }
+-
+-    public double getFunction(int i, double y0, double t){
+-         return y.get(i).evaluation(y0, t);
+-    }
+-
+-}
+Index: src/main/java/code/algorithms/solvers/SolverTester.java
+===================================================================
+diff --git a/src/main/java/code/algorithms/solvers/SolverTester.java b/src/main/java/code/algorithms/solvers/SolverTester.java
+deleted file mode 100644
+--- a/src/main/java/code/algorithms/solvers/SolverTester.java	(revision 18c6801369b883ec993d0e875f18ef3d64d89179)
++++ /dev/null	(revision 18c6801369b883ec993d0e875f18ef3d64d89179)
+@@ -1,21 +0,0 @@
+-package code.algorithms.solvers;
+-
+-public class SolverTester {
+-
+-    public static void main(String[] args){
+-        MyFunction myFunction = new MyFunction();
+-        AnotherFunction anotherFunction = new AnotherFunction();
+-        Vector y = new Vector();
+-        y.addFunction(myFunction);
+-        y.addFunction(anotherFunction);
+-        double h = 0.5;
+-        double t = 1;
+-        double [] y0 = {0, 0};
+-
+-        for (int i = 0; i < 6; i++){
+-            Solvers.eulerStep(y, y0, h, t);
+-            t += 0.5;
+-        }
+-
+-    }
+-}
+Index: src/main/java/code/algorithms/solvers/Solvers.java
+===================================================================
+diff --git a/src/main/java/code/algorithms/solvers/Solvers.java b/src/main/java/code/algorithms/solvers/Solvers.java
+deleted file mode 100644
+--- a/src/main/java/code/algorithms/solvers/Solvers.java	(revision 18c6801369b883ec993d0e875f18ef3d64d89179)
++++ /dev/null	(revision 18c6801369b883ec993d0e875f18ef3d64d89179)
+@@ -1,250 +0,0 @@
+-package code.algorithms.solvers;
+-
+-import code.model.objects.PlanetObject;
+-import code.utils.HelperFunctions;
+-
+-import static code.model.objects.PlanetObject.G;
+-
+-/**
+- * Class containing methods with various solver implementations with methods
+- */
+-public class Solvers {
+-    private Solvers() {
+-    }
+-
+-
+-    /**
+-     * Approximates the acceleration between two PlanetObject objects using the formula for acceleration between two celestial bodies
+-     *
+-     * @param position1D   individual vector component of position
+-     * @param planetObject the PlanetObject for which the acceleration is being calculated
+-     * @param otherObject  the PlanetObject to which the current planet is being compared to
+-     * @param i            int representing which component of the coordinates is being evaluated
+-     * @return acceleration
+-     */
+-
+-    private static double accelerationFunction(double position1D, PlanetObject planetObject, PlanetObject otherObject, int i) {
+-        double force, acceleration, positionalDifference;
+-        double M1 = planetObject.getMass();
+-        double M2 = otherObject.getMass();
+-
+-        double[] coordinates = planetObject.getCoordinates();
+-        double[] otherCoordinates = otherObject.getCoordinates();
+-
+-        positionalDifference = position1D - otherCoordinates[i];
+-
+-        double distance = 1 / HelperFunctions.getDistanceBetweenWithVectors(coordinates, otherCoordinates);
+-
+-        force = -G * M1 * M2 * (Math.pow(distance, 3)) * positionalDifference;
+-        acceleration = force / M1;
+-
+-        return acceleration;
+-    }
+-
+-    /**
+-     * The first order explicit Euler solver that approximates the new position and new velocity vectors
+-     * with the help of the accelerationFunction() method
+-     *
+-     * @param planetObject the PlanetObject for which the acceleration is being calculated
+-     * @param otherObject  the PlanetObject with respect to which the changes are being calculated
+-     * @param timeStep     double representing the time step
+-     */
+-    public static void explicitEuler(PlanetObject planetObject, PlanetObject otherObject, double timeStep) {
+-        //Initialize values
+-        double[] velocityVector = planetObject.getVelocity();
+-        double[] positionalVector = planetObject.getCoordinates();
+-        double[] acceleration = planetObject.getAcceleration();
+-
+-        for (int i = 0; i < 3; i++) {
+-            //Approximate the new values of acceleration, position and velocity
+-            acceleration[i] += accelerationFunction(positionalVector[i], planetObject, otherObject, i);
+-            positionalVector[i] += velocityVector[i] * timeStep;
+-            velocityVector[i] += acceleration[i] * timeStep;
+-        }
+-
+-        //Update the new values
+-        planetObject.setVelocity(velocityVector);
+-        planetObject.setCoordinates(positionalVector);
+-        planetObject.setAcceleration(acceleration);
+-    }
+-
+-
+-    /**
+-     * Euler's solver that updates the planet position with step in time
+-     *
+-     * @param planetObject the PlanetObject for which the acceleration is being calculated
+-     * @param acceleration all the accelerations that affect the body combined to one vector
+-     * @param timeStep     double representing the time step (1 second is 1)
+-     */
+-    public static void implicitEuler(PlanetObject planetObject, double[] acceleration, double timeStep) {
+-        double[] velocityVector = planetObject.getVelocity();
+-        double[] positionalVector = planetObject.getCoordinates();
+-        for (int i = 0; i < 3; i++) {
+-            velocityVector[i] += acceleration[i] * timeStep;
+-            positionalVector[i] += velocityVector[i] * timeStep;
+-        }
+-        planetObject.setVelocity(velocityVector);
+-        planetObject.setCoordinates(positionalVector);
+-    }
+-
+-    public static double[] eulerStep(Vector y, double[] y0, double h, double t) {
+-        int vectorLength = y.getLength();
+-        double[] w = y0;
+-        for (int i = 0; i < vectorLength; i++) {
+-            w[i] += h * (y.getFunction(i, y0[i], t));
+-//            System.out.println("Function " + i + ": " + w[i]);
+-        }
+-        return w;
+-    }
+-
+-
+-    /**
+-     * The fourth order Runge-Kutta solver that approximates the new position and new velocity vectors
+-     * by calculating the acceleration via the accelerationFunction() method
+-     *
+-     * <p>It uses four intermediate values of k
+-     * kvi being intermediate values for the velocity vector and kxi being the intermediate values for the positional
+-     * vector
+-     * </p>
+-     *
+-     * @param planetObject the PlanetObject for which the acceleration is being calculated
+-     * @param otherObject  the PlanetObject with respect to which the changes are being calculated
+-     * @param timeStep     double representing time step
+-     */
+-    public static void rungeKutta4(PlanetObject planetObject, PlanetObject otherObject, double timeStep) {
+-        // Initialize values
+-        double[] velocityVector = planetObject.getVelocity();
+-        double[] positionalVector = planetObject.getCoordinates();
+-        double[] acceleration = planetObject.getAcceleration();
+-
+-        double[] kx1 = new double[3];
+-        double[] kx2 = new double[3];
+-        double[] kx3 = new double[3];
+-        double[] kx4 = new double[3];
+-        double[] kv1 = new double[3];
+-        double[] kv2 = new double[3];
+-        double[] kv3 = new double[3];
+-        double[] kv4 = new double[3];
+-
+-        for (int i = 0; i < 3; i++) {
+-            //Calculate intermediate values k as vectors
+-            kv1[i] = acceleration[i] + accelerationFunction(positionalVector[i], planetObject, otherObject, i);
+-            kx1[i] = velocityVector[i] * timeStep;
+-            kv2[i] = acceleration[i] + accelerationFunction(positionalVector[i] + (kx1[i] * (timeStep / 2)), planetObject, otherObject, i);
+-            kx2[i] = velocityVector[i] * (kv1[i] * (timeStep / 2));
+-            kv3[i] = acceleration[i] + accelerationFunction(positionalVector[i] + (kx2[i] * (timeStep / 2)), planetObject, otherObject, i);
+-            kx3[i] = velocityVector[i] * (kv2[i] * (timeStep / 2));
+-            kv4[i] = acceleration[i] + accelerationFunction(positionalVector[i] + (kx3[i] * (timeStep / 2)), planetObject, otherObject, i);
+-            kx4[i] = velocityVector[i] * (kv3[i] * timeStep);
+-
+-            //Use intermediate values k to estimate new position and velocity
+-            velocityVector[i] = velocityVector[i] + (timeStep / 6) * (kv1[i] + 2 * kv2[i] + 2 * kv3[i] + kv4[i]);
+-            positionalVector[i] = positionalVector[i] + (timeStep / 6) * (kx1[i] + 2 * kx2[i] + 2 * kx3[i] + kx4[i]);
+-        }
+-        //Approximate the new value of acceleration
+-        double newAcceleration[] = new double[3];
+-        newAcceleration = HelperFunctions.addition(newAcceleration, planetObject.accelerationBetween(otherObject));
+-
+-        //Update the new values
+-        planetObject.setVelocity(velocityVector);
+-        planetObject.setCoordinates(positionalVector);
+-        planetObject.setAcceleration(newAcceleration);
+-    }
+-
+-
+-    /**
+-     * This is the second order Ralston's solver that approximates the new position and new velocity vectors
+-     * by calculating the acceleration via the accelerationFunction() method.
+-     *
+-     * <p>
+-     * It uses four intermediate values of k kvi being intermediate values for the velocity vector and
+-     * kxi being the intermediate values for the positional vector
+-     * </p>
+-     *
+-     * @param planetObject the PlanetObject for which the acceleration is being calculated
+-     * @param otherObject  the PlanetObject with respect to which the changes are being calculated
+-     * @param timeStep     double representing the time step
+-     */
+-    public static void ralston2(PlanetObject planetObject, PlanetObject otherObject, double timeStep) {
+-        //Initialize the values
+-        double[] velocityVector = planetObject.getVelocity();
+-        double[] positionalVector = planetObject.getCoordinates();
+-        double[] acceleration = planetObject.getAcceleration();
+-        double kv1[] = new double[3];
+-        double kv2[] = new double[3];
+-        double kx1[] = new double[3];
+-        double kx2[] = new double[3];
+-
+-        for (int i = 0; i < 3; i++) {
+-            //Calculate the intermediate values of k as vectors
+-            kv1[i] = acceleration[i] + accelerationFunction(positionalVector[i], planetObject, otherObject, i);
+-            kx1[i] = velocityVector[i] * timeStep;
+-            kv2[i] = acceleration[i] + accelerationFunction(positionalVector[i] + (kx1[i] * (2 * timeStep / 3)), planetObject, otherObject, i);
+-            kx2[i] = velocityVector[i] * (kv1[i] * (2 * timeStep / 3));
+-
+-            //Approximate the new values of position and velocity
+-            velocityVector[i] = velocityVector[i] + (timeStep / 4) * (kv1[i] + 3 * kv2[i]);
+-            positionalVector[i] = positionalVector[i] + (timeStep / 4) * (kx1[i] + 3 * kx2[i]);
+-        }
+-        //Approximate the new value of acceleration
+-        double newAcceleration[] = new double[3];
+-        newAcceleration = HelperFunctions.addition(newAcceleration, planetObject.accelerationBetween(otherObject));
+-
+-        //Update the new values
+-        planetObject.setVelocity(velocityVector);
+-        planetObject.setCoordinates(positionalVector);
+-        planetObject.setAcceleration(newAcceleration);
+-
+-    }
+-
+-
+-    /**
+-     * The third order Heun's solver that approximates the new position and new velocity vectors
+-     * by calculating the acceleration via the accelerationFunction() method.
+-     *
+-     * <p>
+-     * Uses four intermediate values of k kvi being intermediate values for the velocity vector and
+-     * kxi being the intermediate values for the positional vector
+-     * </p>
+-     *
+-     * @param planetObject the PlanetObject for which the acceleration is being calculated
+-     * @param otherObject  the PlanetObject with respect to which the changes are being calculated
+-     * @param timeStep     double representing the time step
+-     */
+-    public static void heun3(PlanetObject planetObject, PlanetObject otherObject, double timeStep) {
+-        //Initialize values
+-        double[] velocityVector = planetObject.getVelocity();
+-        double[] positionalVector = planetObject.getCoordinates();
+-        double[] acceleration = planetObject.getAcceleration();
+-        double[] kx1 = new double[3];
+-        double[] kx2 = new double[3];
+-        double[] kx3 = new double[3];
+-        double[] kv1 = new double[3];
+-        double[] kv2 = new double[3];
+-        double[] kv3 = new double[3];
+-
+-        for (int i = 0; i < 3; i++) {
+-            //Calculate the intermediate values of k as vectors
+-            kx1[i] = timeStep * velocityVector[i];
+-            kv1[i] = acceleration[i] + accelerationFunction(positionalVector[i], planetObject, otherObject, i);
+-            kx2[i] = timeStep * (velocityVector[i] * (1 / 3) * kv1[i]);
+-            kv2[i] = acceleration[i] + accelerationFunction(positionalVector[i] + (kx1[i] / 3), planetObject, otherObject, i);
+-            kx3[i] = timeStep * (velocityVector[i] * (2 / 3) * kv2[i]);
+-            kv3[i] = acceleration[i] + accelerationFunction(positionalVector[i] + (2 / 3) * kx2[i], planetObject, otherObject, i);
+-
+-            //Approximate the new values of position and velocity
+-            velocityVector[i] = velocityVector[i] + (timeStep / 4) * (kv1[i] + 3 * kv3[i]);
+-            positionalVector[i] = positionalVector[i] + (timeStep / 4) * (kx1[i] + 3 * kx3[i]);
+-        }
+-        //Approximate the new acceleration
+-        double newAcceleration[] = new double[3];
+-        newAcceleration = HelperFunctions.addition(newAcceleration, planetObject.accelerationBetween(otherObject));
+-
+-        //Update the new values
+-        planetObject.setVelocity(velocityVector);
+-        planetObject.setCoordinates(positionalVector);
+-        planetObject.setAcceleration(newAcceleration);
+-
+-    }
+-
+-}
+Index: src/main/java/code/model/ModelCopy.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/code/model/ModelCopy.java b/src/main/java/code/model/ModelCopy.java
+new file mode 100644
+--- /dev/null	(date 1687510852780)
++++ b/src/main/java/code/model/ModelCopy.java	(date 1687510852780)
+@@ -0,0 +1,118 @@
++package code.model;
++
++import code.algorithms.solvers.AccelerationFunction;
++import code.algorithms.solvers.RungeKutta;
++import code.algorithms.solvers.Solver;
++import code.model.objects.PlanetObject;
++import code.model.objects.Probe;
++import code.utils.Time;
++
++import java.util.ArrayList;
++import java.util.Arrays;
++import java.util.List;
++import java.util.function.BiFunction;
++
++
++public class ModelCopy {
++    private List<PlanetObject> planetObjects;
++    private List<Probe> probes;
++    private final Solver solver;
++    private static final AccelerationFunction ACCELERATION_FUNCTION = new AccelerationFunction();
++    private final Time TIME;
++
++
++    public ModelCopy() {
++        TIME = new Time(2023, 4, 1);
++        planetObjects = new ArrayList<>(Model.getPlanetObjectsArrayList());
++        probes = new ArrayList<>(Model.getProbes());
++        solver = new RungeKutta();
++    }
++
++    public List<PlanetObject> getPlanetObjects() {
++        return planetObjects;
++    }
++
++    public List<Probe> getProbes() {
++        return probes;
++    }
++
++    public void updateObjectsState(double[] systemState) {
++        ArrayList<PlanetObject> allObjects = getAllObjects();
++        if (systemState.length != allObjects.size() * 6) {
++            throw new IllegalArgumentException("Size of system state array does not match number of PlanetObjects.");
++        }
++        for (int i = 1; i < allObjects.size(); i++) {
++            double[] newPosition = Arrays.copyOfRange(systemState, i * 3, i * 3 + 3);
++            double[] newVelocity = Arrays.copyOfRange(systemState, (allObjects.size() + i) * 3, (allObjects.size() + i) * 3 + 3);
++            allObjects.get(i).setCoordinates(newPosition);
++            allObjects.get(i).setVelocity(newVelocity);
++        }
++    }
++
++    public static ArrayList<PlanetObject> getPlanetObjectsArrayList() {
++        ArrayList<PlanetObject> planets = new ArrayList<>();
++        planets.add(Model.getPlanetObjects().get("Sun"));
++        planets.add(Model.getPlanetObjects().get("Mercury"));
++        planets.add(Model.getPlanetObjects().get("Venus"));
++        planets.add(Model.getPlanetObjects().get("Earth"));
++        planets.add(Model.getPlanetObjects().get("Moon"));
++        planets.add(Model.getPlanetObjects().get("Mars"));
++        planets.add(Model.getPlanetObjects().get("Jupiter"));
++        planets.add(Model.getPlanetObjects().get("Saturn"));
++        planets.add(Model.getPlanetObjects().get("Titan"));
++        planets.add(Model.getPlanetObjects().get("Neptune"));
++        planets.add(Model.getPlanetObjects().get("Uranus"));
++        return planets;
++    }
++
++    public ArrayList<PlanetObject> getAllObjects() {
++        ArrayList<PlanetObject> allObjects = getPlanetObjectsArrayList();
++        allObjects.addAll(getProbes());
++        return allObjects;
++    }
++
++    public void step(double timeStep) {
++        double[] currentState = flattenState(getAllObjects());
++        double[] nextState = solver.solve(getDynamicsFunction(), currentState, 0, timeStep);
++        updateObjectsState(nextState);
++        // TODO: double seconds in time
++        getTime().addSeconds((int) timeStep);
++    }
++
++    public BiFunction<Double, double[], double[]> dynamicsFunction() {
++        return (time, systemState) -> {
++            int n = getAllObjects().size();
++            double[] dydt = new double[n * 6];
++            updateObjectsState(systemState);
++            for (int i = 0; i < n; i++) {
++                System.arraycopy(getAllObjects().get(i).getVelocity(), 0, dydt, i * 3, 3);
++                System.arraycopy(ACCELERATION_FUNCTION.calculate(i), 0, dydt, (n + i) * 3, 3);
++            }
++            return dydt;
++        };
++    }
++
++    public BiFunction<Double, double[], double[]> getDynamicsFunction() {
++        return dynamicsFunction();
++    }
++
++    public double[] flattenState(List<PlanetObject> allObjects) {
++        double[] systemState = new double[allObjects.size() * 6];
++        for (int i = 0; i < allObjects.size(); i++) {
++            double[] position = allObjects.get(i).getCoordinates();
++            double[] velocity = allObjects.get(i).getVelocity();
++
++            System.arraycopy(position, 0, systemState, i * 3, 3);
++            System.arraycopy(velocity, 0, systemState, (allObjects.size() + i) * 3, 3);
++        }
++        return systemState;
++    }
++
++    public void addProbe(Probe probe) {
++        probes.add(probe);
++    }
++
++    public Time getTime() {
++        return TIME;
++    }
++}
+Index: src/main/java/code/graphics/SolarScene.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/code/graphics/SolarScene.java b/src/main/java/code/graphics/SolarScene.java
+new file mode 100644
+--- /dev/null	(date 1687233958410)
++++ b/src/main/java/code/graphics/SolarScene.java	(date 1687233958410)
+@@ -0,0 +1,20 @@
++package code.graphics;
++
++import code.model.ModelCopy;
++import javafx.scene.Scene;
++
++public class SolarScene extends Scene {
++    private final SolarStackPane SOLAR_STACK_PANE;
++
++
++    public SolarScene(ModelCopy model, double width, double height) {
++        super(new SolarStackPane(model, width, height), width, height, true);
++        SOLAR_STACK_PANE = (SolarStackPane) getRoot();
++        SOLAR_STACK_PANE.addFilters(this);
++    }
++
++
++    public void update(double time) {
++        SOLAR_STACK_PANE.update(time);
++    }
++}
+Index: src/main/java/code/utils/Time.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package code.utils;\n\npublic class Time\n{\n    double year;\n    double months;\n    double days;\n    double hours;\n    double minutes;\n    double seconds;\n\n    public Time(double year, double months, double days, double hours, double minutes, double seconds)\n    {\n        this.year = year;\n        this.months = months;\n        this.days = days;\n        this.hours = hours;\n        this.minutes = minutes;\n        this.seconds = seconds;\n        if(!isNotValidDate()) System.out.println(\"The date is wrong\");\n    }\n    public Time(double[] time)\n    {\n        this.year = time[0];\n        this.months = time[1];\n        this.days = time[2];\n        this.hours = time[3];\n        this.minutes = time[4];\n        this.seconds = time[5];\n        if(!isNotValidDate()) System.out.println(\"The date is wrong\");\n    }\n    public Time(double year, double months, double days, double hours, double minutes)\n    {\n        this.year = year;\n        this.months = months;\n        this.days = days;\n        this.hours = hours;\n        this.minutes = minutes;\n        this.seconds = 0;\n        if(isNotValidDate()) System.out.println(\"The date is wrong\");\n    }\n    public Time(double year, double months, double days, double hours)\n    {\n        this.year = year;\n        this.months = months;\n        this.days = days;\n        this.hours = hours;\n        this.minutes = 0;\n        this.seconds = 0;\n        if(isNotValidDate()) System.out.println(\"The date is wrong\");\n    }\n    public Time(double year, double months, double days)\n    {\n        this.year = year;\n        this.months = months;\n        this.days = days;\n        this.hours =0;\n        this.minutes = 0;\n        this.seconds = 0;\n        if(isNotValidDate()) System.out.println(\"The date is wrong\");\n    }\n\n\n    public void addSeconds(int additionalSeconds)\n    {\n        seconds += additionalSeconds;\n\n        while (seconds >= 60)\n        {\n            seconds -= 60;\n            minutes++;\n        }\n\n        while (minutes >= 60)\n        {\n            minutes -= 60;\n            hours++;\n        }\n\n        while (hours >= 24)\n        {\n            hours -= 24;\n            days++;\n            if (days > getDaysInMonth(months, year))\n            {\n                days = 1;\n                months++;\n                if (months > 12)\n                {\n                    months = 1;\n                    year++;\n                }\n            }\n        }\n    }\n\n\n\n\n    public boolean isNotValidDate() {\n        // Check if the year is within a valid range\n        if (year < 1) {\n            return true;\n        }\n\n        // Check if the month is within a valid range\n        if (months < 1 || months > 12) {\n            return true;\n        }\n\n        // Check if the day is within a valid range for the given month and year\n        if (days < 1 || days > getDaysInMonth(months, year)) {\n            return true;\n        }\n\n        // Check if hours, minutes, and seconds are within a valid range\n        if (hours < 0 || hours > 23 || minutes < 0 || minutes > 59 || seconds < 0 || seconds > 59) {\n            return true;\n        }\n\n        // All checks passed, the date is valid\n        return false;\n    }\n    private int getDaysInMonth(double month, double year) {\n        if (month == 2) {\n            return isLeapYear(year) ? 29 : 28;\n        } else if (month == 4 || month == 6 || month == 9 || month == 11) {\n            return 30;\n        } else {\n            return 31;\n        }\n    }\n    private boolean isLeapYear(double year) {\n        return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);\n    }\n\n    public double[] getTimeArr()\n    {\n        return new double[]{year,months,days,hours,minutes,seconds};\n    }\n    @Override\n    public boolean equals(Object obj) {\n        if (this == obj) {\n            return true;\n        }\n        if (obj == null || getClass() != obj.getClass()) {\n            return false;\n        }\n        Time other = (Time) obj;\n        return days == other.days &&\n                months == other.months &&\n                year == other.year &&\n                hours == other.hours &&\n                minutes == other.minutes &&\n                seconds == other.seconds;\n    }\n\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/code/utils/Time.java b/src/main/java/code/utils/Time.java
+--- a/src/main/java/code/utils/Time.java	(revision 18c6801369b883ec993d0e875f18ef3d64d89179)
++++ b/src/main/java/code/utils/Time.java	(date 1687429934833)
+@@ -1,7 +1,6 @@
+ package code.utils;
+ 
+-public class Time
+-{
++public class Time {
+     double year;
+     double months;
+     double days;
+@@ -9,84 +8,70 @@
+     double minutes;
+     double seconds;
+ 
+-    public Time(double year, double months, double days, double hours, double minutes, double seconds)
+-    {
+-        this.year = year;
+-        this.months = months;
+-        this.days = days;
+-        this.hours = hours;
+-        this.minutes = minutes;
++
++    public Time(double year, double months, double days, double hours, double minutes, double seconds) {
++        this(year, months, days, hours, minutes);
+         this.seconds = seconds;
+-        if(!isNotValidDate()) System.out.println("The date is wrong");
++        if (!isNotValidDate()) System.out.println("The date is wrong");
+     }
+-    public Time(double[] time)
+-    {
+-        this.year = time[0];
+-        this.months = time[1];
+-        this.days = time[2];
+-        this.hours = time[3];
+-        this.minutes = time[4];
+-        this.seconds = time[5];
+-        if(!isNotValidDate()) System.out.println("The date is wrong");
+-    }
+-    public Time(double year, double months, double days, double hours, double minutes)
+-    {
+-        this.year = year;
+-        this.months = months;
+-        this.days = days;
+-        this.hours = hours;
++
++
++    public Time(double year, double months, double days, double hours, double minutes) {
++        this(year, months, days, hours);
+         this.minutes = minutes;
+         this.seconds = 0;
+-        if(isNotValidDate()) System.out.println("The date is wrong");
++        if (isNotValidDate()) System.out.println("The date is wrong");
+     }
+-    public Time(double year, double months, double days, double hours)
+-    {
+-        this.year = year;
+-        this.months = months;
+-        this.days = days;
++
++    public Time(double year, double months, double days, double hours) {
++        this(year, months, days);
+         this.hours = hours;
+         this.minutes = 0;
+         this.seconds = 0;
+-        if(isNotValidDate()) System.out.println("The date is wrong");
++        if (isNotValidDate()) System.out.println("The date is wrong");
+     }
+-    public Time(double year, double months, double days)
+-    {
++
++    public Time(double year, double months, double days) {
+         this.year = year;
+         this.months = months;
+         this.days = days;
+-        this.hours =0;
++        this.hours = 0;
+         this.minutes = 0;
+         this.seconds = 0;
+-        if(isNotValidDate()) System.out.println("The date is wrong");
++        if (isNotValidDate()) System.out.println("The date is wrong");
+     }
+ 
++    public Time(double[] time) {
++        this.year = time[0];
++        this.months = time[1];
++        this.days = time[2];
++        this.hours = time[3];
++        this.minutes = time[4];
++        this.seconds = time[5];
++        if (!isNotValidDate()) System.out.println("The date is wrong");
++    }
+ 
+-    public void addSeconds(int additionalSeconds)
+-    {
++
++    public void addSeconds(int additionalSeconds) {
+         seconds += additionalSeconds;
+ 
+-        while (seconds >= 60)
+-        {
++        while (seconds >= 60) {
+             seconds -= 60;
+             minutes++;
+         }
+ 
+-        while (minutes >= 60)
+-        {
++        while (minutes >= 60) {
+             minutes -= 60;
+             hours++;
+         }
+ 
+-        while (hours >= 24)
+-        {
++        while (hours >= 24) {
+             hours -= 24;
+             days++;
+-            if (days > getDaysInMonth(months, year))
+-            {
++            if (days > getDaysInMonth(months, year)) {
+                 days = 1;
+                 months++;
+-                if (months > 12)
+-                {
++                if (months > 12) {
+                     months = 1;
+                     year++;
+                 }
+@@ -94,9 +79,6 @@
+         }
+     }
+ 
+-
+-
+-
+     public boolean isNotValidDate() {
+         // Check if the year is within a valid range
+         if (year < 1) {
+@@ -121,6 +103,7 @@
+         // All checks passed, the date is valid
+         return false;
+     }
++
+     private int getDaysInMonth(double month, double year) {
+         if (month == 2) {
+             return isLeapYear(year) ? 29 : 28;
+@@ -130,14 +113,15 @@
+             return 31;
+         }
+     }
++
+     private boolean isLeapYear(double year) {
+         return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+     }
+ 
+-    public double[] getTimeArr()
+-    {
+-        return new double[]{year,months,days,hours,minutes,seconds};
++    public double[] getTimeArr() {
++        return new double[]{year, months, days, hours, minutes, seconds};
+     }
++
+     @Override
+     public boolean equals(Object obj) {
+         if (this == obj) {
+@@ -154,6 +138,4 @@
+                 minutes == other.minutes &&
+                 seconds == other.seconds;
+     }
+-
+-
+ }
+Index: src/main/java/code/Main.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package code;\n\nimport code.algorithms.ModelRunner;\nimport code.graphics.Visualizer;\nimport code.model.Model;\nimport code.model.data.loaders.FileDataLoader;\nimport code.model.objects.Boost;\nimport code.model.objects.Probe;\nimport code.utils.Time;\n\npublic class Main {\n    public static void main(String[] args) {\n        Model.loadData(new FileDataLoader());\n        Probe probe = new Probe();\n\n        // velocities calculated by HillClimbingAlg\n        Time startTime=new Time(2023,4,1);\n        Boost boost = new Boost(startTime, new double[]{67.73988800000001, -44.03988500000006, -4.258907});\n        // velocities and time calculated by HillClimbingAlgReturn\n       // Boost boost1 = new Boost(startTime, new double[]{-128.99164151418873, 46.449291805183115, 3.3594162321263057});\n\n        probe.addBoost(boost);\n      //  probe.addBoost(boost1);\n        Model.addProbe(probe);\n        //ModelRunner modelRunner=new ModelRunner(startTime);\n       // modelRunner.runnerForMultipleProbes(365,1,Model.getPlanetObjectsArrayList(),Model.getProbes());\n      //  System.out.println(probe.getShortestDistanceToTitan());\n        Visualizer.main(args);\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/code/Main.java b/src/main/java/code/Main.java
+--- a/src/main/java/code/Main.java	(revision 18c6801369b883ec993d0e875f18ef3d64d89179)
++++ b/src/main/java/code/Main.java	(date 1687505855641)
+@@ -1,30 +1,23 @@
+ package code;
+ 
+-import code.algorithms.ModelRunner;
+ import code.graphics.Visualizer;
+ import code.model.Model;
++import code.model.ModelCopy;
+ import code.model.data.loaders.FileDataLoader;
+-import code.model.objects.Boost;
+ import code.model.objects.Probe;
++import code.model.objects.properties.Boost;
+ import code.utils.Time;
++import org.apache.poi.ss.formula.functions.T;
+ 
+ public class Main {
+     public static void main(String[] args) {
+         Model.loadData(new FileDataLoader());
+         Probe probe = new Probe();
++        Probe probe2 = new Probe();
++//        probe2.addBoost(new Boost(new Time(2023, 4, 1), new double[]{159.78470381490106, -97.12752946315422, -8.151758278466753}));
+ 
+-        // velocities calculated by HillClimbingAlg
+-        Time startTime=new Time(2023,4,1);
+-        Boost boost = new Boost(startTime, new double[]{67.73988800000001, -44.03988500000006, -4.258907});
+-        // velocities and time calculated by HillClimbingAlgReturn
+-       // Boost boost1 = new Boost(startTime, new double[]{-128.99164151418873, 46.449291805183115, 3.3594162321263057});
+-
+-        probe.addBoost(boost);
+-      //  probe.addBoost(boost1);
++        Model.addProbe(probe2);
+         Model.addProbe(probe);
+-        //ModelRunner modelRunner=new ModelRunner(startTime);
+-       // modelRunner.runnerForMultipleProbes(365,1,Model.getPlanetObjectsArrayList(),Model.getProbes());
+-      //  System.out.println(probe.getShortestDistanceToTitan());
+         Visualizer.main(args);
+     }
+ }
+Index: src/main/java/code/graphics/SolarStackPane.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/code/graphics/SolarStackPane.java b/src/main/java/code/graphics/SolarStackPane.java
+new file mode 100644
+--- /dev/null	(date 1687233958417)
++++ b/src/main/java/code/graphics/SolarStackPane.java	(date 1687233958417)
+@@ -0,0 +1,36 @@
++package code.graphics;
++
++import code.graphics.overlay.OverlayPane;
++import code.graphics.visuals.SolarSubScene;
++import code.graphics.visuals.controllers.SolarKeyController;
++import code.graphics.visuals.controllers.SolarMouseController;
++import code.graphics.visuals.controllers.SolarScrollController;
++import code.model.ModelCopy;
++import javafx.scene.Group;
++import javafx.scene.Scene;
++import javafx.scene.input.KeyEvent;
++import javafx.scene.layout.StackPane;
++
++public class SolarStackPane extends StackPane {
++    private final SolarSubScene SOLAR_SUB_SCENE;
++    private final OverlayPane OVERLAY_PANE;
++
++
++    public SolarStackPane(ModelCopy model, double width, double height) {
++        super();
++        SOLAR_SUB_SCENE = new SolarSubScene(new Group(), width, height);
++        OVERLAY_PANE = new OverlayPane();
++    }
++
++
++    public void update(double time) {
++        SOLAR_SUB_SCENE.update();
++        OVERLAY_PANE.update(time);
++    }
++
++    public void addFilters(Scene scene) {
++        new SolarMouseController(scene, SOLAR_SUB_SCENE);
++        new SolarScrollController(scene, SOLAR_SUB_SCENE);
++        addEventFilter(KeyEvent.KEY_PRESSED, new SolarKeyController(SOLAR_SUB_SCENE));
++    }
++}
+Index: src/main/java/code/experiments/TitanLocation.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/code/experiments/TitanLocation.java b/src/main/java/code/experiments/TitanLocation.java
+new file mode 100644
+--- /dev/null	(date 1687514108993)
++++ b/src/main/java/code/experiments/TitanLocation.java	(date 1687514108993)
+@@ -0,0 +1,5 @@
++package code.experiments;
++
++public class TitanLocation {
++
++}
+Index: src/main/java/code/graphics/Visualizer2.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/code/graphics/Visualizer2.java b/src/main/java/code/graphics/Visualizer2.java
+new file mode 100644
+--- /dev/null	(date 1687233958415)
++++ b/src/main/java/code/graphics/Visualizer2.java	(date 1687233958415)
+@@ -0,0 +1,63 @@
++package code.graphics;
++
++import code.model.ModelCopy;
++import javafx.application.Application;
++import javafx.application.Platform;
++import javafx.concurrent.Task;
++import javafx.stage.Screen;
++import javafx.stage.Stage;
++
++/**
++ * code.Main graphic class which sets up the Scene and runs the engine which updates all 3D representations of
++ * objects in the model in real-time.
++ */
++public class Visualizer2 extends Application {
++    public static final int SCALE = 50; // don't change this
++    private final ModelCopy MODEL;
++    private final SolarScene SOLAR_SCENE;
++    private final double WIDTH = Screen.getPrimary().getBounds().getWidth();
++    private final double HEIGHT = Screen.getPrimary().getBounds().getHeight();
++    private int count;
++
++
++    public Visualizer2(ModelCopy model) {
++        MODEL = model;
++        SOLAR_SCENE = new SolarScene(model, WIDTH, HEIGHT);
++        count = 0;
++    }
++
++
++    @Override
++    public void start(Stage stage) {
++        stage.setTitle("Mission to Titan");
++        stage.show();
++        stage.setScene(new SolarScene(MODEL, WIDTH, HEIGHT));
++
++        stage.setOnCloseRequest(e -> {
++            Platform.exit();
++            System.exit(0);
++        });
++
++        Task<Void> sleeper = new Task<>() {
++            @Override
++            protected Void call() {
++                try {
++                    Thread.sleep(1000);
++                } catch (InterruptedException ignored) {
++                }
++                return null;
++            }
++        };
++        new Thread(sleeper).start();
++    }
++
++    public void update(double time) {
++        Platform.runLater(() -> {
++            SOLAR_SCENE.update(time);
++        });
++    }
++
++    public static void main(String[] args) {
++        launch();
++    }
++}
+Index: src/main/java/code/algorithms/solvers/ExplicitEuler.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/code/algorithms/solvers/ExplicitEuler.java b/src/main/java/code/algorithms/solvers/ExplicitEuler.java
+new file mode 100644
+--- /dev/null	(date 1687510852757)
++++ b/src/main/java/code/algorithms/solvers/ExplicitEuler.java	(date 1687510852757)
+@@ -0,0 +1,15 @@
++package code.algorithms.solvers;
++
++import java.util.function.BiFunction;
++
++public class ExplicitEuler extends AbstractSolver {
++    public ExplicitEuler() {
++    }
++
++
++    @Override
++    public double[] solve(BiFunction<Double, double[], double[]> function, double[] y, double t, double dt) {
++        double[] dydt = function.apply(t, y);
++        return addArrays(y, scaleArray(dt, dydt));
++    }
++}
+Index: src/main/java/code/algorithms/solvers/RungeKutta.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/code/algorithms/solvers/RungeKutta.java b/src/main/java/code/algorithms/solvers/RungeKutta.java
+new file mode 100644
+--- /dev/null	(date 1687510852759)
++++ b/src/main/java/code/algorithms/solvers/RungeKutta.java	(date 1687510852759)
+@@ -0,0 +1,21 @@
++package code.algorithms.solvers;
++
++import java.util.function.BiFunction;
++
++public class RungeKutta extends AbstractSolver {
++    public RungeKutta() {
++    }
++
++
++    @Override
++    public double[] solve(BiFunction<Double, double[], double[]> function, double[] stateArray, double time, double timeStep) {
++        double[] k1 = function.apply(time, stateArray);
++        double[] k2 = function.apply(time + 0.5 * timeStep, addArrays(stateArray, scaleArray(0.5 * timeStep, k1)));
++        double[] k3 = function.apply(time + 0.5 * timeStep, addArrays(stateArray, scaleArray(0.5 * timeStep, k2)));
++        double[] k4 = function.apply(time + timeStep, addArrays(stateArray, scaleArray(timeStep, k3)));
++
++        double[] kSum = addArrays(addArrays(k1, scaleArray(2, k2)), addArrays(scaleArray(2, k3), k4));
++
++        return addArrays(stateArray, scaleArray(timeStep / 6d, kSum));
++    }
++}
+Index: src/main/java/code/algorithms/solvers/Solver.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/code/algorithms/solvers/Solver.java b/src/main/java/code/algorithms/solvers/Solver.java
+new file mode 100644
+--- /dev/null	(date 1687510852772)
++++ b/src/main/java/code/algorithms/solvers/Solver.java	(date 1687510852772)
+@@ -0,0 +1,7 @@
++package code.algorithms.solvers;
++
++import java.util.function.BiFunction;
++
++public interface Solver {
++    double[] solve(BiFunction<Double, double[], double[]> function, double[] stateArray, double time, double timeStep);
++}
+Index: src/main/java/code/algorithms/solvers/AccelerationFunction.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package code.algorithms.solvers;\n\nimport code.model.objects.PlanetObject;\nimport code.utils.HelperFunctions;\n\nimport static code.model.objects.PlanetObject.G;\n\npublic class AccelerationFunction implements Function {\n    PlanetObject planetObject;\n    PlanetObject otherObject;\n    double distance;\n    double otherPosition1D;\n\n\n    public AccelerationFunction(PlanetObject planetObject, PlanetObject otherObject, double otherPosition1D) {\n        this.planetObject = planetObject;\n        this.otherObject = otherObject;\n        this.distance = 1 / HelperFunctions.getDistanceBetweenWithVectors(planetObject.getCoordinates(), otherObject.getCoordinates());\n        this.otherPosition1D = otherPosition1D;\n    }\n\n\n    public double evaluation(double y0, double t) {\n        double acceleration, positionalDifference;\n        double M2 = otherObject.getMass();\n\n        positionalDifference = y0 - otherPosition1D;\n\n        acceleration = -G * M2 * (Math.pow(distance, 3) * positionalDifference);\n        return acceleration;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/code/algorithms/solvers/AccelerationFunction.java b/src/main/java/code/algorithms/solvers/AccelerationFunction.java
+--- a/src/main/java/code/algorithms/solvers/AccelerationFunction.java	(revision 18c6801369b883ec993d0e875f18ef3d64d89179)
++++ b/src/main/java/code/algorithms/solvers/AccelerationFunction.java	(date 1687510852767)
+@@ -1,32 +1,43 @@
+ package code.algorithms.solvers;
+ 
++import code.model.Model;
+ import code.model.objects.PlanetObject;
+-import code.utils.HelperFunctions;
+-
+-import static code.model.objects.PlanetObject.G;
+-
+-public class AccelerationFunction implements Function {
+-    PlanetObject planetObject;
+-    PlanetObject otherObject;
+-    double distance;
+-    double otherPosition1D;
+ 
++import java.util.List;
+ 
+-    public AccelerationFunction(PlanetObject planetObject, PlanetObject otherObject, double otherPosition1D) {
+-        this.planetObject = planetObject;
+-        this.otherObject = otherObject;
+-        this.distance = 1 / HelperFunctions.getDistanceBetweenWithVectors(planetObject.getCoordinates(), otherObject.getCoordinates());
+-        this.otherPosition1D = otherPosition1D;
+-    }
++public class AccelerationFunction {
++    private final double G = 6.67430e-11;
+ 
++//    public double[] calculate(int index) {
++//        List<PlanetObject> allObjects = Model.getAllObjects();
++//        PlanetObject target = allObjects.get(index);
++//        double[] acceleration = new double[3];
++//
++//        for (PlanetObject other : allObjects) {
++//            if (target == other || !other.affectsOthers()) continue;
++//
++//            double[] difference = HelperFunctions.subtract(target.getCoordinates(), other.getCoordinates());
++//            double distanceCubed = Math.pow(HelperFunctions.getVectorMagnitude(difference), 3);
++//
++//            double scale = G * other.getMass() / distanceCubed;
++//            for (int j = 0; j < 3; j++)
++//                acceleration[j] -= scale * difference[j];
++//        }
++//
++//        return acceleration;
++//    }
+ 
+-    public double evaluation(double y0, double t) {
+-        double acceleration, positionalDifference;
+-        double M2 = otherObject.getMass();
++    public double[] calculate(int index) {
++        List<PlanetObject> allObjects = Model.getAllObjects();
++        double[] acceleration = new double[]{0, 0, 0};
++        PlanetObject evaluatedObject = allObjects.get(index);
+ 
+-        positionalDifference = y0 - otherPosition1D;
++        for (PlanetObject other : allObjects) {
++            if (evaluatedObject == other || !other.affectsOthers()) continue;
++            for (int i = 0; i < 3; i++)
++                acceleration[i] += evaluatedObject.accelerationBetween(other)[i];
++        }
+ 
+-        acceleration = -G * M2 * (Math.pow(distance, 3) * positionalDifference);
+         return acceleration;
+     }
+ }
+Index: src/main/java/code/algorithms/solvers/AbstractSolver.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/code/algorithms/solvers/AbstractSolver.java b/src/main/java/code/algorithms/solvers/AbstractSolver.java
+new file mode 100644
+--- /dev/null	(date 1687510852762)
++++ b/src/main/java/code/algorithms/solvers/AbstractSolver.java	(date 1687510852762)
+@@ -0,0 +1,27 @@
++package code.algorithms.solvers;
++
++import java.util.function.BiFunction;
++
++public abstract class AbstractSolver implements Solver {
++    @Override
++    public abstract double[] solve(BiFunction<Double, double[], double[]> function, double[] stateArray, double time, double timeStep);
++
++    double[] addArrays(double[] array1, double[] array2) {
++        if (array1.length != array2.length)
++            throw new IllegalArgumentException("Arrays must be the same length");
++
++        double[] result = new double[array1.length];
++        for (int i = 0; i < array1.length; i++)
++            result[i] = array1[i] + array2[i];
++
++        return result;
++    }
++
++    double[] scaleArray(double scalar, double[] array) {
++        double[] result = new double[array.length];
++        for (int i = 0; i < array.length; i++)
++            result[i] = scalar * array[i];
++
++        return result;
++    }
++}
+Index: src/main/java/code/algorithms/LaunchRocketHC.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package code.algorithms;\n\nimport code.model.Model;\nimport code.model.data.loaders.FileDataLoader;\nimport code.model.objects.Boost;\nimport code.model.objects.Probe;\nimport code.utils.Time;\n\nimport java.util.ArrayList;\nimport java.util.Arrays;\n\nimport code.algorithms.ModelRunner;\nimport static code.model.Model.addProbe;\n\npublic class LaunchRocketHC {\n\n    private final int INITIAL = 0;\n    private final int XPLUS = 1;\n    private final int XMINUS = 2;\n    private final int YPLUS = 3;\n    private final int YMINUS = 4;\n    private final int ZPLUS = 5;\n    private final int ZMINUS = 6;\n    private final int X = 0;\n    private final int Y = 1;\n    private final int Z = 2;\n    private static double[] closestCoordinates;\n    public LaunchRocketHC() {\n        //this one is called in HillClimbingAlg\n    }\n\n    public double[] launchSevenRockets(double[][] velocitiesOfRockets, double accuracySolvers) {\n\n        System.out.println(\"Running...\");\n        Time startTime=new Time(2023,4,1);\n        ModelRunner modelRunner=new ModelRunner(startTime);\n        Model.getInstance().loadData(new FileDataLoader());\n\n        Probe initialRocket = new Probe();\n        Boost boost1 = new Boost(startTime, velocitiesOfRockets[INITIAL]);\n        initialRocket.addBoost(boost1);\n\n        Probe xPlusRocket = new Probe();\n        Boost boost2 = new Boost(startTime, velocitiesOfRockets[XPLUS]);\n        xPlusRocket.addBoost(boost2);\n\n        Probe xMinusRocket = new Probe();\n        Boost boost3 = new Boost(startTime, velocitiesOfRockets[XMINUS]);\n        xMinusRocket.addBoost(boost3);\n\n        Probe yPlusRocket = new Probe();\n        Boost boost4= new Boost(startTime, velocitiesOfRockets[YPLUS]);\n        yPlusRocket.addBoost(boost4);\n\n        Probe yMinusRocket = new Probe();\n        Boost boost5= new Boost(startTime, velocitiesOfRockets[YMINUS]);\n        yMinusRocket.addBoost(boost5);\n\n        Probe zPlusRocket = new Probe();\n        Boost boost6= new Boost(startTime, velocitiesOfRockets[ZPLUS]);\n        zPlusRocket.addBoost(boost6);\n\n        Probe zMinusRocket = new Probe();\n        Boost boost7= new Boost(startTime, velocitiesOfRockets[ZMINUS]);\n        zMinusRocket.addBoost(boost7);\n\n        Model.addProbe(initialRocket);\n        Model.addProbe(xPlusRocket);\n        Model.addProbe(xMinusRocket);\n        Model.addProbe(yPlusRocket);\n        Model.addProbe(yMinusRocket);\n        Model.addProbe(zPlusRocket);\n        Model.addProbe(zMinusRocket);\n\n        modelRunner.runnerForMultipleProbes(365, accuracySolvers, Model.getPlanetObjectsArrayList(), Model.getProbes());\n        if(initialRocket.getDistanceToTitan() > initialRocket.getShortestDistanceToTitan()){\n            closestCoordinates = initialRocket.getCoordinatesOfShortestDistanceToTitan();\n        }\n        System.out.println();\n        System.out.println(\"Distances to Titan: \"+ initialRocket.getShortestDistanceToTitan()+\"   \" +\n                xPlusRocket.getShortestDistanceToTitan()+ \"   \" +\n                xMinusRocket.getShortestDistanceToTitan()+\"   \" +\n                yPlusRocket.getShortestDistanceToTitan()+\"   \" +\n                yMinusRocket.getShortestDistanceToTitan()+\"   \" +\n                zPlusRocket.getShortestDistanceToTitan()+\"   \" +\n                zMinusRocket.getShortestDistanceToTitan());\n\n        System.out.println(\"-------------------------------------------------------------------------------------------------------------\");\n\n        return new double[]{initialRocket.getShortestDistanceToTitan(),\n                xPlusRocket.getShortestDistanceToTitan(),\n                xMinusRocket.getShortestDistanceToTitan(),\n                yPlusRocket.getShortestDistanceToTitan(),\n                yMinusRocket.getShortestDistanceToTitan(),\n                zPlusRocket.getShortestDistanceToTitan(),\n                zMinusRocket.getShortestDistanceToTitan()};\n    }\n\n    public  double[] getClosestCoordinates() {\n        return closestCoordinates;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/code/algorithms/LaunchRocketHC.java b/src/main/java/code/algorithms/LaunchRocketHC.java
+--- a/src/main/java/code/algorithms/LaunchRocketHC.java	(revision 18c6801369b883ec993d0e875f18ef3d64d89179)
++++ b/src/main/java/code/algorithms/LaunchRocketHC.java	(date 1687347847451)
+@@ -2,16 +2,10 @@
+ 
+ import code.model.Model;
+ import code.model.data.loaders.FileDataLoader;
+-import code.model.objects.Boost;
++import code.model.objects.properties.Boost;
+ import code.model.objects.Probe;
+ import code.utils.Time;
+ 
+-import java.util.ArrayList;
+-import java.util.Arrays;
+-
+-import code.algorithms.ModelRunner;
+-import static code.model.Model.addProbe;
+-
+ public class LaunchRocketHC {
+ 
+     private final int INITIAL = 0;
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"befef468-85dd-4357-a019-7cd94d9197bf\" name=\"Changes\" comment=\".\">\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/code/utils/Time.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2023-05-24,_15_09_[Changes]1/shelved.patch\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2023-05-24__15_09__Changes_1.xml\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2023-05-29,_11_28_[Changes]/shelved.patch\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2023-05-29,_11_32_[Changes]1/shelved.patch\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2023-05-29,_11_34_[Changes]/shelved.patch\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2023-05-29__11_28__Changes_.xml\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2023-05-29__11_32__Changes_1.xml\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2023-05-29__11_34__Changes_.xml\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2023-05-30,_16_29_[Changes]/shelved.patch\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2023-05-30__16_29__Changes_.xml\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-05-30,_13_15_[Changes]1/shelved.patch\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-05-30,_15_49_[Changes]1/shelved.patch\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-05-30__13_15__Changes_1.xml\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-05-30__15_49__Changes_1.xml\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_29_05_2023,_22_12_[Changes]/shelved.patch\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_29_05_2023__22_12__Changes_.xml\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/code/Main.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/code/Main.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/code/algorithms/LaunchRocketFromTitan.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/code/algorithms/LaunchRocketFromTitan.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/code/algorithms/LaunchRocketHC.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/code/algorithms/LaunchRocketHC.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/code/algorithms/ModelRunner.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/code/algorithms/ModelRunner.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/code/graphics/Visualizer.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/code/graphics/Visualizer.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/code/model/Model.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/code/model/Model.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/code/model/objects/Boost.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/code/model/objects/Boost.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/code/model/objects/Probe.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/code/model/objects/Probe.java\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"FileTemplateManagerImpl\">\n    <option name=\"RECENT_TEMPLATES\">\n      <list>\n        <option value=\"Interface\" />\n        <option value=\"Class\" />\n      </list>\n    </option>\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\n      <map>\n        <entry key=\"$PROJECT_DIR$\" value=\"StamaMathijs\" />\n      </map>\n    </option>\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n    <option name=\"RESET_MODE\" value=\"MIXED\" />\n  </component>\n  <component name=\"MarkdownSettingsMigration\">\n    <option name=\"stateVersion\" value=\"1\" />\n  </component>\n  <component name=\"ProjectId\" id=\"2NHEToQGlRKTbWGVth802s3yKhD\" />\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\">\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\n  </component>\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\">{\n  &quot;keyToString&quot;: {\n    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\n    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,\n    &quot;git-widget-placeholder&quot;: &quot;main&quot;,\n    &quot;last_opened_file_path&quot;: &quot;/Users/marcell/Documents/*School/Year 1/Semester 2/Project 1-2/Phase 2/Project1.2-Rocket-to-Titan&quot;,\n    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,\n    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,\n    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,\n    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,\n    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;\n  }\n}</component>\n  <component name=\"RecentsManager\">\n    <key name=\"CopyFile.RECENT_KEYS\">\n      <recent name=\"$PROJECT_DIR$\" />\n      <recent name=\"$PROJECT_DIR$/src/main/resources\" />\n      <recent name=\"$PROJECT_DIR$/src/main/java\" />\n    </key>\n    <key name=\"MoveFile.RECENT_KEYS\">\n      <recent name=\"$PROJECT_DIR$/src/test/java\" />\n      <recent name=\"$PROJECT_DIR$/src/main/resources/model\" />\n    </key>\n    <key name=\"MoveClassesOrPackagesDialog.RECENTS_KEY\">\n      <recent name=\"group1.project12group1\" />\n    </key>\n  </component>\n  <component name=\"RunManager\" selected=\"Application.Main\">\n    <configuration name=\"Main\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\n      <option name=\"MAIN_CLASS_NAME\" value=\"code.Main\" />\n      <module name=\"Project1-2-Group-1\" />\n      <extension name=\"coverage\">\n        <pattern>\n          <option name=\"PATTERN\" value=\"code.*\" />\n          <option name=\"ENABLED\" value=\"true\" />\n        </pattern>\n      </extension>\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"Main\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\n      <option name=\"MAIN_CLASS_NAME\" value=\"code.Main\" />\n      <module name=\"Project1-2-Group-1\" />\n      <extension name=\"coverage\">\n        <pattern>\n          <option name=\"PATTERN\" value=\"code.*\" />\n          <option name=\"ENABLED\" value=\"true\" />\n        </pattern>\n      </extension>\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"TrajectorySimulation\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\n      <option name=\"MAIN_CLASS_NAME\" value=\"code.TrajectorySimulation\" />\n      <module name=\"Project1-2-Group-1\" />\n      <extension name=\"coverage\">\n        <pattern>\n          <option name=\"PATTERN\" value=\"code.*\" />\n          <option name=\"ENABLED\" value=\"true\" />\n        </pattern>\n      </extension>\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"HelperFunctionsTest\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\n      <module name=\"Project1-2-Group-1\" />\n      <option name=\"PACKAGE_NAME\" value=\"\" />\n      <option name=\"MAIN_CLASS_NAME\" value=\"HelperFunctionsTest\" />\n      <option name=\"TEST_OBJECT\" value=\"class\" />\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"PlanetObjectTest\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\n      <module name=\"Project1-2-Group-1\" />\n      <option name=\"PACKAGE_NAME\" value=\"\" />\n      <option name=\"MAIN_CLASS_NAME\" value=\"PlanetObjectTest\" />\n      <option name=\"TEST_OBJECT\" value=\"class\" />\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"ProbeTest\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\n      <module name=\"Project1-2-Group-1\" />\n      <option name=\"PACKAGE_NAME\" value=\"\" />\n      <option name=\"MAIN_CLASS_NAME\" value=\"ProbeTest\" />\n      <option name=\"TEST_OBJECT\" value=\"class\" />\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration default=\"true\" type=\"JetRunConfigurationType\">\n      <module name=\"Project1.2 Group 1\" />\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration default=\"true\" type=\"KotlinStandaloneScriptRunConfigurationType\">\n      <module name=\"Project1.2 Group 1\" />\n      <option name=\"filePath\" />\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <list>\n      <item itemvalue=\"Application.TrajectorySimulation\" />\n      <item itemvalue=\"Application.Main\" />\n      <item itemvalue=\"JUnit.ProbeTest\" />\n      <item itemvalue=\"JUnit.HelperFunctionsTest\" />\n      <item itemvalue=\"JUnit.PlanetObjectTest\" />\n    </list>\n    <recent_temporary>\n      <list>\n        <item itemvalue=\"Application.Main\" />\n        <item itemvalue=\"Application.TrajectorySimulation\" />\n        <item itemvalue=\"JUnit.ProbeTest\" />\n        <item itemvalue=\"Application.TrajectorySimulation\" />\n        <item itemvalue=\"JUnit.PlanetObjectTest\" />\n      </list>\n    </recent_temporary>\n  </component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"befef468-85dd-4357-a019-7cd94d9197bf\" name=\"Changes\" comment=\".\" />\n      <created>1679312618137</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1679312618137</updated>\n      <workItem from=\"1679312619245\" duration=\"1000\" />\n      <workItem from=\"1679356589531\" duration=\"4766000\" />\n      <workItem from=\"1679636818916\" duration=\"2665000\" />\n      <workItem from=\"1679649470844\" duration=\"787000\" />\n      <workItem from=\"1682574830037\" duration=\"138000\" />\n      <workItem from=\"1682575019746\" duration=\"212000\" />\n      <workItem from=\"1682575286272\" duration=\"169000\" />\n      <workItem from=\"1682575476442\" duration=\"191000\" />\n      <workItem from=\"1682575733021\" duration=\"369000\" />\n      <workItem from=\"1682576135260\" duration=\"55000\" />\n      <workItem from=\"1683509128969\" duration=\"1000\" />\n      <workItem from=\"1683509165621\" duration=\"1000\" />\n      <workItem from=\"1683517925630\" duration=\"15000\" />\n      <workItem from=\"1683524116632\" duration=\"504000\" />\n      <workItem from=\"1683547172038\" duration=\"177000\" />\n      <workItem from=\"1683811476154\" duration=\"39000\" />\n      <workItem from=\"1683824125042\" duration=\"993000\" />\n      <workItem from=\"1683838171440\" duration=\"610000\" />\n      <workItem from=\"1683842326368\" duration=\"3117000\" />\n      <workItem from=\"1683907388180\" duration=\"1082000\" />\n      <workItem from=\"1683908486983\" duration=\"4539000\" />\n      <workItem from=\"1683954695733\" duration=\"1411000\" />\n      <workItem from=\"1683956122161\" duration=\"1278000\" />\n      <workItem from=\"1683957543331\" duration=\"65000\" />\n      <workItem from=\"1683957626120\" duration=\"767000\" />\n      <workItem from=\"1684149645676\" duration=\"5926000\" />\n      <workItem from=\"1684230444313\" duration=\"356000\" />\n      <workItem from=\"1684231111698\" duration=\"93000\" />\n      <workItem from=\"1684231446204\" duration=\"2195000\" />\n      <workItem from=\"1684254939940\" duration=\"209000\" />\n      <workItem from=\"1684255315975\" duration=\"1579000\" />\n      <workItem from=\"1684271461931\" duration=\"2763000\" />\n      <workItem from=\"1684286667400\" duration=\"9645000\" />\n      <workItem from=\"1685475925086\" duration=\"5553000\" />\n      <workItem from=\"1686678401081\" duration=\"5748000\" />\n      <workItem from=\"1686742608986\" duration=\"7077000\" />\n    </task>\n    <task id=\"LOCAL-00001\" summary=\"WORKING HOW THIS SHIT WORKS\">\n      <created>1679319564168</created>\n      <option name=\"number\" value=\"00001\" />\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679319564168</updated>\n    </task>\n    <task id=\"LOCAL-00002\" summary=\"Added some verson of working code\">\n      <created>1679322553538</created>\n      <option name=\"number\" value=\"00002\" />\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679322553538</updated>\n    </task>\n    <task id=\"LOCAL-00003\" summary=\"Added some impr\">\n      <created>1679341953937</created>\n      <option name=\"number\" value=\"00003\" />\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679341953937</updated>\n    </task>\n    <task id=\"LOCAL-00004\" summary=\"changed the methods to work with momentkum\">\n      <created>1679420214209</created>\n      <option name=\"number\" value=\"00004\" />\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679420214209</updated>\n    </task>\n    <task id=\"LOCAL-00005\" summary=\"bug fix\">\n      <created>1679482920572</created>\n      <option name=\"number\" value=\"00005\" />\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679482920572</updated>\n    </task>\n    <task id=\"LOCAL-00006\" summary=\"Added comments and cleaned the PlanetObject\">\n      <created>1679599809794</created>\n      <option name=\"number\" value=\"00006\" />\n      <option name=\"presentableId\" value=\"LOCAL-00006\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679599809794</updated>\n    </task>\n    <task id=\"LOCAL-00007\" summary=\"Added comments and cleaned the PlanetObject\">\n      <created>1679600320463</created>\n      <option name=\"number\" value=\"00007\" />\n      <option name=\"presentableId\" value=\"LOCAL-00007\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679600320463</updated>\n    </task>\n    <task id=\"LOCAL-00008\" summary=\"Added comments and cleaned the PlanetObject\">\n      <created>1679603739673</created>\n      <option name=\"number\" value=\"00008\" />\n      <option name=\"presentableId\" value=\"LOCAL-00008\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679603739673</updated>\n    </task>\n    <task id=\"LOCAL-00009\" summary=\"eeeeee\">\n      <created>1679608031109</created>\n      <option name=\"number\" value=\"00009\" />\n      <option name=\"presentableId\" value=\"LOCAL-00009\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679608031109</updated>\n    </task>\n    <task id=\"LOCAL-00010\" summary=\"eeeeee\">\n      <created>1679610941972</created>\n      <option name=\"number\" value=\"00010\" />\n      <option name=\"presentableId\" value=\"LOCAL-00010\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679610941972</updated>\n    </task>\n    <task id=\"LOCAL-00011\" summary=\"eeeeee\">\n      <created>1679611003457</created>\n      <option name=\"number\" value=\"00011\" />\n      <option name=\"presentableId\" value=\"LOCAL-00011\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679611003457</updated>\n    </task>\n    <task id=\"LOCAL-00012\" summary=\"eeeeee\">\n      <created>1679611384750</created>\n      <option name=\"number\" value=\"00012\" />\n      <option name=\"presentableId\" value=\"LOCAL-00012\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679611384750</updated>\n    </task>\n    <task id=\"LOCAL-00013\" summary=\"eeeeee\">\n      <created>1679611794976</created>\n      <option name=\"number\" value=\"00013\" />\n      <option name=\"presentableId\" value=\"LOCAL-00013\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679611794976</updated>\n    </task>\n    <task id=\"LOCAL-00014\" summary=\"eeeeee\">\n      <created>1679612189357</created>\n      <option name=\"number\" value=\"00014\" />\n      <option name=\"presentableId\" value=\"LOCAL-00014\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679612189357</updated>\n    </task>\n    <task id=\"LOCAL-00015\" summary=\"eeeeee\">\n      <created>1679649307609</created>\n      <option name=\"number\" value=\"00015\" />\n      <option name=\"presentableId\" value=\"LOCAL-00015\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679649307609</updated>\n    </task>\n    <task id=\"LOCAL-00016\" summary=\"eeeeee\">\n      <created>1679649317635</created>\n      <option name=\"number\" value=\"00016\" />\n      <option name=\"presentableId\" value=\"LOCAL-00016\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679649317635</updated>\n    </task>\n    <task id=\"LOCAL-00017\" summary=\"base for graphics, general structure, will be updated\">\n      <created>1682575177410</created>\n      <option name=\"number\" value=\"00017\" />\n      <option name=\"presentableId\" value=\"LOCAL-00017\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1682575177410</updated>\n    </task>\n    <task id=\"LOCAL-00018\" summary=\"reading model from xlsx files and planet-spaceship classes used by the graphics (will be merged later)\">\n      <created>1682575388176</created>\n      <option name=\"number\" value=\"00018\" />\n      <option name=\"presentableId\" value=\"LOCAL-00018\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1682575388176</updated>\n    </task>\n    <task id=\"LOCAL-00019\" summary=\"resources\">\n      <created>1682575516061</created>\n      <option name=\"number\" value=\"00019\" />\n      <option name=\"presentableId\" value=\"LOCAL-00019\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1682575516061</updated>\n    </task>\n    <task id=\"LOCAL-00020\" summary=\"new new structure\">\n      <created>1683547337492</created>\n      <option name=\"number\" value=\"00020\" />\n      <option name=\"presentableId\" value=\"LOCAL-00020\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1683547337492</updated>\n    </task>\n    <task id=\"LOCAL-00021\" summary=\"Updated HillClimbingAlg\">\n      <created>1684838590072</created>\n      <option name=\"number\" value=\"00021\" />\n      <option name=\"presentableId\" value=\"LOCAL-00021\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1684838590072</updated>\n    </task>\n    <task id=\"LOCAL-00022\" summary=\".\">\n      <created>1685445720091</created>\n      <option name=\"number\" value=\"00022\" />\n      <option name=\"presentableId\" value=\"LOCAL-00022\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1685445720091</updated>\n    </task>\n    <task id=\"LOCAL-00023\" summary=\".\">\n      <created>1685456916472</created>\n      <option name=\"number\" value=\"00023\" />\n      <option name=\"presentableId\" value=\"LOCAL-00023\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1685456916472</updated>\n    </task>\n    <task id=\"LOCAL-00024\" summary=\".\">\n      <created>1685475177689</created>\n      <option name=\"number\" value=\"00024\" />\n      <option name=\"presentableId\" value=\"LOCAL-00024\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1685475177690</updated>\n    </task>\n    <task id=\"LOCAL-00025\" summary=\".\">\n      <created>1685475184782</created>\n      <option name=\"number\" value=\"00025\" />\n      <option name=\"presentableId\" value=\"LOCAL-00025\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1685475184782</updated>\n    </task>\n    <task id=\"LOCAL-00026\" summary=\".\">\n      <created>1685476439659</created>\n      <option name=\"number\" value=\"00026\" />\n      <option name=\"presentableId\" value=\"LOCAL-00026\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1685476439659</updated>\n    </task>\n    <task id=\"LOCAL-00027\" summary=\".\">\n      <created>1685476575449</created>\n      <option name=\"number\" value=\"00027\" />\n      <option name=\"presentableId\" value=\"LOCAL-00027\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1685476575449</updated>\n    </task>\n    <task id=\"LOCAL-00028\" summary=\".\">\n      <created>1685477053492</created>\n      <option name=\"number\" value=\"00028\" />\n      <option name=\"presentableId\" value=\"LOCAL-00028\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1685477053492</updated>\n    </task>\n    <task id=\"LOCAL-00029\" summary=\".\">\n      <created>1685478091832</created>\n      <option name=\"number\" value=\"00029\" />\n      <option name=\"presentableId\" value=\"LOCAL-00029\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1685478091832</updated>\n    </task>\n    <task id=\"LOCAL-00030\" summary=\".\">\n      <created>1685481480309</created>\n      <option name=\"number\" value=\"00030\" />\n      <option name=\"presentableId\" value=\"LOCAL-00030\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1685481480309</updated>\n    </task>\n    <task id=\"LOCAL-00031\" summary=\".\">\n      <created>1685481581026</created>\n      <option name=\"number\" value=\"00031\" />\n      <option name=\"presentableId\" value=\"LOCAL-00031\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1685481581026</updated>\n    </task>\n    <option name=\"localTasksCounter\" value=\"32\" />\n    <servers />\n  </component>\n  <component name=\"TypeScriptGeneratedFilesManager\">\n    <option name=\"version\" value=\"3\" />\n  </component>\n  <component name=\"Vcs.Log.Tabs.Properties\">\n    <option name=\"TAB_STATES\">\n      <map>\n        <entry key=\"MAIN\">\n          <value>\n            <State />\n          </value>\n        </entry>\n      </map>\n    </option>\n  </component>\n  <component name=\"VcsManagerConfiguration\">\n    <MESSAGE value=\"added getAcceleration\" />\n    <MESSAGE value=\"WORKING HOW THIS SHIT WORKS\" />\n    <MESSAGE value=\"Added some verson of working code\" />\n    <MESSAGE value=\"Added some impr\" />\n    <MESSAGE value=\"changed the methods to work with momentum\" />\n    <MESSAGE value=\"changed the methods to work with momentkum\" />\n    <MESSAGE value=\"bug fix\" />\n    <MESSAGE value=\"Added comments and cleaned the PlanetObject\" />\n    <MESSAGE value=\"eeeeee\" />\n    <MESSAGE value=\"base for graphics, general structure, will be updated\" />\n    <MESSAGE value=\"reading model from xlsx files and planet-spaceship classes used by the graphics (will be merged later)\" />\n    <MESSAGE value=\"resources\" />\n    <MESSAGE value=\"new new structure\" />\n    <MESSAGE value=\"Updated HillClimbingAlg\" />\n    <MESSAGE value=\".\" />\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\".\" />\n  </component>\n  <component name=\"XDebuggerManager\">\n    <breakpoint-manager>\n      <breakpoints>\n        <line-breakpoint enabled=\"true\" type=\"java-line\">\n          <url>file://$PROJECT_DIR$/src/main/java/code/algorithms/HillClimbingAlg.java</url>\n          <line>73</line>\n          <option name=\"timeStamp\" value=\"7\" />\n        </line-breakpoint>\n      </breakpoints>\n    </breakpoint-manager>\n    <pin-to-top-manager>\n      <pinned-members>\n        <PinnedItemInfo parentTag=\"code.model.objects.Probe\" memberName=\"COORDINATES\" />\n        <PinnedItemInfo parentTag=\"code.model.objects.PlanetObject\" memberName=\"COORDINATES\" />\n      </pinned-members>\n    </pin-to-top-manager>\n  </component>\n  <component name=\"com.intellij.coverage.CoverageDataManagerImpl\">\n    <SUITE FILE_PATH=\"coverage/Project1_2_Rocket_to_Titan$SolarSystem.ic\" NAME=\"SolarSystem Coverage Results\" MODIFIED=\"1679580725908\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\n      <FILTER>group1.project12group1.*</FILTER>\n    </SUITE>\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 18c6801369b883ec993d0e875f18ef3d64d89179)
++++ b/.idea/workspace.xml	(date 1687514109019)
+@@ -5,32 +5,38 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="befef468-85dd-4357-a019-7cd94d9197bf" name="Changes" comment=".">
+-      <change afterPath="$PROJECT_DIR$/src/main/java/code/utils/Time.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2023-05-24,_15_09_[Changes]1/shelved.patch" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2023-05-24__15_09__Changes_1.xml" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2023-05-29,_11_28_[Changes]/shelved.patch" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2023-05-29,_11_32_[Changes]1/shelved.patch" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2023-05-29,_11_34_[Changes]/shelved.patch" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2023-05-29__11_28__Changes_.xml" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2023-05-29__11_32__Changes_1.xml" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2023-05-29__11_34__Changes_.xml" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2023-05-30,_16_29_[Changes]/shelved.patch" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2023-05-30__16_29__Changes_.xml" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-05-30,_13_15_[Changes]1/shelved.patch" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-05-30,_15_49_[Changes]1/shelved.patch" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-05-30__13_15__Changes_1.xml" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_2023-05-30__15_49__Changes_1.xml" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_29_05_2023,_22_12_[Changes]/shelved.patch" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_29_05_2023__22_12__Changes_.xml" beforeDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/solvers/AbstractSolver.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/solvers/ExplicitEuler.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/solvers/RungeKutta.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/solvers/Solver.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/main/java/code/experiments/TitanLocation.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/main/java/code/graphics/SolarScene.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/main/java/code/graphics/SolarStackPane.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/main/java/code/graphics/Visualizer2.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/main/java/code/model/ModelCopy.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/HillClimbAlg.java" beforeDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/main/java/code/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/Main.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/LaunchRocketFromTitan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/LaunchRocketFromTitan.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/LaunchRocketHC.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/LaunchRocketHC.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/ModelRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/ModelRunner.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/solvers/AccelerationFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/solvers/AccelerationFunction.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/solvers/AnotherFunction.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/solvers/Function.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/solvers/MyFunction.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/solvers/SolverTester.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/solvers/Solvers.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/solvers/Vector.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/solvers/VelocityFunction.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/trajectory/Trajectory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/trajectory/Trajectory.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/main/java/code/graphics/Visualizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/graphics/Visualizer.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/main/java/code/model/Model.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/model/Model.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/code/model/objects/Boost.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/model/objects/Boost.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/code/model/objects/Boost.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/model/objects/properties/Boost.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/code/model/objects/PlanetObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/model/objects/PlanetObject.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/main/java/code/model/objects/Probe.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/model/objects/Probe.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/code/utils/HelperFunctions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/utils/HelperFunctions.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/code/utils/Time.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/utils/Time.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/target/classes/module-info.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/module-info.class" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -71,7 +77,7 @@
+     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+-    &quot;last_opened_file_path&quot;: &quot;/Users/marcell/Documents/*School/Year 1/Semester 2/Project 1-2/Phase 2/Project1.2-Rocket-to-Titan&quot;,
++    &quot;last_opened_file_path&quot;: &quot;/Users/marcell/Documents/*School/Year 1/Semester 2/Project 1-2/Phase 3/local/src/main/java&quot;,
+     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+@@ -81,9 +87,9 @@
+ }</component>
+   <component name="RecentsManager">
+     <key name="CopyFile.RECENT_KEYS">
++      <recent name="$PROJECT_DIR$/src/main/java" />
+       <recent name="$PROJECT_DIR$" />
+       <recent name="$PROJECT_DIR$/src/main/resources" />
+-      <recent name="$PROJECT_DIR$/src/main/java" />
+     </key>
+     <key name="MoveFile.RECENT_KEYS">
+       <recent name="$PROJECT_DIR$/src/test/java" />
+@@ -234,6 +240,7 @@
+       <workItem from="1685475925086" duration="5553000" />
+       <workItem from="1686678401081" duration="5748000" />
+       <workItem from="1686742608986" duration="7077000" />
++      <workItem from="1687499079751" duration="12579000" />
+     </task>
+     <task id="LOCAL-00001" summary="WORKING HOW THIS SHIT WORKS">
+       <created>1679319564168</created>
+Index: src/main/java/code/algorithms/LaunchRocketFromTitan.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package code.algorithms;\n\nimport code.model.Model;\nimport code.model.data.loaders.FileDataLoader;\nimport code.model.objects.Boost;\nimport code.model.objects.Probe;\nimport code.utils.HelperFunctions;\n\nimport java.util.ArrayList;\nimport java.util.Arrays;\n\nimport  code.algorithms.ModelRunner;\nimport code.utils.Time;\n\nimport static code.model.Model.addProbe;\n\npublic class LaunchRocketFromTitan {\n\n    private final int INITIAL = 0;\n    private final int XPLUS = 1;\n    private final int XMINUS = 2;\n    private final int YPLUS = 3;\n    private final int YMINUS = 4;\n    private final int ZPLUS = 5;\n    private final int ZMINUS = 6;\n    private final int X = 0;\n    private final int Y = 1;\n    private final int Z = 2;\n    private double[] bestProbeCoordinates;\n    \n    public LaunchRocketFromTitan(double[] bestCoordinates){\n        this.bestProbeCoordinates = bestCoordinates;\n    }\n    public Probe rocket;\n    public Probe passRocket(){\n        return rocket;\n    }\n\n    public double[] launchSevenRocketsReturn(double[][] velocitiesOfRockets, double accuracySolvers) {\n        System.out.println(\"Running...\");\n        Time startTime=new Time(2023,4,1);\n        ModelRunner modelRunner=new ModelRunner(startTime);\n//        double[] bestCoordinates = bestProbeCoordinates; //coordinates of best rocket\n\n        Probe initialRocket = new Probe();\n        initialRocket.setCoordinates(bestProbeCoordinates);\n        Boost boost1 = new Boost(startTime,velocitiesOfRockets[INITIAL]);\n        initialRocket.addBoost(boost1);\n\n        Probe xPlusRocket = new Probe();\n        xPlusRocket.setCoordinates(bestProbeCoordinates);\n        Boost boost2 = new Boost(startTime,velocitiesOfRockets[XPLUS]);\n        xPlusRocket.addBoost(boost2);\n\n        Probe xMinusRocket = new Probe();\n        xMinusRocket.setCoordinates(bestProbeCoordinates);\n        Boost boost3 = new Boost(startTime,velocitiesOfRockets[XMINUS]);\n        xMinusRocket.addBoost(boost3);\n\n        Probe yPlusRocket = new Probe();\n        yPlusRocket.setCoordinates(bestProbeCoordinates);\n        Boost boost4 = new Boost(startTime,velocitiesOfRockets[YPLUS]);\n        yPlusRocket.addBoost(boost4);\n\n        Probe yMinusRocket = new Probe();\n        yMinusRocket.setCoordinates(bestProbeCoordinates);\n        Boost boost5 = new Boost(startTime,velocitiesOfRockets[YMINUS]);\n        yMinusRocket.addBoost(boost5);\n\n        Probe zPlusRocket = new Probe();\n        zPlusRocket.setCoordinates(bestProbeCoordinates);\n        Boost boost6 = new Boost(startTime,velocitiesOfRockets[ZPLUS]);\n        zPlusRocket.addBoost(boost6);\n\n        Probe zMinusRocket = new Probe();\n        zMinusRocket.setCoordinates(bestProbeCoordinates);\n        Boost boost7 = new Boost(startTime,velocitiesOfRockets[ZMINUS]);\n        zMinusRocket.addBoost(boost7);\n\n\n        Model.addProbe(initialRocket);\n        Model.addProbe(xPlusRocket);\n        Model.addProbe(xMinusRocket);\n        Model.addProbe(yPlusRocket);\n        Model.addProbe(yMinusRocket);\n        Model.addProbe(zPlusRocket);\n        Model.addProbe(zMinusRocket);\n\n        System.out.println(\"Initial position of earth: \" + Model.getPlanetObjects().get(\"Earth\").getCoordinates()[0]);\n        modelRunner.runnerForMultipleProbes(365, accuracySolvers, Model.getPlanetObjectsArrayList(), Model.getProbes());\n        System.out.println(\"\");\n        System.out.println(\"Distances from Earth: \" + initialRocket.getDistanceToEarth() + \"   \" +\n                xPlusRocket.getDistanceToEarth() + \"   \" +\n                xMinusRocket.getDistanceToEarth() + \"   \" +\n                yPlusRocket.getDistanceToEarth() + \"   \" +\n                yMinusRocket.getDistanceToEarth() + \"   \" +\n                zPlusRocket.getDistanceToEarth() + \"   \" +\n                zMinusRocket.getDistanceToEarth());\n\n        System.out.println(\"-------------------------------------------------------------------------------------------------------------\");\n        this.rocket = initialRocket;\n        return new double[]{\n                initialRocket.getDistanceToEarth(),\n                xPlusRocket.getDistanceToEarth(),\n                xMinusRocket.getDistanceToEarth(),\n                yPlusRocket.getDistanceToEarth(),\n                yMinusRocket.getDistanceToEarth(),\n                zPlusRocket.getDistanceToEarth(),\n                zMinusRocket.getDistanceToEarth()\n        };\n    }\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/code/algorithms/LaunchRocketFromTitan.java b/src/main/java/code/algorithms/LaunchRocketFromTitan.java
+--- a/src/main/java/code/algorithms/LaunchRocketFromTitan.java	(revision 18c6801369b883ec993d0e875f18ef3d64d89179)
++++ b/src/main/java/code/algorithms/LaunchRocketFromTitan.java	(date 1687347847456)
+@@ -1,19 +1,11 @@
+ package code.algorithms;
+ 
+ import code.model.Model;
+-import code.model.data.loaders.FileDataLoader;
+-import code.model.objects.Boost;
++import code.model.objects.properties.Boost;
+ import code.model.objects.Probe;
+-import code.utils.HelperFunctions;
+ 
+-import java.util.ArrayList;
+-import java.util.Arrays;
+-
+-import  code.algorithms.ModelRunner;
+ import code.utils.Time;
+ 
+-import static code.model.Model.addProbe;
+-
+ public class LaunchRocketFromTitan {
+ 
+     private final int INITIAL = 0;
+Index: src/main/java/code/model/objects/PlanetObject.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package code.model.objects;\n\nimport code.utils.HelperFunctions;\n\npublic class PlanetObject {\n    /**\n     * Gravitational Constant\n     */\n    public static double G = 6.6743e-20;\n    private final double[] COORDINATES = new double[3];\n    private final double[] VELOCITY = new double[3];\n    private double mass;\n    private double radius;\n\n    /**\n     * NASA object code (for testing)\n     */\n    private int planetCode;\n    //Position for end position of planet(only used for tests)\n    private double[] targetPosition;\n    private double[] acceleration;\n\n\n    public PlanetObject(double[] coordinates, double[] velocity) {\n        setCoordinates(coordinates);\n        setVelocity(velocity);\n    }\n\n    /**\n     * Constructor for NASA data (for testing)\n     *\n     * @param planetCode an int representing the NASA planet code corresponding to the celestial body\n     *                   which the instance of this class represents\n     */\n    public PlanetObject(int planetCode) {\n        this.planetCode = planetCode;\n    }\n\n\n    /**\n     * This function can calculate how much force does planet 2 apply to planet 1 and turn it to acceleration.\n     * It uses Newton’s law of universal gravity for 3 dimensions.\n     *\n     * @param planetObject the planet that is interacting with the current planet\n     * @return the acceleration vector of the force generated by the attraction between planet 1 and planet 2\n     */\n    public double[] accelerationBetween(PlanetObject planetObject) {\n        double[] force = new double[3];\n        double[] positionalVector;\n        double[] acceleration = new double[3];\n\n        positionalVector = HelperFunctions.subtract(COORDINATES, planetObject.getCoordinates());\n\n        double distance = 1 / HelperFunctions.getDistanceBetweenWithVectors(COORDINATES, planetObject.getCoordinates());\n        if (distance == Double.POSITIVE_INFINITY)\n            throw new IllegalArgumentException(\"The two celestial bodies are at the same location\");\n\n        for (int i = 0; i <= 2; i++) {\n            force[i] = -G * mass * planetObject.getMass() * distance * distance * distance * positionalVector[i];\n            acceleration[i] = force[i] / mass;\n        }\n        return acceleration;\n    }\n\n\n//  GETTER and SETTERS\n\n    /**\n     * Retrieves the coordinates of the modeled object as an array of doubles.\n     *\n     * @return an array of doubles representing the coordinates of the modeled object.\n     */\n    public double[] getCoordinates() {\n        return COORDINATES;\n    }\n\n    /**\n     * Sets the coordinates of the modeled object.\n     *\n     * @param coordinates an array of doubles representing the new coordinates for the modeled object.\n     */\n    public void setCoordinates(double[] coordinates) {\n        COORDINATES[0] = coordinates[0];\n        COORDINATES[1] = coordinates[1];\n        COORDINATES[2] = coordinates[2];\n    }\n\n    /**\n     * Retrieves the velocity of the modeled object.\n     *\n     * @return an array of doubles representing the velocity of the modeled object.\n     */\n    public double[] getVelocity() {\n        return VELOCITY;\n    }\n\n    /**\n     * Sets the velocity of the modeled object.\n     *\n     * @param velocity an array of doubles containing the new velocity for the modeled object.\n     */\n    public void setVelocity(double[] velocity) {\n        VELOCITY[0] = velocity[0];\n        VELOCITY[1] = velocity[1];\n        VELOCITY[2] = velocity[2];\n    }\n\n    public void setMass(double mass) {\n        this.mass = mass;\n    }\n\n    /**\n     * Retrieves the mass of the modeled object.\n     *\n     * @return a long representing the mass of the modeled object.\n     */\n    public double getMass() {\n        return mass;\n    }\n\n    public double[] getAcceleration() {\n        return acceleration;\n    }\n\n    public void setAcceleration(double[] acceleration) {\n        this.acceleration = acceleration;\n    }\n\n    public double getRadius() {\n        return radius;\n    }\n\n    public void setRadius(double radius) {\n        this.radius = radius;\n    }\n\n    public int getPlanetCode() {\n        return planetCode;\n    }\n\n    public double[] getTargetPosition() {\n        return targetPosition;\n    }\n\n    public void setTargetPosition(double[] targetPosition) {\n        this.targetPosition = targetPosition;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/code/model/objects/PlanetObject.java b/src/main/java/code/model/objects/PlanetObject.java
+--- a/src/main/java/code/model/objects/PlanetObject.java	(revision 18c6801369b883ec993d0e875f18ef3d64d89179)
++++ b/src/main/java/code/model/objects/PlanetObject.java	(date 1687428108051)
+@@ -51,7 +51,7 @@
+ 
+         positionalVector = HelperFunctions.subtract(COORDINATES, planetObject.getCoordinates());
+ 
+-        double distance = 1 / HelperFunctions.getDistanceBetweenWithVectors(COORDINATES, planetObject.getCoordinates());
++        double distance = 1d / HelperFunctions.getDistanceBetweenWithVectors(COORDINATES, planetObject.getCoordinates());
+         if (distance == Double.POSITIVE_INFINITY)
+             throw new IllegalArgumentException("The two celestial bodies are at the same location");
+ 
+@@ -118,6 +118,10 @@
+         return mass;
+     }
+ 
++    public boolean affectsOthers() {
++        return true;
++    }
++
+     public double[] getAcceleration() {
+         return acceleration;
+     }
+Index: src/main/java/code/model/objects/Boost.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/code/model/objects/Boost.java b/src/main/java/code/model/objects/properties/Boost.java
+rename from src/main/java/code/model/objects/Boost.java
+rename to src/main/java/code/model/objects/properties/Boost.java
+--- a/src/main/java/code/model/objects/Boost.java	(revision 18c6801369b883ec993d0e875f18ef3d64d89179)
++++ b/src/main/java/code/model/objects/properties/Boost.java	(date 1687347847453)
+@@ -1,4 +1,4 @@
+-package code.model.objects;
++package code.model.objects.properties;
+ 
+ import code.utils.HelperFunctions;
+ import code.utils.Time;
