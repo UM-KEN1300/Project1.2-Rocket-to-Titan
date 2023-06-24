@@ -58,8 +58,15 @@ public class Probe extends PlanetObject {
             }
         }
         return true;
-
     }
+
+    public boolean isBoostValid(double boost ,double step) {
+       double maxImpulse = 3 * (Math.pow(10, 7)) * step;
+       double force= Math.sqrt(boost*boost) * 50_000/9;
+       return !(force > maxImpulse);
+    }
+
+
 
     public void addBoost(Boost boost) {
         listOfBoosts.add(boost);
