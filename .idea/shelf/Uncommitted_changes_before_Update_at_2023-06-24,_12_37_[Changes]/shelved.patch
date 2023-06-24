@@ -1,0 +1,504 @@
+Index: src/main/java/code/algorithms/trajectory/Trajectory.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package code.algorithms.trajectory;\n\n/**\n * Class used for planning the mission. It calculates the velocities of boosts at time intervals which allow\n * for reaching the target celestial body in a sufficiently short path, taking into consideration\n * the amount of used fuel and the speed at which the spacecraft needs to travel in order to reach its\n * destination at a given point in time.\n */\npublic class Trajectory {\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/code/algorithms/trajectory/Trajectory.java b/src/main/java/code/algorithms/trajectory/Trajectory.java
+--- a/src/main/java/code/algorithms/trajectory/Trajectory.java	(revision fe31065fbd1c3628204c31086e83a9c49a22b5af)
++++ b/src/main/java/code/algorithms/trajectory/Trajectory.java	(date 1687603036447)
+@@ -1,5 +1,13 @@
+ package code.algorithms.trajectory;
+ 
++import code.model.Model;
++import code.model.ModelCopy;
++import code.model.objects.Probe;
++import code.model.objects.properties.Boost;
++import code.utils.HelperFunctions;
++
++import java.util.Arrays;
++
+ /**
+  * Class used for planning the mission. It calculates the velocities of boosts at time intervals which allow
+  * for reaching the target celestial body in a sufficiently short path, taking into consideration
+@@ -7,5 +15,146 @@
+  * destination at a given point in time.
+  */
+ public class Trajectory {
++    private ModelCopy modelCopy;
++    private final int TRAJECTORY_ACCURACY = 3;
++    private final int SIMULATION_LENGTH = 5;
++    private final double[] DESTINATION;
++    private double[] best;
++    double bestVelocity, secondBestVelocity;
++    double bestEvaluation, secondBestEvaluation;
++    private double multiplier;
++
++
++    public Trajectory(double[] destination, double maxSpeed) {
++        DESTINATION = destination;
++        modelCopy = new ModelCopy();
++    }
++
++
++    public Boost findBestBoost() {
++        best = new double[]{0, 0, 0};
++        for (int index = 0; index < 3; index++) {
++            bestVelocity(index);
++            best[index] = bestVelocity;
++        }
++
++        return new Boost(Model.getTime(), best);
++    }
++
++    /**
++     * The function that helps evaluate how 'good' the current trajectory is taking into account the distance from Titan
++     * and fuel consumed so far. The closer to earth or titan the probe gets the less the fuel optimization matters.
++     *
++     * @param probe The considered probe
++     * @return The value of the objective function
++     */
++    private double objectiveFunction(Probe probe) {
++
++        double distance = Math.min(probe.getDistanceToTitan(), probe.getDistanceToEarth());
++        return distance * probe.getFuelUsed() * 0.0001 + HelperFunctions.getDistanceBetweenWithVectors(probe.getCoordinates(), DESTINATION);
++    }
++
++    private void bestVelocity(int index) {
++        initialEvaluation(index);
++        bestTwoValues(index);
++        evaluationBetween(index);
++    }
++
++    private void initialEvaluation(int index) {
++        double negativeOneEvaluation = evaluateBoost(-1, index);
++        double zeroEvaluation = evaluateBoost(0, index);
++        double oneEvaluation = evaluateBoost(1, index);
++        if (zeroEvaluation > negativeOneEvaluation) {
++            bestVelocity = -1;
++            bestEvaluation = negativeOneEvaluation;
++            secondBestVelocity = 0;
++            secondBestEvaluation = zeroEvaluation;
++            multiplier = -1;
++        } else if (zeroEvaluation > oneEvaluation) {
++            bestVelocity = 1;
++            bestEvaluation = negativeOneEvaluation;
++            secondBestVelocity = 0;
++            secondBestEvaluation = zeroEvaluation;
++            multiplier = 1;
++        } else {
++            bestVelocity = 0;
++            bestEvaluation = zeroEvaluation;
++            if (oneEvaluation > negativeOneEvaluation) {
++                secondBestVelocity = -1;
++                secondBestEvaluation = negativeOneEvaluation;
++                multiplier = -1;
++            } else {
++                secondBestVelocity = 1;
++                secondBestEvaluation = oneEvaluation;
++                multiplier = 1;
++            }
++        }
++    }
++
++    private void bestTwoValues(int index) {
++        while (true) {
++            double newVelocity = bestVelocity + multiplier;
++            double newEvaluation = evaluateBoost(newVelocity, index);
++            if (newEvaluation == -1d) break;
++            if (newEvaluation < bestEvaluation) {
++                secondBestVelocity = bestVelocity;
++                secondBestEvaluation = bestEvaluation;
++                bestVelocity = newVelocity;
++                bestEvaluation = newEvaluation;
++            } else {
++                if (newEvaluation < secondBestEvaluation) {
++                    secondBestVelocity = newVelocity;
++                    secondBestEvaluation = newEvaluation;
++                }
++                break;
++            }
++        }
++    }
+ 
++    private void evaluationBetween(int index) {
++        while (decimalPlaces(bestVelocity) <= TRAJECTORY_ACCURACY) {
++            double newVelocity = (bestVelocity + secondBestVelocity) / 2d;
++            double newEvaluation = evaluateBoost(newVelocity, index);
++            if (newEvaluation < bestEvaluation) {
++                secondBestVelocity = bestVelocity;
++                secondBestEvaluation = bestEvaluation;
++                bestVelocity = newVelocity;
++                bestEvaluation = newEvaluation;
++            } else {
++                if (newEvaluation < secondBestEvaluation) {
++                    secondBestVelocity = newVelocity;
++                    secondBestEvaluation = newEvaluation;
++                }
++                break;
++            }
++        }
++    }
++
++    private double evaluateBoost(double velocity, int index) {
++        double timeStep = 50;
++        Probe probeCopy = new Probe();
++        double[] velocities = Arrays.copyOf(best, best.length);
++        velocities[index] = velocity;
++        probeCopy.addBoost(new Boost(Model.getTime(), velocities));
++        if (!probeCopy.areBoostsValid(timeStep))
++            return -1;
++
++        modelCopy.addProbe(probeCopy);
++        double simulatedSeconds = 0;
++        while (SIMULATION_LENGTH * 24 * 60 * 60 > simulatedSeconds) {
++            modelCopy.step(timeStep);
++            simulatedSeconds += timeStep;
++        }
++
++        return objectiveFunction(probeCopy);
++    }
++
++    public static int decimalPlaces(double d) {
++        String s = Double.toString(d);
++        int decimalIndex = s.indexOf(".");
++        if (decimalIndex == -1)
++            return 0;
++        else
++            return s.length() - decimalIndex - 1;
++    }
+ }
+Index: src/main/java/code/algorithms/ModelRunner.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package code.algorithms;\n\nimport code.algorithms.solvers.Solvers;\nimport code.model.objects.PlanetObject;\nimport code.model.objects.Probe;\nimport code.utils.HelperFunctions;\nimport code.utils.Time;\n\nimport java.util.ArrayList;\nimport java.util.List;\n\npublic class ModelRunner {\n    /**\n     * Runs the model forward with step updates the position of the Objects in the Model using Euler Solver\n     * <p>\n     * The runner is made to work with multiple probes also it is optimized to work fast with Euler solver\n     * Boosts are checked inside as well, because the max F depends on the step size\n     * </p>\n     *\n     * @param numberOfDays how many days is the model going to get run for\n     * @param accuracy     or step size for the Solver\n     * @param planetss     list of planets that are going to be run\n     * @param probes       list of probes that are going to be run\n     */\n    private static Time time;\n\n    public ModelRunner(Time time)\n    {\n        //start time of the model\n        ModelRunner.time =time;\n    }\n\n    public  void runnerForMultipleProbes(int numberOfDays, double accuracy, List<PlanetObject> planetss, List<Probe> probes) {\n        ArrayList<PlanetObject> allObjects = new ArrayList<>(planetss);\n        allObjects.addAll(probes);\n        PlanetObject[] planets = allObjects.toArray(new PlanetObject[allObjects.size()]);\n        boolean stopper = false;\n        // check if the boosts\n        for (Probe probe : probes) {\n            boolean checker = probe.areBoostsValid(accuracy);\n//            System.out.println(checker);\n            if (!checker) {\n                stopper = true;\n                System.out.println(\"The probe \" + probe.getProbeNumber() + \" with wrong boost\");\n            }\n        }\n        System.out.println((1 / accuracy) * 60 * 60 * 24 * numberOfDays);\n        if (!stopper) {\n            for (int i = 0; i < (1 / accuracy) * 60 * 60 * 24 * numberOfDays; i += 1) {\n                //TODO under 1 second fix\n                time.addSeconds((int) accuracy);\n                if (i % ((1 / accuracy) * 60 * 60 * 24) == 0)\n                {\n\n                    double day = i / ((1 / accuracy) * 60 * 60 * 24);\n                   System.out.println(\"Day \" + day);\n                    for (Probe probe : probes) {\n                        probe.BoosterMECH(time);\n                    }\n                }\n                for (int j = 1; j < planets.length; j++) {\n\n                    double[] acc = new double[3];\n                    for (int k = 0; k < planets.length - probes.size(); k++) {\n\n                        if (k != j) {\n                            acc = HelperFunctions.addition(acc, planets[j].accelerationBetween(planets[k]));\n                        }\n                    }\n                    Solvers.implicitEuler(planets[j], acc, accuracy);\n                }\n            }\n        }\n    }\n\n    /**\n     * Runs the model forward with step updates the position of the Objects in the Model using Euler Solver\n     * This runner is used for GUI and is called in a loop, so it runs the model not for days but seconds usually\n     * small values. It keeps track of how long the model has been run.\n     * <p>\n     * The runner is made to work with multiple probes also it is optimized to work fast with Euler solver\n     * Boosts are checked inside as well, because the max F depends on the step size\n     * </p>\n     *\n     * @param smoothness how smooth the planets are going to move in GUI\n     * @param accuracy   or step size for the Solver\n     * @param planetsList   list of planets that are going to be run\n     * @param probes     list of probes that are going to be run\n     * @return the amount of times runs and will update the amount of time the model was run for\n     */\n    public void runnerForGUI( int smoothness, double accuracy, List<PlanetObject> planetsList, List<Probe> probes) {\n        ArrayList<PlanetObject> allObjects = new ArrayList<>(planetsList);\n        allObjects.addAll(probes);\n        PlanetObject[] planets = allObjects.toArray(new PlanetObject[allObjects.size()]);\n        boolean stopper = false;\n        // check if the boosts\n        for (Probe probe : probes) {\n            boolean checker = probe.areBoostsValid(accuracy);\n            if (!checker) {\n                stopper = true;\n                System.out.println(\"The probe \" + probe.getProbeNumber() + \" with wrong boost\");\n            }\n        }\n\n        if (!stopper) {\n            for (int i = 0; i < smoothness; i += 1) {\n\n                for (int j = 1; j < planets.length; j++) {\n                    if (i % ((1 / accuracy) * 60 * 60 * 24) == 0) {\n\n\n                        for (Probe probe : probes) {\n                            probe.BoosterMECH(time);\n\n\n                        }\n                    }\n                    double[] acc = new double[3];\n                    for (int k = 0; k < planets.length; k++) {\n                        if (k != j) {\n                            acc = HelperFunctions.addition(acc, planets[j].accelerationBetween(planets[k]));\n                        }\n                    }\n                    Solvers.implicitEuler(planets[j], acc, accuracy);\n                }\n                time.addSeconds((int) accuracy);\n            }\n        }\n    }\n\n    public static Time getTime()\n    {\n        return time;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/code/algorithms/ModelRunner.java b/src/main/java/code/algorithms/ModelRunner.java
+--- a/src/main/java/code/algorithms/ModelRunner.java	(revision fe31065fbd1c3628204c31086e83a9c49a22b5af)
++++ b/src/main/java/code/algorithms/ModelRunner.java	(date 1687514244500)
+@@ -1,6 +1,5 @@
+ package code.algorithms;
+ 
+-import code.algorithms.solvers.Solvers;
+ import code.model.objects.PlanetObject;
+ import code.model.objects.Probe;
+ import code.utils.HelperFunctions;
+@@ -10,6 +9,13 @@
+ import java.util.List;
+ 
+ public class ModelRunner {
++    private static Time time;
++
++    public ModelRunner(Time time) {
++        //start time of the model
++        ModelRunner.time = time;
++    }
++
+     /**
+      * Runs the model forward with step updates the position of the Objects in the Model using Euler Solver
+      * <p>
+@@ -22,15 +28,7 @@
+      * @param planetss     list of planets that are going to be run
+      * @param probes       list of probes that are going to be run
+      */
+-    private static Time time;
+-
+-    public ModelRunner(Time time)
+-    {
+-        //start time of the model
+-        ModelRunner.time =time;
+-    }
+-
+-    public  void runnerForMultipleProbes(int numberOfDays, double accuracy, List<PlanetObject> planetss, List<Probe> probes) {
++    public void runnerForMultipleProbes(int numberOfDays, double accuracy, List<PlanetObject> planetss, List<Probe> probes) {
+         ArrayList<PlanetObject> allObjects = new ArrayList<>(planetss);
+         allObjects.addAll(probes);
+         PlanetObject[] planets = allObjects.toArray(new PlanetObject[allObjects.size()]);
+@@ -49,11 +47,10 @@
+             for (int i = 0; i < (1 / accuracy) * 60 * 60 * 24 * numberOfDays; i += 1) {
+                 //TODO under 1 second fix
+                 time.addSeconds((int) accuracy);
+-                if (i % ((1 / accuracy) * 60 * 60 * 24) == 0)
+-                {
++                if (i % ((1 / accuracy) * 60 * 60 * 24) == 0) {
+ 
+                     double day = i / ((1 / accuracy) * 60 * 60 * 24);
+-                   System.out.println("Day " + day);
++                    System.out.println("Day " + day);
+                     for (Probe probe : probes) {
+                         probe.BoosterMECH(time);
+                     }
+@@ -67,7 +64,7 @@
+                             acc = HelperFunctions.addition(acc, planets[j].accelerationBetween(planets[k]));
+                         }
+                     }
+-                    Solvers.implicitEuler(planets[j], acc, accuracy);
++//                    Solvers.implicitEuler(planets[j], acc, accuracy);
+                 }
+             }
+         }
+@@ -82,13 +79,13 @@
+      * Boosts are checked inside as well, because the max F depends on the step size
+      * </p>
+      *
+-     * @param smoothness how smooth the planets are going to move in GUI
+-     * @param accuracy   or step size for the Solver
+-     * @param planetsList   list of planets that are going to be run
+-     * @param probes     list of probes that are going to be run
++     * @param smoothness  how smooth the planets are going to move in GUI
++     * @param accuracy    or step size for the Solver
++     * @param planetsList list of planets that are going to be run
++     * @param probes      list of probes that are going to be run
+      * @return the amount of times runs and will update the amount of time the model was run for
+      */
+-    public void runnerForGUI( int smoothness, double accuracy, List<PlanetObject> planetsList, List<Probe> probes) {
++    public void runnerForGUI(int smoothness, double accuracy, List<PlanetObject> planetsList, List<Probe> probes) {
+         ArrayList<PlanetObject> allObjects = new ArrayList<>(planetsList);
+         allObjects.addAll(probes);
+         PlanetObject[] planets = allObjects.toArray(new PlanetObject[allObjects.size()]);
+@@ -121,15 +118,14 @@
+                             acc = HelperFunctions.addition(acc, planets[j].accelerationBetween(planets[k]));
+                         }
+                     }
+-                    Solvers.implicitEuler(planets[j], acc, accuracy);
++//                    Solvers.implicitEuler(planets[j], acc, accuracy);
+                 }
+                 time.addSeconds((int) accuracy);
+             }
+         }
+     }
+ 
+-    public static Time getTime()
+-    {
++    public static Time getTime() {
+         return time;
+     }
+ }
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"befef468-85dd-4357-a019-7cd94d9197bf\" name=\"Changes\" comment=\".\">\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/code/algorithms/ModelRunner.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/code/algorithms/ModelRunner.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/target/classes/module-info.class\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/target/classes/module-info.class\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"FileTemplateManagerImpl\">\n    <option name=\"RECENT_TEMPLATES\">\n      <list>\n        <option value=\"Interface\" />\n        <option value=\"Class\" />\n      </list>\n    </option>\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\n      <map>\n        <entry key=\"$PROJECT_DIR$\" value=\"StamaMathijs\" />\n      </map>\n    </option>\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n    <option name=\"RESET_MODE\" value=\"MIXED\" />\n  </component>\n  <component name=\"MarkdownSettingsMigration\">\n    <option name=\"stateVersion\" value=\"1\" />\n  </component>\n  <component name=\"ProjectId\" id=\"2NHEToQGlRKTbWGVth802s3yKhD\" />\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\">\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\n  </component>\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\">{\n  &quot;keyToString&quot;: {\n    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\n    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,\n    &quot;git-widget-placeholder&quot;: &quot;main&quot;,\n    &quot;last_opened_file_path&quot;: &quot;/Users/marcell/Documents/*School/Year 1/Semester 2/Project 1-2/Phase 2/Project1.2-Rocket-to-Titan&quot;,\n    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,\n    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,\n    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,\n    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,\n    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;\n  }\n}</component>\n  <component name=\"RecentsManager\">\n    <key name=\"CopyFile.RECENT_KEYS\">\n      <recent name=\"$PROJECT_DIR$\" />\n      <recent name=\"$PROJECT_DIR$/src/main/resources\" />\n      <recent name=\"$PROJECT_DIR$/src/main/java\" />\n    </key>\n    <key name=\"MoveFile.RECENT_KEYS\">\n      <recent name=\"$PROJECT_DIR$/src/main/java/code/algorithms/trajectory\" />\n      <recent name=\"$PROJECT_DIR$/src/test/java\" />\n      <recent name=\"$PROJECT_DIR$/src/main/resources/model\" />\n    </key>\n    <key name=\"MoveClassesOrPackagesDialog.RECENTS_KEY\">\n      <recent name=\"group1.project12group1\" />\n    </key>\n  </component>\n  <component name=\"RunManager\" selected=\"Application.Main\">\n    <configuration name=\"Main\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\n      <option name=\"MAIN_CLASS_NAME\" value=\"code.Main\" />\n      <module name=\"Project1-2-Group-1\" />\n      <extension name=\"coverage\">\n        <pattern>\n          <option name=\"PATTERN\" value=\"code.*\" />\n          <option name=\"ENABLED\" value=\"true\" />\n        </pattern>\n      </extension>\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"Main\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\n      <option name=\"MAIN_CLASS_NAME\" value=\"code.Main\" />\n      <module name=\"Project1-2-Group-1\" />\n      <extension name=\"coverage\">\n        <pattern>\n          <option name=\"PATTERN\" value=\"code.*\" />\n          <option name=\"ENABLED\" value=\"true\" />\n        </pattern>\n      </extension>\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"TrajectorySimulation\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\n      <option name=\"MAIN_CLASS_NAME\" value=\"code.TrajectorySimulation\" />\n      <module name=\"Project1-2-Group-1\" />\n      <extension name=\"coverage\">\n        <pattern>\n          <option name=\"PATTERN\" value=\"code.*\" />\n          <option name=\"ENABLED\" value=\"true\" />\n        </pattern>\n      </extension>\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"HelperFunctionsTest\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\n      <module name=\"Project1-2-Group-1\" />\n      <option name=\"PACKAGE_NAME\" value=\"\" />\n      <option name=\"MAIN_CLASS_NAME\" value=\"HelperFunctionsTest\" />\n      <option name=\"TEST_OBJECT\" value=\"class\" />\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"PlanetObjectTest\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\n      <module name=\"Project1-2-Group-1\" />\n      <option name=\"PACKAGE_NAME\" value=\"\" />\n      <option name=\"MAIN_CLASS_NAME\" value=\"PlanetObjectTest\" />\n      <option name=\"TEST_OBJECT\" value=\"class\" />\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"ProbeTest\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\n      <module name=\"Project1-2-Group-1\" />\n      <option name=\"PACKAGE_NAME\" value=\"\" />\n      <option name=\"MAIN_CLASS_NAME\" value=\"ProbeTest\" />\n      <option name=\"TEST_OBJECT\" value=\"class\" />\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration default=\"true\" type=\"JetRunConfigurationType\">\n      <module name=\"Project1.2 Group 1\" />\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration default=\"true\" type=\"KotlinStandaloneScriptRunConfigurationType\">\n      <module name=\"Project1.2 Group 1\" />\n      <option name=\"filePath\" />\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <list>\n      <item itemvalue=\"Application.TrajectorySimulation\" />\n      <item itemvalue=\"Application.Main\" />\n      <item itemvalue=\"JUnit.ProbeTest\" />\n      <item itemvalue=\"JUnit.HelperFunctionsTest\" />\n      <item itemvalue=\"JUnit.PlanetObjectTest\" />\n    </list>\n    <recent_temporary>\n      <list>\n        <item itemvalue=\"Application.Main\" />\n        <item itemvalue=\"Application.TrajectorySimulation\" />\n        <item itemvalue=\"JUnit.ProbeTest\" />\n        <item itemvalue=\"Application.TrajectorySimulation\" />\n        <item itemvalue=\"JUnit.PlanetObjectTest\" />\n      </list>\n    </recent_temporary>\n  </component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"befef468-85dd-4357-a019-7cd94d9197bf\" name=\"Changes\" comment=\".\" />\n      <created>1679312618137</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1679312618137</updated>\n      <workItem from=\"1679312619245\" duration=\"1000\" />\n      <workItem from=\"1679356589531\" duration=\"4766000\" />\n      <workItem from=\"1679636818916\" duration=\"2665000\" />\n      <workItem from=\"1679649470844\" duration=\"787000\" />\n      <workItem from=\"1682574830037\" duration=\"138000\" />\n      <workItem from=\"1682575019746\" duration=\"212000\" />\n      <workItem from=\"1682575286272\" duration=\"169000\" />\n      <workItem from=\"1682575476442\" duration=\"191000\" />\n      <workItem from=\"1682575733021\" duration=\"369000\" />\n      <workItem from=\"1682576135260\" duration=\"55000\" />\n      <workItem from=\"1683509128969\" duration=\"1000\" />\n      <workItem from=\"1683509165621\" duration=\"1000\" />\n      <workItem from=\"1683517925630\" duration=\"15000\" />\n      <workItem from=\"1683524116632\" duration=\"504000\" />\n      <workItem from=\"1683547172038\" duration=\"177000\" />\n      <workItem from=\"1683811476154\" duration=\"39000\" />\n      <workItem from=\"1683824125042\" duration=\"993000\" />\n      <workItem from=\"1683838171440\" duration=\"610000\" />\n      <workItem from=\"1683842326368\" duration=\"3117000\" />\n      <workItem from=\"1683907388180\" duration=\"1082000\" />\n      <workItem from=\"1683908486983\" duration=\"4539000\" />\n      <workItem from=\"1683954695733\" duration=\"1411000\" />\n      <workItem from=\"1683956122161\" duration=\"1278000\" />\n      <workItem from=\"1683957543331\" duration=\"65000\" />\n      <workItem from=\"1683957626120\" duration=\"767000\" />\n      <workItem from=\"1684149645676\" duration=\"5926000\" />\n      <workItem from=\"1684230444313\" duration=\"356000\" />\n      <workItem from=\"1684231111698\" duration=\"93000\" />\n      <workItem from=\"1684231446204\" duration=\"2195000\" />\n      <workItem from=\"1684254939940\" duration=\"209000\" />\n      <workItem from=\"1684255315975\" duration=\"1579000\" />\n      <workItem from=\"1684271461931\" duration=\"2763000\" />\n      <workItem from=\"1684286667400\" duration=\"9645000\" />\n      <workItem from=\"1685475925086\" duration=\"5553000\" />\n      <workItem from=\"1686678401081\" duration=\"5748000\" />\n      <workItem from=\"1686742608986\" duration=\"7077000\" />\n      <workItem from=\"1687200266334\" duration=\"261000\" />\n    </task>\n    <task id=\"LOCAL-00001\" summary=\"WORKING HOW THIS SHIT WORKS\">\n      <created>1679319564168</created>\n      <option name=\"number\" value=\"00001\" />\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679319564168</updated>\n    </task>\n    <task id=\"LOCAL-00002\" summary=\"Added some verson of working code\">\n      <created>1679322553538</created>\n      <option name=\"number\" value=\"00002\" />\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679322553538</updated>\n    </task>\n    <task id=\"LOCAL-00003\" summary=\"Added some impr\">\n      <created>1679341953937</created>\n      <option name=\"number\" value=\"00003\" />\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679341953937</updated>\n    </task>\n    <task id=\"LOCAL-00004\" summary=\"changed the methods to work with momentkum\">\n      <created>1679420214209</created>\n      <option name=\"number\" value=\"00004\" />\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679420214209</updated>\n    </task>\n    <task id=\"LOCAL-00005\" summary=\"bug fix\">\n      <created>1679482920572</created>\n      <option name=\"number\" value=\"00005\" />\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679482920572</updated>\n    </task>\n    <task id=\"LOCAL-00006\" summary=\"Added comments and cleaned the PlanetObject\">\n      <created>1679599809794</created>\n      <option name=\"number\" value=\"00006\" />\n      <option name=\"presentableId\" value=\"LOCAL-00006\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679599809794</updated>\n    </task>\n    <task id=\"LOCAL-00007\" summary=\"Added comments and cleaned the PlanetObject\">\n      <created>1679600320463</created>\n      <option name=\"number\" value=\"00007\" />\n      <option name=\"presentableId\" value=\"LOCAL-00007\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679600320463</updated>\n    </task>\n    <task id=\"LOCAL-00008\" summary=\"Added comments and cleaned the PlanetObject\">\n      <created>1679603739673</created>\n      <option name=\"number\" value=\"00008\" />\n      <option name=\"presentableId\" value=\"LOCAL-00008\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679603739673</updated>\n    </task>\n    <task id=\"LOCAL-00009\" summary=\"eeeeee\">\n      <created>1679608031109</created>\n      <option name=\"number\" value=\"00009\" />\n      <option name=\"presentableId\" value=\"LOCAL-00009\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679608031109</updated>\n    </task>\n    <task id=\"LOCAL-00010\" summary=\"eeeeee\">\n      <created>1679610941972</created>\n      <option name=\"number\" value=\"00010\" />\n      <option name=\"presentableId\" value=\"LOCAL-00010\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679610941972</updated>\n    </task>\n    <task id=\"LOCAL-00011\" summary=\"eeeeee\">\n      <created>1679611003457</created>\n      <option name=\"number\" value=\"00011\" />\n      <option name=\"presentableId\" value=\"LOCAL-00011\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679611003457</updated>\n    </task>\n    <task id=\"LOCAL-00012\" summary=\"eeeeee\">\n      <created>1679611384750</created>\n      <option name=\"number\" value=\"00012\" />\n      <option name=\"presentableId\" value=\"LOCAL-00012\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679611384750</updated>\n    </task>\n    <task id=\"LOCAL-00013\" summary=\"eeeeee\">\n      <created>1679611794976</created>\n      <option name=\"number\" value=\"00013\" />\n      <option name=\"presentableId\" value=\"LOCAL-00013\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679611794976</updated>\n    </task>\n    <task id=\"LOCAL-00014\" summary=\"eeeeee\">\n      <created>1679612189357</created>\n      <option name=\"number\" value=\"00014\" />\n      <option name=\"presentableId\" value=\"LOCAL-00014\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679612189357</updated>\n    </task>\n    <task id=\"LOCAL-00015\" summary=\"eeeeee\">\n      <created>1679649307609</created>\n      <option name=\"number\" value=\"00015\" />\n      <option name=\"presentableId\" value=\"LOCAL-00015\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679649307609</updated>\n    </task>\n    <task id=\"LOCAL-00016\" summary=\"eeeeee\">\n      <created>1679649317635</created>\n      <option name=\"number\" value=\"00016\" />\n      <option name=\"presentableId\" value=\"LOCAL-00016\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679649317635</updated>\n    </task>\n    <task id=\"LOCAL-00017\" summary=\"base for graphics, general structure, will be updated\">\n      <created>1682575177410</created>\n      <option name=\"number\" value=\"00017\" />\n      <option name=\"presentableId\" value=\"LOCAL-00017\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1682575177410</updated>\n    </task>\n    <task id=\"LOCAL-00018\" summary=\"reading model from xlsx files and planet-spaceship classes used by the graphics (will be merged later)\">\n      <created>1682575388176</created>\n      <option name=\"number\" value=\"00018\" />\n      <option name=\"presentableId\" value=\"LOCAL-00018\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1682575388176</updated>\n    </task>\n    <task id=\"LOCAL-00019\" summary=\"resources\">\n      <created>1682575516061</created>\n      <option name=\"number\" value=\"00019\" />\n      <option name=\"presentableId\" value=\"LOCAL-00019\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1682575516061</updated>\n    </task>\n    <task id=\"LOCAL-00020\" summary=\"new new structure\">\n      <created>1683547337492</created>\n      <option name=\"number\" value=\"00020\" />\n      <option name=\"presentableId\" value=\"LOCAL-00020\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1683547337492</updated>\n    </task>\n    <task id=\"LOCAL-00021\" summary=\"Updated HillClimbingAlg\">\n      <created>1684838590072</created>\n      <option name=\"number\" value=\"00021\" />\n      <option name=\"presentableId\" value=\"LOCAL-00021\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1684838590072</updated>\n    </task>\n    <task id=\"LOCAL-00022\" summary=\".\">\n      <created>1685445720091</created>\n      <option name=\"number\" value=\"00022\" />\n      <option name=\"presentableId\" value=\"LOCAL-00022\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1685445720091</updated>\n    </task>\n    <task id=\"LOCAL-00023\" summary=\".\">\n      <created>1685456916472</created>\n      <option name=\"number\" value=\"00023\" />\n      <option name=\"presentableId\" value=\"LOCAL-00023\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1685456916472</updated>\n    </task>\n    <task id=\"LOCAL-00024\" summary=\".\">\n      <created>1685475177689</created>\n      <option name=\"number\" value=\"00024\" />\n      <option name=\"presentableId\" value=\"LOCAL-00024\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1685475177690</updated>\n    </task>\n    <task id=\"LOCAL-00025\" summary=\".\">\n      <created>1685475184782</created>\n      <option name=\"number\" value=\"00025\" />\n      <option name=\"presentableId\" value=\"LOCAL-00025\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1685475184782</updated>\n    </task>\n    <task id=\"LOCAL-00026\" summary=\".\">\n      <created>1685476439659</created>\n      <option name=\"number\" value=\"00026\" />\n      <option name=\"presentableId\" value=\"LOCAL-00026\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1685476439659</updated>\n    </task>\n    <task id=\"LOCAL-00027\" summary=\".\">\n      <created>1685476575449</created>\n      <option name=\"number\" value=\"00027\" />\n      <option name=\"presentableId\" value=\"LOCAL-00027\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1685476575449</updated>\n    </task>\n    <task id=\"LOCAL-00028\" summary=\".\">\n      <created>1685477053492</created>\n      <option name=\"number\" value=\"00028\" />\n      <option name=\"presentableId\" value=\"LOCAL-00028\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1685477053492</updated>\n    </task>\n    <task id=\"LOCAL-00029\" summary=\".\">\n      <created>1685478091832</created>\n      <option name=\"number\" value=\"00029\" />\n      <option name=\"presentableId\" value=\"LOCAL-00029\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1685478091832</updated>\n    </task>\n    <task id=\"LOCAL-00030\" summary=\".\">\n      <created>1685481480309</created>\n      <option name=\"number\" value=\"00030\" />\n      <option name=\"presentableId\" value=\"LOCAL-00030\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1685481480309</updated>\n    </task>\n    <task id=\"LOCAL-00031\" summary=\".\">\n      <created>1685481581026</created>\n      <option name=\"number\" value=\"00031\" />\n      <option name=\"presentableId\" value=\"LOCAL-00031\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1685481581026</updated>\n    </task>\n    <option name=\"localTasksCounter\" value=\"32\" />\n    <servers />\n  </component>\n  <component name=\"TypeScriptGeneratedFilesManager\">\n    <option name=\"version\" value=\"3\" />\n  </component>\n  <component name=\"Vcs.Log.Tabs.Properties\">\n    <option name=\"TAB_STATES\">\n      <map>\n        <entry key=\"MAIN\">\n          <value>\n            <State />\n          </value>\n        </entry>\n      </map>\n    </option>\n  </component>\n  <component name=\"VcsManagerConfiguration\">\n    <MESSAGE value=\"added getAcceleration\" />\n    <MESSAGE value=\"WORKING HOW THIS SHIT WORKS\" />\n    <MESSAGE value=\"Added some verson of working code\" />\n    <MESSAGE value=\"Added some impr\" />\n    <MESSAGE value=\"changed the methods to work with momentum\" />\n    <MESSAGE value=\"changed the methods to work with momentkum\" />\n    <MESSAGE value=\"bug fix\" />\n    <MESSAGE value=\"Added comments and cleaned the PlanetObject\" />\n    <MESSAGE value=\"eeeeee\" />\n    <MESSAGE value=\"base for graphics, general structure, will be updated\" />\n    <MESSAGE value=\"reading model from xlsx files and planet-spaceship classes used by the graphics (will be merged later)\" />\n    <MESSAGE value=\"resources\" />\n    <MESSAGE value=\"new new structure\" />\n    <MESSAGE value=\"Updated HillClimbingAlg\" />\n    <MESSAGE value=\".\" />\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\".\" />\n  </component>\n  <component name=\"XDebuggerManager\">\n    <breakpoint-manager>\n      <breakpoints>\n        <line-breakpoint enabled=\"true\" type=\"java-line\">\n          <url>file://$PROJECT_DIR$/src/main/java/code/algorithms/HillClimbingAlg.java</url>\n          <line>73</line>\n          <option name=\"timeStamp\" value=\"7\" />\n        </line-breakpoint>\n      </breakpoints>\n    </breakpoint-manager>\n    <pin-to-top-manager>\n      <pinned-members>\n        <PinnedItemInfo parentTag=\"code.model.objects.Probe\" memberName=\"COORDINATES\" />\n        <PinnedItemInfo parentTag=\"code.model.objects.PlanetObject\" memberName=\"COORDINATES\" />\n      </pinned-members>\n    </pin-to-top-manager>\n  </component>\n  <component name=\"com.intellij.coverage.CoverageDataManagerImpl\">\n    <SUITE FILE_PATH=\"coverage/Project1_2_Rocket_to_Titan$SolarSystem.ic\" NAME=\"SolarSystem Coverage Results\" MODIFIED=\"1679580725908\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\n      <FILTER>group1.project12group1.*</FILTER>\n    </SUITE>\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision fe31065fbd1c3628204c31086e83a9c49a22b5af)
++++ b/.idea/workspace.xml	(date 1687602114658)
+@@ -4,9 +4,19 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="befef468-85dd-4357-a019-7cd94d9197bf" name="Changes" comment=".">
++    <list default="true" id="befef468-85dd-4357-a019-7cd94d9197bf" name="Changes" comment="visualizer">
++      <change afterPath="$PROJECT_DIR$/src/main/java/code/graphics/SolarScene.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/main/java/code/graphics/SolarStackPane.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/code/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/Main.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/ModelRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/ModelRunner.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/module-info.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/module-info.class" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/trajectory/Trajectory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/trajectory/Trajectory.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/code/experiments/TitanLocation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/experiments/TitanLocation.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/code/graphics/Visualizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/graphics/Visualizer.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/code/graphics/overlay/OverlayPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/graphics/overlay/OverlayPane.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/code/model/Model.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/model/Model.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/code/model/objects/Probe.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/model/objects/Probe.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/code/utils/Time.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/utils/Time.java" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -47,7 +57,7 @@
+     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+-    &quot;last_opened_file_path&quot;: &quot;/Users/marcell/Documents/*School/Year 1/Semester 2/Project 1-2/Phase 2/Project1.2-Rocket-to-Titan&quot;,
++    &quot;last_opened_file_path&quot;: &quot;/Users/marcell/Documents/*School/Year 1/Semester 2/Project 1-2/Phase 3/local/src/main/java&quot;,
+     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+@@ -57,12 +67,12 @@
+ }</component>
+   <component name="RecentsManager">
+     <key name="CopyFile.RECENT_KEYS">
++      <recent name="$PROJECT_DIR$/src/main/java" />
+       <recent name="$PROJECT_DIR$" />
+       <recent name="$PROJECT_DIR$/src/main/resources" />
+-      <recent name="$PROJECT_DIR$/src/main/java" />
+     </key>
+     <key name="MoveFile.RECENT_KEYS">
+-      <recent name="$PROJECT_DIR$/src/main/java/code/algorithms/trajectory" />
++      <recent name="$PROJECT_DIR$/src/main/resources/experiments" />
+       <recent name="$PROJECT_DIR$/src/test/java" />
+       <recent name="$PROJECT_DIR$/src/main/resources/model" />
+     </key>
+@@ -70,7 +80,7 @@
+       <recent name="group1.project12group1" />
+     </key>
+   </component>
+-  <component name="RunManager" selected="Application.Main">
++  <component name="RunManager" selected="Application.TitanLocation">
+     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+       <option name="MAIN_CLASS_NAME" value="code.Main" />
+       <module name="Project1-2-Group-1" />
+@@ -97,12 +107,12 @@
+         <option name="Make" enabled="true" />
+       </method>
+     </configuration>
+-    <configuration name="TrajectorySimulation" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+-      <option name="MAIN_CLASS_NAME" value="code.TrajectorySimulation" />
++    <configuration name="TitanLocation" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
++      <option name="MAIN_CLASS_NAME" value="code.experiments.TitanLocation" />
+       <module name="Project1-2-Group-1" />
+       <extension name="coverage">
+         <pattern>
+-          <option name="PATTERN" value="code.*" />
++          <option name="PATTERN" value="code.experiments.*" />
+           <option name="ENABLED" value="true" />
+         </pattern>
+       </extension>
+@@ -110,20 +120,28 @@
+         <option name="Make" enabled="true" />
+       </method>
+     </configuration>
+-    <configuration name="HelperFunctionsTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
++    <configuration name="TrajectorySimulation" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
++      <option name="MAIN_CLASS_NAME" value="code.TrajectorySimulation" />
+       <module name="Project1-2-Group-1" />
+-      <option name="PACKAGE_NAME" value="" />
+-      <option name="MAIN_CLASS_NAME" value="HelperFunctionsTest" />
+-      <option name="TEST_OBJECT" value="class" />
++      <extension name="coverage">
++        <pattern>
++          <option name="PATTERN" value="code.*" />
++          <option name="ENABLED" value="true" />
++        </pattern>
++      </extension>
+       <method v="2">
+         <option name="Make" enabled="true" />
+       </method>
+     </configuration>
+-    <configuration name="PlanetObjectTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
++    <configuration name="function" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
++      <option name="MAIN_CLASS_NAME" value="code.function" />
+       <module name="Project1-2-Group-1" />
+-      <option name="PACKAGE_NAME" value="" />
+-      <option name="MAIN_CLASS_NAME" value="PlanetObjectTest" />
+-      <option name="TEST_OBJECT" value="class" />
++      <extension name="coverage">
++        <pattern>
++          <option name="PATTERN" value="code.*" />
++          <option name="ENABLED" value="true" />
++        </pattern>
++      </extension>
+       <method v="2">
+         <option name="Make" enabled="true" />
+       </method>
+@@ -151,19 +169,19 @@
+       </method>
+     </configuration>
+     <list>
++      <item itemvalue="Application.TitanLocation" />
++      <item itemvalue="Application.function" />
+       <item itemvalue="Application.TrajectorySimulation" />
+       <item itemvalue="Application.Main" />
+       <item itemvalue="JUnit.ProbeTest" />
+-      <item itemvalue="JUnit.HelperFunctionsTest" />
+-      <item itemvalue="JUnit.PlanetObjectTest" />
+     </list>
+     <recent_temporary>
+       <list>
++        <item itemvalue="Application.TitanLocation" />
+         <item itemvalue="Application.Main" />
++        <item itemvalue="Application.function" />
+         <item itemvalue="Application.TrajectorySimulation" />
+         <item itemvalue="JUnit.ProbeTest" />
+-        <item itemvalue="Application.TrajectorySimulation" />
+-        <item itemvalue="JUnit.PlanetObjectTest" />
+       </list>
+     </recent_temporary>
+   </component>
+@@ -211,7 +229,7 @@
+       <workItem from="1685475925086" duration="5553000" />
+       <workItem from="1686678401081" duration="5748000" />
+       <workItem from="1686742608986" duration="7077000" />
+-      <workItem from="1687200266334" duration="261000" />
++      <workItem from="1687499079751" duration="32562000" />
+     </task>
+     <task id="LOCAL-00001" summary="WORKING HOW THIS SHIT WORKS">
+       <created>1679319564168</created>
+@@ -430,7 +448,47 @@
+       <option name="project" value="LOCAL" />
+       <updated>1685481581026</updated>
+     </task>
+-    <option name="localTasksCounter" value="32" />
++    <task id="LOCAL-00032" summary="generic solvers">
++      <option name="closed" value="true" />
++      <created>1687521615942</created>
++      <option name="number" value="00032" />
++      <option name="presentableId" value="LOCAL-00032" />
++      <option name="project" value="LOCAL" />
++      <updated>1687521615942</updated>
++    </task>
++    <task id="LOCAL-00033" summary="titan location over time">
++      <option name="closed" value="true" />
++      <created>1687521643769</created>
++      <option name="number" value="00033" />
++      <option name="presentableId" value="LOCAL-00033" />
++      <option name="project" value="LOCAL" />
++      <updated>1687521643769</updated>
++    </task>
++    <task id="LOCAL-00034" summary=".">
++      <option name="closed" value="true" />
++      <created>1687522061672</created>
++      <option name="number" value="00034" />
++      <option name="presentableId" value="LOCAL-00034" />
++      <option name="project" value="LOCAL" />
++      <updated>1687522061672</updated>
++    </task>
++    <task id="LOCAL-00035" summary="time">
++      <option name="closed" value="true" />
++      <created>1687525853351</created>
++      <option name="number" value="00035" />
++      <option name="presentableId" value="LOCAL-00035" />
++      <option name="project" value="LOCAL" />
++      <updated>1687525853351</updated>
++    </task>
++    <task id="LOCAL-00036" summary="visualizer">
++      <option name="closed" value="true" />
++      <created>1687525947443</created>
++      <option name="number" value="00036" />
++      <option name="presentableId" value="LOCAL-00036" />
++      <option name="project" value="LOCAL" />
++      <updated>1687525947443</updated>
++    </task>
++    <option name="localTasksCounter" value="37" />
+     <servers />
+   </component>
+   <component name="TypeScriptGeneratedFilesManager">
+@@ -462,19 +520,14 @@
+     <MESSAGE value="resources" />
+     <MESSAGE value="new new structure" />
+     <MESSAGE value="Updated HillClimbingAlg" />
++    <MESSAGE value="generic solvers" />
++    <MESSAGE value="titan location over time" />
+     <MESSAGE value="." />
+-    <option name="LAST_COMMIT_MESSAGE" value="." />
++    <MESSAGE value="time" />
++    <MESSAGE value="visualizer" />
++    <option name="LAST_COMMIT_MESSAGE" value="visualizer" />
+   </component>
+   <component name="XDebuggerManager">
+-    <breakpoint-manager>
+-      <breakpoints>
+-        <line-breakpoint enabled="true" type="java-line">
+-          <url>file://$PROJECT_DIR$/src/main/java/code/algorithms/HillClimbingAlg.java</url>
+-          <line>73</line>
+-          <option name="timeStamp" value="7" />
+-        </line-breakpoint>
+-      </breakpoints>
+-    </breakpoint-manager>
+     <pin-to-top-manager>
+       <pinned-members>
+         <PinnedItemInfo parentTag="code.model.objects.Probe" memberName="COORDINATES" />
