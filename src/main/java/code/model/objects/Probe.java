@@ -17,6 +17,7 @@ public class Probe extends PlanetObject {
     private final Queue<Boost> listOfBoosts;
     private double fuelUsed;
     private double[] coordinatesOfShortestDistanceToTitan;
+    private Time timeOfNextBoost;
 
 
     public Probe() {
@@ -28,6 +29,7 @@ public class Probe extends PlanetObject {
         setMass(50_000);
         shortestDistanceToTitan = getDistanceToTitan();
         coordinatesOfShortestDistanceToTitan = new double[3];
+        timeOfNextBoost = Model.getTime().timeCopy();
     }
 
 
@@ -59,12 +61,11 @@ public class Probe extends PlanetObject {
         for (Boost boost : list) {
             if (boost.getFuel() > maxImpulse) {
                 System.out.println("Max is" + maxImpulse);
-                System.out.println("Boots is" + boost.getFuel());
+                System.out.println("Boost is" + boost.getFuel());
                 return false;
             }
         }
         return true;
-
     }
 
     public void addBoost(Boost boost) {
@@ -74,7 +75,7 @@ public class Probe extends PlanetObject {
 
     public void BoosterMECH(Time time) {
         if (listOfBoosts.peek() != null) {
-            if (time.equals(listOfBoosts.peek().getTimeOfBoost())) {
+            if (time.laterOrEqual(listOfBoosts.peek().getTimeOfBoost())) {
                 System.out.println("boosted");
                 double[] probeVelocity = getVelocity();
                 double[] boostVelocity = listOfBoosts.poll().getVelocityOfBoost();
@@ -129,6 +130,10 @@ public class Probe extends PlanetObject {
             shortestDistanceToTitan = distanceToTitan;
             coordinatesOfShortestDistanceToTitan = coordinates;
         }
+    }
+
+    public Time getTimeOfNextBoost() {
+        return timeOfNextBoost;
     }
 
     public double[] getCoordinatesOfShortestDistanceToTitan() {

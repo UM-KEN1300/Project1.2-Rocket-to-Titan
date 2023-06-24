@@ -2,6 +2,7 @@ package code.graphics.overlay;
 
 import code.model.Model;
 import code.model.objects.Probe;
+import code.utils.Time;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
@@ -36,17 +37,17 @@ public class OverlayPane extends AnchorPane {
         DF = new DecimalFormat("#.###");
         DF.setRoundingMode(RoundingMode.HALF_UP);
 
-        update(0);
+        update(Model.getTime());
     }
 
 
     /**
      * Updates the labels
      */
-    public void update(double day) {
+    public void update(Time time) {
         String labelText = "Distance to Titan: " + DF.format(PROBE.getDistanceToTitan()) + " km\nFuel used: " + DF.format(PROBE.getFuelUsed());
         DISTANCE_LABEL.setText(labelText);
-        DATE_LABEL.setText("Day of Simulation: " + (int) day);
+        DATE_LABEL.setText("Date: " + (int) time.getYear() + "-" + (int) time.getMonths() + "-" + (int) time.getDays());
     }
 
     /**

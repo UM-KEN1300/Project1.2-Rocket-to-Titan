@@ -19,7 +19,7 @@ public class TitanLocation {
             FileWriter writer = new FileWriter(filepath);
             BufferedWriter buffer = new BufferedWriter(writer);
 
-            double timeStep = 50;
+            double timeStep = 20;
             Model.loadData(new FileDataLoader());
             Time nextUpdate = Model.getTime().timeCopy();
             int seconds = 0;

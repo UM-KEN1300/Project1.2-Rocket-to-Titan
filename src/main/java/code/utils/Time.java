@@ -1,7 +1,5 @@
 package code.utils;
 
-import org.apache.poi.ss.formula.functions.T;
-
 public class Time {
     double year;
     double months;
@@ -16,7 +14,6 @@ public class Time {
         this.seconds = seconds;
         if (isNotValidDate()) System.out.println("The date is wrong");
     }
-
 
     public Time(double year, double months, double days, double hours, double minutes) {
         this(year, months, days, hours);
@@ -52,6 +49,7 @@ public class Time {
         this.seconds = time[5];
         if (isNotValidDate()) System.out.println("The date is wrong");
     }
+
 
     public boolean sameHour(Time other) {
         return year == other.year &&
@@ -132,6 +130,27 @@ public class Time {
 
     public Time timeCopy() {
         return new Time(year, months, days, hours, minutes, seconds);
+    }
+
+    public boolean laterOrEqual(Time other) {
+        if (other.year >= year) return true;
+        if (other.months >= months) return true;
+        if (other.days >= days) return true;
+        if (other.hours >= hours) return true;
+        if (other.minutes >= minutes) return true;
+        return other.seconds >= seconds;
+    }
+
+    public double getYear() {
+        return year;
+    }
+
+    public double getMonths() {
+        return months;
+    }
+
+    public double getDays() {
+        return days;
     }
 
     @Override

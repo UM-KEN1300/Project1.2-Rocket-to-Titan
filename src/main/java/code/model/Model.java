@@ -19,28 +19,23 @@ import java.util.function.BiFunction;
 /**
  * Class representing the objects in the simulation. It holds the PlanetObject objects and probes and
  * is responsible for loading their properties.
- *
  * <p>
- * It is a singleton to ensure that there is only one instance of every modeled object.
- * </p>
- *
+ * It is a singleton to ensure that there is only one instance of every modeled object.</p>
  * <p>
  * It loads masses and radii of planets from xlsx files in resources.
- * It loads the initial coordinates and velocities depending on the data loader.
- * </p>
+ * It loads the initial coordinates and velocities depending on the data loader.</p>
  */
 public class Model {
     private Map<String, PlanetObject> planetObjects;
     private List<Probe> probes;
     private final Time TIME;
     private static final AccelerationFunction ACCELERATION_FUNCTION = new AccelerationFunction();
-    private final Solver solver;
-    private double[] stateArray;
+    private final Solver SOLVER;
 
 
     private Model() {
         TIME = new Time(2023, 4, 1);
-        solver = new RungeKutta();
+        SOLVER = new RungeKutta();
     }
 
 
@@ -60,7 +55,6 @@ public class Model {
     public static Model getInstance() {
         return InstanceHolder.INSTANCE;
     }
-
 
     /**
      * @return a Map where the name of each celestial body starting with a capital letter is the key and
@@ -97,13 +91,6 @@ public class Model {
         return allObjects;
     }
 
-    public static void freezeModel() {
-        for (PlanetObject planet : getPlanetObjectsArrayList())
-            planet.setVelocity(new double[]{0, 0, 0});
-        for (Probe probe : getProbes())
-            probe.setVelocity(new double[]{0, 0, 0});
-    }
-
     /**
      * @return a List of Probe objects in the model
      */
@@ -120,21 +107,12 @@ public class Model {
         getInstance().probes.add(probe);
     }
 
-    /**
-     * For hill climbing algorithm. Removes all other probes from the model and keeps only the one passed in parameter.
-     *
-     * @param probe the Probe object to be kept in the model
-     */
-    public static void chooseProbe(Probe probe) {
-        getInstance().probes = new ArrayList<>();
-        addProbe(probe);
-    }
-
     public static void step(double timeStep) {
+        if (getProbes().size() > 0)
+            getProbes().get(0).BoosterMECH(Model.getTime());
         double[] currentState = flattenState(getAllObjects());
-        double[] nextState = getInstance().solver.solve(getDynamicsFunction(), currentState, 0, timeStep);
+        double[] nextState = getInstance().SOLVER.solve(getDynamicsFunction(), currentState, 0, timeStep);
         updateObjectsState(nextState);
-        // TODO: double seconds in time
         getTime().addSeconds((int) timeStep);
     }
 
@@ -153,14 +131,6 @@ public class Model {
 
     public static BiFunction<Double, double[], double[]> getDynamicsFunction() {
         return getInstance().dynamicsFunction();
-    }
-
-    public static double[] getStateArray() {
-        return getInstance().stateArray;
-    }
-
-    public static void setStateArray(double[] newArray) {
-        getInstance().stateArray = newArray;
     }
 
     public static void updateObjectsState(double[] systemState) {
@@ -248,9 +218,5 @@ public class Model {
 
     public static Time getTime() {
         return getInstance().TIME;
-    }
-
-    public void incrementTime(int seconds) {
-        getInstance().TIME.addSeconds(seconds);
     }
 }

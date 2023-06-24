@@ -1,58 +1,35 @@
 package code.graphics;
 
-import code.algorithms.ModelRunner;
-import code.graphics.overlay.OverlayPane;
-import code.graphics.visuals.SolarSubScene;
-import code.graphics.visuals.controllers.SolarKeyController;
-import code.graphics.visuals.controllers.SolarMouseController;
-import code.graphics.visuals.controllers.SolarScrollController;
 import code.model.Model;
-import code.utils.Time;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
-import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.util.Timer;
 
 /**
- * code.Main graphic class which sets up the Scene and runs the engine which updates all 3D representations of
+ * Main graphic class which sets up the Scene and runs the engine which updates all 3D representations of
  * objects in the model in real-time.
  */
 public class Visualizer extends Application {
     public static final int SCALE = 50; // don't change this
     private final double WIDTH = Screen.getPrimary().getBounds().getWidth();
     private final double HEIGHT = Screen.getPrimary().getBounds().getHeight();
-    private SolarSubScene solarSubScene;
-    private OverlayPane overlayPane;
-    private Time time;
+    private static SolarScene solarScene;
+    private final int SMOOTHNESS = 200;
     private Timer timer;
-    private int count;
-    ModelRunner modelRunner;
+    private static int count;
+
 
     @Override
     public void start(Stage stage) {
         stage.setTitle("Mission to Titan");
         stage.show();
 
-        StackPane stackPane = new StackPane();
-        Scene scene = new Scene(stackPane, WIDTH, HEIGHT, true);
-
-        solarSubScene = new SolarSubScene(new Group(), WIDTH, HEIGHT);
-        new SolarMouseController(scene, solarSubScene);
-        new SolarScrollController(scene, solarSubScene);
-        scene.addEventFilter(KeyEvent.KEY_PRESSED, new SolarKeyController(solarSubScene));
-        stackPane.getChildren().add(solarSubScene);
-
-        overlayPane = new OverlayPane();
-        stackPane.getChildren().add(overlayPane);
-
-        stage.setScene(scene);
+        solarScene = new SolarScene(WIDTH, HEIGHT);
+        stage.setScene(solarScene);
 
         timer = new Timer();
         count = 0;
@@ -77,25 +54,20 @@ public class Visualizer extends Application {
 
 
     private void calculation() {
-        Time startTime = new Time(2023, 4, 1);
-        modelRunner = new ModelRunner(startTime);
         timer.schedule(
                 new java.util.TimerTask() {
                     @Override
                     public void run() {
-                        for (int i = 0; i < 200; i++) {
-                            Model.step(20);
-                            Model.getProbes().get(0).BoosterMECH(Model.getTime());
-                        }
+                        for (int i = 0; i < SMOOTHNESS; i++)
+                            Model.step(10);
 
                         Platform.runLater(() -> {
-                            solarSubScene.update();
-                            overlayPane.update(0);
+                            solarScene.update(Model.getTime());
                         });
 
                         count++;
                         if (count % 25 == 0)
-                            Platform.runLater(() -> solarSubScene.addTrail());
+                            Platform.runLater(solarScene::addTrail);
                     }
                 }, 0, 1);
     }
