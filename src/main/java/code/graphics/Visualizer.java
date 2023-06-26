@@ -25,6 +25,7 @@ public class Visualizer extends Application {
     private static int count;
     private LandingScene landingScene;
     private Stage STAGE;
+    private boolean changedScene;
 
 
     @Override
@@ -32,6 +33,8 @@ public class Visualizer extends Application {
         STAGE = stage;
         STAGE.setTitle("Mission to Titan");
         STAGE.show();
+
+        changedScene = false;
 
         solarScene = new SolarScene(WIDTH, HEIGHT);
         landingScene = new LandingScene(WIDTH, HEIGHT);
@@ -65,11 +68,16 @@ public class Visualizer extends Application {
                     @Override
                     public void run() {
                         if (Model.getProbes().get(0).getDistanceToTitan() < 600) {
-                            Platform.runLater(() -> {
-                                STAGE.setScene(landingScene);
-                            });
-                        }
+                            if (!changedScene) {
+                                Platform.runLater(() -> {
 
+                                    STAGE.setScene(landingScene);
+                                });
+                                changedScene = true;
+                            }
+
+
+                        }
 
                         if (Model.getTime().laterOrEqual(Model.getProbes().get(0).getTimeOfNextBoost()))
                             new TargetBoost(Model.getPlanetObjects().get("Titan").getCoordinates());
