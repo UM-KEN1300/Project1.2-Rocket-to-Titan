@@ -1,6 +1,5 @@
-# Group01 2023
+# Group01 2023, Phase 3
 **Contributors:**  Ege Demirelli, Kaloyan Kostov, Mathijs Brouwers, Dragos Stamatin, Marcell Dorkó, Livio Borghese, Gleb Tsikanovich
 ## Running the program
-To run only the mathematical model, run SolarSystem.java. <br>
-To run the version of the visualizer with default parameters that launches the probe into Titan, run Visualizer.java <br>
-To run the version of the visualizer that takes as input the coordinates of the probe and its velocity, run VisualizerExaminer.java <br>
+ To run the program, simply run the Main.java file thorugh your choice of an IDE.
+ Changes to the simulation's parameters such as the probe's velocities can be made only by changing the source code.
