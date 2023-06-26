@@ -1,4 +1,4 @@
-package code.algorithms;
+package code.algorithms.trajectory;
 
 import code.model.objects.PlanetObject;
 import code.utils.HelperFunctions;
