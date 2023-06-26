@@ -15,6 +15,18 @@ public class HardcodedValues
     boolean finished;
     boolean lastPhase;
     int countX;
+    public HardcodedValues(double XPosition, double YPosition, double rotationAngle, double XVelocity, double YVelocity)
+    {
+        this.XPosition = XPosition;
+        this.YPosition = YPosition;
+        this.rotationAngle = rotationAngle;
+        this.XVelocity = XVelocity;
+        this.YVelocity = YVelocity;
+        listOfBoost=new LinkedList<>();
+        lastPhase = false;
+        finished = false;
+        countX = 0;
+    }
 
 
     public void controller() {
@@ -48,7 +60,7 @@ public class HardcodedValues
 
 
     public void controllerX() {
-        // updater(0,0,1);
+        updater(0,0,1);
         //TODO add wind
 
 
@@ -80,8 +92,7 @@ public class HardcodedValues
         double difference;
         if(target<XVelocity)
         {
-            System.out.println("case 1");
-            System.out.println(XVelocity);
+
             if (rotationAngle != 270)
             {
                 turnProbeToAngle(270,0,1);
@@ -90,7 +101,6 @@ public class HardcodedValues
             difference= target -XVelocity;
             if(Math.abs(difference)>13.52)
                 difference=13.52;
-            System.out.println(difference);
             updater(difference,0,1);
         }
         else if(target>XVelocity)
@@ -101,7 +111,7 @@ public class HardcodedValues
                 runner(1,8);
             }
             difference= target -XVelocity;
-            System.out.println(Math.abs(difference));
+
             if(Math.abs(difference)>13.52)
                 difference=13.52;
             updater(Math.abs(difference),0,1);
@@ -175,6 +185,8 @@ public class HardcodedValues
 
     public void updater(double u,double v,double stepSize)
     {
+        System.out.println("Angle: "+rotationAngle+" while u: "+u+" and YVelocity: "+YVelocity);
+
         rotationAngleVelocity+=v*stepSize;
         rotationAngle+=rotationAngleVelocity*stepSize;
         //X value update
@@ -182,7 +194,8 @@ public class HardcodedValues
         XVelocity+=XAcceleration*stepSize;
         XPosition+=XVelocity*stepSize;
         //Y value update
-        double YAcceleration=u*Math.cos(rotationAngle)-1.352*Math.pow(10,-3);
+        double YAcceleration=u*Math.cos(rotationAngle)-(1.352*Math.pow(10,-3));
+
         YVelocity+=YAcceleration*stepSize;
         YPosition+=YVelocity*stepSize;
         //rotation angle update
@@ -193,25 +206,9 @@ public class HardcodedValues
 
     }
 
-    public HardcodedValues(double XPosition, double YPosition, double rotationAngle, double XVelocity, double YVelocity)
-    {
-        this.XPosition = XPosition;
-        this.YPosition = YPosition;
-        this.rotationAngle = rotationAngle;
-        this.XVelocity = XVelocity;
-        this.YVelocity = YVelocity;
-        listOfBoost=new LinkedList<>();
-        lastPhase = false;
-        finished = false;
-        countX = 0;
-    }
 
-    public double getDirectionTowardsLandingSpot()
-    {
-     double tan=YPosition/XPosition;
-     double degs = Math.toDegrees(Math.atan(tan));
-     return 270-degs;
-    }
+
+
 
     public void turnProbeToAngle(double angle,double currentTime,double step)
     {
@@ -285,7 +282,7 @@ public class HardcodedValues
         HardcodedValues spaceCraft=new HardcodedValues(200001,300000,  0,0,0);
         boolean stop = false;
         int couner=0;
-        while (!stop){
+        while (couner<100){
             spaceCraft.controllerX();
             spaceCraft.print();
             stop = spaceCraft.isFinished();
