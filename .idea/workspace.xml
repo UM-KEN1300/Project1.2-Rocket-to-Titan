@@ -4,12 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="befef468-85dd-4357-a019-7cd94d9197bf" name="Changes" comment="fixed g in the solver">
-      <change afterPath="$PROJECT_DIR$/src/main/java/code/landing/module/WindStrengths.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/code/landing/module/gen.java" afterDir="false" />
+    <list default="true" id="befef468-85dd-4357-a019-7cd94d9197bf" name="Changes" comment="added a gen algorithm and functionality to the HardcodedValues.java">
+      <change afterPath="$PROJECT_DIR$/src/main/java/code/landing/module/ggg.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/code/landing/module/HardcodedValues.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/landing/module/HardcodedValues.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/code/model/objects/Probe.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/model/objects/Probe.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/landing/module/gen.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,7 +71,20 @@
       <recent name="group1.project12group1" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.HardcodedValues">
+    <configuration name="HardcodedValues" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="code.landing.module.HardcodedValues" />
+      <module name="Project1-2-Group-1" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="code.landing.module.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="code.Main" />
       <module name="Project1-2-Group-1" />
@@ -112,15 +124,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="HelperFunctionsTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="Project1-2-Group-1" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="HelperFunctionsTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="PlanetObjectTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Project1-2-Group-1" />
       <option name="PACKAGE_NAME" value="" />
@@ -153,19 +156,19 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="Application.HardcodedValues" />
       <item itemvalue="Application.TrajectorySimulation" />
       <item itemvalue="Application.Main" />
       <item itemvalue="JUnit.ProbeTest" />
-      <item itemvalue="JUnit.HelperFunctionsTest" />
       <item itemvalue="JUnit.PlanetObjectTest" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.HardcodedValues" />
         <item itemvalue="Application.Main" />
         <item itemvalue="Application.TrajectorySimulation" />
         <item itemvalue="JUnit.ProbeTest" />
         <item itemvalue="Application.TrajectorySimulation" />
-        <item itemvalue="JUnit.PlanetObjectTest" />
       </list>
     </recent_temporary>
   </component>
@@ -223,7 +226,10 @@
       <workItem from="1687305627699" duration="7422000" />
       <workItem from="1687426244013" duration="7817000" />
       <workItem from="1687520422794" duration="12087000" />
-      <workItem from="1687610557562" duration="2393000" />
+      <workItem from="1687610557562" duration="11322000" />
+      <workItem from="1687638223752" duration="49000" />
+      <workItem from="1687692339899" duration="20912000" />
+      <workItem from="1687770277372" duration="9544000" />
     </task>
     <task id="LOCAL-00001" summary="WORKING HOW THIS SHIT WORKS">
       <created>1679319564168</created>
@@ -456,7 +462,14 @@
       <option name="project" value="LOCAL" />
       <updated>1687351209760</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="added a gen algorithm and functionality to the HardcodedValues.java">
+      <created>1687613206673</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1687613206673</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -491,7 +504,8 @@
     <MESSAGE value="." />
     <MESSAGE value="Start of landing module" />
     <MESSAGE value="fixed g in the solver" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed g in the solver" />
+    <MESSAGE value="added a gen algorithm and functionality to the HardcodedValues.java" />
+    <option name="LAST_COMMIT_MESSAGE" value="added a gen algorithm and functionality to the HardcodedValues.java" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

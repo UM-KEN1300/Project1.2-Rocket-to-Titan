@@ -1,8 +1,8 @@
 package code.landing.module;
 import java.lang.Math;
-import java.util.ArrayList;
+import java.util.*;
 
-public class HardcodedValues implements Comparable<HardcodedValues>
+public class HardcodedValues
 {
     double XPosition;
     double YPosition;
@@ -11,19 +11,139 @@ public class HardcodedValues implements Comparable<HardcodedValues>
     double XVelocity;
     double YVelocity;
     double distanceToLandingSpot;
-    ArrayList<double[]> listOfBoost;
+    private final Queue<double[]> listOfBoost;
+    boolean finished;
+    boolean lastPhase;
+    int countX;
+
+
+    public void controller() {
+        updater(0,0,1);
+        //TODO add wind
+
+        double XTolerance = 0.1;
+        if (YPosition <= 0.001) {
+            finished = true;
+        }
+
+
+        else if (YPosition > 200000) {
+            if (Math.abs(XPosition) > XTolerance && countX <= 0) {
+                correctX();
+            } else {
+                correctY(750);
+            }
+        }
+
+
+
+        else if (YPosition > 100000) {
+            if (Math.abs(XPosition) > XTolerance && countX <= 0) {
+                correctX();
+            } else {
+                correctY(500);
+            }
+        } else if (YPosition > 20000) {
+            if (Math.abs(XPosition) > XTolerance && countX <= 0) {
+                correctX();
+            } else {
+                correctY(100);
+            }
+        } else if (YPosition > 10000) {
+            if (Math.abs(XPosition) > XTolerance && countX <= 0) {
+                correctX();
+            } else {
+                correctY(10);
+            }
+        } else if (YPosition > 5000) {
+            correctY(1);
+        } else if (YPosition > 10) {
+            correctY(0.1);
+            lastPhase = true;
+        } else {
+            lastPhase = true;
+            correctY(0.01);
+        }
+    }
+
+    private void correctX() {
+        if (XPosition > 0)
+        {
+            if (rotationAngle != 270)
+            {
+                System.out.println("In correctX angle");
+                turnProbeToAngle(270, 0, 1);
+                runner(1, 8);
+            }
+
+            System.out.println("In correctX boost");
+            countX = 5;
+            updater(XVelocity, 0, 1);
+            updater(1, 0, 1);
+
+        }
+        if (XPosition < 0)
+        {
+            System.out.println("in");
+            if (rotationAngle != 90)
+            {
+                System.out.println("In correctX angle");
+                turnProbeToAngle(90, 0, 1);
+                runner(1, 8);
+            }
+
+            System.out.println("In correctX boost");
+            countX = 5;
+            updater(XVelocity, 0, 1);
+            updater(1, 0, 1);
+
+        }
+    }
+
+    private void correctY(double target) {
+        countX -= 1;
+        if (rotationAngle != 0)
+        {
+            System.out.println("In correctY angle");
+           turnProbeToAngle(0,0,1);
+           runner(1,8);
+        }
+        //-35.5398560637122 V: -28.48258400000952
+
+        //System.out.println("In correctY boost");
+        target = -target; // that's because we are going down, so we want negative velocity
+        double difference = target -YVelocity;
+        updater(difference,0,1);
+    }
+
+
+
+
 
     public void runner(double stepSize, double numberOfIterations)
     {
-        int counter=0;
-        double[] currentBoost=listOfBoost.get(counter);
+
+        double[] currentBoost={0.0,0.0,0.0};
+        if(!listOfBoost.isEmpty())
+        {
+            currentBoost = listOfBoost.poll();
+        }
         for (int i = 0; i < numberOfIterations&&YPosition>0; i++)
         {
-            if(currentBoost[0]==numberOfIterations)
+//            if(i%10==0)
+//            {
+//                System.out.println("X: "+XPosition+" Y: "+YPosition);
+//               // System.out.println("Angle is "+rotationAngle+" at time "+i);
+//            }
+
+            if(currentBoost[0]==i)
             {
+                System.out.println("Boosted with boost"+currentBoost[2]+"");
                 updater(currentBoost[1],currentBoost[2],stepSize);
-                counter++;
-                currentBoost=listOfBoost.get(counter);
+                if(!listOfBoost.isEmpty())
+                {
+                    currentBoost = listOfBoost.poll();
+                }
             }
             else
             {
@@ -34,17 +154,21 @@ public class HardcodedValues implements Comparable<HardcodedValues>
 
     public void updater(double u,double v,double stepSize)
     {
+        rotationAngleVelocity+=v*stepSize;
+        rotationAngle+=rotationAngleVelocity*stepSize;
         //X value update
         double XAcceleration=u*Math.sin(rotationAngle);
         XVelocity+=XAcceleration*stepSize;
         XPosition+=XVelocity*stepSize;
         //Y value update
-        double YAcceleration=u*Math.sin(rotationAngle)-1.352*Math.pow(10,-3);
+        double YAcceleration=u*Math.cos(rotationAngle)-1.352*Math.pow(10,-3);
         YVelocity+=YAcceleration*stepSize;
         YPosition+=YVelocity*stepSize;
         //rotation angle update
-        rotationAngleVelocity+=v*stepSize;
-        rotationAngle+=rotationAngleVelocity*stepSize;
+
+        System.out.println("X: "+XPosition+" Y: "+YPosition+" V: "+YVelocity);
+        //System.out.println(rotationAngle);
+
 
     }
 
@@ -55,20 +179,41 @@ public class HardcodedValues implements Comparable<HardcodedValues>
         this.rotationAngle = rotationAngle;
         this.XVelocity = XVelocity;
         this.YVelocity = YVelocity;
-        listOfBoost=new ArrayList<>();
+
+
+
+        listOfBoost=new LinkedList<>();
+
+
+
+
+        lastPhase = false;
+        finished = false;
+        countX = 0;
     }
 
-//    public double getDirectionTowardsLandingSpot()
-//    {
-//     double tan=YPosition/XPosition;
-//     double degs = Math.toDegrees(Math.atan(tan));
-//     return 180-degs;
-//    }
-
-    public double getBoostForAngle(double angle)
+    public double getDirectionTowardsLandingSpot()
     {
-        return 0;
+     double tan=YPosition/XPosition;
+     double degs = Math.toDegrees(Math.atan(tan));
+     return 270-degs;
     }
+
+    public void turnProbeToAngle(double angle,double currentTime,double step)
+    {
+        double turnAngle=angle-rotationAngle;
+        System.out.println("Angle before boost: "+rotationAngle);
+        System.out.println("Angle"+turnAngle);
+        addBoost(currentTime,0,turnAngle/7);
+        addBoost(currentTime+7*step,0,-turnAngle/7);
+
+    }
+
+
+
+
+
+
     public void addBoost(double time,double u,double v)
     {
         //TODO add limits
@@ -76,52 +221,38 @@ public class HardcodedValues implements Comparable<HardcodedValues>
         listOfBoost.add(boost);
     }
 
-    public ArrayList<double[]> getListOfBoost()
+
+    public double getDistanceToLandingSpot()
     {
-        return listOfBoost;
+      distanceToLandingSpot  =Math.sqrt(XPosition*XPosition+(YPosition*YPosition));
+      return distanceToLandingSpot;
     }
 
-    public void setListOfBoost(ArrayList<double[]> listOfBoost)
+    public boolean isFinished()
     {
-        this.listOfBoost = listOfBoost;
+        return finished;
     }
-    //___________________________GEN PART
-
-    private double fitnessValue;
-    public void setFitness()
-    {
-        //TODO depending on the xy and the end of a run set a score
-        runner(1,100000);
-        fitnessValue=Math.sqrt(XPosition*XPosition+(YPosition*YPosition));
-    }
-
-
-    public double getFitnessValue()
-    {
-        return fitnessValue;
-    }
-
-
-
-
-
-    public HardcodedValues clone()
-    {
-        HardcodedValues hardcodedValues=new HardcodedValues(600,600,0,-0.1,-0.087);
-        hardcodedValues.setListOfBoost(this.listOfBoost);
-        return hardcodedValues;
-    }
-
 
     public static void main(String[] args)
     {
-        HardcodedValues hardcodedValues=new HardcodedValues(600,600,0,-0.1,-0.087);
-        hardcodedValues.runner(1,100000);
+      HardcodedValues spaceCraft=new HardcodedValues(20000,300000,  0,0,0);
+      //spaceCraft.turnProbeToAngle(90,0,1);
+
+//        spaceCraft.addBoost(0,10,0);
+//        spaceCraft.turnProbeToAngle(90,100,1)
+
+//        spaceCraft.addBoost(108,-13,0);
+//       spaceCraft.runner(1,10);
+//        spaceCraft.turnProbeToAngle(180,0,1);
+//        spaceCraft.runner(1,10);
+//        spaceCraft.turnProbeToAngle(0,0,1);
+//        spaceCraft.runner(1,10);
+        boolean stop = false;
+//        int counter=0;
+        while (!stop){
+            spaceCraft.controller();
+            stop = spaceCraft.isFinished();
+        }
     }
 
-    @Override
-    public int compareTo(HardcodedValues o)
-    {
-        return -(int) (this.fitnessValue-o.getFitnessValue());
-    }
 }
