@@ -54,10 +54,19 @@ public class HardcodedValues
                 correctY(10);
             }
         } else if (YPosition > 5000) {
-            correctY(1);
+            if (Math.abs(XPosition) > XTolerance && countX <= 0) {
+                correctX();
+            } else {
+                correctY(1);
+            }
+
         } else if (YPosition > 10) {
-            correctY(0.1);
-            lastPhase = true;
+            if (Math.abs(XPosition) > XTolerance && countX <= 0) {
+                correctX();
+            } else {
+                correctY(0.1);
+            }
+
         } else {
             lastPhase = true;
             correctY(0.01);
@@ -66,18 +75,31 @@ public class HardcodedValues
 
     private void correctX() {
         double angle=0;
-        if(XPosition>0)angle=270;
-        if(XPosition<0)angle=90;
-
+        if(XPosition>0)
+        {
+            angle = 270;
+            System.out.println("BAD");
+        }
+        if(XPosition<0)
+        {
+            angle = 90;
+            System.out.println("IN");
+        }
 
         if (rotationAngle != angle)
             {
                 turnProbeToAngle(angle, 0, 1);
                 runner(1, 8);
             }
-            countX = 3;
+            countX = 10;
             updater(XVelocity, 0, 1);
-            updater(0.1, 0, 1);
+            System.out.println(XVelocity);
+
+            updater(1, 0, 1);
+             System.out.println();
+
+
+
     }
 
     private void correctY(double target) {
@@ -89,7 +111,7 @@ public class HardcodedValues
         }
         //-35.5398560637122 V: -28.48258400000952
 
-        //System.out.println("In correctY boost");
+//        System.out.println("In correctY boost");
         target = -target; // that's because we are going down, so we want negative velocity
         double difference = target -YVelocity;
         updater(difference,0,1);
@@ -229,7 +251,7 @@ public class HardcodedValues
 
     public void print()
     {
-        System.out.println("X: "+XPosition+" Y: "+YPosition+" V: "+YVelocity);
+        System.out.println("X: "+XPosition+" Y: "+YPosition+" V: "+XVelocity);
     }
     public static void main(String[] args)
     {
@@ -245,7 +267,8 @@ public class HardcodedValues
 //        spaceCraft.runner(1,10);
 //        spaceCraft.turnProbeToAngle(0,0,1);
 //        spaceCraft.runner(1,10);
-        HardcodedValues spaceCraft=new HardcodedValues(300000,300000,  0,-40,0);
+
+        HardcodedValues spaceCraft=new HardcodedValues(300000,300000,  0,0,0);
         boolean stop = false;
         while (!stop){
             spaceCraft.controller();

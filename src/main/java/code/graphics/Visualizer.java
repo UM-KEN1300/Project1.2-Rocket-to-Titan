@@ -2,6 +2,7 @@ package code.graphics;
 
 import code.algorithms.trajectory.TargetBoost;
 import code.graphics.landing.LandingScene;
+import code.landing.module.HardcodedValues;
 import code.model.Model;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -26,14 +27,16 @@ public class Visualizer extends Application {
     private LandingScene landingScene;
     private Stage STAGE;
     private boolean changedScene;
-
+    HardcodedValues spaceCraft;
+    boolean stop;
 
     @Override
     public void start(Stage stage) {
+         spaceCraft=new HardcodedValues(300000,300000,  0,0,0);
         STAGE = stage;
         STAGE.setTitle("Mission to Titan");
         STAGE.show();
-
+        stop=false;
         changedScene = false;
 
         solarScene = new SolarScene(WIDTH, HEIGHT);
@@ -63,11 +66,12 @@ public class Visualizer extends Application {
 
 
     private void calculation() {
+
         timer.schedule(
                 new java.util.TimerTask() {
                     @Override
                     public void run() {
-                        if (Model.getProbes().get(0).getDistanceToTitan() < 600) {
+//                        if (Model.getProbes().get(0).getDistanceToTitan() < 600000000) {
                             if (!changedScene) {
                                 Platform.runLater(() -> {
 
@@ -77,23 +81,35 @@ public class Visualizer extends Application {
                             }
 
 
-                        }
+                                if(!stop)
+                                {
+                                    spaceCraft.controller();
+                                    spaceCraft.print();
+                                    stop = spaceCraft.isFinished();
+                                    Platform.runLater(() -> {
+                                        landingScene.moveSpaceship(spaceCraft.getXPosition(), spaceCraft.getYPosition(), spaceCraft.getRotationAngle());
+                                    });
 
-                        if (Model.getTime().laterOrEqual(Model.getProbes().get(0).getTimeOfNextBoost()))
-                            new TargetBoost(Model.getPlanetObjects().get("Titan").getCoordinates());
+                                }
 
-                        for (int i = 0; i < SMOOTHNESS; i++)
-                            Model.step();
 
-                        Platform.runLater(() -> {
-                            solarScene.update(Model.getTime());
-                        });
-
-                        count++;
-                        if (count % 25 == 0)
-                            Platform.runLater(solarScene::addTrail);
+//                        }
+//
+//                        if (Model.getTime().laterOrEqual(Model.getProbes().get(0).getTimeOfNextBoost()))
+//                            new TargetBoost(Model.getPlanetObjects().get("Titan").getCoordinates());
+//
+//                        for (int i = 0; i < SMOOTHNESS; i++)
+//                            Model.step();
+//
+//                        Platform.runLater(() -> {
+//                            solarScene.update(Model.getTime());
+//                        });
+//
+//                        count++;
+//                        if (count % 25 == 0)
+//                            Platform.runLater(solarScene::addTrail);
                     }
-                }, 0, 1);
+                }, 0, 10);
     }
 
     public static void main(String[] args) {

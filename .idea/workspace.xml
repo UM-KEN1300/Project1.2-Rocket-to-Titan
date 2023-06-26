@@ -4,13 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="befef468-85dd-4357-a019-7cd94d9197bf" name="Changes" comment="latest version as of 15.18 26 June not working x">
-      <change afterPath="$PROJECT_DIR$/src/main/java/code/landing/module/HardcodedValues.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/code/landing/module/Runner.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/code/landing/module/SpaceCraft.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/code/landing/module/WindStrengths.java" afterDir="false" />
+    <list default="true" id="befef468-85dd-4357-a019-7cd94d9197bf" name="Changes" comment="connecting with landing">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/module-info.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/graphics/Visualizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/graphics/Visualizer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/landing/module/HardcodedValues.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/landing/module/HardcodedValues.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,7 +71,7 @@
       <recent name="group1.project12group1" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.HardcodedValues">
+  <component name="RunManager">
     <configuration name="HardcodedValues" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="code.landing.module.HardcodedValues" />
       <module name="Project1-2-Group-1" />
@@ -167,8 +164,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.HardcodedValues" />
         <item itemvalue="Application.Main" />
+        <item itemvalue="Application.HardcodedValues" />
         <item itemvalue="Application.TrajectorySimulation" />
         <item itemvalue="JUnit.ProbeTest" />
         <item itemvalue="Application.TrajectorySimulation" />
@@ -479,7 +476,21 @@
       <option name="project" value="LOCAL" />
       <updated>1687785511224</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="connecting with landing">
+      <created>1687793966365</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1687793966365</updated>
+    </task>
+    <task id="LOCAL-00037" summary="connecting with landing">
+      <created>1687794402942</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1687794402942</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -516,7 +527,8 @@
     <MESSAGE value="fixed g in the solver" />
     <MESSAGE value="added a gen algorithm and functionality to the HardcodedValues.java" />
     <MESSAGE value="latest version as of 15.18 26 June not working x" />
-    <option name="LAST_COMMIT_MESSAGE" value="latest version as of 15.18 26 June not working x" />
+    <MESSAGE value="connecting with landing" />
+    <option name="LAST_COMMIT_MESSAGE" value="connecting with landing" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
