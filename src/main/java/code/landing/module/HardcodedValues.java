@@ -211,13 +211,29 @@ public class HardcodedValues
         return finished;
     }
 
+
+    public double getXPosition()
+    {
+        return XPosition;
+    }
+
+    public double getYPosition()
+    {
+        return YPosition;
+    }
+
+    public double getRotationAngle()
+    {
+        return rotationAngle;
+    }
+
     public void print()
     {
         System.out.println("X: "+XPosition+" Y: "+YPosition+" V: "+YVelocity);
     }
     public static void main(String[] args)
     {
-      HardcodedValues spaceCraft=new HardcodedValues(300000,300000,  0,-40,0);
+     // HardcodedValues spaceCraft=new HardcodedValues(300000,300000,  0,-40,0);
       //spaceCraft.turnProbeToAngle(90,0,1);
 
 //        spaceCraft.addBoost(0,10,0);
@@ -229,8 +245,8 @@ public class HardcodedValues
 //        spaceCraft.runner(1,10);
 //        spaceCraft.turnProbeToAngle(0,0,1);
 //        spaceCraft.runner(1,10);
+        HardcodedValues spaceCraft=new HardcodedValues(300000,300000,  0,-40,0);
         boolean stop = false;
-//        int counter=0;
         while (!stop){
             spaceCraft.controller();
             spaceCraft.print();
