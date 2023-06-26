@@ -25,78 +25,93 @@ public class HardcodedValues
         if (YPosition <= 0.001) {
             finished = true;
         }
-
-
         else if (YPosition > 200000) {
-            if (Math.abs(XPosition) > XTolerance && countX <= 0) {
-                correctX();
-            } else {
-                correctY(750);
-            }
+            correctY(750);
         }
 
         else if (YPosition > 100000) {
-            if (Math.abs(XPosition) > XTolerance && countX <= 0) {
-                correctX();
-            } else {
-                correctY(500);
-            }
+            correctY(500);
         } else if (YPosition > 20000) {
-            if (Math.abs(XPosition) > XTolerance && countX <= 0) {
-                correctX();
-            } else {
-                correctY(100);
+            correctY(100);
             }
-        } else if (YPosition > 10000) {
-            if (Math.abs(XPosition) > XTolerance && countX <= 0) {
-                correctX();
-            } else {
+         else if (YPosition > 10000) {
                 correctY(10);
-            }
         } else if (YPosition > 5000) {
-            if (Math.abs(XPosition) > XTolerance && countX <= 0) {
-                correctX();
-            } else {
                 correctY(1);
-            }
-
         } else if (YPosition > 10) {
-            if (Math.abs(XPosition) > XTolerance && countX <= 0) {
-                correctX();
-            } else {
                 correctY(0.1);
-            }
-
         } else {
             lastPhase = true;
             correctY(0.01);
         }
     }
 
-    private void correctX() {
-        double angle=0;
-        if(XPosition>0)
-        {
-            angle = 270;
-            System.out.println("BAD");
+
+    public void controllerX() {
+        // updater(0,0,1);
+        //TODO add wind
+
+
+        if (XPosition <= 0.001) {
+            finished = true;
         }
-        if(XPosition<0)
-        {
-            angle = 90;
-            System.out.println("IN");
+        else if (XPosition > 200000) {
+            correctX(-750);
         }
 
-        if (rotationAngle != angle)
-            {
-                turnProbeToAngle(angle, 0, 1);
-                runner(1, 8);
-            }
-            countX = 10;
-            updater(XVelocity, 0, 1);
+        else if (XPosition > 100000) {
+            correctX(500);
+        } else if (XPosition > 20000) {
+            correctX(-100);
+        }
+        else if (XPosition > 10000) {
+            correctX(-10);
+        } else if (XPosition > 5000) {
+            correctX(-1);
+        } else if (XPosition > 10) {
+            correctX(-0.1);
+        } else {
+            lastPhase = true;
+            correctX(-0.01);
+        }
+    }
+
+    private void correctX(double target) {
+        double difference;
+        if(target<XVelocity)
+        {
+            System.out.println("case 1");
             System.out.println(XVelocity);
+            if (rotationAngle != 270)
+            {
+                turnProbeToAngle(270,0,1);
+                runner(1,8);
+            }
+            difference= target -XVelocity;
+            if(Math.abs(difference)>13.52)
+                difference=13.52;
+            System.out.println(difference);
+            updater(difference,0,1);
+        }
+        else if(target>XVelocity)
+        {
+            if (rotationAngle != 90)
+            {
+                turnProbeToAngle(90,0,1);
+                runner(1,8);
+            }
+            difference= target -XVelocity;
+            System.out.println(Math.abs(difference));
+            if(Math.abs(difference)>13.52)
+                difference=13.52;
+            updater(Math.abs(difference),0,1);
+        }
+        else {
+            updater(0,0,1);
+        }
 
-            updater(1, 0, 1);
-             System.out.println();
+
+
 
 
 
@@ -114,6 +129,12 @@ public class HardcodedValues
 //        System.out.println("In correctY boost");
         target = -target; // that's because we are going down, so we want negative velocity
         double difference = target -YVelocity;
+
+//        if(Math.abs(difference)>14)
+//        {
+//            difference = -13.52;
+//        }
+        System.out.println("Diff"+difference);
         updater(difference,0,1);
     }
 
@@ -179,14 +200,7 @@ public class HardcodedValues
         this.rotationAngle = rotationAngle;
         this.XVelocity = XVelocity;
         this.YVelocity = YVelocity;
-
-
-
         listOfBoost=new LinkedList<>();
-
-
-
-
         lastPhase = false;
         finished = false;
         countX = 0;
@@ -204,8 +218,8 @@ public class HardcodedValues
         double turnAngle=angle-rotationAngle;
 //        System.out.println("Angle before boost: "+rotationAngle);
 //        System.out.println("Angle"+turnAngle);
-        addBoost(currentTime,0,turnAngle);
-        addBoost(currentTime+step,0,-turnAngle);
+        addBoost(currentTime,0,turnAngle/7);
+        addBoost(currentTime+7*step,0,-turnAngle/7);
 
     }
 
@@ -268,12 +282,14 @@ public class HardcodedValues
 //        spaceCraft.turnProbeToAngle(0,0,1);
 //        spaceCraft.runner(1,10);
 
-        HardcodedValues spaceCraft=new HardcodedValues(300000,300000,  0,0,0);
+        HardcodedValues spaceCraft=new HardcodedValues(200001,300000,  0,0,0);
         boolean stop = false;
+        int couner=0;
         while (!stop){
-            spaceCraft.controller();
+            spaceCraft.controllerX();
             spaceCraft.print();
             stop = spaceCraft.isFinished();
+            couner++;
         }
     }
 

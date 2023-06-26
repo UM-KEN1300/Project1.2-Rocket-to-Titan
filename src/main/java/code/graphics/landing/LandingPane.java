@@ -56,6 +56,6 @@ public class LandingPane extends Pane {
         double proportion = (x + 1_000_000) / (1_000_000 + 1_000_000);
         spaceship.setTranslateX(proportion * (1605 - 5) + 5);
         spaceship.setTranslateY(((600_000 - y) / 600_000) * 780);
-        spaceship.setRotate(45 - rotation);
+        spaceship.setRotate(rotation-45);
     }
 }

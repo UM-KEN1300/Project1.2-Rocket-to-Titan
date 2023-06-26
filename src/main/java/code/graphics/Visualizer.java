@@ -32,7 +32,7 @@ public class Visualizer extends Application {
 
     @Override
     public void start(Stage stage) {
-         spaceCraft=new HardcodedValues(300000,300000,  0,0,0);
+         spaceCraft=new HardcodedValues(200001,300000,  0,0,0);
         STAGE = stage;
         STAGE.setTitle("Mission to Titan");
         STAGE.show();
@@ -83,11 +83,12 @@ public class Visualizer extends Application {
 
                                 if(!stop)
                                 {
-                                    spaceCraft.controller();
+                                    spaceCraft.controllerX();
+                                    //spaceCraft.controller();
                                     spaceCraft.print();
                                     stop = spaceCraft.isFinished();
                                     Platform.runLater(() -> {
-                                        landingScene.moveSpaceship(spaceCraft.getXPosition(), spaceCraft.getYPosition(), spaceCraft.getRotationAngle());
+                                        landingScene.moveSpaceship(spaceCraft.getXPosition(), 10000, spaceCraft.getRotationAngle());
                                     });
 
                                 }
@@ -109,7 +110,7 @@ public class Visualizer extends Application {
 //                        if (count % 25 == 0)
 //                            Platform.runLater(solarScene::addTrail);
                     }
-                }, 0, 10);
+                }, 0, 1);
     }
 
     public static void main(String[] args) {
