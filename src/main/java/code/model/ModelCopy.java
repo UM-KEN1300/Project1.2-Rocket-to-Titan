@@ -73,6 +73,7 @@ public class ModelCopy {
 
     public ArrayList<PlanetObject> getAllObjects() {
         ArrayList<PlanetObject> allObjects = getPlanetObjectsArrayList();
+
         allObjects.addAll(getProbes());
         return allObjects;
     }

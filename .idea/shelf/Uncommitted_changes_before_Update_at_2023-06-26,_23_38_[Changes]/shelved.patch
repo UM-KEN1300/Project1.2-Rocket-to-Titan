@@ -1,0 +1,608 @@
+Index: src/main/java/code/model/objects/Probe.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package code.model.objects;\n\nimport code.model.Model;\nimport code.model.objects.properties.Boost;\nimport code.utils.HelperFunctions;\nimport code.utils.Time;\n\nimport java.util.ArrayList;\nimport java.util.PriorityQueue;\nimport java.util.Queue;\n\n/**\n * Class representing a spacecraft in the model. Extends the PlanetObject class.\n */\npublic class Probe extends PlanetObject {\n    private double shortestDistanceToTitan;\n    private final int PROBE_NUMBER;\n    private static int probeCounter = 0;\n    private final Queue<Boost> listOfBoosts;\n    private double fuelUsed;\n    private double[] coordinatesOfShortestDistanceToTitan;\n    private Time timeOfNextBoost;\n\n\n    public Probe() {\n        super(new double[3], new double[]{0, 0, 0});\n        PROBE_NUMBER = probeCounter;\n        probeCounter++;\n        listOfBoosts = new PriorityQueue<>();\n        setCoordinates(initialPosition());\n        setMass(50_000);\n        shortestDistanceToTitan = getDistanceToTitan();\n        coordinatesOfShortestDistanceToTitan = new double[3];\n        timeOfNextBoost = Model.getTime().timeCopy();\n    }\n\n\n    /**\n     * Determines where the Probe should be launched from.\n     *\n     * @return the double array representing initial coordinates.\n     */\n    private double[] initialPosition() {\n        double[] coordinates = HelperFunctions.subtract(Model.getPlanetObjects().get(\"Earth\").getCoordinates(),\n                Model.getPlanetObjects().get(\"Titan\").getCoordinates());\n\n        double magnitude = HelperFunctions.getVectorMagnitude(coordinates);\n        for (int i = 0; i <= 2; i++)\n            coordinates[i] = coordinates[i] * 6370 / magnitude;\n\n        return HelperFunctions.addition(coordinates, Model.getPlanetObjects().get(\"Earth\").getCoordinates());\n    }\n\n    @Override\n    public boolean affectsOthers() {\n        return false;\n    }\n\n\n    public boolean areBoostsValid(double step) {\n        double maxImpulse = 3 * (Math.pow(10, 7)) * step;\n        ArrayList<Boost> list = new ArrayList<>(listOfBoosts);\n        for (Boost boost : list) {\n            if (boost.getFuel() > maxImpulse) {\n                return false;\n            }\n        }\n        return true;\n    }\n\n    public void addBoost(Boost boost) {\n        listOfBoosts.add(boost);\n        fuelUsed += boost.getFuel();\n    }\n\n    public void BoosterMECH(Time time) {\n        if (listOfBoosts.peek() != null) {\n            if (time.laterOrEqual(listOfBoosts.peek().getTimeOfBoost())) {\n                double[] probeVelocity = getVelocity();\n                double[] boostVelocity = listOfBoosts.poll().getVelocityOfBoost();\n                setVelocity(HelperFunctions.addition(probeVelocity, boostVelocity));\n            }\n        }\n    }\n\n    @Override\n    public String toString() {\n        return \"Probe{\" +\n                \"shortestDistanceToTitan=\" + shortestDistanceToTitan +\n                \", listOfBoosts=\" + listOfBoosts +\n                \", fuelUsed=\" + fuelUsed +\n                '}';\n    }\n\n    // GETTERS AND SETTERS\n\n    public double getDistanceToTitan() {\n        return HelperFunctions.getDistanceBetween(this, Model.getPlanetObjects().get(\"Titan\")) - Model.getPlanetObjects().get(\"Titan\").getRadius();\n    }\n\n    public double getDistanceToEarth() {\n        return HelperFunctions.getDistanceBetween(this, Model.getPlanetObjects().get(\"Earth\")) - Model.getPlanetObjects().get(\"Earth\").getRadius();\n    }\n\n    public double getMaxSpeed() {\n        if (getDistanceToEarth() < 30_000_000)\n            return 50;\n\n        if (getDistanceToTitan() < 10_000_000)\n            return 10;\n        if (getDistanceToTitan() < 1_000_000)\n            return 5;\n        return 100;\n    }\n\n    public double getFuelUsed() {\n        return fuelUsed;\n    }\n\n    /**\n     * Overrides the PlanetObject class's method. Apart from assigning the new coordinates\n     * also checks the Probe's distance to Titan. If this distance is the lowest noted distance,\n     * assigns it to the shortestDistanceToTitan field.\n     *\n     * @param coordinates an array of doubles representing the new coordinates for the modeled object.\n     */\n    @Override\n    public void setCoordinates(double[] coordinates) {\n        super.setCoordinates(coordinates);\n        double distanceToTitan = getDistanceToTitan();\n        if (distanceToTitan < shortestDistanceToTitan) {\n            shortestDistanceToTitan = distanceToTitan;\n            coordinatesOfShortestDistanceToTitan = coordinates;\n        }\n    }\n\n    public Time getTimeOfNextBoost() {\n        return timeOfNextBoost;\n    }\n\n    public void setTimeUntilNextBoost(int seconds) {\n        this.timeOfNextBoost.addSeconds(seconds);\n    }\n\n    public double[] getCoordinatesOfShortestDistanceToTitan() {\n        return coordinatesOfShortestDistanceToTitan;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/code/model/objects/Probe.java b/src/main/java/code/model/objects/Probe.java
+--- a/src/main/java/code/model/objects/Probe.java	(revision 79861a7e5b719b6ea45ab2462661586533c78505)
++++ b/src/main/java/code/model/objects/Probe.java	(date 1687815463745)
+@@ -104,13 +104,16 @@
+ 
+     public double getMaxSpeed() {
+         if (getDistanceToEarth() < 30_000_000)
++            return 30;
++        if (getDistanceToEarth() < 100_000_000)
+             return 50;
+ 
++
+         if (getDistanceToTitan() < 10_000_000)
+-            return 10;
++            return 20;
+         if (getDistanceToTitan() < 1_000_000)
+-            return 5;
+-        return 100;
++            return 10;
++        return 70;
+     }
+ 
+     public double getFuelUsed() {
+Index: src/main/java/code/model/Model.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package code.model;\n\nimport code.algorithms.functions.AccelerationFunction;\nimport code.algorithms.solvers.RungeKutta;\nimport code.algorithms.solvers.Solver;\nimport code.model.data.loaders.DataLoader;\nimport code.model.objects.PlanetObject;\nimport code.model.objects.Probe;\nimport code.utils.Time;\n\nimport java.util.*;\nimport java.util.function.BiFunction;\n\n/**\n * Class representing the objects in the simulation. It holds the PlanetObject objects and probes and\n * is responsible for loading their properties.\n * <p>\n * It is a singleton to ensure that there is only one instance of every modeled object.</p>\n * <p>\n * It loads masses and radii of planets from xlsx files in resources.\n * It loads the initial coordinates and velocities depending on the data loader.</p>\n */\npublic class Model {\n    private Map<String, PlanetObject> planetObjects;\n    private List<Probe> probes;\n    private final Time TIME;\n    private static final AccelerationFunction ACCELERATION_FUNCTION = new AccelerationFunction();\n    private final Solver SOLVER;\n\n\n    private Model() {\n        TIME = new Time(2023, 4, 1);\n        SOLVER = new RungeKutta();\n    }\n\n\n    /**\n     * Subclass holding the instance of the model.\n     * Allows use of the singleton design without calling the instance each time.\n     */\n    private static final class InstanceHolder {\n        private static final Model INSTANCE = new Model();\n    }\n\n    /**\n     * Used inside this class to refer to the instance holding the objects.\n     *\n     * @return the Model instance\n     */\n    public static Model getInstance() {\n        return InstanceHolder.INSTANCE;\n    }\n\n    /**\n     * @return a Map where the name of each celestial body starting with a capital letter is the key and\n     * the PlanetObject corresponding to it is the value\n     */\n    public static Map<String, PlanetObject> getPlanetObjects() {\n        return getInstance().planetObjects;\n    }\n\n    /**\n     * Returns an ArrayList of PlanetObjects for when they need to be accessed in this particular order.\n     *\n     * @return an ArrayList of PlanetObjects in the model\n     */\n    public static ArrayList<PlanetObject> getPlanetObjectsArrayList() {\n        ArrayList<PlanetObject> planets = new ArrayList<>();\n        planets.add(Model.getPlanetObjects().get(\"Sun\"));\n        planets.add(Model.getPlanetObjects().get(\"Mercury\"));\n        planets.add(Model.getPlanetObjects().get(\"Venus\"));\n        planets.add(Model.getPlanetObjects().get(\"Earth\"));\n        planets.add(Model.getPlanetObjects().get(\"Moon\"));\n        planets.add(Model.getPlanetObjects().get(\"Mars\"));\n        planets.add(Model.getPlanetObjects().get(\"Jupiter\"));\n        planets.add(Model.getPlanetObjects().get(\"Saturn\"));\n        planets.add(Model.getPlanetObjects().get(\"Titan\"));\n        planets.add(Model.getPlanetObjects().get(\"Neptune\"));\n        planets.add(Model.getPlanetObjects().get(\"Uranus\"));\n        return planets;\n    }\n\n    public static ArrayList<PlanetObject> getAllObjects() {\n        ArrayList<PlanetObject> allObjects = getPlanetObjectsArrayList();\n        allObjects.addAll(getProbes());\n        return allObjects;\n    }\n\n    /**\n     * @return a List of Probe objects in the model\n     */\n    public static List<Probe> getProbes() {\n        return getInstance().probes;\n    }\n\n    /**\n     * Adds a Probe object to the model\n     *\n     * @param probe the Probe object to be added to the model\n     */\n    public static void addProbe(Probe probe) {\n        getInstance().probes.add(probe);\n    }\n\n    public static void step() {\n        if (getProbes().size() > 0)\n            getProbes().get(0).BoosterMECH(Model.getTime());\n        double[] currentState = flattenState(getAllObjects());\n        double[] nextState = getInstance().SOLVER.solve(getDynamicsFunction(), currentState, 0, getTimeStep());\n        updateObjectsState(nextState);\n        getTime().addSeconds(getTimeStep());\n    }\n\n    private BiFunction<Double, double[], double[]> dynamicsFunction() {\n        return (time, systemState) -> {\n            int n = getAllObjects().size();\n            double[] dydt = new double[n * 6];\n            updateObjectsState(systemState);\n            for (int i = 0; i < n; i++) {\n                System.arraycopy(getAllObjects().get(i).getVelocity(), 0, dydt, i * 3, 3);\n                System.arraycopy(ACCELERATION_FUNCTION.calculate(i, getAllObjects()), 0, dydt, (n + i) * 3, 3);\n            }\n            return dydt;\n        };\n    }\n\n    private static BiFunction<Double, double[], double[]> getDynamicsFunction() {\n        return getInstance().dynamicsFunction();\n    }\n\n    private static void updateObjectsState(double[] systemState) {\n        ArrayList<PlanetObject> allObjects = getAllObjects();\n        if (systemState.length != allObjects.size() * 6) {\n            throw new IllegalArgumentException(\"Size of system state array does not match number of PlanetObjects.\");\n        }\n        for (int i = 1; i < allObjects.size(); i++) {\n            double[] newPosition = Arrays.copyOfRange(systemState, i * 3, i * 3 + 3);\n            double[] newVelocity = Arrays.copyOfRange(systemState, (allObjects.size() + i) * 3, (allObjects.size() + i) * 3 + 3);\n            allObjects.get(i).setCoordinates(newPosition);\n            allObjects.get(i).setVelocity(newVelocity);\n        }\n    }\n\n    private static double[] flattenState(List<PlanetObject> allObjects) {\n        double[] systemState = new double[allObjects.size() * 6];\n        for (int i = 0; i < allObjects.size(); i++) {\n            double[] position = allObjects.get(i).getCoordinates();\n            double[] velocity = allObjects.get(i).getVelocity();\n\n            System.arraycopy(position, 0, systemState, i * 3, 3);\n            System.arraycopy(velocity, 0, systemState, (allObjects.size() + i) * 3, 3);\n        }\n        return systemState;\n    }\n\n    /**\n     * Loads the information about initial positions and velocities of the celestial bodies to the model.\n     *\n     * @param dataLoader depending on the implementation of the interface passed in this argument\n     *                   data from different sources can be chosen.\n     */\n    public static void loadData(DataLoader dataLoader) {\n        getInstance().planetObjects = new HashMap<>();\n        getInstance().probes = new ArrayList<>();\n        dataLoader.load(getInstance().planetObjects);\n    }\n\n    public static Time getTime() {\n        return getInstance().TIME;\n    }\n\n    public static double getTimeStep() {\n        if (getProbes().get(0).getDistanceToTitan() < 100_000)\n            return 0.5;\n        if (getProbes().get(0).getDistanceToTitan() < 1_000_000)\n            return 2;\n        return 10;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/code/model/Model.java b/src/main/java/code/model/Model.java
+--- a/src/main/java/code/model/Model.java	(revision 79861a7e5b719b6ea45ab2462661586533c78505)
++++ b/src/main/java/code/model/Model.java	(date 1687811594532)
+@@ -52,56 +52,10 @@
+     }
+ 
+     /**
+-     * @return a Map where the name of each celestial body starting with a capital letter is the key and
+-     * the PlanetObject corresponding to it is the value
+-     */
+-    public static Map<String, PlanetObject> getPlanetObjects() {
+-        return getInstance().planetObjects;
+-    }
+-
+-    /**
+-     * Returns an ArrayList of PlanetObjects for when they need to be accessed in this particular order.
+-     *
+-     * @return an ArrayList of PlanetObjects in the model
++     * A call of this method performs a step in the chosen solver which calculates the next position of all bodies in the system.
++     * It does so with the help of the mathematical solver chosen in the constructor.
++     * The time step is chosen based on the getTimeStep method.
+      */
+-    public static ArrayList<PlanetObject> getPlanetObjectsArrayList() {
+-        ArrayList<PlanetObject> planets = new ArrayList<>();
+-        planets.add(Model.getPlanetObjects().get("Sun"));
+-        planets.add(Model.getPlanetObjects().get("Mercury"));
+-        planets.add(Model.getPlanetObjects().get("Venus"));
+-        planets.add(Model.getPlanetObjects().get("Earth"));
+-        planets.add(Model.getPlanetObjects().get("Moon"));
+-        planets.add(Model.getPlanetObjects().get("Mars"));
+-        planets.add(Model.getPlanetObjects().get("Jupiter"));
+-        planets.add(Model.getPlanetObjects().get("Saturn"));
+-        planets.add(Model.getPlanetObjects().get("Titan"));
+-        planets.add(Model.getPlanetObjects().get("Neptune"));
+-        planets.add(Model.getPlanetObjects().get("Uranus"));
+-        return planets;
+-    }
+-
+-    public static ArrayList<PlanetObject> getAllObjects() {
+-        ArrayList<PlanetObject> allObjects = getPlanetObjectsArrayList();
+-        allObjects.addAll(getProbes());
+-        return allObjects;
+-    }
+-
+-    /**
+-     * @return a List of Probe objects in the model
+-     */
+-    public static List<Probe> getProbes() {
+-        return getInstance().probes;
+-    }
+-
+-    /**
+-     * Adds a Probe object to the model
+-     *
+-     * @param probe the Probe object to be added to the model
+-     */
+-    public static void addProbe(Probe probe) {
+-        getInstance().probes.add(probe);
+-    }
+-
+     public static void step() {
+         if (getProbes().size() > 0)
+             getProbes().get(0).BoosterMECH(Model.getTime());
+@@ -111,23 +65,21 @@
+         getTime().addSeconds(getTimeStep());
+     }
+ 
+-    private BiFunction<Double, double[], double[]> dynamicsFunction() {
+-        return (time, systemState) -> {
+-            int n = getAllObjects().size();
+-            double[] dydt = new double[n * 6];
+-            updateObjectsState(systemState);
+-            for (int i = 0; i < n; i++) {
+-                System.arraycopy(getAllObjects().get(i).getVelocity(), 0, dydt, i * 3, 3);
+-                System.arraycopy(ACCELERATION_FUNCTION.calculate(i, getAllObjects()), 0, dydt, (n + i) * 3, 3);
+-            }
+-            return dydt;
+-        };
++    /**
++     * Adds a Probe object to the model
++     *
++     * @param probe the Probe object to be added to the model
++     */
++    public static void addProbe(Probe probe) {
++        getInstance().probes.add(probe);
+     }
+ 
+-    private static BiFunction<Double, double[], double[]> getDynamicsFunction() {
+-        return getInstance().dynamicsFunction();
+-    }
+-
++    /**
++     * Takes in a one dimensional array of doubles whose values represent the states of bodies in the system and the spacecraft.
++     * This is useful for reading the result of a solver step and applying the calculation to the model.
++     *
++     * @param systemState array of doubles representing the states of objects of the model
++     */
+     private static void updateObjectsState(double[] systemState) {
+         ArrayList<PlanetObject> allObjects = getAllObjects();
+         if (systemState.length != allObjects.size() * 6) {
+@@ -141,6 +93,13 @@
+         }
+     }
+ 
++    /**
++     * Takes all PlanetObjects and Probes in the Model and puts the values of their coordinates and velocities into
++     * a one dimensional state array. This allows for easily passing all states to solvers.
++     *
++     * @param allObjects a list of all objects in the model
++     * @return an array of doubles representing states of all objects
++     */
+     private static double[] flattenState(List<PlanetObject> allObjects) {
+         double[] systemState = new double[allObjects.size() * 6];
+         for (int i = 0; i < allObjects.size(); i++) {
+@@ -153,6 +112,22 @@
+         return systemState;
+     }
+ 
++    /**
++     * The BiFunction representing the dynamics function for the solar system.
++     */
++    private BiFunction<Double, double[], double[]> dynamicsFunction() {
++        return (time, systemState) -> {
++            int n = getAllObjects().size();
++            double[] dydt = new double[n * 6];
++            updateObjectsState(systemState);
++            for (int i = 0; i < n; i++) {
++                System.arraycopy(getAllObjects().get(i).getVelocity(), 0, dydt, i * 3, 3);
++                System.arraycopy(ACCELERATION_FUNCTION.calculate(i, getAllObjects()), 0, dydt, (n + i) * 3, 3);
++            }
++            return dydt;
++        };
++    }
++
+     /**
+      * Loads the information about initial positions and velocities of the celestial bodies to the model.
+      *
+@@ -165,10 +140,78 @@
+         dataLoader.load(getInstance().planetObjects);
+     }
+ 
++
++    // GETTERS AND SETTERS
++
++    /**
++     * @return a Map where the name of each celestial body starting with a capital letter is the key and
++     * the PlanetObject corresponding to it is the value
++     */
++    public static Map<String, PlanetObject> getPlanetObjects() {
++        return getInstance().planetObjects;
++    }
++
++    /**
++     * Returns an ArrayList of PlanetObjects for when they need to be accessed in this particular order.
++     *
++     * @return an ArrayList of PlanetObjects in the model
++     */
++    public static ArrayList<PlanetObject> getPlanetObjectsArrayList() {
++        ArrayList<PlanetObject> planets = new ArrayList<>();
++        planets.add(Model.getPlanetObjects().get("Sun"));
++        planets.add(Model.getPlanetObjects().get("Mercury"));
++        planets.add(Model.getPlanetObjects().get("Venus"));
++        planets.add(Model.getPlanetObjects().get("Earth"));
++        planets.add(Model.getPlanetObjects().get("Moon"));
++        planets.add(Model.getPlanetObjects().get("Mars"));
++        planets.add(Model.getPlanetObjects().get("Jupiter"));
++        planets.add(Model.getPlanetObjects().get("Saturn"));
++        planets.add(Model.getPlanetObjects().get("Titan"));
++        planets.add(Model.getPlanetObjects().get("Neptune"));
++        planets.add(Model.getPlanetObjects().get("Uranus"));
++        return planets;
++    }
++
++    /**
++     * @return an ArrayList containing all objects in the model
++     */
++    public static ArrayList<PlanetObject> getAllObjects() {
++        ArrayList<PlanetObject> allObjects = getPlanetObjectsArrayList();
++        allObjects.addAll(getProbes());
++        return allObjects;
++    }
++
++    /**
++     * @return a List of Probe objects in the model
++     */
++    public static List<Probe> getProbes() {
++        return getInstance().probes;
++    }
++
++
++    /**
++     * Getter for the dynamic function.
++     *
++     * @return the BiFunction representing the dynamics function for the solar system.
++     */
++    private static BiFunction<Double, double[], double[]> getDynamicsFunction() {
++        return getInstance().dynamicsFunction();
++    }
++
++    /**
++     * Getter for time of the simulation.
++     *
++     * @return an object representing the current time of the model.
++     */
+     public static Time getTime() {
+         return getInstance().TIME;
+     }
+ 
++    /**
++     * Getter for the time step. The returned value depends on the state of the model.
++     *
++     * @return a double representing the time step to be passed to
++     */
+     public static double getTimeStep() {
+         if (getProbes().get(0).getDistanceToTitan() < 100_000)
+             return 0.5;
+Index: src/main/java/code/graphics/Visualizer.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package code.graphics;\n\nimport code.graphics.landing.LandingScene;\nimport code.landing.module.FeedbackController;\nimport javafx.application.Application;\nimport javafx.application.Platform;\nimport javafx.concurrent.Task;\nimport javafx.stage.Screen;\nimport javafx.stage.Stage;\n\nimport java.util.Timer;\n\n/**\n * Main graphic class which sets up the Scene and runs the engine which updates all 3D representations of\n * objects in the model in real-time.\n */\npublic class Visualizer extends Application {\n    public static final int SCALE = 50; // don't change this\n    private final double WIDTH = Screen.getPrimary().getBounds().getWidth();\n    private final double HEIGHT = Screen.getPrimary().getBounds().getHeight();\n    private static SolarScene solarScene;\n    private final int SMOOTHNESS = 200;\n    private Timer timer;\n    private static int count;\n    private LandingScene landingScene;\n    private Stage STAGE;\n    private boolean changedScene;\n    FeedbackController spaceCraft;\n    boolean stop;\n\n    @Override\n    public void start(Stage stage) {\n         spaceCraft=new FeedbackController(200001,300000,  0,0,0);\n        STAGE = stage;\n        STAGE.setTitle(\"Mission to Titan\");\n        STAGE.show();\n        stop=false;\n        changedScene = false;\n\n        solarScene = new SolarScene(WIDTH, HEIGHT);\n        landingScene = new LandingScene(WIDTH, HEIGHT);\n        STAGE.setScene(solarScene);\n\n        timer = new Timer();\n        count = 0;\n        STAGE.setOnCloseRequest(e -> {\n            timer.cancel();\n            Platform.exit();\n            System.exit(0);\n        });\n        Task<Void> sleeper = new Task<>() {\n            @Override\n            protected Void call() {\n                try {\n                    Thread.sleep(1000);\n                } catch (InterruptedException ignored) {\n                }\n                return null;\n            }\n        };\n        sleeper.setOnSucceeded(event -> calculation());\n        new Thread(sleeper).start();\n    }\n\n\n    private void calculation() {\n\n        timer.schedule(\n                new java.util.TimerTask() {\n                    @Override\n                    public void run() {\n//                        if (Model.getProbes().get(0).getDistanceToTitan() < 600000000) {\n                            if (!changedScene) {\n                                Platform.runLater(() -> {\n\n                                    STAGE.setScene(landingScene);\n                                });\n                                changedScene = true;\n                            }\n\n\n                                if(!stop)\n                                {\n                                    spaceCraft.controllerX();\n                                    //spaceCraft.controller();\n                                    spaceCraft.print();\n                                    stop = spaceCraft.isFinished();\n                                    Platform.runLater(() -> {\n                                        landingScene.moveSpaceship(spaceCraft.getXPosition(), 10000, spaceCraft.getRotationAngle());\n                                    });\n\n                                }\n\n\n//                        }\n//\n//                        if (Model.getTime().laterOrEqual(Model.getProbes().get(0).getTimeOfNextBoost()))\n//                            new TargetBoost(Model.getPlanetObjects().get(\"Titan\").getCoordinates());\n//\n//                        for (int i = 0; i < SMOOTHNESS; i++)\n//                            Model.step();\n//\n//                        Platform.runLater(() -> {\n//                            solarScene.update(Model.getTime());\n//                        });\n//\n//                        count++;\n//                        if (count % 25 == 0)\n//                            Platform.runLater(solarScene::addTrail);\n                    }\n                }, 0, 1);\n    }\n\n    public static void main(String[] args) {\n        launch();\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/code/graphics/Visualizer.java b/src/main/java/code/graphics/Visualizer.java
+--- a/src/main/java/code/graphics/Visualizer.java	(revision 79861a7e5b719b6ea45ab2462661586533c78505)
++++ b/src/main/java/code/graphics/Visualizer.java	(date 1687813126569)
+@@ -1,7 +1,9 @@
+ package code.graphics;
+ 
++import code.algorithms.trajectory.TargetBoost;
+ import code.graphics.landing.LandingScene;
+ import code.landing.module.FeedbackController;
++import code.model.Model;
+ import javafx.application.Application;
+ import javafx.application.Platform;
+ import javafx.concurrent.Task;
+@@ -30,11 +32,11 @@
+ 
+     @Override
+     public void start(Stage stage) {
+-         spaceCraft=new FeedbackController(200001,300000,  0,0,0);
++        spaceCraft = new FeedbackController(200001, 300000, 0, 0, 0);
+         STAGE = stage;
+         STAGE.setTitle("Mission to Titan");
+         STAGE.show();
+-        stop=false;
++        stop = false;
+         changedScene = false;
+ 
+         solarScene = new SolarScene(WIDTH, HEIGHT);
+@@ -69,44 +71,39 @@
+                 new java.util.TimerTask() {
+                     @Override
+                     public void run() {
+-//                        if (Model.getProbes().get(0).getDistanceToTitan() < 600000000) {
++                        if (Model.getProbes().get(0).getDistanceToTitan() < 600) {
+                             if (!changedScene) {
+                                 Platform.runLater(() -> {
+-
+                                     STAGE.setScene(landingScene);
+                                 });
+                                 changedScene = true;
+                             }
+ 
+ 
+-                                if(!stop)
+-                                {
+-                                    spaceCraft.controllerX();
+-                                    //spaceCraft.controller();
+-                                    spaceCraft.print();
+-                                    stop = spaceCraft.isFinished();
+-                                    Platform.runLater(() -> {
+-                                        landingScene.moveSpaceship(spaceCraft.getXPosition(), 10000, spaceCraft.getRotationAngle());
+-                                    });
++                            if (!stop) {
++                                spaceCraft.controllerX();
++//                                spaceCraft.controller();
++                                spaceCraft.print();
++                                stop = spaceCraft.isFinished();
++                                Platform.runLater(() -> {
++                                    landingScene.moveSpaceship(spaceCraft.getXPosition(), spaceCraft.getYPosition(), spaceCraft.getRotationAngle());
++                                });
++                            }
++                        }
+ 
+-                                }
++                        if (Model.getTime().laterOrEqual(Model.getProbes().get(0).getTimeOfNextBoost()))
++                            new TargetBoost(Model.getPlanetObjects().get("Titan").getCoordinates());
++
++                        for (int i = 0; i < SMOOTHNESS; i++)
++                            Model.step();
+ 
++                        Platform.runLater(() -> {
++                            solarScene.update(Model.getTime());
++                        });
+ 
+-//                        }
+-//
+-//                        if (Model.getTime().laterOrEqual(Model.getProbes().get(0).getTimeOfNextBoost()))
+-//                            new TargetBoost(Model.getPlanetObjects().get("Titan").getCoordinates());
+-//
+-//                        for (int i = 0; i < SMOOTHNESS; i++)
+-//                            Model.step();
+-//
+-//                        Platform.runLater(() -> {
+-//                            solarScene.update(Model.getTime());
+-//                        });
+-//
+-//                        count++;
+-//                        if (count % 25 == 0)
+-//                            Platform.runLater(solarScene::addTrail);
++                        count++;
++                        if (count % 25 == 0)
++                            Platform.runLater(solarScene::addTrail);
+                     }
+                 }, 0, 1);
+     }
+Index: src/main/java/code/algorithms/trajectory/TargetBoost.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package code.algorithms.trajectory;\n\nimport code.model.Model;\nimport code.model.objects.properties.Boost;\n\npublic class TargetBoost {\n    private final double MAX_SPEED;\n    private double[] distancesToTitan;\n    private double[] destination;\n\n\n    public TargetBoost(double[] destination) {\n        this.destination = destination;\n        MAX_SPEED = Math.min(Model.getProbes().get(0).getMaxSpeed(), (Math.pow(10, 7)) * Model.getTimeStep());\n        distancesToTitan = new double[3];\n        setDistances();\n        scaleDistances(distancesToTitan);\n        Model.getProbes().get(0).addBoost(new Boost(Model.getTime(), boostVelocities()));\n        Model.getProbes().get(0).setTimeUntilNextBoost(60 * 60 * 24);\n    }\n\n\n    private void setDistances() {\n        for (int i = 0; i < 3; i++)\n            distancesToTitan[i] = destination[i] - Model.getProbes().get(0).getCoordinates()[i];\n    }\n\n    private void scaleDistances(double[] values) {\n        double maxVal = values[0];\n        for (int i = 1; i < values.length; i++) {\n            if (values[i] > maxVal) {\n                maxVal = values[i];\n            }\n        }\n\n        if (maxVal > MAX_SPEED) {\n            double ratio = MAX_SPEED / maxVal;\n            for (int i = 0; i < values.length; i++) {\n                values[i] *= ratio;\n            }\n        }\n    }\n\n    private double[] boostVelocities() {\n        double[] velocities = new double[3];\n\n        for (int i = 0; i < 3; i++)\n            velocities[i] = distancesToTitan[i] - Model.getProbes().get(0).getVelocity()[i];\n\n        return velocities;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/code/algorithms/trajectory/TargetBoost.java b/src/main/java/code/algorithms/trajectory/TargetBoost.java
+--- a/src/main/java/code/algorithms/trajectory/TargetBoost.java	(revision 79861a7e5b719b6ea45ab2462661586533c78505)
++++ b/src/main/java/code/algorithms/trajectory/TargetBoost.java	(date 1687812077425)
+@@ -3,6 +3,9 @@
+ import code.model.Model;
+ import code.model.objects.properties.Boost;
+ 
++/**
++ * A class for assigning boosts towards a destination while keeping a certain velocity.
++ */
+ public class TargetBoost {
+     private final double MAX_SPEED;
+     private double[] distancesToTitan;
+@@ -25,6 +28,9 @@
+             distancesToTitan[i] = destination[i] - Model.getProbes().get(0).getCoordinates()[i];
+     }
+ 
++    /**
++     * Sets the maximum change in an axis to the max speed and scales the other values down accordingly.
++     */
+     private void scaleDistances(double[] values) {
+         double maxVal = values[0];
+         for (int i = 1; i < values.length; i++) {
+Index: src/main/java/code/landing/module/FeedbackController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package code.landing.module;\nimport java.lang.Math;\nimport java.util.*;\n\npublic class FeedbackController\n{\n    double XPosition;\n    double YPosition;\n    double rotationAngle;\n    double rotationAngleVelocity;\n    double XVelocity;\n    double YVelocity;\n    double distanceToLandingSpot;\n    private final Queue<double[]> listOfBoost;\n    boolean finished;\n    boolean lastPhase;\n    int countX;\n    public FeedbackController(double XPosition, double YPosition, double rotationAngle, double XVelocity, double YVelocity)\n    {\n        this.XPosition = XPosition;\n        this.YPosition = YPosition;\n        this.rotationAngle = rotationAngle;\n        this.XVelocity = XVelocity;\n        this.YVelocity = YVelocity;\n        listOfBoost=new LinkedList<>();\n        lastPhase = false;\n        finished = false;\n        countX = 0;\n    }\n\n\n    public void controller() {\n       // updater(0,0,1);\n        //TODO add wind\n\n        double XTolerance = 10;\n        if (YPosition <= 0.001) {\n            finished = true;\n        }\n        else if (YPosition > 200000) {\n            correctY(750);\n        }\n\n        else if (YPosition > 100000) {\n            correctY(500);\n        } else if (YPosition > 20000) {\n            correctY(100);\n            }\n         else if (YPosition > 10000) {\n                correctY(10);\n        } else if (YPosition > 5000) {\n                correctY(1);\n        } else if (YPosition > 10) {\n                correctY(0.1);\n        } else {\n            lastPhase = true;\n            correctY(0.01);\n        }\n    }\n\n\n    public void controllerX() {\n        updater(0,0,1);\n        //TODO add wind\n\n\n        if (XPosition <= 0.001) {\n            finished = true;\n        }\n        else if (XPosition > 200000) {\n            correctX(-750);\n        }\n\n        else if (XPosition > 100000) {\n            correctX(500);\n        } else if (XPosition > 20000) {\n            correctX(-100);\n        }\n        else if (XPosition > 10000) {\n            correctX(-10);\n        } else if (XPosition > 5000) {\n            correctX(-1);\n        } else if (XPosition > 10) {\n            correctX(-0.1);\n        } else {\n            lastPhase = true;\n            correctX(-0.01);\n        }\n    }\n\n    private void correctX(double target) {\n        double difference;\n        if(target<XVelocity)\n        {\n\n            if (rotationAngle != 270)\n            {\n                turnProbeToAngle(270,0,1);\n                runner(1,8);\n            }\n            difference= target -XVelocity;\n            if(Math.abs(difference)>13.52)\n                difference=13.52;\n            updater(difference,0,1);\n        }\n        else if(target>XVelocity)\n        {\n            if (rotationAngle != 90)\n            {\n                turnProbeToAngle(90,0,1);\n                runner(1,8);\n            }\n            difference= target -XVelocity;\n\n            if(Math.abs(difference)>13.52)\n                difference=13.52;\n            updater(Math.abs(difference),0,1);\n        }\n        else {\n            updater(0,0,1);\n        }\n\n\n\n\n\n\n    }\n\n    private void correctY(double target) {\n        countX -= 1;\n        if (rotationAngle != 0)\n        {\n           turnProbeToAngle(0,0,1);\n           runner(1,8);\n        }\n        //-35.5398560637122 V: -28.48258400000952\n\n//        System.out.println(\"In correctY boost\");\n        target = -target; // that's because we are going down, so we want negative velocity\n        double difference = target -YVelocity;\n\n//        if(Math.abs(difference)>14)\n//        {\n//            difference = -13.52;\n//        }\n        System.out.println(\"Diff\"+difference);\n        updater(difference,0,1);\n    }\n\n\n\n\n\n    public void runner(double stepSize, double numberOfIterations)\n    {\n\n        double[] currentBoost={0.0,0.0,0.0};\n        if(!listOfBoost.isEmpty())\n        {\n            currentBoost = listOfBoost.poll();\n        }\n        for (int i = 0; i < numberOfIterations&&YPosition>0; i++)\n        {\n//            if(i%10==0)\n//            {\n//                System.out.println(\"X: \"+XPosition+\" Y: \"+YPosition);\n//               // System.out.println(\"Angle is \"+rotationAngle+\" at time \"+i);\n//            }\n\n            if(currentBoost[0]==i)\n            {\n                updater(currentBoost[1],currentBoost[2],stepSize);\n                if(!listOfBoost.isEmpty())\n                {\n                    currentBoost = listOfBoost.poll();\n                }\n            }\n            else\n            {\n                updater(0, 0, 1);\n            }\n        }\n    }\n\n    public void updater(double u,double v,double stepSize)\n    {\n        System.out.println(\"Angle: \"+rotationAngle+\" while u: \"+u+\" and YVelocity: \"+YVelocity);\n\n        rotationAngleVelocity+=v*stepSize;\n        rotationAngle+=rotationAngleVelocity*stepSize;\n        //X value update\n        double XAcceleration=u*Math.sin(rotationAngle);\n        XVelocity+=XAcceleration*stepSize;\n        XPosition+=XVelocity*stepSize;\n        //Y value update\n        double YAcceleration=u*Math.cos(rotationAngle)-(1.352*Math.pow(10,-3));\n\n        YVelocity+=YAcceleration*stepSize;\n        YPosition+=YVelocity*stepSize;\n        //rotation angle update\n\n      // System.out.println(\"X: \"+XPosition+\" Y: \"+YPosition+\" V: \"+YVelocity);\n        //System.out.println(rotationAngle);\n\n\n    }\n\n\n\n\n\n    public void turnProbeToAngle(double angle,double currentTime,double step)\n    {\n        double turnAngle=angle-rotationAngle;\n//        System.out.println(\"Angle before boost: \"+rotationAngle);\n//        System.out.println(\"Angle\"+turnAngle);\n        addBoost(currentTime,0,turnAngle/7);\n        addBoost(currentTime+7*step,0,-turnAngle/7);\n\n    }\n\n\n\n\n\n\n    public void addBoost(double time,double u,double v)\n    {\n        //TODO add limits\n        double[] boost={time,u,v};\n        listOfBoost.add(boost);\n    }\n\n\n    public double getDistanceToLandingSpot()\n    {\n      distanceToLandingSpot  =Math.sqrt(XPosition*XPosition+(YPosition*YPosition));\n      return distanceToLandingSpot;\n    }\n\n    public boolean isFinished()\n    {\n        return finished;\n    }\n\n\n    public double getXPosition()\n    {\n        return XPosition;\n    }\n\n    public double getYPosition()\n    {\n        return YPosition;\n    }\n\n    public double getRotationAngle()\n    {\n        return rotationAngle;\n    }\n\n    public void print()\n    {\n        System.out.println(\"X: \"+XPosition+\" Y: \"+YPosition+\" V: \"+XVelocity);\n    }\n    public static void main(String[] args)\n    {\n     // HardcodedValues spaceCraft=new HardcodedValues(300000,300000,  0,-40,0);\n      //spaceCraft.turnProbeToAngle(90,0,1);\n\n//        spaceCraft.addBoost(0,10,0);\n//        spaceCraft.turnProbeToAngle(90,100,1)\n\n//        spaceCraft.addBoost(108,-13,0);\n//       spaceCraft.runner(1,10);\n//        spaceCraft.turnProbeToAngle(180,0,1);\n//        spaceCraft.runner(1,10);\n//        spaceCraft.turnProbeToAngle(0,0,1);\n//        spaceCraft.runner(1,10);\n\n        FeedbackController spaceCraft=new FeedbackController(200001,300000,  0,0,0);\n        boolean stop = false;\n        int couner=0;\n        while (couner<100){\n            spaceCraft.controllerX();\n            spaceCraft.print();\n            stop = spaceCraft.isFinished();\n            couner++;\n        }\n    }\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/code/landing/module/FeedbackController.java b/src/main/java/code/landing/module/FeedbackController.java
+--- a/src/main/java/code/landing/module/FeedbackController.java	(revision 79861a7e5b719b6ea45ab2462661586533c78505)
++++ b/src/main/java/code/landing/module/FeedbackController.java	(date 1687813126564)
+@@ -61,8 +61,6 @@
+ 
+     public void controllerX() {
+         updater(0,0,1);
+-        //TODO add wind
+-
+ 
+         if (XPosition <= 0.001) {
+             finished = true;
+@@ -70,9 +68,8 @@
+         else if (XPosition > 200000) {
+             correctX(-750);
+         }
+-
+         else if (XPosition > 100000) {
+-            correctX(500);
++            correctX(-500);
+         } else if (XPosition > 20000) {
+             correctX(-100);
+         }
+@@ -83,7 +80,6 @@
+         } else if (XPosition > 10) {
+             correctX(-0.1);
+         } else {
+-            lastPhase = true;
+             correctX(-0.01);
+         }
+     }
+@@ -194,7 +190,7 @@
+         XVelocity+=XAcceleration*stepSize;
+         XPosition+=XVelocity*stepSize;
+         //Y value update
+-        double YAcceleration=u*Math.cos(rotationAngle)-(1.352*Math.pow(10,-3));
++        double YAcceleration=-(1.352*Math.pow(10,-3));
+ 
+         YVelocity+=YAcceleration*stepSize;
+         YPosition+=YVelocity*stepSize;
+Index: src/main/java/code/algorithms/solvers/Solver.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package code.algorithms.solvers;\n\nimport java.util.function.BiFunction;\n\npublic interface Solver {\n    double[] solve(BiFunction<Double, double[], double[]> function, double[] stateArray, double time, double timeStep);\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/code/algorithms/solvers/Solver.java b/src/main/java/code/algorithms/solvers/Solver.java
+--- a/src/main/java/code/algorithms/solvers/Solver.java	(revision 79861a7e5b719b6ea45ab2462661586533c78505)
++++ b/src/main/java/code/algorithms/solvers/Solver.java	(date 1687809677014)
+@@ -2,6 +2,18 @@
+ 
+ import java.util.function.BiFunction;
+ 
++/**
++ * Interface whose implementation provide the functionality of mathematical solvers.
++ */
+ public interface Solver {
++    /**
++     * Method to solve a given mathematical problem.
++     *
++     * @param function the function to be solved. It should accept a double and a double array and return a double array.
++     * @param stateArray an array of initial states
++     * @param time the initial time
++     * @param timeStep the step size for each iteration
++     * @return a double array representing the solution to the function
++     */
+     double[] solve(BiFunction<Double, double[], double[]> function, double[] stateArray, double time, double timeStep);
+ }
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"befef468-85dd-4357-a019-7cd94d9197bf\" name=\"Changes\" comment=\".\">\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/code/Main.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/code/Main.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/code/algorithms/trajectory/HillClimbingAlg.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/code/algorithms/trajectory/HillClimbingAlg.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/code/algorithms/trajectory/HillClimbingAlgReturn.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/code/algorithms/trajectory/HillClimbingAlgReturn.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/code/algorithms/trajectory/LaunchRocketFromTitan.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/code/algorithms/trajectory/LaunchRocketFromTitan.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/code/algorithms/trajectory/LaunchRocketHC.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/code/algorithms/trajectory/LaunchRocketHC.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/code/model/objects/LandingProbe.java\" beforeDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"FileTemplateManagerImpl\">\n    <option name=\"RECENT_TEMPLATES\">\n      <list>\n        <option value=\"Interface\" />\n        <option value=\"Class\" />\n      </list>\n    </option>\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\n      <map>\n        <entry key=\"$PROJECT_DIR$\" value=\"landing_module\" />\n      </map>\n    </option>\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n    <option name=\"RESET_MODE\" value=\"MIXED\" />\n  </component>\n  <component name=\"MarkdownSettingsMigration\">\n    <option name=\"stateVersion\" value=\"1\" />\n  </component>\n  <component name=\"ProjectId\" id=\"2NHEToQGlRKTbWGVth802s3yKhD\" />\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\">\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\n  </component>\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\">{\n  &quot;keyToString&quot;: {\n    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\n    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,\n    &quot;git-widget-placeholder&quot;: &quot;main&quot;,\n    &quot;last_opened_file_path&quot;: &quot;/Users/marcell/Documents/*School/Year 1/Semester 2/Project 1-2/Phase 2/Project1.2-Rocket-to-Titan&quot;,\n    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,\n    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,\n    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,\n    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.ide.settings.new.ui&quot;,\n    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;\n  }\n}</component>\n  <component name=\"RecentsManager\">\n    <key name=\"CopyFile.RECENT_KEYS\">\n      <recent name=\"$PROJECT_DIR$\" />\n      <recent name=\"$PROJECT_DIR$/src/main/resources\" />\n      <recent name=\"$PROJECT_DIR$/src/main/java\" />\n    </key>\n    <key name=\"MoveFile.RECENT_KEYS\">\n      <recent name=\"$PROJECT_DIR$/src/main/java/code/landing\" />\n      <recent name=\"$PROJECT_DIR$/src/test/java\" />\n      <recent name=\"$PROJECT_DIR$/src/main/resources/model\" />\n    </key>\n    <key name=\"MoveClassesOrPackagesDialog.RECENTS_KEY\">\n      <recent name=\"group1.project12group1\" />\n    </key>\n  </component>\n  <component name=\"RunManager\" selected=\"Application.Main\">\n    <configuration name=\"HardcodedValues\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\n      <option name=\"MAIN_CLASS_NAME\" value=\"code.landing.module.HardcodedValues\" />\n      <module name=\"Project1-2-Group-1\" />\n      <extension name=\"coverage\">\n        <pattern>\n          <option name=\"PATTERN\" value=\"code.landing.module.*\" />\n          <option name=\"ENABLED\" value=\"true\" />\n        </pattern>\n      </extension>\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"Main\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\n      <option name=\"MAIN_CLASS_NAME\" value=\"code.Main\" />\n      <module name=\"Project1-2-Group-1\" />\n      <extension name=\"coverage\">\n        <pattern>\n          <option name=\"PATTERN\" value=\"code.*\" />\n          <option name=\"ENABLED\" value=\"true\" />\n        </pattern>\n      </extension>\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"Main\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\n      <option name=\"MAIN_CLASS_NAME\" value=\"code.Main\" />\n      <module name=\"Project1-2-Group-1\" />\n      <extension name=\"coverage\">\n        <pattern>\n          <option name=\"PATTERN\" value=\"code.*\" />\n          <option name=\"ENABLED\" value=\"true\" />\n        </pattern>\n      </extension>\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"TrajectorySimulation\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\n      <option name=\"MAIN_CLASS_NAME\" value=\"code.TrajectorySimulation\" />\n      <module name=\"Project1-2-Group-1\" />\n      <extension name=\"coverage\">\n        <pattern>\n          <option name=\"PATTERN\" value=\"code.*\" />\n          <option name=\"ENABLED\" value=\"true\" />\n        </pattern>\n      </extension>\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"PlanetObjectTest\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\n      <module name=\"Project1-2-Group-1\" />\n      <option name=\"PACKAGE_NAME\" value=\"\" />\n      <option name=\"MAIN_CLASS_NAME\" value=\"PlanetObjectTest\" />\n      <option name=\"TEST_OBJECT\" value=\"class\" />\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"ProbeTest\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\n      <module name=\"Project1-2-Group-1\" />\n      <option name=\"PACKAGE_NAME\" value=\"\" />\n      <option name=\"MAIN_CLASS_NAME\" value=\"ProbeTest\" />\n      <option name=\"TEST_OBJECT\" value=\"class\" />\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration default=\"true\" type=\"JetRunConfigurationType\">\n      <module name=\"Project1.2 Group 1\" />\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration default=\"true\" type=\"KotlinStandaloneScriptRunConfigurationType\">\n      <module name=\"Project1.2 Group 1\" />\n      <option name=\"filePath\" />\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <list>\n      <item itemvalue=\"Application.HardcodedValues\" />\n      <item itemvalue=\"Application.TrajectorySimulation\" />\n      <item itemvalue=\"Application.Main\" />\n      <item itemvalue=\"JUnit.ProbeTest\" />\n      <item itemvalue=\"JUnit.PlanetObjectTest\" />\n    </list>\n    <recent_temporary>\n      <list>\n        <item itemvalue=\"Application.Main\" />\n        <item itemvalue=\"Application.HardcodedValues\" />\n        <item itemvalue=\"Application.TrajectorySimulation\" />\n        <item itemvalue=\"JUnit.ProbeTest\" />\n        <item itemvalue=\"Application.TrajectorySimulation\" />\n      </list>\n    </recent_temporary>\n  </component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"befef468-85dd-4357-a019-7cd94d9197bf\" name=\"Changes\" comment=\".\" />\n      <created>1679312618137</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1679312618137</updated>\n      <workItem from=\"1679312619245\" duration=\"1000\" />\n      <workItem from=\"1679356589531\" duration=\"4766000\" />\n      <workItem from=\"1679636818916\" duration=\"2665000\" />\n      <workItem from=\"1679649470844\" duration=\"787000\" />\n      <workItem from=\"1682574830037\" duration=\"138000\" />\n      <workItem from=\"1682575019746\" duration=\"212000\" />\n      <workItem from=\"1682575286272\" duration=\"169000\" />\n      <workItem from=\"1682575476442\" duration=\"191000\" />\n      <workItem from=\"1682575733021\" duration=\"369000\" />\n      <workItem from=\"1682576135260\" duration=\"55000\" />\n      <workItem from=\"1683509128969\" duration=\"1000\" />\n      <workItem from=\"1683509165621\" duration=\"1000\" />\n      <workItem from=\"1683517925630\" duration=\"15000\" />\n      <workItem from=\"1683524116632\" duration=\"504000\" />\n      <workItem from=\"1683547172038\" duration=\"177000\" />\n      <workItem from=\"1683811476154\" duration=\"39000\" />\n      <workItem from=\"1683824125042\" duration=\"993000\" />\n      <workItem from=\"1683838171440\" duration=\"610000\" />\n      <workItem from=\"1683842326368\" duration=\"3117000\" />\n      <workItem from=\"1683907388180\" duration=\"1082000\" />\n      <workItem from=\"1683908486983\" duration=\"4539000\" />\n      <workItem from=\"1683954695733\" duration=\"1411000\" />\n      <workItem from=\"1683956122161\" duration=\"1278000\" />\n      <workItem from=\"1683957543331\" duration=\"65000\" />\n      <workItem from=\"1683957626120\" duration=\"767000\" />\n      <workItem from=\"1684149645676\" duration=\"5926000\" />\n      <workItem from=\"1684230444313\" duration=\"356000\" />\n      <workItem from=\"1684231111698\" duration=\"93000\" />\n      <workItem from=\"1684231446204\" duration=\"2195000\" />\n      <workItem from=\"1684254939940\" duration=\"209000\" />\n      <workItem from=\"1684255315975\" duration=\"1579000\" />\n      <workItem from=\"1684271461931\" duration=\"2763000\" />\n      <workItem from=\"1684286667400\" duration=\"9645000\" />\n      <workItem from=\"1685475925086\" duration=\"5553000\" />\n      <workItem from=\"1686678401081\" duration=\"5748000\" />\n      <workItem from=\"1686742608986\" duration=\"7077000\" />\n      <workItem from=\"1686909535541\" duration=\"5258000\" />\n      <workItem from=\"1687001789835\" duration=\"870000\" />\n      <workItem from=\"1687002952260\" duration=\"64000\" />\n      <workItem from=\"1687003023813\" duration=\"7564000\" />\n      <workItem from=\"1687106769487\" duration=\"4185000\" />\n      <workItem from=\"1687210408682\" duration=\"3435000\" />\n      <workItem from=\"1687221399186\" duration=\"11354000\" />\n      <workItem from=\"1687305627699\" duration=\"7422000\" />\n      <workItem from=\"1687426244013\" duration=\"7817000\" />\n      <workItem from=\"1687520422794\" duration=\"12087000\" />\n      <workItem from=\"1687610557562\" duration=\"11322000\" />\n      <workItem from=\"1687638223752\" duration=\"49000\" />\n      <workItem from=\"1687692339899\" duration=\"20912000\" />\n      <workItem from=\"1687770277372\" duration=\"14561000\" />\n    </task>\n    <task id=\"LOCAL-00001\" summary=\"WORKING HOW THIS SHIT WORKS\">\n      <created>1679319564168</created>\n      <option name=\"number\" value=\"00001\" />\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679319564168</updated>\n    </task>\n    <task id=\"LOCAL-00002\" summary=\"Added some verson of working code\">\n      <created>1679322553538</created>\n      <option name=\"number\" value=\"00002\" />\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679322553538</updated>\n    </task>\n    <task id=\"LOCAL-00003\" summary=\"Added some impr\">\n      <created>1679341953937</created>\n      <option name=\"number\" value=\"00003\" />\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679341953937</updated>\n    </task>\n    <task id=\"LOCAL-00004\" summary=\"changed the methods to work with momentkum\">\n      <created>1679420214209</created>\n      <option name=\"number\" value=\"00004\" />\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679420214209</updated>\n    </task>\n    <task id=\"LOCAL-00005\" summary=\"bug fix\">\n      <created>1679482920572</created>\n      <option name=\"number\" value=\"00005\" />\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679482920572</updated>\n    </task>\n    <task id=\"LOCAL-00006\" summary=\"Added comments and cleaned the PlanetObject\">\n      <created>1679599809794</created>\n      <option name=\"number\" value=\"00006\" />\n      <option name=\"presentableId\" value=\"LOCAL-00006\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679599809794</updated>\n    </task>\n    <task id=\"LOCAL-00007\" summary=\"Added comments and cleaned the PlanetObject\">\n      <created>1679600320463</created>\n      <option name=\"number\" value=\"00007\" />\n      <option name=\"presentableId\" value=\"LOCAL-00007\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679600320463</updated>\n    </task>\n    <task id=\"LOCAL-00008\" summary=\"Added comments and cleaned the PlanetObject\">\n      <created>1679603739673</created>\n      <option name=\"number\" value=\"00008\" />\n      <option name=\"presentableId\" value=\"LOCAL-00008\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679603739673</updated>\n    </task>\n    <task id=\"LOCAL-00009\" summary=\"eeeeee\">\n      <created>1679608031109</created>\n      <option name=\"number\" value=\"00009\" />\n      <option name=\"presentableId\" value=\"LOCAL-00009\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679608031109</updated>\n    </task>\n    <task id=\"LOCAL-00010\" summary=\"eeeeee\">\n      <created>1679610941972</created>\n      <option name=\"number\" value=\"00010\" />\n      <option name=\"presentableId\" value=\"LOCAL-00010\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679610941972</updated>\n    </task>\n    <task id=\"LOCAL-00011\" summary=\"eeeeee\">\n      <created>1679611003457</created>\n      <option name=\"number\" value=\"00011\" />\n      <option name=\"presentableId\" value=\"LOCAL-00011\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679611003457</updated>\n    </task>\n    <task id=\"LOCAL-00012\" summary=\"eeeeee\">\n      <created>1679611384750</created>\n      <option name=\"number\" value=\"00012\" />\n      <option name=\"presentableId\" value=\"LOCAL-00012\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679611384750</updated>\n    </task>\n    <task id=\"LOCAL-00013\" summary=\"eeeeee\">\n      <created>1679611794976</created>\n      <option name=\"number\" value=\"00013\" />\n      <option name=\"presentableId\" value=\"LOCAL-00013\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679611794976</updated>\n    </task>\n    <task id=\"LOCAL-00014\" summary=\"eeeeee\">\n      <created>1679612189357</created>\n      <option name=\"number\" value=\"00014\" />\n      <option name=\"presentableId\" value=\"LOCAL-00014\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679612189357</updated>\n    </task>\n    <task id=\"LOCAL-00015\" summary=\"eeeeee\">\n      <created>1679649307609</created>\n      <option name=\"number\" value=\"00015\" />\n      <option name=\"presentableId\" value=\"LOCAL-00015\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679649307609</updated>\n    </task>\n    <task id=\"LOCAL-00016\" summary=\"eeeeee\">\n      <created>1679649317635</created>\n      <option name=\"number\" value=\"00016\" />\n      <option name=\"presentableId\" value=\"LOCAL-00016\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1679649317635</updated>\n    </task>\n    <task id=\"LOCAL-00017\" summary=\"base for graphics, general structure, will be updated\">\n      <created>1682575177410</created>\n      <option name=\"number\" value=\"00017\" />\n      <option name=\"presentableId\" value=\"LOCAL-00017\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1682575177410</updated>\n    </task>\n    <task id=\"LOCAL-00018\" summary=\"reading model from xlsx files and planet-spaceship classes used by the graphics (will be merged later)\">\n      <created>1682575388176</created>\n      <option name=\"number\" value=\"00018\" />\n      <option name=\"presentableId\" value=\"LOCAL-00018\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1682575388176</updated>\n    </task>\n    <task id=\"LOCAL-00019\" summary=\"resources\">\n      <created>1682575516061</created>\n      <option name=\"number\" value=\"00019\" />\n      <option name=\"presentableId\" value=\"LOCAL-00019\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1682575516061</updated>\n    </task>\n    <task id=\"LOCAL-00020\" summary=\"new new structure\">\n      <created>1683547337492</created>\n      <option name=\"number\" value=\"00020\" />\n      <option name=\"presentableId\" value=\"LOCAL-00020\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1683547337492</updated>\n    </task>\n    <task id=\"LOCAL-00021\" summary=\"Updated HillClimbingAlg\">\n      <created>1684838590072</created>\n      <option name=\"number\" value=\"00021\" />\n      <option name=\"presentableId\" value=\"LOCAL-00021\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1684838590072</updated>\n    </task>\n    <task id=\"LOCAL-00022\" summary=\".\">\n      <created>1685445720091</created>\n      <option name=\"number\" value=\"00022\" />\n      <option name=\"presentableId\" value=\"LOCAL-00022\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1685445720091</updated>\n    </task>\n    <task id=\"LOCAL-00023\" summary=\".\">\n      <created>1685456916472</created>\n      <option name=\"number\" value=\"00023\" />\n      <option name=\"presentableId\" value=\"LOCAL-00023\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1685456916472</updated>\n    </task>\n    <task id=\"LOCAL-00024\" summary=\".\">\n      <created>1685475177689</created>\n      <option name=\"number\" value=\"00024\" />\n      <option name=\"presentableId\" value=\"LOCAL-00024\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1685475177690</updated>\n    </task>\n    <task id=\"LOCAL-00025\" summary=\".\">\n      <created>1685475184782</created>\n      <option name=\"number\" value=\"00025\" />\n      <option name=\"presentableId\" value=\"LOCAL-00025\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1685475184782</updated>\n    </task>\n    <task id=\"LOCAL-00026\" summary=\".\">\n      <created>1685476439659</created>\n      <option name=\"number\" value=\"00026\" />\n      <option name=\"presentableId\" value=\"LOCAL-00026\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1685476439659</updated>\n    </task>\n    <task id=\"LOCAL-00027\" summary=\".\">\n      <created>1685476575449</created>\n      <option name=\"number\" value=\"00027\" />\n      <option name=\"presentableId\" value=\"LOCAL-00027\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1685476575449</updated>\n    </task>\n    <task id=\"LOCAL-00028\" summary=\".\">\n      <created>1685477053492</created>\n      <option name=\"number\" value=\"00028\" />\n      <option name=\"presentableId\" value=\"LOCAL-00028\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1685477053492</updated>\n    </task>\n    <task id=\"LOCAL-00029\" summary=\".\">\n      <created>1685478091832</created>\n      <option name=\"number\" value=\"00029\" />\n      <option name=\"presentableId\" value=\"LOCAL-00029\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1685478091832</updated>\n    </task>\n    <task id=\"LOCAL-00030\" summary=\".\">\n      <created>1685481480309</created>\n      <option name=\"number\" value=\"00030\" />\n      <option name=\"presentableId\" value=\"LOCAL-00030\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1685481480309</updated>\n    </task>\n    <task id=\"LOCAL-00031\" summary=\".\">\n      <created>1685481581026</created>\n      <option name=\"number\" value=\"00031\" />\n      <option name=\"presentableId\" value=\"LOCAL-00031\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1685481581026</updated>\n    </task>\n    <task id=\"LOCAL-00032\" summary=\"Start of landing module\">\n      <created>1687349141311</created>\n      <option name=\"number\" value=\"00032\" />\n      <option name=\"presentableId\" value=\"LOCAL-00032\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1687349141311</updated>\n    </task>\n    <task id=\"LOCAL-00033\" summary=\"fixed g in the solver\">\n      <created>1687351209760</created>\n      <option name=\"number\" value=\"00033\" />\n      <option name=\"presentableId\" value=\"LOCAL-00033\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1687351209760</updated>\n    </task>\n    <task id=\"LOCAL-00034\" summary=\"added a gen algorithm and functionality to the HardcodedValues.java\">\n      <created>1687613206673</created>\n      <option name=\"number\" value=\"00034\" />\n      <option name=\"presentableId\" value=\"LOCAL-00034\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1687613206673</updated>\n    </task>\n    <task id=\"LOCAL-00035\" summary=\"latest version as of 15.18 26 June not working x\">\n      <created>1687785511224</created>\n      <option name=\"number\" value=\"00035\" />\n      <option name=\"presentableId\" value=\"LOCAL-00035\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1687785511224</updated>\n    </task>\n    <task id=\"LOCAL-00036\" summary=\"connecting with landing\">\n      <created>1687793966365</created>\n      <option name=\"number\" value=\"00036\" />\n      <option name=\"presentableId\" value=\"LOCAL-00036\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1687793966365</updated>\n    </task>\n    <task id=\"LOCAL-00037\" summary=\"connecting with landing\">\n      <created>1687794402942</created>\n      <option name=\"number\" value=\"00037\" />\n      <option name=\"presentableId\" value=\"LOCAL-00037\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1687794402942</updated>\n    </task>\n    <task id=\"LOCAL-00038\" summary=\".\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1687807489019</created>\n      <option name=\"number\" value=\"00038\" />\n      <option name=\"presentableId\" value=\"LOCAL-00038\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1687807489019</updated>\n    </task>\n    <task id=\"LOCAL-00039\" summary=\".\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1687807503734</created>\n      <option name=\"number\" value=\"00039\" />\n      <option name=\"presentableId\" value=\"LOCAL-00039\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1687807503734</updated>\n    </task>\n    <option name=\"localTasksCounter\" value=\"40\" />\n    <servers />\n  </component>\n  <component name=\"TypeScriptGeneratedFilesManager\">\n    <option name=\"version\" value=\"3\" />\n  </component>\n  <component name=\"Vcs.Log.Tabs.Properties\">\n    <option name=\"TAB_STATES\">\n      <map>\n        <entry key=\"MAIN\">\n          <value>\n            <State />\n          </value>\n        </entry>\n      </map>\n    </option>\n  </component>\n  <component name=\"VcsManagerConfiguration\">\n    <MESSAGE value=\"added getAcceleration\" />\n    <MESSAGE value=\"WORKING HOW THIS SHIT WORKS\" />\n    <MESSAGE value=\"Added some verson of working code\" />\n    <MESSAGE value=\"Added some impr\" />\n    <MESSAGE value=\"changed the methods to work with momentum\" />\n    <MESSAGE value=\"changed the methods to work with momentkum\" />\n    <MESSAGE value=\"bug fix\" />\n    <MESSAGE value=\"Added comments and cleaned the PlanetObject\" />\n    <MESSAGE value=\"eeeeee\" />\n    <MESSAGE value=\"base for graphics, general structure, will be updated\" />\n    <MESSAGE value=\"reading model from xlsx files and planet-spaceship classes used by the graphics (will be merged later)\" />\n    <MESSAGE value=\"resources\" />\n    <MESSAGE value=\"new new structure\" />\n    <MESSAGE value=\"Updated HillClimbingAlg\" />\n    <MESSAGE value=\"Start of landing module\" />\n    <MESSAGE value=\"fixed g in the solver\" />\n    <MESSAGE value=\"added a gen algorithm and functionality to the HardcodedValues.java\" />\n    <MESSAGE value=\"latest version as of 15.18 26 June not working x\" />\n    <MESSAGE value=\"connecting with landing\" />\n    <MESSAGE value=\".\" />\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\".\" />\n  </component>\n  <component name=\"XDebuggerManager\">\n    <pin-to-top-manager>\n      <pinned-members>\n        <PinnedItemInfo parentTag=\"code.model.objects.Probe\" memberName=\"COORDINATES\" />\n        <PinnedItemInfo parentTag=\"code.model.objects.PlanetObject\" memberName=\"COORDINATES\" />\n      </pinned-members>\n    </pin-to-top-manager>\n  </component>\n  <component name=\"XSLT-Support.FileAssociations.UIState\">\n    <expand />\n    <select />\n  </component>\n  <component name=\"com.intellij.coverage.CoverageDataManagerImpl\">\n    <SUITE FILE_PATH=\"coverage/Project1_2_Rocket_to_Titan$SolarSystem.ic\" NAME=\"SolarSystem Coverage Results\" MODIFIED=\"1679580725908\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\n      <FILTER>group1.project12group1.*</FILTER>\n    </SUITE>\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 79861a7e5b719b6ea45ab2462661586533c78505)
++++ b/.idea/workspace.xml	(date 1687813126601)
+@@ -5,12 +5,16 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="befef468-85dd-4357-a019-7cd94d9197bf" name="Changes" comment=".">
+-      <change beforePath="$PROJECT_DIR$/src/main/java/code/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/Main.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/trajectory/HillClimbingAlg.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/trajectory/HillClimbingAlg.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/trajectory/HillClimbingAlgReturn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/trajectory/HillClimbingAlgReturn.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/trajectory/LaunchRocketFromTitan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/trajectory/LaunchRocketFromTitan.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/trajectory/LaunchRocketHC.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/trajectory/LaunchRocketHC.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/code/model/objects/LandingProbe.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/solvers/AbstractSolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/solvers/AbstractSolver.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/solvers/Solver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/solvers/Solver.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/trajectory/TargetBoost.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/trajectory/TargetBoost.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/code/graphics/Visualizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/graphics/Visualizer.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/code/landing/module/FeedbackController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/landing/module/FeedbackController.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/code/model/Model.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/model/Model.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/code/model/ModelCopy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/model/ModelCopy.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/code/model/objects/Probe.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/model/objects/Probe.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/titan_locations.txt" beforeDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -75,8 +79,8 @@
+     </key>
+   </component>
+   <component name="RunManager" selected="Application.Main">
+-    <configuration name="HardcodedValues" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+-      <option name="MAIN_CLASS_NAME" value="code.landing.module.HardcodedValues" />
++    <configuration name="FeedbackController" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
++      <option name="MAIN_CLASS_NAME" value="code.landing.module.FeedbackController" />
+       <module name="Project1-2-Group-1" />
+       <extension name="coverage">
+         <pattern>
+@@ -159,7 +163,7 @@
+       </method>
+     </configuration>
+     <list>
+-      <item itemvalue="Application.HardcodedValues" />
++      <item itemvalue="Application.FeedbackController" />
+       <item itemvalue="Application.TrajectorySimulation" />
+       <item itemvalue="Application.Main" />
+       <item itemvalue="JUnit.ProbeTest" />
+@@ -168,7 +172,7 @@
+     <recent_temporary>
+       <list>
+         <item itemvalue="Application.Main" />
+-        <item itemvalue="Application.HardcodedValues" />
++        <item itemvalue="Application.FeedbackController" />
+         <item itemvalue="Application.TrajectorySimulation" />
+         <item itemvalue="JUnit.ProbeTest" />
+         <item itemvalue="Application.TrajectorySimulation" />
+@@ -509,7 +513,15 @@
+       <option name="project" value="LOCAL" />
+       <updated>1687807503734</updated>
+     </task>
+-    <option name="localTasksCounter" value="40" />
++    <task id="LOCAL-00040" summary=".">
++      <option name="closed" value="true" />
++      <created>1687809084785</created>
++      <option name="number" value="00040" />
++      <option name="presentableId" value="LOCAL-00040" />
++      <option name="project" value="LOCAL" />
++      <updated>1687809084785</updated>
++    </task>
++    <option name="localTasksCounter" value="41" />
+     <servers />
+   </component>
+   <component name="TypeScriptGeneratedFilesManager">
+Index: src/main/java/code/algorithms/solvers/AbstractSolver.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package code.algorithms.solvers;\n\nimport java.util.function.BiFunction;\n\npublic abstract class AbstractSolver implements Solver {\n    @Override\n    public abstract double[] solve(BiFunction<Double, double[], double[]> function, double[] stateArray, double time, double timeStep);\n\n    double[] addArrays(double[] array1, double[] array2) {\n        if (array1.length != array2.length)\n            throw new IllegalArgumentException(\"Arrays must be the same length\");\n\n        double[] result = new double[array1.length];\n        for (int i = 0; i < array1.length; i++)\n            result[i] = array1[i] + array2[i];\n\n        return result;\n    }\n\n    double[] scaleArray(double scalar, double[] array) {\n        double[] result = new double[array.length];\n        for (int i = 0; i < array.length; i++)\n            result[i] = scalar * array[i];\n\n        return result;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/code/algorithms/solvers/AbstractSolver.java b/src/main/java/code/algorithms/solvers/AbstractSolver.java
+--- a/src/main/java/code/algorithms/solvers/AbstractSolver.java	(revision 79861a7e5b719b6ea45ab2462661586533c78505)
++++ b/src/main/java/code/algorithms/solvers/AbstractSolver.java	(date 1687809677011)
+@@ -2,10 +2,23 @@
+ 
+ import java.util.function.BiFunction;
+ 
++/**
++ * AbstractSolver is an abstract class that provides a framework for implementing mathematical solvers.
++ * This class provides some basic array manipulation methods that may be useful for concrete Solver implementations.
++ */
+ public abstract class AbstractSolver implements Solver {
+     @Override
+     public abstract double[] solve(BiFunction<Double, double[], double[]> function, double[] stateArray, double time, double timeStep);
+ 
++    /**
++     * Method to add two arrays element-wise.
++     * The two input arrays must be of the same length.
++     *
++     * @param array1 the first array to be added
++     * @param array2 the second array to be added
++     * @return a double array where each element is the sum of the corresponding elements in the input arrays
++     * @throws IllegalArgumentException if the input arrays are not the same length
++     */
+     double[] addArrays(double[] array1, double[] array2) {
+         if (array1.length != array2.length)
+             throw new IllegalArgumentException("Arrays must be the same length");
+@@ -17,6 +30,14 @@
+         return result;
+     }
+ 
++    /**
++     * Method to scale an array by a scalar value.
++     * This is performed element-wise: each element in the array is multiplied by the scalar.
++     *
++     * @param scalar the scalar to multiply each element in the array by
++     * @param array  the array to be scaled
++     * @return a double array where each element is the original element multiplied by the scalar
++     */
+     double[] scaleArray(double scalar, double[] array) {
+         double[] result = new double[array.length];
+         for (int i = 0; i < array.length; i++)
+Index: src/main/java/code/model/ModelCopy.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package code.model;\n\nimport code.algorithms.functions.AccelerationFunction;\nimport code.algorithms.solvers.RungeKutta;\nimport code.algorithms.solvers.Solver;\nimport code.model.objects.PlanetObject;\nimport code.model.objects.Probe;\nimport code.utils.Time;\n\nimport java.util.ArrayList;\nimport java.util.Arrays;\nimport java.util.List;\nimport java.util.function.BiFunction;\n\n\npublic class ModelCopy {\n    private List<PlanetObject> planetObjects;\n    private List<Probe> probes;\n    private final Solver solver;\n    private static final AccelerationFunction ACCELERATION_FUNCTION = new AccelerationFunction();\n    private final Time TIME;\n\n\n    public ModelCopy() {\n        TIME = new Time(2023, 4, 1);\n        planetObjects = new ArrayList<>();\n        for (PlanetObject planetObject : Model.getPlanetObjectsArrayList())\n            planetObjects.add(planetObjectCopy(planetObject));\n        probes = new ArrayList<>();\n        solver = new RungeKutta();\n    }\n\n\n    public List<Probe> getProbes() {\n        return probes;\n    }\n\n    private PlanetObject planetObjectCopy(PlanetObject planetObject) {\n        PlanetObject newObject = new PlanetObject(planetObject.getCoordinates(), planetObject.getVelocity());\n        newObject.setMass(planetObject.getMass());\n        newObject.setRadius(planetObject.getRadius());\n        return newObject;\n    }\n\n    private void updateObjectsState(double[] systemState) {\n        ArrayList<PlanetObject> allObjects = getAllObjects();\n        if (systemState.length != allObjects.size() * 6) {\n            throw new IllegalArgumentException(\"Size of system state array does not match number of PlanetObjects.\");\n        }\n        for (int i = 1; i < allObjects.size(); i++) {\n            double[] newPosition = Arrays.copyOfRange(systemState, i * 3, i * 3 + 3);\n            double[] newVelocity = Arrays.copyOfRange(systemState, (allObjects.size() + i) * 3, (allObjects.size() + i) * 3 + 3);\n            allObjects.get(i).setCoordinates(newPosition);\n            allObjects.get(i).setVelocity(newVelocity);\n        }\n    }\n\n    public static ArrayList<PlanetObject> getPlanetObjectsArrayList() {\n        ArrayList<PlanetObject> planets = new ArrayList<>();\n        planets.add(Model.getPlanetObjects().get(\"Sun\"));\n        planets.add(Model.getPlanetObjects().get(\"Mercury\"));\n        planets.add(Model.getPlanetObjects().get(\"Venus\"));\n        planets.add(Model.getPlanetObjects().get(\"Earth\"));\n        planets.add(Model.getPlanetObjects().get(\"Moon\"));\n        planets.add(Model.getPlanetObjects().get(\"Mars\"));\n        planets.add(Model.getPlanetObjects().get(\"Jupiter\"));\n        planets.add(Model.getPlanetObjects().get(\"Saturn\"));\n        planets.add(Model.getPlanetObjects().get(\"Titan\"));\n        planets.add(Model.getPlanetObjects().get(\"Neptune\"));\n        planets.add(Model.getPlanetObjects().get(\"Uranus\"));\n        return planets;\n    }\n\n    public ArrayList<PlanetObject> getAllObjects() {\n        ArrayList<PlanetObject> allObjects = getPlanetObjectsArrayList();\n        allObjects.addAll(getProbes());\n        return allObjects;\n    }\n\n    public void step(double timeStep) {\n        if (getProbes().size() > 0)\n            getProbes().get(0).BoosterMECH(getTime());\n        double[] currentState = flattenState(getAllObjects());\n        double[] nextState = solver.solve(getDynamicsFunction(), currentState, 0, timeStep);\n        updateObjectsState(nextState);\n        getTime().addSeconds(timeStep);\n    }\n\n    private BiFunction<Double, double[], double[]> dynamicsFunction() {\n        return (time, systemState) -> {\n            int n = getAllObjects().size();\n            double[] dydt = new double[n * 6];\n            updateObjectsState(systemState);\n            for (int i = 0; i < n; i++) {\n                System.arraycopy(getAllObjects().get(i).getVelocity(), 0, dydt, i * 3, 3);\n                System.arraycopy(ACCELERATION_FUNCTION.calculate(i, getAllObjects()), 0, dydt, (n + i) * 3, 3);\n            }\n            return dydt;\n        };\n    }\n\n    private BiFunction<Double, double[], double[]> getDynamicsFunction() {\n        return dynamicsFunction();\n    }\n\n    private double[] flattenState(List<PlanetObject> allObjects) {\n        double[] systemState = new double[allObjects.size() * 6];\n        for (int i = 0; i < allObjects.size(); i++) {\n            double[] position = allObjects.get(i).getCoordinates();\n            double[] velocity = allObjects.get(i).getVelocity();\n\n            System.arraycopy(position, 0, systemState, i * 3, 3);\n            System.arraycopy(velocity, 0, systemState, (allObjects.size() + i) * 3, 3);\n        }\n        return systemState;\n    }\n\n    public void addProbe(Probe probe) {\n        probes.add(probe);\n    }\n\n    public Time getTime() {\n        return TIME;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/code/model/ModelCopy.java b/src/main/java/code/model/ModelCopy.java
+--- a/src/main/java/code/model/ModelCopy.java	(revision 79861a7e5b719b6ea45ab2462661586533c78505)
++++ b/src/main/java/code/model/ModelCopy.java	(date 1687809677019)
+@@ -73,6 +73,7 @@
+ 
+     public ArrayList<PlanetObject> getAllObjects() {
+         ArrayList<PlanetObject> allObjects = getPlanetObjectsArrayList();
++
+         allObjects.addAll(getProbes());
+         return allObjects;
+     }
+diff --git a/titan_locations.txt b/titan_locations.txt
+deleted file mode 100644

@@ -3,6 +3,9 @@ package code.algorithms.trajectory;
 import code.model.Model;
 import code.model.objects.properties.Boost;
 
+/**
+ * A class for assigning boosts towards a destination while keeping a certain velocity.
+ */
 public class TargetBoost {
     private final double MAX_SPEED;
     private double[] distancesToTitan;
@@ -25,6 +28,9 @@ public class TargetBoost {
             distancesToTitan[i] = destination[i] - Model.getProbes().get(0).getCoordinates()[i];
     }
 
+    /**
+     * Sets the maximum change in an axis to the max speed and scales the other values down accordingly.
+     */
     private void scaleDistances(double[] values) {
         double maxVal = values[0];
         for (int i = 1; i < values.length; i++) {

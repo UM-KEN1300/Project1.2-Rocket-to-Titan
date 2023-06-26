@@ -104,13 +104,16 @@ public class Probe extends PlanetObject {
 
     public double getMaxSpeed() {
         if (getDistanceToEarth() < 30_000_000)
+            return 30;
+        if (getDistanceToEarth() < 100_000_000)
             return 50;
 
+
         if (getDistanceToTitan() < 10_000_000)
-            return 10;
+            return 20;
         if (getDistanceToTitan() < 1_000_000)
-            return 5;
-        return 100;
+            return 10;
+        return 70;
     }
 
     public double getFuelUsed() {

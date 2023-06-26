@@ -52,6 +52,98 @@ public class Model {
     }
 
     /**
+     * A call of this method performs a step in the chosen solver which calculates the next position of all bodies in the system.
+     * It does so with the help of the mathematical solver chosen in the constructor.
+     * The time step is chosen based on the getTimeStep method.
+     */
+    public static void step() {
+        if (getProbes().size() > 0)
+            getProbes().get(0).BoosterMECH(Model.getTime());
+        double[] currentState = flattenState(getAllObjects());
+        double[] nextState = getInstance().SOLVER.solve(getDynamicsFunction(), currentState, 0, getTimeStep());
+        updateObjectsState(nextState);
+        getTime().addSeconds(getTimeStep());
+    }
+
+    /**
+     * Adds a Probe object to the model
+     *
+     * @param probe the Probe object to be added to the model
+     */
+    public static void addProbe(Probe probe) {
+        getInstance().probes.add(probe);
+    }
+
+    /**
+     * Takes in a one dimensional array of doubles whose values represent the states of bodies in the system and the spacecraft.
+     * This is useful for reading the result of a solver step and applying the calculation to the model.
+     *
+     * @param systemState array of doubles representing the states of objects of the model
+     */
+    private static void updateObjectsState(double[] systemState) {
+        ArrayList<PlanetObject> allObjects = getAllObjects();
+        if (systemState.length != allObjects.size() * 6) {
+            throw new IllegalArgumentException("Size of system state array does not match number of PlanetObjects.");
+        }
+        for (int i = 1; i < allObjects.size(); i++) {
+            double[] newPosition = Arrays.copyOfRange(systemState, i * 3, i * 3 + 3);
+            double[] newVelocity = Arrays.copyOfRange(systemState, (allObjects.size() + i) * 3, (allObjects.size() + i) * 3 + 3);
+            allObjects.get(i).setCoordinates(newPosition);
+            allObjects.get(i).setVelocity(newVelocity);
+        }
+    }
+
+    /**
+     * Takes all PlanetObjects and Probes in the Model and puts the values of their coordinates and velocities into
+     * a one dimensional state array. This allows for easily passing all states to solvers.
+     *
+     * @param allObjects a list of all objects in the model
+     * @return an array of doubles representing states of all objects
+     */
+    private static double[] flattenState(List<PlanetObject> allObjects) {
+        double[] systemState = new double[allObjects.size() * 6];
+        for (int i = 0; i < allObjects.size(); i++) {
+            double[] position = allObjects.get(i).getCoordinates();
+            double[] velocity = allObjects.get(i).getVelocity();
+
+            System.arraycopy(position, 0, systemState, i * 3, 3);
+            System.arraycopy(velocity, 0, systemState, (allObjects.size() + i) * 3, 3);
+        }
+        return systemState;
+    }
+
+    /**
+     * The BiFunction representing the dynamics function for the solar system.
+     */
+    private BiFunction<Double, double[], double[]> dynamicsFunction() {
+        return (time, systemState) -> {
+            int n = getAllObjects().size();
+            double[] dydt = new double[n * 6];
+            updateObjectsState(systemState);
+            for (int i = 0; i < n; i++) {
+                System.arraycopy(getAllObjects().get(i).getVelocity(), 0, dydt, i * 3, 3);
+                System.arraycopy(ACCELERATION_FUNCTION.calculate(i, getAllObjects()), 0, dydt, (n + i) * 3, 3);
+            }
+            return dydt;
+        };
+    }
+
+    /**
+     * Loads the information about initial positions and velocities of the celestial bodies to the model.
+     *
+     * @param dataLoader depending on the implementation of the interface passed in this argument
+     *                   data from different sources can be chosen.
+     */
+    public static void loadData(DataLoader dataLoader) {
+        getInstance().planetObjects = new HashMap<>();
+        getInstance().probes = new ArrayList<>();
+        dataLoader.load(getInstance().planetObjects);
+    }
+
+
+    // GETTERS AND SETTERS
+
+    /**
      * @return a Map where the name of each celestial body starting with a capital letter is the key and
      * the PlanetObject corresponding to it is the value
      */
@@ -80,6 +172,9 @@ public class Model {
         return planets;
     }
 
+    /**
+     * @return an ArrayList containing all objects in the model
+     */
     public static ArrayList<PlanetObject> getAllObjects() {
         ArrayList<PlanetObject> allObjects = getPlanetObjectsArrayList();
         allObjects.addAll(getProbes());
@@ -93,82 +188,30 @@ public class Model {
         return getInstance().probes;
     }
 
+
     /**
-     * Adds a Probe object to the model
+     * Getter for the dynamic function.
      *
-     * @param probe the Probe object to be added to the model
+     * @return the BiFunction representing the dynamics function for the solar system.
      */
-    public static void addProbe(Probe probe) {
-        getInstance().probes.add(probe);
-    }
-
-    public static void step() {
-        if (getProbes().size() > 0)
-            getProbes().get(0).BoosterMECH(Model.getTime());
-        double[] currentState = flattenState(getAllObjects());
-        double[] nextState = getInstance().SOLVER.solve(getDynamicsFunction(), currentState, 0, getTimeStep());
-        updateObjectsState(nextState);
-        getTime().addSeconds(getTimeStep());
-    }
-
-    private BiFunction<Double, double[], double[]> dynamicsFunction() {
-        return (time, systemState) -> {
-            int n = getAllObjects().size();
-            double[] dydt = new double[n * 6];
-            updateObjectsState(systemState);
-            for (int i = 0; i < n; i++) {
-                System.arraycopy(getAllObjects().get(i).getVelocity(), 0, dydt, i * 3, 3);
-                System.arraycopy(ACCELERATION_FUNCTION.calculate(i, getAllObjects()), 0, dydt, (n + i) * 3, 3);
-            }
-            return dydt;
-        };
-    }
-
     private static BiFunction<Double, double[], double[]> getDynamicsFunction() {
         return getInstance().dynamicsFunction();
     }
 
-    private static void updateObjectsState(double[] systemState) {
-        ArrayList<PlanetObject> allObjects = getAllObjects();
-        if (systemState.length != allObjects.size() * 6) {
-            throw new IllegalArgumentException("Size of system state array does not match number of PlanetObjects.");
-        }
-        for (int i = 1; i < allObjects.size(); i++) {
-            double[] newPosition = Arrays.copyOfRange(systemState, i * 3, i * 3 + 3);
-            double[] newVelocity = Arrays.copyOfRange(systemState, (allObjects.size() + i) * 3, (allObjects.size() + i) * 3 + 3);
-            allObjects.get(i).setCoordinates(newPosition);
-            allObjects.get(i).setVelocity(newVelocity);
-        }
-    }
-
-    private static double[] flattenState(List<PlanetObject> allObjects) {
-        double[] systemState = new double[allObjects.size() * 6];
-        for (int i = 0; i < allObjects.size(); i++) {
-            double[] position = allObjects.get(i).getCoordinates();
-            double[] velocity = allObjects.get(i).getVelocity();
-
-            System.arraycopy(position, 0, systemState, i * 3, 3);
-            System.arraycopy(velocity, 0, systemState, (allObjects.size() + i) * 3, 3);
-        }
-        return systemState;
-    }
-
     /**
-     * Loads the information about initial positions and velocities of the celestial bodies to the model.
+     * Getter for time of the simulation.
      *
-     * @param dataLoader depending on the implementation of the interface passed in this argument
-     *                   data from different sources can be chosen.
+     * @return an object representing the current time of the model.
      */
-    public static void loadData(DataLoader dataLoader) {
-        getInstance().planetObjects = new HashMap<>();
-        getInstance().probes = new ArrayList<>();
-        dataLoader.load(getInstance().planetObjects);
-    }
-
     public static Time getTime() {
         return getInstance().TIME;
     }
 
+    /**
+     * Getter for the time step. The returned value depends on the state of the model.
+     *
+     * @return a double representing the time step to be passed to
+     */
     public static double getTimeStep() {
         if (getProbes().get(0).getDistanceToTitan() < 100_000)
             return 0.5;

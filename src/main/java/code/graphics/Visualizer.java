@@ -1,7 +1,9 @@
 package code.graphics;
 
+import code.algorithms.trajectory.TargetBoost;
 import code.graphics.landing.LandingScene;
 import code.landing.module.FeedbackController;
+import code.model.Model;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -30,11 +32,11 @@ public class Visualizer extends Application {
 
     @Override
     public void start(Stage stage) {
-         spaceCraft=new FeedbackController(200001,300000,  0,0,0);
+        spaceCraft = new FeedbackController(200001, 300000, 0, 0, 0);
         STAGE = stage;
         STAGE.setTitle("Mission to Titan");
         STAGE.show();
-        stop=false;
+        stop = false;
         changedScene = false;
 
         solarScene = new SolarScene(WIDTH, HEIGHT);
@@ -69,46 +71,42 @@ public class Visualizer extends Application {
                 new java.util.TimerTask() {
                     @Override
                     public void run() {
-//                        if (Model.getProbes().get(0).getDistanceToTitan() < 600000000) {
+                        if (Model.getProbes().get(0).getDistanceToTitan() < 600) {
                             if (!changedScene) {
                                 Platform.runLater(() -> {
-
                                     STAGE.setScene(landingScene);
                                 });
                                 changedScene = true;
                             }
 
-
-                                if(!stop)
-                                {
-                                    spaceCraft.controllerX();
-                                    //spaceCraft.controller();
-                                    spaceCraft.print();
-                                    stop = spaceCraft.isFinished();
-                                    Platform.runLater(() -> {
-                                        landingScene.moveSpaceship(spaceCraft.getXPosition(), spaceCraft.getYPosition(), spaceCraft.getRotationAngle());
-                                    });
-
-                                }
+                            if (!stop) {
+                                spaceCraft.controllerX();
+                                //spaceCraft.controller();
+                                spaceCraft.print();
+                                stop = spaceCraft.isFinished();
+                                Platform.runLater(() -> {
+                                    landingScene.moveSpaceship(spaceCraft.getXPosition(), spaceCraft.getYPosition(), spaceCraft.getRotationAngle());
+                                });
+                            }
+                        }
 
 
-//                        }
-//
-//                        if (Model.getTime().laterOrEqual(Model.getProbes().get(0).getTimeOfNextBoost()))
-//                            new TargetBoost(Model.getPlanetObjects().get("Titan").getCoordinates());
-//
-//                        for (int i = 0; i < SMOOTHNESS; i++)
-//                            Model.step();
-//
-//                        Platform.runLater(() -> {
-//                            solarScene.update(Model.getTime());
-//                        });
-//
-//                        count++;
-//                        if (count % 25 == 0)
-//                            Platform.runLater(solarScene::addTrail);
+                        if (Model.getTime().laterOrEqual(Model.getProbes().get(0).getTimeOfNextBoost()))
+                            new TargetBoost(Model.getPlanetObjects().get("Titan").getCoordinates());
+
+                        for (int i = 0; i < SMOOTHNESS; i++)
+                            Model.step();
+
+                        Platform.runLater(() -> {
+                            solarScene.update(Model.getTime());
+                        });
+
+                        count++;
+                        if (count % 25 == 0)
+                            Platform.runLater(solarScene::addTrail);
+
                     }
-                }, 0, 10);
+                }, 0, 1);
     }
 
     public static void main(String[] args) {

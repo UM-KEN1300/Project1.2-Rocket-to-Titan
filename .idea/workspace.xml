@@ -5,12 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="befef468-85dd-4357-a019-7cd94d9197bf" name="Changes" comment=".">
-      <change beforePath="$PROJECT_DIR$/src/main/java/code/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/trajectory/HillClimbingAlg.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/trajectory/HillClimbingAlg.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/trajectory/HillClimbingAlgReturn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/trajectory/HillClimbingAlgReturn.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/trajectory/LaunchRocketFromTitan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/trajectory/LaunchRocketFromTitan.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/trajectory/LaunchRocketHC.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/trajectory/LaunchRocketHC.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/code/model/objects/LandingProbe.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/solvers/AbstractSolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/solvers/AbstractSolver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/solvers/Solver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/solvers/Solver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/trajectory/TargetBoost.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/trajectory/TargetBoost.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/graphics/Visualizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/graphics/Visualizer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/model/Model.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/model/Model.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/model/ModelCopy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/model/ModelCopy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/model/objects/Probe.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/model/objects/Probe.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/titan_locations.txt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,8 +78,8 @@
     </key>
   </component>
   <component name="RunManager" selected="Application.Main">
-    <configuration name="HardcodedValues" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="code.landing.module.HardcodedValues" />
+    <configuration name="FeedbackController" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="code.landing.module.FeedbackController" />
       <module name="Project1-2-Group-1" />
       <extension name="coverage">
         <pattern>
@@ -159,7 +162,7 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.HardcodedValues" />
+      <item itemvalue="Application.FeedbackController" />
       <item itemvalue="Application.TrajectorySimulation" />
       <item itemvalue="Application.Main" />
       <item itemvalue="JUnit.ProbeTest" />
@@ -168,7 +171,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
-        <item itemvalue="Application.HardcodedValues" />
+        <item itemvalue="Application.FeedbackController" />
         <item itemvalue="Application.TrajectorySimulation" />
         <item itemvalue="JUnit.ProbeTest" />
         <item itemvalue="Application.TrajectorySimulation" />
@@ -509,7 +512,15 @@
       <option name="project" value="LOCAL" />
       <updated>1687807503734</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary=".">
+      <option name="closed" value="true" />
+      <created>1687809084785</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1687809084785</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
