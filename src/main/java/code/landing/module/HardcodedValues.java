@@ -13,8 +13,6 @@ public class HardcodedValues
     double distanceToLandingSpot;
     private final Queue<double[]> listOfBoost;
     boolean finished;
-    boolean lastPhase;
-    int countX;
     public HardcodedValues(double XPosition, double YPosition, double rotationAngle, double XVelocity, double YVelocity)
     {
         this.XPosition = XPosition;
@@ -23,45 +21,44 @@ public class HardcodedValues
         this.XVelocity = XVelocity;
         this.YVelocity = YVelocity;
         listOfBoost=new LinkedList<>();
-        lastPhase = false;
         finished = false;
-        countX = 0;
     }
 
 
-    public void controller() {
+    public void controllerY() {
        // updater(0,0,1);
-        //TODO add wind
+
 
         double XTolerance = 10;
         if (YPosition <= 0.001) {
             finished = true;
         }
         else if (YPosition > 200000) {
-            correctY(750);
+            correctY(-150);
         }
-
         else if (YPosition > 100000) {
-            correctY(500);
+            correctY(-80);
         } else if (YPosition > 20000) {
-            correctY(100);
+            correctY(-30);
             }
          else if (YPosition > 10000) {
-                correctY(10);
+                correctY(-8);
         } else if (YPosition > 5000) {
-                correctY(1);
+                correctY(-1);
         } else if (YPosition > 10) {
-                correctY(0.1);
-        } else {
-            lastPhase = true;
-            correctY(0.01);
+                correctY(-0.1);
+        }else if (YPosition > 5) {
+            correctY(-0.01);
+        }
+
+        else {
+            correctY(-0.001);
         }
     }
 
 
     public void controllerX() {
-        updater(0,0,1);
-        //TODO add wind
+
 
 
         if (XPosition <= 0.001) {
@@ -72,7 +69,7 @@ public class HardcodedValues
         }
 
         else if (XPosition > 100000) {
-            correctX(500);
+            correctX(-500);
         } else if (XPosition > 20000) {
             correctX(-100);
         }
@@ -83,7 +80,6 @@ public class HardcodedValues
         } else if (XPosition > 10) {
             correctX(-0.1);
         } else {
-            lastPhase = true;
             correctX(-0.01);
         }
     }
@@ -97,6 +93,9 @@ public class HardcodedValues
             {
                 turnProbeToAngle(270,0,1);
                 runner(1,8);
+                System.out.println(rotationAngle);
+                rotationAngle=Math.round(rotationAngle);
+                System.out.println(rotationAngle);
             }
             difference= target -XVelocity;
             if(Math.abs(difference)>13.52)
@@ -109,6 +108,9 @@ public class HardcodedValues
             {
                 turnProbeToAngle(90,0,1);
                 runner(1,8);
+                System.out.println(rotationAngle);
+                rotationAngle=Math.round(rotationAngle);
+                System.out.println(rotationAngle);
             }
             difference= target -XVelocity;
 
@@ -128,24 +130,33 @@ public class HardcodedValues
     }
 
     private void correctY(double target) {
-        countX -= 1;
-        if (rotationAngle != 0)
+        if(target<YVelocity)
         {
-           turnProbeToAngle(0,0,1);
-           runner(1,8);
+            if (rotationAngle != 180)
+            {
+                turnProbeToAngle(180, 0, 1);
+                runner(1, 8);
+            }
+            double difference = target - YVelocity;
+            if(Math.abs(difference)>13.52)
+                difference=13.52;
+            updater(Math.abs(difference),0,1);
         }
-        //-35.5398560637122 V: -28.48258400000952
+        else if(target>YVelocity)
+        {
+            if (rotationAngle != 0)
+            {
+                turnProbeToAngle(0, 0, 1);
+                runner(1, 8);
+            }
+            double difference = target - YVelocity;
+            if(Math.abs(difference)>13.52)
+                difference=13.52;
+            updater(Math.abs(difference),0,1);
+        }
+        else updater(0,0,1);
 
-//        System.out.println("In correctY boost");
-        target = -target; // that's because we are going down, so we want negative velocity
-        double difference = target -YVelocity;
 
-//        if(Math.abs(difference)>14)
-//        {
-//            difference = -13.52;
-//        }
-        System.out.println("Diff"+difference);
-        updater(difference,0,1);
     }
 
 
@@ -185,16 +196,28 @@ public class HardcodedValues
 
     public void updater(double u,double v,double stepSize)
     {
-        System.out.println("Angle: "+rotationAngle+" while u: "+u+" and YVelocity: "+YVelocity);
+        //System.out.println("Angle: "+rotationAngle+" while u: "+u+" and YVelocity: "+YVelocity);
 
         rotationAngleVelocity+=v*stepSize;
         rotationAngle+=rotationAngleVelocity*stepSize;
-        //X value update
-        double XAcceleration=u*Math.sin(rotationAngle);
+        double XAcceleration;
+        double YAcceleration;
+        if(u>0)
+        {
+            rotationAngle=Math.round(rotationAngle);
+           XAcceleration = u * Math.sin(rotationAngle);
+           YAcceleration  = u * Math.cos(rotationAngle) - 1.352;
+        }
+        else
+        {
+            XAcceleration = u * Math.sin(rotationAngle);
+            YAcceleration  = u * Math.cos(rotationAngle) - 1.352;
+        }
+
         XVelocity+=XAcceleration*stepSize;
         XPosition+=XVelocity*stepSize;
         //Y value update
-        double YAcceleration=u*Math.cos(rotationAngle)-(1.352*Math.pow(10,-3));
+
 
         YVelocity+=YAcceleration*stepSize;
         YPosition+=YVelocity*stepSize;
@@ -206,6 +229,35 @@ public class HardcodedValues
 
     }
 
+    public void updaterX(double u,double v,double stepSize)
+    {
+        //System.out.println("Angle: "+rotationAngle+" while u: "+u+" and YVelocity: "+YVelocity);
+        rotationAngleVelocity+=v*stepSize;
+        rotationAngle+=rotationAngleVelocity*stepSize;
+        //X value update
+        double XAcceleration=u*Math.sin(rotationAngle);
+        XVelocity+=XAcceleration*stepSize;
+        XPosition+=XVelocity*stepSize;
+        //Y value update
+        double YAcceleration=-1.352;
+        YVelocity+=YAcceleration*stepSize;
+        YPosition+=YVelocity*stepSize;
+    }
+    public void updaterY(double u,double v,double stepSize)
+    {
+        //System.out.println("Angle: "+rotationAngle+" while u: "+u+" and YVelocity: "+YVelocity);
+        rotationAngleVelocity+=v*stepSize;
+        rotationAngle+=rotationAngleVelocity*stepSize;
+        //X value update
+        double XAcceleration=u*Math.sin(rotationAngle);
+        XVelocity+=XAcceleration*stepSize;
+        XPosition+=XVelocity*stepSize;
+        //Y value update
+        double YAcceleration=-1.352;
+        YVelocity+=YAcceleration*stepSize;
+        YPosition+=YVelocity*stepSize;
+
+    }
 
 
 
@@ -262,30 +314,24 @@ public class HardcodedValues
 
     public void print()
     {
-        System.out.println("X: "+XPosition+" Y: "+YPosition+" V: "+XVelocity);
+        System.out.println("X: "+XPosition+" Y: "+YPosition+" VY: "+YVelocity);
     }
     public static void main(String[] args)
     {
-     // HardcodedValues spaceCraft=new HardcodedValues(300000,300000,  0,-40,0);
-      //spaceCraft.turnProbeToAngle(90,0,1);
+        HardcodedValues spaceCraft=new HardcodedValues(30000,300000,  0,0,0);
 
-//        spaceCraft.addBoost(0,10,0);
-//        spaceCraft.turnProbeToAngle(90,100,1)
-
-//        spaceCraft.addBoost(108,-13,0);
-//       spaceCraft.runner(1,10);
-//        spaceCraft.turnProbeToAngle(180,0,1);
-//        spaceCraft.runner(1,10);
-//        spaceCraft.turnProbeToAngle(0,0,1);
-//        spaceCraft.runner(1,10);
-
-        HardcodedValues spaceCraft=new HardcodedValues(200001,300000,  0,0,0);
         boolean stop = false;
+//        while (!stop){
+//            spaceCraft.controllerX();
+//            spaceCraft.print();
+//            stop = spaceCraft.isFinished();
+//        }
+//        spaceCraft.print();
+
         int couner=0;
         while (couner<100){
             spaceCraft.controllerX();
             spaceCraft.print();
-            stop = spaceCraft.isFinished();
             couner++;
         }
     }

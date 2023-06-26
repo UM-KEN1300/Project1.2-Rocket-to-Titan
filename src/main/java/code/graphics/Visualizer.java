@@ -88,7 +88,7 @@ public class Visualizer extends Application {
                                     spaceCraft.print();
                                     stop = spaceCraft.isFinished();
                                     Platform.runLater(() -> {
-                                        landingScene.moveSpaceship(spaceCraft.getXPosition(), 10000, spaceCraft.getRotationAngle());
+                                        landingScene.moveSpaceship(spaceCraft.getXPosition(), spaceCraft.getYPosition(), spaceCraft.getRotationAngle());
                                     });
 
                                 }
@@ -110,7 +110,7 @@ public class Visualizer extends Application {
 //                        if (count % 25 == 0)
 //                            Platform.runLater(solarScene::addTrail);
                     }
-                }, 0, 1);
+                }, 0, 10);
     }
 
     public static void main(String[] args) {
