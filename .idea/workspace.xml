@@ -5,14 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="befef468-85dd-4357-a019-7cd94d9197bf" name="Changes" comment=".">
-      <change afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/solvers/Heuns3rdOrder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/solvers/Ralstons2ndOrder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/code/graphics/landing/LandingPane.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/code/graphics/landing/LandingScene.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/code/model/objects/LandingProbe.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/ModelRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/ModelRunner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/solvers/ExplicitEuler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/solvers/ExplicitEuler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/code/graphics/Visualizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/graphics/Visualizer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/ProbeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ProbeTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/module-info.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,8 +19,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
         <option value="JUnit5 Test Class" />
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -48,26 +45,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/marcell/Documents/*School/Year 1/Semester 2/Project 1-2/Phase 2/Project1.2-Rocket-to-Titan&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
+    "deletionFromPopupRequiresConfirmation": "false",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/Users/marcell/Documents/*School/Year 1/Semester 2/Project 1-2/Phase 3/local/src/main/resources/graphics/textures",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "settings.editor.selected.configurable": "reference.settings.ide.settings.uml",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/src/main/resources" />
+      <recent name="$PROJECT_DIR$/src/main/resources/graphics/textures" />
+      <recent name="$PROJECT_DIR$/src/main/java/code/model" />
+      <recent name="$PROJECT_DIR$/src/main/java/code/algorithms/trajectory" />
+      <recent name="$PROJECT_DIR$/src/main/java/code" />
       <recent name="$PROJECT_DIR$/src/main/java" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -86,7 +86,7 @@
       <recent name="code.algorithms.solvers" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="code.Main" />
       <module name="Project1-2-Group-1" />
@@ -113,12 +113,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TrajectorySimulation" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="code.TrajectorySimulation" />
+    <configuration name="TitanLocation" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="code.experiments.TitanLocation" />
       <module name="Project1-2-Group-1" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="code.*" />
+          <option name="PATTERN" value="code.experiments.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -167,7 +167,7 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.TrajectorySimulation" />
+      <item itemvalue="Application.TitanLocation" />
       <item itemvalue="Application.Main" />
       <item itemvalue="JUnit.ProbeTest" />
       <item itemvalue="JUnit.HelperFunctionsTest" />
@@ -176,9 +176,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
-        <item itemvalue="Application.TrajectorySimulation" />
+        <item itemvalue="Application.TitanLocation" />
         <item itemvalue="JUnit.ProbeTest" />
-        <item itemvalue="Application.TrajectorySimulation" />
         <item itemvalue="JUnit.PlanetObjectTest" />
       </list>
     </recent_temporary>
@@ -228,6 +227,7 @@
       <workItem from="1686678401081" duration="5748000" />
       <workItem from="1686742608986" duration="7077000" />
       <workItem from="1687200266334" duration="261000" />
+      <workItem from="1687645556452" duration="49056000" />
     </task>
     <task id="LOCAL-00001" summary="WORKING HOW THIS SHIT WORKS">
       <created>1679319564168</created>
@@ -453,7 +453,31 @@
       <option name="project" value="LOCAL" />
       <updated>1687532115907</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary=".">
+      <option name="closed" value="true" />
+      <created>1687775137372</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1687775137372</updated>
+    </task>
+    <task id="LOCAL-00034" summary=".">
+      <option name="closed" value="true" />
+      <created>1687775161964</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1687775161964</updated>
+    </task>
+    <task id="LOCAL-00035" summary=".">
+      <option name="closed" value="true" />
+      <created>1687775210851</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1687775210851</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -495,6 +519,10 @@
         <PinnedItemInfo parentTag="code.model.objects.PlanetObject" memberName="COORDINATES" />
       </pinned-members>
     </pin-to-top-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Project1_2_Rocket_to_Titan$SolarSystem.ic" NAME="SolarSystem Coverage Results" MODIFIED="1679580725908" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">

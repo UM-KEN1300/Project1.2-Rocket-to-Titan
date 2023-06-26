@@ -23,20 +23,23 @@ public class Visualizer extends Application {
     private final int SMOOTHNESS = 200;
     private Timer timer;
     private static int count;
+    private LandingScene landingScene;
+    private Stage STAGE;
 
 
     @Override
     public void start(Stage stage) {
-        stage.setTitle("Mission to Titan");
-        stage.show();
+        STAGE = stage;
+        STAGE.setTitle("Mission to Titan");
+        STAGE.show();
 
         solarScene = new SolarScene(WIDTH, HEIGHT);
-        stage.setScene(solarScene);
-//        stage.setScene(new LandingScene(WIDTH, HEIGHT));
+        landingScene = new LandingScene(WIDTH, HEIGHT);
+        STAGE.setScene(solarScene);
 
         timer = new Timer();
         count = 0;
-        stage.setOnCloseRequest(e -> {
+        STAGE.setOnCloseRequest(e -> {
             timer.cancel();
             Platform.exit();
             System.exit(0);
@@ -61,8 +64,12 @@ public class Visualizer extends Application {
                 new java.util.TimerTask() {
                     @Override
                     public void run() {
-                        if (Model.getProbes().get(0).getDistanceToTitan() < 600)
-                            timer.cancel();
+                        if (Model.getProbes().get(0).getDistanceToTitan() < 600) {
+                            Platform.runLater(() -> {
+                                STAGE.setScene(landingScene);
+                            });
+                        }
+
 
                         if (Model.getTime().laterOrEqual(Model.getProbes().get(0).getTimeOfNextBoost()))
                             new TargetBoost(Model.getPlanetObjects().get("Titan").getCoordinates());
