@@ -4,11 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="befef468-85dd-4357-a019-7cd94d9197bf" name="Changes" comment="added a gen algorithm and functionality to the HardcodedValues.java">
-      <change afterPath="$PROJECT_DIR$/src/main/java/code/landing/module/ggg.java" afterDir="false" />
+    <list default="true" id="befef468-85dd-4357-a019-7cd94d9197bf" name="Changes" comment="latest version as of 15.18 26 June not working x">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/code/landing/module/HardcodedValues.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/landing/module/HardcodedValues.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/code/landing/module/gen.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/landing/module/SpaceCraft.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/landing/module/SpaceCraft.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -229,7 +228,7 @@
       <workItem from="1687610557562" duration="11322000" />
       <workItem from="1687638223752" duration="49000" />
       <workItem from="1687692339899" duration="20912000" />
-      <workItem from="1687770277372" duration="9544000" />
+      <workItem from="1687770277372" duration="14561000" />
     </task>
     <task id="LOCAL-00001" summary="WORKING HOW THIS SHIT WORKS">
       <created>1679319564168</created>
@@ -469,7 +468,14 @@
       <option name="project" value="LOCAL" />
       <updated>1687613206673</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="latest version as of 15.18 26 June not working x">
+      <created>1687785511224</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1687785511224</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -505,7 +511,8 @@
     <MESSAGE value="Start of landing module" />
     <MESSAGE value="fixed g in the solver" />
     <MESSAGE value="added a gen algorithm and functionality to the HardcodedValues.java" />
-    <option name="LAST_COMMIT_MESSAGE" value="added a gen algorithm and functionality to the HardcodedValues.java" />
+    <MESSAGE value="latest version as of 15.18 26 June not working x" />
+    <option name="LAST_COMMIT_MESSAGE" value="latest version as of 15.18 26 June not working x" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

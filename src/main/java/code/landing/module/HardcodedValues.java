@@ -18,10 +18,10 @@ public class HardcodedValues
 
 
     public void controller() {
-        updater(0,0,1);
+       // updater(0,0,1);
         //TODO add wind
 
-        double XTolerance = 0.1;
+        double XTolerance = 10;
         if (YPosition <= 0.001) {
             finished = true;
         }
@@ -34,8 +34,6 @@ public class HardcodedValues
                 correctY(750);
             }
         }
-
-
 
         else if (YPosition > 100000) {
             if (Math.abs(XPosition) > XTolerance && countX <= 0) {
@@ -67,44 +65,25 @@ public class HardcodedValues
     }
 
     private void correctX() {
-        if (XPosition > 0)
-        {
-            if (rotationAngle != 270)
+        double angle=0;
+        if(XPosition>0)angle=270;
+        if(XPosition<0)angle=90;
+
+
+        if (rotationAngle != angle)
             {
-                System.out.println("In correctX angle");
-                turnProbeToAngle(270, 0, 1);
+                turnProbeToAngle(angle, 0, 1);
                 runner(1, 8);
             }
-
-            System.out.println("In correctX boost");
-            countX = 5;
-            updater(XVelocity, 0, 1);
-            updater(1, 0, 1);
-
-        }
-        if (XPosition < 0)
-        {
-            System.out.println("in");
-            if (rotationAngle != 90)
-            {
-                System.out.println("In correctX angle");
-                turnProbeToAngle(90, 0, 1);
-                runner(1, 8);
-            }
-
-            System.out.println("In correctX boost");
-            countX = 5;
-            updater(XVelocity, 0, 1);
-            updater(1, 0, 1);
-
-        }
+            countX = 3;
+           // updater(XVelocity, 0, 1);
+            updater(0.1, 0, 1);
     }
 
     private void correctY(double target) {
         countX -= 1;
         if (rotationAngle != 0)
         {
-            System.out.println("In correctY angle");
            turnProbeToAngle(0,0,1);
            runner(1,8);
         }
@@ -138,7 +117,6 @@ public class HardcodedValues
 
             if(currentBoost[0]==i)
             {
-                System.out.println("Boosted with boost"+currentBoost[2]+"");
                 updater(currentBoost[1],currentBoost[2],stepSize);
                 if(!listOfBoost.isEmpty())
                 {
@@ -166,7 +144,7 @@ public class HardcodedValues
         YPosition+=YVelocity*stepSize;
         //rotation angle update
 
-        System.out.println("X: "+XPosition+" Y: "+YPosition+" V: "+YVelocity);
+      // System.out.println("X: "+XPosition+" Y: "+YPosition+" V: "+YVelocity);
         //System.out.println(rotationAngle);
 
 
@@ -202,10 +180,10 @@ public class HardcodedValues
     public void turnProbeToAngle(double angle,double currentTime,double step)
     {
         double turnAngle=angle-rotationAngle;
-        System.out.println("Angle before boost: "+rotationAngle);
-        System.out.println("Angle"+turnAngle);
-        addBoost(currentTime,0,turnAngle/7);
-        addBoost(currentTime+7*step,0,-turnAngle/7);
+//        System.out.println("Angle before boost: "+rotationAngle);
+//        System.out.println("Angle"+turnAngle);
+        addBoost(currentTime,0,turnAngle);
+        addBoost(currentTime+step,0,-turnAngle);
 
     }
 
@@ -233,9 +211,13 @@ public class HardcodedValues
         return finished;
     }
 
+    public void print()
+    {
+        System.out.println("X: "+XPosition+" Y: "+YPosition+" V: "+YVelocity);
+    }
     public static void main(String[] args)
     {
-      HardcodedValues spaceCraft=new HardcodedValues(20000,300000,  0,0,0);
+      HardcodedValues spaceCraft=new HardcodedValues(300000,300000,  0,-40,0);
       //spaceCraft.turnProbeToAngle(90,0,1);
 
 //        spaceCraft.addBoost(0,10,0);
@@ -251,6 +233,7 @@ public class HardcodedValues
 //        int counter=0;
         while (!stop){
             spaceCraft.controller();
+            spaceCraft.print();
             stop = spaceCraft.isFinished();
         }
     }

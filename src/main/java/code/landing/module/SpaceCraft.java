@@ -10,7 +10,6 @@ public class SpaceCraft
 {
     double XPosition;
     double YPosition;
-    double rotationAngle;
     double XVelocity;
     double YVelocity;
    
@@ -23,9 +22,6 @@ public class SpaceCraft
         double[] velocity=HelperFunctions.subtract(probe.getVelocity(),Titan.getVelocity());
         converterFrom3Dto2D(A, B, C,velocity);
 
-    }
-
-    public SpaceCraft() {
     }
 
     public void converterFrom3Dto2D(double[]A, double[]B, double[]C,double[] velocity)
@@ -115,28 +111,7 @@ public class SpaceCraft
         return returnable;
     }
 
-    public void runner(double stepSize, double numberOfIterations)
-    {
-        for (int i = 0; i < numberOfIterations; i+=stepSize)
-        {
-            updater(0,0,numberOfIterations);
-        }
-    }
 
-    public void updater(double u,double v,double stepSize)
-    {
-        //X value update
-        double XAcceleration=u*Math.sin(rotationAngle);
-        XVelocity+=XAcceleration*stepSize;
-        XPosition+=XVelocity*stepSize;
-        //Y value update
-        double YAcceleration=u*Math.sin(rotationAngle)-1.352*Math.pow(10,-3);
-        YVelocity+=YAcceleration*stepSize;
-        YPosition+=YVelocity*stepSize;
-        //rotation angle update
-        rotationAngle+=v*stepSize*stepSize;
-
-    }
 
 
 
