@@ -58,7 +58,20 @@ public class FeedbackController
 
 
     public void controllerX() {
-//        if(YPosition)
+        if(YPosition<200000)
+        {
+            for (int i = 0; i <5 ; i++)
+            {
+
+
+                if (rotationAngle != 0)
+                {
+                    turnProbeToAngle(0, 0, 1);
+                    runner(1, 8, 1);
+                }
+                updater(13.2, 0, 1);
+            }
+        }
 
 
         if (XPosition <= 0.001) {
@@ -91,10 +104,7 @@ public class FeedbackController
             if (rotationAngle != 270)
             {
                 turnProbeToAngle(270,0,1);
-                runner(1,8);
-                System.out.println(rotationAngle);
-                rotationAngle=Math.round(rotationAngle);
-                System.out.println(rotationAngle);
+                runner(1,8,0);
             }
             difference= target -XVelocity;
             if(Math.abs(difference)>13.52)
@@ -106,10 +116,8 @@ public class FeedbackController
             if (rotationAngle != 90)
             {
                 turnProbeToAngle(90,0,1);
-                runner(1,8);
-                System.out.println(rotationAngle);
+                runner(1,8,0);
                 rotationAngle=Math.round(rotationAngle);
-                System.out.println(rotationAngle);
             }
             difference= target -XVelocity;
 
@@ -134,7 +142,7 @@ public class FeedbackController
             if (rotationAngle != 180)
             {
                 turnProbeToAngle(180, 0, 1);
-                runner(1, 8);
+                runner(1, 8,1);
             }
             double difference = target - YVelocity;
             if(Math.abs(difference)>13.52)
@@ -146,7 +154,7 @@ public class FeedbackController
             if (rotationAngle != 0)
             {
                 turnProbeToAngle(0, 0, 1);
-                runner(1, 8);
+                runner(1, 8,1);
             }
             double difference = target - YVelocity;
             if(Math.abs(difference)>13.52)
@@ -162,7 +170,7 @@ public class FeedbackController
 
 
 
-    public void runner(double stepSize, double numberOfIterations)
+    public void runner(double stepSize, double numberOfIterations,double XorY)
     {
 
         double[] currentBoost={0.0,0.0,0.0};
@@ -180,7 +188,14 @@ public class FeedbackController
 
             if(currentBoost[0]==i)
             {
-                updater(currentBoost[1],currentBoost[2],stepSize);
+                //updater(currentBoost[1], currentBoost[2], stepSize);
+                if(XorY==0)
+                {
+                    updaterX(currentBoost[1], currentBoost[2], stepSize);
+                }
+                else {
+                    updaterY(currentBoost[1], currentBoost[2], stepSize);
+                }
                 if(!listOfBoost.isEmpty())
                 {
                     currentBoost = listOfBoost.poll();
@@ -188,30 +203,38 @@ public class FeedbackController
             }
             else
             {
-                updater(0, 0, 1);
+              // updater(0, 0, stepSize);
+                if(XorY==0)
+                {
+                    updaterX(0, 0, stepSize);
+                }
+                else {
+                    updaterY(0, 0, stepSize);
+                }
             }
         }
     }
 
     public void updater(double u,double v,double stepSize)
     {
-        System.out.println("Angle: "+rotationAngle+" while u: "+u+" and YVelocity: "+YVelocity);
 
         rotationAngleVelocity+=v*stepSize;
         rotationAngle+=rotationAngleVelocity*stepSize;
         double XAcceleration;
         double YAcceleration;
-        if(u>0)
-        {
-            rotationAngle=Math.round(rotationAngle);
-           XAcceleration = u * Math.sin(rotationAngle);
-           YAcceleration  = u * Math.cos(rotationAngle) - 1.352;
-        }
-        else
-        {
-            XAcceleration = u * Math.sin(rotationAngle);
-            YAcceleration  = u * Math.cos(rotationAngle) - 1.352;
-        }
+
+
+            if(u>0)
+            {
+                rotationAngle=Math.round(rotationAngle);
+                XAcceleration = u * Math.sin(rotationAngle);
+                YAcceleration = u * Math.cos(rotationAngle) - 1.352;
+            }
+            else {
+                XAcceleration = u * Math.sin(rotationAngle);
+                YAcceleration = u * Math.cos(rotationAngle) - 1.352;
+            }
+
 
         XVelocity+=XAcceleration*stepSize;
         XPosition+=XVelocity*stepSize;
@@ -244,15 +267,11 @@ public class FeedbackController
     }
     public void updaterY(double u,double v,double stepSize)
     {
-        //System.out.println("Angle: "+rotationAngle+" while u: "+u+" and YVelocity: "+YVelocity);
         rotationAngleVelocity+=v*stepSize;
         rotationAngle+=rotationAngleVelocity*stepSize;
         //X value update
-        double XAcceleration=u*Math.sin(rotationAngle);
-        XVelocity+=XAcceleration*stepSize;
-        XPosition+=XVelocity*stepSize;
         //Y value update
-        double YAcceleration=-1.352;
+        double YAcceleration=u*Math.cos(rotationAngle)-1.352;
         YVelocity+=YAcceleration*stepSize;
         YPosition+=YVelocity*stepSize;
 
@@ -264,19 +283,18 @@ public class FeedbackController
     public void turnProbeToAngle(double angle,double currentTime,double step)
     {
         double turnAngle=angle-rotationAngle;
-//        System.out.println("Angle before boost: "+rotationAngle);
-//        System.out.println("Angle"+turnAngle);
         addBoost(currentTime,0,turnAngle/7);
         addBoost(currentTime+7*step,0,-turnAngle/7);
 
     }
 
 
+    public void setFinished(boolean finished)
+    {
+        this.finished = finished;
+    }
 
-
-
-
-    public void addBoost(double time,double u,double v)
+    public void addBoost(double time, double u, double v)
     {
         //TODO add limits
         double[] boost={time,u,v};
@@ -313,7 +331,7 @@ public class FeedbackController
 
     public void print()
     {
-        System.out.println("X: "+XPosition+" Y: "+YPosition+" VY: "+YVelocity);
+        System.out.println("X: "+XPosition+" Y: "+YPosition+" VY: "+YVelocity+" VX: "+XVelocity);
     }
     public static void main(String[] args)
     {
@@ -321,11 +339,20 @@ public class FeedbackController
 
         boolean stop = false;
         while (!stop){
+            spaceCraft.controllerX();
+            spaceCraft.print();
+            stop = spaceCraft.isFinished();
+        }
+
+        stop=false;
+        spaceCraft.setFinished(false);
+        while (!stop){
+            System.out.println("in");
             spaceCraft.controllerY();
             spaceCraft.print();
             stop = spaceCraft.isFinished();
         }
-        spaceCraft.print();
+
 
 //        int couner=0;
 //        while (couner<100){
