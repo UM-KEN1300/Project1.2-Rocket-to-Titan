@@ -5,7 +5,9 @@ import code.model.objects.properties.Boost;
 import code.utils.HelperFunctions;
 import code.utils.Time;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
 /**
  * Class representing a spacecraft in the model. Extends the PlanetObject class.
@@ -60,8 +62,6 @@ public class Probe extends PlanetObject {
         ArrayList<Boost> list = new ArrayList<>(listOfBoosts);
         for (Boost boost : list) {
             if (boost.getFuel() > maxImpulse) {
-                System.out.println("Max is" + maxImpulse);
-                System.out.println("Boost is" + boost.getFuel());
                 return false;
             }
         }
@@ -76,7 +76,6 @@ public class Probe extends PlanetObject {
     public void BoosterMECH(Time time) {
         if (listOfBoosts.peek() != null) {
             if (time.laterOrEqual(listOfBoosts.peek().getTimeOfBoost())) {
-                System.out.println("boosted");
                 double[] probeVelocity = getVelocity();
                 double[] boostVelocity = listOfBoosts.poll().getVelocityOfBoost();
                 setVelocity(HelperFunctions.addition(probeVelocity, boostVelocity));
@@ -103,12 +102,15 @@ public class Probe extends PlanetObject {
         return HelperFunctions.getDistanceBetween(this, Model.getPlanetObjects().get("Earth")) - Model.getPlanetObjects().get("Earth").getRadius();
     }
 
-    public double getShortestDistanceToTitan() {
-        return shortestDistanceToTitan;
-    }
+    public double getMaxSpeed() {
+        if (getDistanceToEarth() < 30_000_000)
+            return 50;
 
-    public int getProbeNumber() {
-        return PROBE_NUMBER;
+        if (getDistanceToTitan() < 10_000_000)
+            return 10;
+        if (getDistanceToTitan() < 1_000_000)
+            return 5;
+        return 100;
     }
 
     public double getFuelUsed() {
@@ -134,6 +136,10 @@ public class Probe extends PlanetObject {
 
     public Time getTimeOfNextBoost() {
         return timeOfNextBoost;
+    }
+
+    public void setTimeUntilNextBoost(int seconds) {
+        this.timeOfNextBoost.addSeconds(seconds);
     }
 
     public double[] getCoordinatesOfShortestDistanceToTitan() {

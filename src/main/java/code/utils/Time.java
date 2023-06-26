@@ -58,7 +58,7 @@ public class Time {
                 hours == other.hours;
     }
 
-    public void addSeconds(int additionalSeconds) {
+    public void addSeconds(double additionalSeconds) {
         seconds += additionalSeconds;
 
         while (seconds >= 60) {
@@ -151,6 +151,18 @@ public class Time {
 
     public double getDays() {
         return days;
+    }
+
+    public double getHours() {
+        return hours;
+    }
+
+    public double getMinutes() {
+        return minutes;
+    }
+
+    public double getSeconds() {
+        return seconds;
     }
 
     @Override

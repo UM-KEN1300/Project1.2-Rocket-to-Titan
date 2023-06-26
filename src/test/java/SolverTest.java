@@ -1,4 +1,4 @@
-import code.algorithms.solvers.ExplicitEuler;
+import code.algorithms.solvers.Euler;
 import code.algorithms.solvers.RungeKutta;
 import code.algorithms.solvers.Solver;
 
@@ -27,7 +27,7 @@ public class SolverTest {
         System.out.println("h               = " + h);
         System.out.println("Number of steps = " + steps);
 
-        Solver explicitEuler = new ExplicitEuler(); //test ExplicitEuler solver
+        Solver explicitEuler = new Euler(); //test ExplicitEuler solver
         double[] explicitEulerSolution = testSolver(explicitEuler, (t, y) -> y, w0, t0, h, steps);
         System.out.println("Explicit Euler: " + Arrays.toString(explicitEulerSolution));
 

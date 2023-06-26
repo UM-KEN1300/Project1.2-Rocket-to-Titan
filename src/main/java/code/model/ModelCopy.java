@@ -1,6 +1,6 @@
 package code.model;
 
-import code.algorithms.solvers.AccelerationFunction;
+import code.algorithms.functions.AccelerationFunction;
 import code.algorithms.solvers.RungeKutta;
 import code.algorithms.solvers.Solver;
 import code.model.objects.PlanetObject;
@@ -23,20 +23,26 @@ public class ModelCopy {
 
     public ModelCopy() {
         TIME = new Time(2023, 4, 1);
-        planetObjects = new ArrayList<>(Model.getPlanetObjectsArrayList());
-        probes = new ArrayList<>(Model.getProbes());
+        planetObjects = new ArrayList<>();
+        for (PlanetObject planetObject : Model.getPlanetObjectsArrayList())
+            planetObjects.add(planetObjectCopy(planetObject));
+        probes = new ArrayList<>();
         solver = new RungeKutta();
     }
 
-    public List<PlanetObject> getPlanetObjects() {
-        return planetObjects;
-    }
 
     public List<Probe> getProbes() {
         return probes;
     }
 
-    public void updateObjectsState(double[] systemState) {
+    private PlanetObject planetObjectCopy(PlanetObject planetObject) {
+        PlanetObject newObject = new PlanetObject(planetObject.getCoordinates(), planetObject.getVelocity());
+        newObject.setMass(planetObject.getMass());
+        newObject.setRadius(planetObject.getRadius());
+        return newObject;
+    }
+
+    private void updateObjectsState(double[] systemState) {
         ArrayList<PlanetObject> allObjects = getAllObjects();
         if (systemState.length != allObjects.size() * 6) {
             throw new IllegalArgumentException("Size of system state array does not match number of PlanetObjects.");
@@ -72,31 +78,32 @@ public class ModelCopy {
     }
 
     public void step(double timeStep) {
+        if (getProbes().size() > 0)
+            getProbes().get(0).BoosterMECH(getTime());
         double[] currentState = flattenState(getAllObjects());
         double[] nextState = solver.solve(getDynamicsFunction(), currentState, 0, timeStep);
         updateObjectsState(nextState);
-        // TODO: double seconds in time
-        getTime().addSeconds((int) timeStep);
+        getTime().addSeconds(timeStep);
     }
 
-    public BiFunction<Double, double[], double[]> dynamicsFunction() {
+    private BiFunction<Double, double[], double[]> dynamicsFunction() {
         return (time, systemState) -> {
             int n = getAllObjects().size();
             double[] dydt = new double[n * 6];
             updateObjectsState(systemState);
             for (int i = 0; i < n; i++) {
                 System.arraycopy(getAllObjects().get(i).getVelocity(), 0, dydt, i * 3, 3);
-                System.arraycopy(ACCELERATION_FUNCTION.calculate(i), 0, dydt, (n + i) * 3, 3);
+                System.arraycopy(ACCELERATION_FUNCTION.calculate(i, getAllObjects()), 0, dydt, (n + i) * 3, 3);
             }
             return dydt;
         };
     }
 
-    public BiFunction<Double, double[], double[]> getDynamicsFunction() {
+    private BiFunction<Double, double[], double[]> getDynamicsFunction() {
         return dynamicsFunction();
     }
 
-    public double[] flattenState(List<PlanetObject> allObjects) {
+    private double[] flattenState(List<PlanetObject> allObjects) {
         double[] systemState = new double[allObjects.size() * 6];
         for (int i = 0; i < allObjects.size(); i++) {
             double[] position = allObjects.get(i).getCoordinates();

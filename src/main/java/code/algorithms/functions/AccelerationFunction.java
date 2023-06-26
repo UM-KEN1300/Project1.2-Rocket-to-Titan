@@ -1,4 +1,4 @@
-package code.algorithms.solvers;
+package code.algorithms.functions;
 
 import code.model.Model;
 import code.model.objects.PlanetObject;
@@ -27,8 +27,7 @@ public class AccelerationFunction {
 //        return acceleration;
 //    }
 
-    public double[] calculate(int index) {
-        List<PlanetObject> allObjects = Model.getAllObjects();
+    public double[] calculate(int index, List<PlanetObject> allObjects) {
         double[] acceleration = new double[]{0, 0, 0};
         PlanetObject evaluatedObject = allObjects.get(index);
 

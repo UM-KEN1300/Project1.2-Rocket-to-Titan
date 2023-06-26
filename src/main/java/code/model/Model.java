@@ -1,18 +1,13 @@
 package code.model;
 
-import code.algorithms.solvers.AccelerationFunction;
+import code.algorithms.functions.AccelerationFunction;
 import code.algorithms.solvers.RungeKutta;
 import code.algorithms.solvers.Solver;
 import code.model.data.loaders.DataLoader;
 import code.model.objects.PlanetObject;
 import code.model.objects.Probe;
 import code.utils.Time;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.*;
 import java.util.function.BiFunction;
 
@@ -107,33 +102,33 @@ public class Model {
         getInstance().probes.add(probe);
     }
 
-    public static void step(double timeStep) {
+    public static void step() {
         if (getProbes().size() > 0)
             getProbes().get(0).BoosterMECH(Model.getTime());
         double[] currentState = flattenState(getAllObjects());
-        double[] nextState = getInstance().SOLVER.solve(getDynamicsFunction(), currentState, 0, timeStep);
+        double[] nextState = getInstance().SOLVER.solve(getDynamicsFunction(), currentState, 0, getTimeStep());
         updateObjectsState(nextState);
-        getTime().addSeconds((int) timeStep);
+        getTime().addSeconds(getTimeStep());
     }
 
-    public BiFunction<Double, double[], double[]> dynamicsFunction() {
+    private BiFunction<Double, double[], double[]> dynamicsFunction() {
         return (time, systemState) -> {
             int n = getAllObjects().size();
             double[] dydt = new double[n * 6];
             updateObjectsState(systemState);
             for (int i = 0; i < n; i++) {
                 System.arraycopy(getAllObjects().get(i).getVelocity(), 0, dydt, i * 3, 3);
-                System.arraycopy(ACCELERATION_FUNCTION.calculate(i), 0, dydt, (n + i) * 3, 3);
+                System.arraycopy(ACCELERATION_FUNCTION.calculate(i, getAllObjects()), 0, dydt, (n + i) * 3, 3);
             }
             return dydt;
         };
     }
 
-    public static BiFunction<Double, double[], double[]> getDynamicsFunction() {
+    private static BiFunction<Double, double[], double[]> getDynamicsFunction() {
         return getInstance().dynamicsFunction();
     }
 
-    public static void updateObjectsState(double[] systemState) {
+    private static void updateObjectsState(double[] systemState) {
         ArrayList<PlanetObject> allObjects = getAllObjects();
         if (systemState.length != allObjects.size() * 6) {
             throw new IllegalArgumentException("Size of system state array does not match number of PlanetObjects.");
@@ -146,7 +141,7 @@ public class Model {
         }
     }
 
-    public static double[] flattenState(List<PlanetObject> allObjects) {
+    private static double[] flattenState(List<PlanetObject> allObjects) {
         double[] systemState = new double[allObjects.size() * 6];
         for (int i = 0; i < allObjects.size(); i++) {
             double[] position = allObjects.get(i).getCoordinates();
@@ -168,55 +163,17 @@ public class Model {
         getInstance().planetObjects = new HashMap<>();
         getInstance().probes = new ArrayList<>();
         dataLoader.load(getInstance().planetObjects);
-        getInstance().loadRadii();
-        getInstance().loadMass();
-    }
-
-    /**
-     * Loads the radii of each celestial body from the xlsx file in resources and assigns it to the
-     * PlanetObjects in the model.
-     */
-    private void loadRadii() {
-        try (InputStream inputStream = getClass().getResourceAsStream("/model/radius.xlsx")) {
-            assert inputStream != null;
-            try (Workbook workbook = new XSSFWorkbook(inputStream)) {
-                Sheet sheet = workbook.getSheetAt(0);
-
-                for (int index = 0; index <= 10; index++) {
-                    String name = sheet.getRow(index).getCell(0).getStringCellValue();
-                    double radius = sheet.getRow(index).getCell(1).getNumericCellValue();
-
-                    planetObjects.get(name).setRadius(radius);
-                }
-            }
-        } catch (IOException exception) {
-            exception.printStackTrace();
-        }
-    }
-
-    /**
-     * Loads the mass of each celestial body from the xlsx file in resources and assigns it to the
-     * PlanetObjects in the model.
-     */
-    private void loadMass() {
-        try (InputStream inputStream = getClass().getResourceAsStream("/model/mass.xlsx")) {
-            assert inputStream != null;
-            try (Workbook workbook = new XSSFWorkbook(inputStream)) {
-                Sheet sheet = workbook.getSheetAt(0);
-
-                for (int index = 0; index <= 10; index++) {
-                    String name = sheet.getRow(index).getCell(0).getStringCellValue();
-                    double mass = sheet.getRow(index).getCell(1).getNumericCellValue();
-
-                    planetObjects.get(name).setMass(mass);
-                }
-            }
-        } catch (IOException exception) {
-            exception.printStackTrace();
-        }
     }
 
     public static Time getTime() {
         return getInstance().TIME;
+    }
+
+    public static double getTimeStep() {
+        if (getProbes().get(0).getDistanceToTitan() < 100_000)
+            return 0.5;
+        if (getProbes().get(0).getDistanceToTitan() < 1_000_000)
+            return 2;
+        return 10;
     }
 }

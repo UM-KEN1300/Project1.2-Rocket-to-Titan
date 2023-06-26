@@ -1,27 +1,29 @@
 package code.algorithms.solvers;
 
 public class Ralstons2ndOrder {
-    static double function(double t, double y){
+    static double function(double t, double y) {
         return y;
     }
+
     public static double Ralstons2ndOrder(double h, double t0, double w0) {
         int howManySteps = 2000;
         double[] k1 = new double[howManySteps];
         double[] k2 = new double[howManySteps];
         double[] t = new double[howManySteps + 1];
         double[] w = new double[howManySteps + 1];
-        t[0] = t0; w[0] = w0;
-        for(int i = 0; i < howManySteps; i++){
+        t[0] = t0;
+        w[0] = w0;
+        for (int i = 0; i < howManySteps; i++) {
             k1[i] = h * function(t[i], w[i]);
             k2[i] = h * function(t[i] + (2.0 / 3.0) * h, w[i] + (2.0 / 3.0) * k1[i]);
-            w[i+1] = w[i] + 0.25 * (k1[i] + 3.0 * k2[i]);
-            t[i+1] = t[i] + h;
+            w[i + 1] = w[i] + 0.25 * (k1[i] + 3.0 * k2[i]);
+            t[i + 1] = t[i] + h;
         }
         return w[howManySteps];
     }
 
     public static void main(String[] args) {
-        double apprx = Ralstons2ndOrder(0.0005,0, 1);
+        double apprx = Ralstons2ndOrder(0.0005, 0, 1);
         System.out.println("2nd order Ralston's: " + apprx);
     }
 }

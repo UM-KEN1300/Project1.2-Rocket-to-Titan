@@ -103,9 +103,7 @@ public class HelperFunctions {
         return returnable;
     }
 
-    public static double[] copyDoubleArray(double[] arrayToCopy) {
-        double[] result = new double[arrayToCopy.length];
-        System.arraycopy(arrayToCopy, 0, result, 0, arrayToCopy.length);
-        return result;
+    public static boolean isBoostVelocityAllowed(double value, double timeStep) {
+        return (Math.pow(10, 7)) * timeStep < value;
     }
 }

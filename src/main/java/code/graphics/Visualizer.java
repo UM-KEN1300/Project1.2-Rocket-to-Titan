@@ -1,5 +1,7 @@
 package code.graphics;
 
+import code.algorithms.trajectory.TargetBoost;
+import code.graphics.landing.LandingScene;
 import code.model.Model;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -29,27 +31,28 @@ public class Visualizer extends Application {
         stage.show();
 
         solarScene = new SolarScene(WIDTH, HEIGHT);
-        stage.setScene(solarScene);
+//        stage.setScene(solarScene);
+        stage.setScene(new LandingScene(WIDTH, HEIGHT));
 
-        timer = new Timer();
-        count = 0;
-        stage.setOnCloseRequest(e -> {
-            timer.cancel();
-            Platform.exit();
-            System.exit(0);
-        });
-        Task<Void> sleeper = new Task<>() {
-            @Override
-            protected Void call() {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException ignored) {
-                }
-                return null;
-            }
-        };
-        sleeper.setOnSucceeded(event -> calculation());
-        new Thread(sleeper).start();
+//        timer = new Timer();
+//        count = 0;
+//        stage.setOnCloseRequest(e -> {
+//            timer.cancel();
+//            Platform.exit();
+//            System.exit(0);
+//        });
+//        Task<Void> sleeper = new Task<>() {
+//            @Override
+//            protected Void call() {
+//                try {
+//                    Thread.sleep(1000);
+//                } catch (InterruptedException ignored) {
+//                }
+//                return null;
+//            }
+//        };
+//        sleeper.setOnSucceeded(event -> calculation());
+//        new Thread(sleeper).start();
     }
 
 
@@ -58,8 +61,14 @@ public class Visualizer extends Application {
                 new java.util.TimerTask() {
                     @Override
                     public void run() {
+                        if (Model.getProbes().get(0).getDistanceToTitan() < 600)
+                            timer.cancel();
+
+                        if (Model.getTime().laterOrEqual(Model.getProbes().get(0).getTimeOfNextBoost()))
+                            new TargetBoost(Model.getPlanetObjects().get("Titan").getCoordinates());
+
                         for (int i = 0; i < SMOOTHNESS; i++)
-                            Model.step(10);
+                            Model.step();
 
                         Platform.runLater(() -> {
                             solarScene.update(Model.getTime());

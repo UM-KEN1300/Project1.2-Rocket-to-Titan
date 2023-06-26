@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
-public class FileDataLoader implements DataLoader {
+public class FileDataLoader extends AbstractDataLoader {
     @Override
     public void load(Map<String, PlanetObject> planetObjects) {
         try (InputStream inputStream = getClass().getResourceAsStream("/model/initial_stats.xlsx")) {
@@ -37,5 +37,8 @@ public class FileDataLoader implements DataLoader {
         } catch (IOException exception) {
             exception.printStackTrace();
         }
+
+        loadRadii(planetObjects);
+        loadMass(planetObjects);
     }
 }

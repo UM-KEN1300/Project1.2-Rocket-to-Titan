@@ -31,7 +31,7 @@ public class TitanLocation {
                             Model.getPlanetObjects().get("Titan").getCoordinates()[2] + "\n");
                     nextUpdate.addSeconds(60 * 60 * 24);
                 }
-                Model.step(timeStep);
+                Model.step();
                 seconds += timeStep;
             }
 

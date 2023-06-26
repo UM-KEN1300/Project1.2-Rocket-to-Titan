@@ -2,8 +2,8 @@ package code.algorithms.solvers;
 
 import java.util.function.BiFunction;
 
-public class ExplicitEuler extends AbstractSolver {
-    public ExplicitEuler() {
+public class Euler extends AbstractSolver {
+    public Euler() {
     }
 
 
