@@ -21,7 +21,7 @@ public class Visualizer extends Application {
     private final double WIDTH = Screen.getPrimary().getBounds().getWidth();
     private final double HEIGHT = Screen.getPrimary().getBounds().getHeight();
     private static SolarScene solarScene;
-    private final int SMOOTHNESS = 200;
+    private final int SMOOTHNESS = 300;
     private Timer timer;
     private static int count;
     private LandingScene landingScene;
@@ -29,6 +29,7 @@ public class Visualizer extends Application {
     private boolean changedScene;
     FeedbackController spaceCraft;
     boolean stop;
+    boolean stopX, stopY;
 
     @Override
     public void start(Stage stage) {
@@ -38,6 +39,9 @@ public class Visualizer extends Application {
         STAGE.show();
         stop = false;
         changedScene = false;
+
+        stopX=false;
+        stopY=false;
 
         solarScene = new SolarScene(WIDTH, HEIGHT);
         landingScene = new LandingScene(WIDTH, HEIGHT);
@@ -79,14 +83,37 @@ public class Visualizer extends Application {
                                 changedScene = true;
                             }
 
-                            if (!stop) {
-                                spaceCraft.controllerX();
-                                //spaceCraft.controller();
-                                spaceCraft.print();
-                                stop = spaceCraft.isFinished();
-                                Platform.runLater(() -> {
-                                    landingScene.moveSpaceship(spaceCraft.getXPosition(), spaceCraft.getYPosition(), spaceCraft.getRotationAngle());
-                                });
+//                            if (!stop) {
+//                                spaceCraft.controllerX();
+//                                //spaceCraft.controller();
+//                                spaceCraft.print();
+//                                stop = spaceCraft.isFinished();
+//                                Platform.runLater(() -> {
+//                                    landingScene.moveSpaceship(spaceCraft.getXPosition(), spaceCraft.getYPosition(), spaceCraft.getRotationAngle());
+//                                });
+//                            }
+                            if(!stopX)
+                                {
+                                    spaceCraft.controllerX();
+                                    //spaceCraft.controller();
+                                    spaceCraft.print();
+                                    stopX = spaceCraft.isFinished();
+                                    Platform.runLater(() -> {
+                                        landingScene.moveSpaceship(spaceCraft.getXPosition(), spaceCraft.getYPosition(), spaceCraft.getRotationAngle());
+                                    });
+
+                                }
+                        spaceCraft.setFinished(false);
+                            if(!stopY)
+                             {
+                            spaceCraft.controllerY();
+                            //spaceCraft.controller();
+                            spaceCraft.print();
+                            stopY = spaceCraft.isFinished();
+                            Platform.runLater(() -> {
+                                landingScene.moveSpaceship(spaceCraft.getXPosition(), spaceCraft.getYPosition(), spaceCraft.getRotationAngle());
+                            });
+
                             }
                         }
 

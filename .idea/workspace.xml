@@ -6,14 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="befef468-85dd-4357-a019-7cd94d9197bf" name="Changes" comment=".">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/solvers/AbstractSolver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/solvers/AbstractSolver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/solvers/Solver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/solvers/Solver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/code/algorithms/trajectory/TargetBoost.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/algorithms/trajectory/TargetBoost.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ReadMe.md" beforeDir="false" afterPath="$PROJECT_DIR$/ReadMe.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/code/graphics/Visualizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/graphics/Visualizer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/code/model/Model.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/model/Model.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/code/model/ModelCopy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/model/ModelCopy.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/code/model/objects/Probe.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/model/objects/Probe.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/titan_locations.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/code/landing/module/FeedbackController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/landing/module/FeedbackController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -520,7 +515,15 @@
       <option name="project" value="LOCAL" />
       <updated>1687809084785</updated>
     </task>
-    <option name="localTasksCounter" value="41" />
+    <task id="LOCAL-00041" summary=".">
+      <option name="closed" value="true" />
+      <created>1687815886593</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1687815886593</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

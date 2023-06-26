@@ -1,9 +1,9 @@
 package code.landing.module;
-import java.lang.Math;
-import java.util.*;
 
-public class FeedbackController
-{
+import java.util.LinkedList;
+import java.util.Queue;
+
+public class FeedbackController {
     double XPosition;
     double YPosition;
     double rotationAngle;
@@ -13,59 +13,49 @@ public class FeedbackController
     double distanceToLandingSpot;
     private final Queue<double[]> listOfBoost;
     boolean finished;
-    public FeedbackController(double XPosition, double YPosition, double rotationAngle, double XVelocity, double YVelocity)
-    {
+
+    public FeedbackController(double XPosition, double YPosition, double rotationAngle, double XVelocity, double YVelocity) {
         this.XPosition = XPosition;
         this.YPosition = YPosition;
         this.rotationAngle = rotationAngle;
         this.XVelocity = XVelocity;
         this.YVelocity = YVelocity;
-        listOfBoost=new LinkedList<>();
+        listOfBoost = new LinkedList<>();
         finished = false;
     }
 
 
     public void controllerY() {
-       // updater(0,0,1);
+        // updater(0,0,1);
 
 
         double XTolerance = 10;
         if (YPosition <= 0.001) {
             finished = true;
-        }
-        else if (YPosition > 200000) {
+        } else if (YPosition > 200000) {
             correctY(-150);
-        }
-        else if (YPosition > 100000) {
+        } else if (YPosition > 100000) {
             correctY(-80);
         } else if (YPosition > 20000) {
             correctY(-30);
-            }
-         else if (YPosition > 10000) {
-                correctY(-8);
+        } else if (YPosition > 10000) {
+            correctY(-8);
         } else if (YPosition > 5000) {
-                correctY(-1);
+            correctY(-1);
         } else if (YPosition > 10) {
-                correctY(-0.1);
-        }else if (YPosition > 5) {
+            correctY(-0.1);
+        } else if (YPosition > 5) {
             correctY(-0.01);
-        }
-
-        else {
+        } else {
             correctY(-0.001);
         }
     }
 
 
     public void controllerX() {
-        if(YPosition<200000)
-        {
-            for (int i = 0; i <5 ; i++)
-            {
-
-
-                if (rotationAngle != 0)
-                {
+        if (YPosition < 200000) {
+            for (int i = 0; i < 5; i++) {
+                if (rotationAngle != 0) {
                     turnProbeToAngle(0, 0, 1);
                     runner(1, 8, 1);
                 }
@@ -76,17 +66,13 @@ public class FeedbackController
 
         if (XPosition <= 0.001) {
             finished = true;
-        }
-        else if (XPosition > 200000) {
+        } else if (XPosition > 200000) {
             correctX(-750);
-        }
-
-        else if (XPosition > 100000) {
+        } else if (XPosition > 100000) {
             correctX(-500);
         } else if (XPosition > 20000) {
             correctX(-100);
-        }
-        else if (XPosition > 10000) {
+        } else if (XPosition > 10000) {
             correctX(-10);
         } else if (XPosition > 5000) {
             correctX(-1);
@@ -99,254 +85,209 @@ public class FeedbackController
 
     private void correctX(double target) {
         double difference;
-        if(target<XVelocity)
-        {
-            if (rotationAngle != 270)
-            {
-                turnProbeToAngle(270,0,1);
-                runner(1,8,0);
+        if (target < XVelocity) {
+            if (rotationAngle != 270) {
+                turnProbeToAngle(270, 0, 1);
+                runner(1, 8, 0);
             }
-            difference= target -XVelocity;
-            if(Math.abs(difference)>13.52)
-                difference=13.52;
-            updaterX(difference,0,1);
-        }
-        else if(target>XVelocity)
-        {
-            if (rotationAngle != 90)
-            {
-                turnProbeToAngle(90,0,1);
-                runner(1,8,0);
-                rotationAngle=Math.round(rotationAngle);
+            difference = target - XVelocity;
+            if (Math.abs(difference) > 13.52)
+                difference = 13.52;
+            updaterX(difference, 0, 1);
+        } else if (target > XVelocity) {
+            if (rotationAngle != 90) {
+                turnProbeToAngle(90, 0, 1);
+                runner(1, 8, 0);
+                rotationAngle = Math.round(rotationAngle);
             }
-            difference= target -XVelocity;
+            difference = target - XVelocity;
 
-            if(Math.abs(difference)>13.52)
-                difference=13.52;
-            updaterX(Math.abs(difference),0,1);
+            if (Math.abs(difference) > 13.52)
+                difference = 13.52;
+            updaterX(Math.abs(difference), 0, 1);
+        } else {
+            updaterX(0, 0, 1);
         }
-        else {
-            updaterX(0,0,1);
-        }
-
-
-
-
 
 
     }
 
     private void correctY(double target) {
-        if(target<YVelocity)
-        {
-            if (rotationAngle != 180)
-            {
+        if (target < YVelocity) {
+            if (rotationAngle != 180) {
                 turnProbeToAngle(180, 0, 1);
-                runner(1, 8,1);
+                runner(1, 8, 1);
             }
             double difference = target - YVelocity;
-            if(Math.abs(difference)>13.52)
-                difference=13.52;
-            updaterY(Math.abs(difference),0,1);
-        }
-        else if(target>YVelocity)
-        {
-            if (rotationAngle != 0)
-            {
+            if (Math.abs(difference) > 13.52)
+                difference = 13.52;
+            updaterY(Math.abs(difference), 0, 1);
+        } else if (target > YVelocity) {
+            if (rotationAngle != 0) {
                 turnProbeToAngle(0, 0, 1);
-                runner(1, 8,1);
+                runner(1, 8, 1);
             }
             double difference = target - YVelocity;
-            if(Math.abs(difference)>13.52)
-                difference=13.52;
-            updaterY(Math.abs(difference),0,1);
-        }
-        else updaterY(0,0,1);
+            if (Math.abs(difference) > 13.52)
+                difference = 13.52;
+            updaterY(Math.abs(difference), 0, 1);
+        } else updaterY(0, 0, 1);
 
 
     }
 
 
+    public void runner(double stepSize, double numberOfIterations, double XorY) {
 
-
-
-    public void runner(double stepSize, double numberOfIterations,double XorY)
-    {
-
-        double[] currentBoost={0.0,0.0,0.0};
-        if(!listOfBoost.isEmpty())
-        {
+        double[] currentBoost = {0.0, 0.0, 0.0};
+        if (!listOfBoost.isEmpty()) {
             currentBoost = listOfBoost.poll();
         }
-        for (int i = 0; i < numberOfIterations&&YPosition>0; i++)
-        {
+        for (int i = 0; i < numberOfIterations && YPosition > 0; i++) {
 //            if(i%10==0)
 //            {
 //                System.out.println("X: "+XPosition+" Y: "+YPosition);
 //               // System.out.println("Angle is "+rotationAngle+" at time "+i);
 //            }
 
-            if(currentBoost[0]==i)
-            {
+            if (currentBoost[0] == i) {
                 //updater(currentBoost[1], currentBoost[2], stepSize);
-                if(XorY==0)
-                {
+                if (XorY == 0) {
                     updaterX(currentBoost[1], currentBoost[2], stepSize);
-                }
-                else {
+                } else {
                     updaterY(currentBoost[1], currentBoost[2], stepSize);
                 }
-                if(!listOfBoost.isEmpty())
-                {
+                if (!listOfBoost.isEmpty()) {
                     currentBoost = listOfBoost.poll();
                 }
-            }
-            else
-            {
-              // updater(0, 0, stepSize);
-                if(XorY==0)
-                {
+            } else {
+                // updater(0, 0, stepSize);
+                if (XorY == 0) {
                     updaterX(0, 0, stepSize);
-                }
-                else {
+                } else {
                     updaterY(0, 0, stepSize);
                 }
             }
         }
     }
 
-    public void updater(double u,double v,double stepSize)
-    {
+    public void updater(double u, double v, double stepSize) {
 
-        rotationAngleVelocity+=v*stepSize;
-        rotationAngle+=rotationAngleVelocity*stepSize;
+        rotationAngleVelocity += v * stepSize;
+        rotationAngle += rotationAngleVelocity * stepSize;
         double XAcceleration;
         double YAcceleration;
 
 
-            if(u>0)
-            {
-                rotationAngle=Math.round(rotationAngle);
-                XAcceleration = u * Math.sin(rotationAngle);
-                YAcceleration = u * Math.cos(rotationAngle) - 1.352;
-            }
-            else {
-                XAcceleration = u * Math.sin(rotationAngle);
-                YAcceleration = u * Math.cos(rotationAngle) - 1.352;
-            }
+        if (u > 0) {
+            rotationAngle = Math.round(rotationAngle);
+            XAcceleration = u * Math.sin(rotationAngle);
+            YAcceleration = u * Math.cos(rotationAngle) - 1.352;
+        } else {
+            XAcceleration = u * Math.sin(rotationAngle);
+            YAcceleration = u * Math.cos(rotationAngle) - 1.352;
+        }
 
 
-        XVelocity+=XAcceleration*stepSize;
-        XPosition+=XVelocity*stepSize;
+        XVelocity += XAcceleration * stepSize;
+        XPosition += XVelocity * stepSize;
         //Y value update
 
 
-        YVelocity+=YAcceleration*stepSize;
-        YPosition+=YVelocity*stepSize;
+        YVelocity += YAcceleration * stepSize;
+        YPosition += YVelocity * stepSize;
         //rotation angle update
 
-      // System.out.println("X: "+XPosition+" Y: "+YPosition+" V: "+YVelocity);
+        // System.out.println("X: "+XPosition+" Y: "+YPosition+" V: "+YVelocity);
         //System.out.println(rotationAngle);
 
 
     }
 
-    public void updaterX(double u,double v,double stepSize)
-    {
+    public void updaterX(double u, double v, double stepSize) {
         //System.out.println("Angle: "+rotationAngle+" while u: "+u+" and YVelocity: "+YVelocity);
-        rotationAngleVelocity+=v*stepSize;
-        rotationAngle+=rotationAngleVelocity*stepSize;
+        rotationAngleVelocity += v * stepSize;
+        rotationAngle += rotationAngleVelocity * stepSize;
         //X value update
-        double XAcceleration=u*Math.sin(rotationAngle);
-        XVelocity+=XAcceleration*stepSize;
-        XPosition+=XVelocity*stepSize;
+        double XAcceleration = u * Math.sin(rotationAngle);
+        XVelocity += XAcceleration * stepSize;
+        XPosition += XVelocity * stepSize;
         //Y value update
-        double YAcceleration=-1.352;
-        YVelocity+=YAcceleration*stepSize;
-        YPosition+=YVelocity*stepSize;
+        double YAcceleration = -1.352;
+        YVelocity += YAcceleration * stepSize;
+        YPosition += YVelocity * stepSize;
     }
-    public void updaterY(double u,double v,double stepSize)
-    {
-        rotationAngleVelocity+=v*stepSize;
-        rotationAngle+=rotationAngleVelocity*stepSize;
+
+    public void updaterY(double u, double v, double stepSize) {
+        rotationAngleVelocity += v * stepSize;
+        rotationAngle += rotationAngleVelocity * stepSize;
         //X value update
         //Y value update
-        double YAcceleration=u*Math.cos(rotationAngle)-1.352;
-        YVelocity+=YAcceleration*stepSize;
-        YPosition+=YVelocity*stepSize;
+        double YAcceleration = u * Math.cos(rotationAngle) - 1.352;
+        YVelocity += YAcceleration * stepSize;
+        YPosition += YVelocity * stepSize;
 
     }
 
 
-
-
-    public void turnProbeToAngle(double angle,double currentTime,double step)
-    {
-        double turnAngle=angle-rotationAngle;
-        addBoost(currentTime,0,turnAngle/7);
-        addBoost(currentTime+7*step,0,-turnAngle/7);
+    public void turnProbeToAngle(double angle, double currentTime, double step) {
+        double turnAngle = angle - rotationAngle;
+        addBoost(currentTime, 0, turnAngle / 7);
+        addBoost(currentTime + 7 * step, 0, -turnAngle / 7);
 
     }
 
 
-    public void setFinished(boolean finished)
-    {
+    public void setFinished(boolean finished) {
         this.finished = finished;
     }
 
-    public void addBoost(double time, double u, double v)
-    {
+    public void addBoost(double time, double u, double v) {
         //TODO add limits
-        double[] boost={time,u,v};
+        double[] boost = {time, u, v};
         listOfBoost.add(boost);
     }
 
 
-    public double getDistanceToLandingSpot()
-    {
-      distanceToLandingSpot  =Math.sqrt(XPosition*XPosition+(YPosition*YPosition));
-      return distanceToLandingSpot;
+    public double getDistanceToLandingSpot() {
+        distanceToLandingSpot = Math.sqrt(XPosition * XPosition + (YPosition * YPosition));
+        return distanceToLandingSpot;
     }
 
-    public boolean isFinished()
-    {
+    public boolean isFinished() {
         return finished;
     }
 
 
-    public double getXPosition()
-    {
+    public double getXPosition() {
         return XPosition;
     }
 
-    public double getYPosition()
-    {
+    public double getYPosition() {
         return YPosition;
     }
 
-    public double getRotationAngle()
-    {
+    public double getRotationAngle() {
         return rotationAngle;
     }
 
-    public void print()
-    {
-        System.out.println("X: "+XPosition+" Y: "+YPosition+" VY: "+YVelocity+" VX: "+XVelocity);
+    public void print() {
+        System.out.println("X: " + XPosition + " Y: " + YPosition + " VY: " + YVelocity + " VX: " + XVelocity);
     }
-    public static void main(String[] args)
-    {
-        FeedbackController spaceCraft=new FeedbackController(30000,300000,  0,0,0);
+
+    public static void main(String[] args) {
+        FeedbackController spaceCraft = new FeedbackController(30000, 300000, 0, 0, 0);
 
         boolean stop = false;
-        while (!stop){
+        while (!stop) {
             spaceCraft.controllerX();
             spaceCraft.print();
             stop = spaceCraft.isFinished();
         }
 
-        stop=false;
+        stop = false;
         spaceCraft.setFinished(false);
-        while (!stop){
+        while (!stop) {
             System.out.println("in");
             spaceCraft.controllerY();
             spaceCraft.print();
