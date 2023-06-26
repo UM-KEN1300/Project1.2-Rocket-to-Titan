@@ -2,7 +2,7 @@ package code.landing.module;
 import java.lang.Math;
 import java.util.*;
 
-public class HardcodedValues
+public class FeedbackController
 {
     double XPosition;
     double YPosition;
@@ -15,7 +15,7 @@ public class HardcodedValues
     boolean finished;
     boolean lastPhase;
     int countX;
-    public HardcodedValues(double XPosition, double YPosition, double rotationAngle, double XVelocity, double YVelocity)
+    public FeedbackController(double XPosition, double YPosition, double rotationAngle, double XVelocity, double YVelocity)
     {
         this.XPosition = XPosition;
         this.YPosition = YPosition;
@@ -279,7 +279,7 @@ public class HardcodedValues
 //        spaceCraft.turnProbeToAngle(0,0,1);
 //        spaceCraft.runner(1,10);
 
-        HardcodedValues spaceCraft=new HardcodedValues(200001,300000,  0,0,0);
+        FeedbackController spaceCraft=new FeedbackController(200001,300000,  0,0,0);
         boolean stop = false;
         int couner=0;
         while (couner<100){

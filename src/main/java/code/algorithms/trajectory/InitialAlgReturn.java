@@ -2,10 +2,9 @@ package code.algorithms.trajectory;
 
 import java.util.Arrays;
 import java.util.Random;
-import code.algorithms.LaunchRocketFromTitan;
 
 
-public class HillClimbingAlgReturn {
+public class InitialAlgReturn {
 
     private final int INITIAL = 0;
     private final int XPLUS = 1;
@@ -19,7 +18,7 @@ public class HillClimbingAlgReturn {
     private final int Z = 2;
     private double[] bestCoordinates;
 
-    public HillClimbingAlgReturn(double[] bestCoordinates) {
+    public InitialAlgReturn(double[] bestCoordinates) {
         this.bestCoordinates = bestCoordinates;
     }
 

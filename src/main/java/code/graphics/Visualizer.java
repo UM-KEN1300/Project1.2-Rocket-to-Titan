@@ -1,9 +1,7 @@
 package code.graphics;
 
-import code.algorithms.trajectory.TargetBoost;
 import code.graphics.landing.LandingScene;
-import code.landing.module.HardcodedValues;
-import code.model.Model;
+import code.landing.module.FeedbackController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -27,12 +25,12 @@ public class Visualizer extends Application {
     private LandingScene landingScene;
     private Stage STAGE;
     private boolean changedScene;
-    HardcodedValues spaceCraft;
+    FeedbackController spaceCraft;
     boolean stop;
 
     @Override
     public void start(Stage stage) {
-         spaceCraft=new HardcodedValues(200001,300000,  0,0,0);
+         spaceCraft=new FeedbackController(200001,300000,  0,0,0);
         STAGE = stage;
         STAGE.setTitle("Mission to Titan");
         STAGE.show();

@@ -1,12 +1,12 @@
 package code.algorithms.trajectory;
 
 import code.model.Model;
+import code.model.data.loaders.FileDataLoader;
 import code.model.objects.Probe;
 import code.model.objects.properties.Boost;
 import code.utils.Time;
 
-public class LaunchRocketFromTitan {
-
+public class LaunchRocketInitial {
     private final int INITIAL = 0;
     private final int XPLUS = 1;
     private final int XMINUS = 2;
@@ -17,58 +17,45 @@ public class LaunchRocketFromTitan {
     private final int X = 0;
     private final int Y = 1;
     private final int Z = 2;
-    private double[] bestProbeCoordinates;
+    private static double[] closestCoordinates;
 
-    public LaunchRocketFromTitan(double[] bestCoordinates) {
-        this.bestProbeCoordinates = bestCoordinates;
+    public LaunchRocketInitial() {
+        //this one is called in HillClimbingAlg
     }
 
-    public Probe rocket;
+    public double[] launchSevenRockets(double[][] velocitiesOfRockets, double accuracySolvers) {
 
-    public Probe passRocket() {
-        return rocket;
-    }
-
-    public double[] launchSevenRocketsReturn(double[][] velocitiesOfRockets, double accuracySolvers) {
         System.out.println("Running...");
 
-//        double[] bestCoordinates = bestProbeCoordinates; //coordinates of best rocket
+        Model.getInstance().loadData(new FileDataLoader());
 
         Probe initialRocket = new Probe();
-        initialRocket.setCoordinates(bestProbeCoordinates);
         Boost boost1 = new Boost(new Time(new double[]{0, 0, 0, 0, 0}), velocitiesOfRockets[INITIAL]);
         initialRocket.addBoost(boost1);
 
         Probe xPlusRocket = new Probe();
-        xPlusRocket.setCoordinates(bestProbeCoordinates);
         Boost boost2 = new Boost(new Time(new double[]{0, 0, 0, 0, 0}), velocitiesOfRockets[XPLUS]);
         xPlusRocket.addBoost(boost2);
 
         Probe xMinusRocket = new Probe();
-        xMinusRocket.setCoordinates(bestProbeCoordinates);
         Boost boost3 = new Boost(new Time(new double[]{0, 0, 0, 0, 0}), velocitiesOfRockets[XMINUS]);
         xMinusRocket.addBoost(boost3);
 
         Probe yPlusRocket = new Probe();
-        yPlusRocket.setCoordinates(bestProbeCoordinates);
         Boost boost4 = new Boost(new Time(new double[]{0, 0, 0, 0, 0}), velocitiesOfRockets[YPLUS]);
         yPlusRocket.addBoost(boost4);
 
         Probe yMinusRocket = new Probe();
-        yMinusRocket.setCoordinates(bestProbeCoordinates);
         Boost boost5 = new Boost(new Time(new double[]{0, 0, 0, 0, 0}), velocitiesOfRockets[YMINUS]);
         yMinusRocket.addBoost(boost5);
 
         Probe zPlusRocket = new Probe();
-        zPlusRocket.setCoordinates(bestProbeCoordinates);
         Boost boost6 = new Boost(new Time(new double[]{0, 0, 0, 0, 0}), velocitiesOfRockets[ZPLUS]);
         zPlusRocket.addBoost(boost6);
 
         Probe zMinusRocket = new Probe();
-        zMinusRocket.setCoordinates(bestProbeCoordinates);
         Boost boost7 = new Boost(new Time(new double[]{0, 0, 0, 0, 0}), velocitiesOfRockets[ZMINUS]);
         zMinusRocket.addBoost(boost7);
-
 
         Model.addProbe(initialRocket);
         Model.addProbe(xPlusRocket);
@@ -78,28 +65,33 @@ public class LaunchRocketFromTitan {
         Model.addProbe(zPlusRocket);
         Model.addProbe(zMinusRocket);
 
-        System.out.println("Initial position of earth: " + Model.getPlanetObjects().get("Earth").getCoordinates()[0]);
 //        runnerForMultipleProbes(365, accuracySolvers, Model.getPlanetObjectsArrayList(), Model.getProbes());
-        System.out.println("");
-        System.out.println("Distances from Earth: " + initialRocket.getDistanceToEarth() + "   " +
-                xPlusRocket.getDistanceToEarth() + "   " +
-                xMinusRocket.getDistanceToEarth() + "   " +
-                yPlusRocket.getDistanceToEarth() + "   " +
-                yMinusRocket.getDistanceToEarth() + "   " +
-                zPlusRocket.getDistanceToEarth() + "   " +
-                zMinusRocket.getDistanceToEarth());
+//        if (initialRocket.getDistanceToTitan() > initialRocket.getShortestDistanceToTitan()) {
+//            closestCoordinates = initialRocket.getCoordinatesOfShortestDistanceToTitan();
+//        }
+//        System.out.println();
+//        System.out.println("Distances to Titan: " + initialRocket.getShortestDistanceToTitan() + "   " +
+//                xPlusRocket.getShortestDistanceToTitan() + "   " +
+//                xMinusRocket.getShortestDistanceToTitan() + "   " +
+//                yPlusRocket.getShortestDistanceToTitan() + "   " +
+//                yMinusRocket.getShortestDistanceToTitan() + "   " +
+//                zPlusRocket.getShortestDistanceToTitan() + "   " +
+//                zMinusRocket.getShortestDistanceToTitan());
 
         System.out.println("-------------------------------------------------------------------------------------------------------------");
-        this.rocket = initialRocket;
-        return new double[]{
-                initialRocket.getDistanceToEarth(),
-                xPlusRocket.getDistanceToEarth(),
-                xMinusRocket.getDistanceToEarth(),
-                yPlusRocket.getDistanceToEarth(),
-                yMinusRocket.getDistanceToEarth(),
-                zPlusRocket.getDistanceToEarth(),
-                zMinusRocket.getDistanceToEarth()
-        };
-    }
 
+//        return new double[]{initialRocket.getShortestDistanceToTitan(),
+//                xPlusRocket.getShortestDistanceToTitan(),
+//                xMinusRocket.getShortestDistanceToTitan(),
+//                yPlusRocket.getShortestDistanceToTitan(),
+//                yMinusRocket.getShortestDistanceToTitan(),
+//                zPlusRocket.getShortestDistanceToTitan(),
+//                zMinusRocket.getShortestDistanceToTitan()};
+//    }
+
+//        public double[] getClosestCoordinates () {
+//            return closestCoordinates;
+//        }
+        return new double[]{};
+    }
 }

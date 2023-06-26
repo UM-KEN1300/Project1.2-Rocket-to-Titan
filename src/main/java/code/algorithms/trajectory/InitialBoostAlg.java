@@ -2,11 +2,9 @@ package code.algorithms.trajectory;
 
 import java.util.Arrays;
 import java.util.Random;
-import code.algorithms.LaunchRocketHC;
-import code.model.Model;
 
 
-public class HillClimbingAlg {
+public class InitialBoostAlg {
     private final int INITIAL = 0;
     private final int XPLUS = 1;
     private final int XMINUS = 2;
@@ -20,7 +18,7 @@ public class HillClimbingAlg {
 
     private double[] coordinatesToMain;
 
-    public HillClimbingAlg(){
+    public InitialBoostAlg(){
         //his one is called in main
     }
 
@@ -66,9 +64,9 @@ public class HillClimbingAlg {
 
 
             System.out.println("Current best velocities: " + Arrays.deepToString(velocitiesOfRockets));
-            LaunchRocketHC launcherHC = new LaunchRocketHC();
+            LaunchRocketInitial launcherHC = new LaunchRocketInitial();
             double[] DistancesToTitan = launcherHC.launchSevenRockets(velocitiesOfRockets, accuracySolver);
-            coordinatesToMain = launcherHC.getClosestCoordinates(); //passes coordinates
+//            coordinatesToMain = launcherHC.getClosestCoordinates(); //passes coordinates
 
 
             closestRocket = findSmallest(DistancesToTitan);
