@@ -2,7 +2,7 @@ package code.landing.module;
 import java.lang.Math;
 import java.util.*;
 
-public class HardcodedValues
+public class FeedbackController
 {
     double XPosition;
     double YPosition;
@@ -13,7 +13,7 @@ public class HardcodedValues
     double distanceToLandingSpot;
     private final Queue<double[]> listOfBoost;
     boolean finished;
-    public HardcodedValues(double XPosition, double YPosition, double rotationAngle, double XVelocity, double YVelocity)
+    public FeedbackController(double XPosition, double YPosition, double rotationAngle, double XVelocity, double YVelocity)
     {
         this.XPosition = XPosition;
         this.YPosition = YPosition;
@@ -58,7 +58,7 @@ public class HardcodedValues
 
 
     public void controllerX() {
-
+//        if(YPosition)
 
 
         if (XPosition <= 0.001) {
@@ -88,7 +88,6 @@ public class HardcodedValues
         double difference;
         if(target<XVelocity)
         {
-
             if (rotationAngle != 270)
             {
                 turnProbeToAngle(270,0,1);
@@ -100,7 +99,7 @@ public class HardcodedValues
             difference= target -XVelocity;
             if(Math.abs(difference)>13.52)
                 difference=13.52;
-            updater(difference,0,1);
+            updaterX(difference,0,1);
         }
         else if(target>XVelocity)
         {
@@ -116,10 +115,10 @@ public class HardcodedValues
 
             if(Math.abs(difference)>13.52)
                 difference=13.52;
-            updater(Math.abs(difference),0,1);
+            updaterX(Math.abs(difference),0,1);
         }
         else {
-            updater(0,0,1);
+            updaterX(0,0,1);
         }
 
 
@@ -140,7 +139,7 @@ public class HardcodedValues
             double difference = target - YVelocity;
             if(Math.abs(difference)>13.52)
                 difference=13.52;
-            updater(Math.abs(difference),0,1);
+            updaterY(Math.abs(difference),0,1);
         }
         else if(target>YVelocity)
         {
@@ -152,9 +151,9 @@ public class HardcodedValues
             double difference = target - YVelocity;
             if(Math.abs(difference)>13.52)
                 difference=13.52;
-            updater(Math.abs(difference),0,1);
+            updaterY(Math.abs(difference),0,1);
         }
-        else updater(0,0,1);
+        else updaterY(0,0,1);
 
 
     }
@@ -196,7 +195,7 @@ public class HardcodedValues
 
     public void updater(double u,double v,double stepSize)
     {
-        //System.out.println("Angle: "+rotationAngle+" while u: "+u+" and YVelocity: "+YVelocity);
+        System.out.println("Angle: "+rotationAngle+" while u: "+u+" and YVelocity: "+YVelocity);
 
         rotationAngleVelocity+=v*stepSize;
         rotationAngle+=rotationAngleVelocity*stepSize;
@@ -318,22 +317,22 @@ public class HardcodedValues
     }
     public static void main(String[] args)
     {
-        HardcodedValues spaceCraft=new HardcodedValues(30000,300000,  0,0,0);
+        FeedbackController spaceCraft=new FeedbackController(30000,300000,  0,0,0);
 
         boolean stop = false;
-//        while (!stop){
+        while (!stop){
+            spaceCraft.controllerY();
+            spaceCraft.print();
+            stop = spaceCraft.isFinished();
+        }
+        spaceCraft.print();
+
+//        int couner=0;
+//        while (couner<100){
 //            spaceCraft.controllerX();
 //            spaceCraft.print();
-//            stop = spaceCraft.isFinished();
+//            couner++;
 //        }
-//        spaceCraft.print();
-
-        int couner=0;
-        while (couner<100){
-            spaceCraft.controllerX();
-            spaceCraft.print();
-            couner++;
-        }
     }
 
 }
