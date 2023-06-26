@@ -31,28 +31,28 @@ public class Visualizer extends Application {
         stage.show();
 
         solarScene = new SolarScene(WIDTH, HEIGHT);
-//        stage.setScene(solarScene);
-        stage.setScene(new LandingScene(WIDTH, HEIGHT));
+        stage.setScene(solarScene);
+//        stage.setScene(new LandingScene(WIDTH, HEIGHT));
 
-//        timer = new Timer();
-//        count = 0;
-//        stage.setOnCloseRequest(e -> {
-//            timer.cancel();
-//            Platform.exit();
-//            System.exit(0);
-//        });
-//        Task<Void> sleeper = new Task<>() {
-//            @Override
-//            protected Void call() {
-//                try {
-//                    Thread.sleep(1000);
-//                } catch (InterruptedException ignored) {
-//                }
-//                return null;
-//            }
-//        };
-//        sleeper.setOnSucceeded(event -> calculation());
-//        new Thread(sleeper).start();
+        timer = new Timer();
+        count = 0;
+        stage.setOnCloseRequest(e -> {
+            timer.cancel();
+            Platform.exit();
+            System.exit(0);
+        });
+        Task<Void> sleeper = new Task<>() {
+            @Override
+            protected Void call() {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ignored) {
+                }
+                return null;
+            }
+        };
+        sleeper.setOnSucceeded(event -> calculation());
+        new Thread(sleeper).start();
     }
 
 
