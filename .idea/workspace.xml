@@ -4,12 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="befef468-85dd-4357-a019-7cd94d9197bf" name="Changes" comment=".">
-      <change afterPath="$PROJECT_DIR$/src/main/java/code/graphics/landing/LandingPane.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/code/graphics/landing/LandingScene.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/code/model/objects/LandingProbe.java" afterDir="false" />
+    <list default="true" id="befef468-85dd-4357-a019-7cd94d9197bf" name="Changes" comment="latest version as of 15.18 26 June not working x">
+      <change afterPath="$PROJECT_DIR$/src/main/java/code/landing/module/HardcodedValues.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/code/landing/module/Runner.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/code/landing/module/SpaceCraft.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/code/landing/module/WindStrengths.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/code/graphics/Visualizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/code/graphics/Visualizer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/module-info.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,7 +20,6 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JUnit5 Test Class" />
         <option value="Interface" />
         <option value="Class" />
       </list>
@@ -28,7 +28,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="StamaMathijs" />
+        <entry key="$PROJECT_DIR$" value="landing_module" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -50,49 +50,37 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
-    "deletionFromPopupRequiresConfirmation": "false",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "/Users/marcell/Documents/*School/Year 1/Semester 2/Project 1-2/Phase 3/local/src/main/resources/graphics/textures",
+    "last_opened_file_path": "/Users/marcell/Documents/*School/Year 1/Semester 2/Project 1-2/Phase 2/Project1.2-Rocket-to-Titan",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
-    "settings.editor.selected.configurable": "reference.settings.ide.settings.uml",
+    "settings.editor.selected.configurable": "reference.settings.ide.settings.new.ui",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/main/resources/graphics/textures" />
-      <recent name="$PROJECT_DIR$/src/main/java/code/model" />
-      <recent name="$PROJECT_DIR$/src/main/java/code/algorithms/trajectory" />
-      <recent name="$PROJECT_DIR$/src/main/java/code" />
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/src/main/resources" />
       <recent name="$PROJECT_DIR$/src/main/java" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/main/java/code/algorithms/trajectory" />
+      <recent name="$PROJECT_DIR$/src/main/java/code/landing" />
       <recent name="$PROJECT_DIR$/src/test/java" />
       <recent name="$PROJECT_DIR$/src/main/resources/model" />
     </key>
-    <key name="CreateTestDialog.Recents.Supers">
-      <recent name="" />
-    </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
-      <recent name="" />
       <recent name="group1.project12group1" />
     </key>
-    <key name="CreateTestDialog.RecentsKey">
-      <recent name="code.algorithms.solvers" />
-    </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="code.Main" />
+  <component name="RunManager" selected="Application.HardcodedValues">
+    <configuration name="HardcodedValues" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="code.landing.module.HardcodedValues" />
       <module name="Project1-2-Group-1" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="code.*" />
+          <option name="PATTERN" value="code.landing.module.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -113,12 +101,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TitanLocation" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="code.experiments.TitanLocation" />
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="code.Main" />
       <module name="Project1-2-Group-1" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="code.experiments.*" />
+          <option name="PATTERN" value="code.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -126,11 +114,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="HelperFunctionsTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="TrajectorySimulation" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="code.TrajectorySimulation" />
       <module name="Project1-2-Group-1" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="HelperFunctionsTest" />
-      <option name="TEST_OBJECT" value="class" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="code.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -167,18 +159,19 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.TitanLocation" />
+      <item itemvalue="Application.HardcodedValues" />
+      <item itemvalue="Application.TrajectorySimulation" />
       <item itemvalue="Application.Main" />
       <item itemvalue="JUnit.ProbeTest" />
-      <item itemvalue="JUnit.HelperFunctionsTest" />
       <item itemvalue="JUnit.PlanetObjectTest" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.HardcodedValues" />
         <item itemvalue="Application.Main" />
-        <item itemvalue="Application.TitanLocation" />
+        <item itemvalue="Application.TrajectorySimulation" />
         <item itemvalue="JUnit.ProbeTest" />
-        <item itemvalue="JUnit.PlanetObjectTest" />
+        <item itemvalue="Application.TrajectorySimulation" />
       </list>
     </recent_temporary>
   </component>
@@ -226,8 +219,20 @@
       <workItem from="1685475925086" duration="5553000" />
       <workItem from="1686678401081" duration="5748000" />
       <workItem from="1686742608986" duration="7077000" />
-      <workItem from="1687200266334" duration="261000" />
-      <workItem from="1687645556452" duration="49056000" />
+      <workItem from="1686909535541" duration="5258000" />
+      <workItem from="1687001789835" duration="870000" />
+      <workItem from="1687002952260" duration="64000" />
+      <workItem from="1687003023813" duration="7564000" />
+      <workItem from="1687106769487" duration="4185000" />
+      <workItem from="1687210408682" duration="3435000" />
+      <workItem from="1687221399186" duration="11354000" />
+      <workItem from="1687305627699" duration="7422000" />
+      <workItem from="1687426244013" duration="7817000" />
+      <workItem from="1687520422794" duration="12087000" />
+      <workItem from="1687610557562" duration="11322000" />
+      <workItem from="1687638223752" duration="49000" />
+      <workItem from="1687692339899" duration="20912000" />
+      <workItem from="1687770277372" duration="14561000" />
     </task>
     <task id="LOCAL-00001" summary="WORKING HOW THIS SHIT WORKS">
       <created>1679319564168</created>
@@ -446,36 +451,33 @@
       <option name="project" value="LOCAL" />
       <updated>1685481581026</updated>
     </task>
-    <task id="LOCAL-00032" summary=".">
-      <created>1687532115907</created>
+    <task id="LOCAL-00032" summary="Start of landing module">
+      <created>1687349141311</created>
       <option name="number" value="00032" />
       <option name="presentableId" value="LOCAL-00032" />
       <option name="project" value="LOCAL" />
-      <updated>1687532115907</updated>
+      <updated>1687349141311</updated>
     </task>
-    <task id="LOCAL-00033" summary=".">
-      <option name="closed" value="true" />
-      <created>1687775137372</created>
+    <task id="LOCAL-00033" summary="fixed g in the solver">
+      <created>1687351209760</created>
       <option name="number" value="00033" />
       <option name="presentableId" value="LOCAL-00033" />
       <option name="project" value="LOCAL" />
-      <updated>1687775137372</updated>
+      <updated>1687351209760</updated>
     </task>
-    <task id="LOCAL-00034" summary=".">
-      <option name="closed" value="true" />
-      <created>1687775161964</created>
+    <task id="LOCAL-00034" summary="added a gen algorithm and functionality to the HardcodedValues.java">
+      <created>1687613206673</created>
       <option name="number" value="00034" />
       <option name="presentableId" value="LOCAL-00034" />
       <option name="project" value="LOCAL" />
-      <updated>1687775161964</updated>
+      <updated>1687613206673</updated>
     </task>
-    <task id="LOCAL-00035" summary=".">
-      <option name="closed" value="true" />
-      <created>1687775210851</created>
+    <task id="LOCAL-00035" summary="latest version as of 15.18 26 June not working x">
+      <created>1687785511224</created>
       <option name="number" value="00035" />
       <option name="presentableId" value="LOCAL-00035" />
       <option name="project" value="LOCAL" />
-      <updated>1687775210851</updated>
+      <updated>1687785511224</updated>
     </task>
     <option name="localTasksCounter" value="36" />
     <servers />
@@ -510,7 +512,11 @@
     <MESSAGE value="new new structure" />
     <MESSAGE value="Updated HillClimbingAlg" />
     <MESSAGE value="." />
-    <option name="LAST_COMMIT_MESSAGE" value="." />
+    <MESSAGE value="Start of landing module" />
+    <MESSAGE value="fixed g in the solver" />
+    <MESSAGE value="added a gen algorithm and functionality to the HardcodedValues.java" />
+    <MESSAGE value="latest version as of 15.18 26 June not working x" />
+    <option name="LAST_COMMIT_MESSAGE" value="latest version as of 15.18 26 June not working x" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
@@ -519,10 +525,6 @@
         <PinnedItemInfo parentTag="code.model.objects.PlanetObject" memberName="COORDINATES" />
       </pinned-members>
     </pin-to-top-manager>
-  </component>
-  <component name="XSLT-Support.FileAssociations.UIState">
-    <expand />
-    <select />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Project1_2_Rocket_to_Titan$SolarSystem.ic" NAME="SolarSystem Coverage Results" MODIFIED="1679580725908" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
